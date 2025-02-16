@@ -16,18 +16,18 @@ class AppTheme {
   final _textThemeLight = ThemeData.light().textTheme;
   final _textThemeDark = ThemeData.dark().textTheme;
 
-  final _noBorder = const RoundedRectangleBorder();
+  final _border = const RoundedRectangleBorder();
 
   // Filled Button Theme Data
 
   late final _filledButtonThemeDataLight = FilledButtonThemeData(
     style: FilledButton.styleFrom(
-      shape: _noBorder,
+      shape: _border,
     ),
   );
   late final _filledButtonThemeDataDark = FilledButtonThemeData(
     style: FilledButton.styleFrom(
-      shape: _noBorder,
+      shape: _border,
     ),
   );
 
@@ -37,12 +37,12 @@ class AppTheme {
 
   late final _outlinedButtonThemeDataLight = OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      shape: _noBorder,
+      shape: _border,
     ),
   );
   late final _outlinedButtonThemeDataDark = OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      shape: _noBorder,
+      shape: _border,
     ),
   );
 
@@ -52,12 +52,12 @@ class AppTheme {
 
   late final _textButtonThemeDataLight = TextButtonThemeData(
     style: TextButton.styleFrom(
-      shape: _noBorder,
+      shape: _border,
     ),
   );
   late final _textButtonThemeDataDark = TextButtonThemeData(
     style: TextButton.styleFrom(
-      shape: _noBorder,
+      shape: _border,
     ),
   );
 
@@ -67,14 +67,14 @@ class AppTheme {
 
   late final _iconButtonThemeDataLight = IconButtonThemeData(
     style: IconButton.styleFrom(
-      shape: _noBorder,
+      shape: _border,
       backgroundColor: _colorSchemeLight.primary,
       foregroundColor: _colorSchemeLight.onPrimary,
     ),
   );
   late final _iconButtonThemeDataDark = IconButtonThemeData(
     style: IconButton.styleFrom(
-      shape: _noBorder,
+      shape: _border,
       backgroundColor: _colorSchemeDark.primary,
       foregroundColor: _colorSchemeDark.onPrimary,
     ),
@@ -205,20 +205,32 @@ class AppTheme {
   // Popup Menu  Theme Data Start
 
   late final _popupMenuThemeDataLight = PopupMenuThemeData(
-    shape: _noBorder,
+    shape: _border,
     position: PopupMenuPosition.under,
     elevation: 4,
   );
 
   late final _popupMenuThemeDataDark = PopupMenuThemeData(
-    shape: _noBorder,
+    shape: _border,
     position: PopupMenuPosition.under,
     elevation: 4,
   );
 
   // Popup Menu Theme Data End
 
+  // App Bar Theme Data Start
+
+  late final _appBarThemeDataLight = AppBarTheme(
+    elevation: 8,
+    backgroundColor: _colorSchemeLight.surface,
+    foregroundColor: _colorSchemeLight.onSurface,
+    surfaceTintColor: _colorSchemeLight.surface,
+  );
+
+  // App Bar Theme Data End
+
   late final ThemeData lightTheme = ThemeData.light().copyWith(
+    appBarTheme: _appBarThemeDataLight,
     scaffoldBackgroundColor: Colors.grey.shade300,
     colorScheme: _colorSchemeLight,
     textTheme: _textThemeLight,

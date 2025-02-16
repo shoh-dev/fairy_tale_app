@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 extension BuildContextHelpers on BuildContext {
   bool isMobilePlatform() {
-    return Theme.of(this).platform == TargetPlatform.android ||
-        Theme.of(this).platform == TargetPlatform.iOS;
+    return Theme.of(this).platform == TargetPlatform.android || Theme.of(this).platform == TargetPlatform.iOS;
   }
 
   RelativeRect? findRelativeRectPosition(TapDownDetails details) {
@@ -23,6 +22,28 @@ extension BuildContextHelpers on BuildContext {
       return position;
     } catch (e) {
       return null;
+    }
+  }
+}
+
+mixin StateHelpers<T extends StatefulWidget> on State<T> {
+  void safeSetState(VoidCallback fn) {
+    if (mounted) {
+      setState(fn);
+    }
+  }
+
+  //initState with WidgetsBinding.instance.addPostFrameCallback
+  void afterBuild(VoidCallback fn) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fn();
+    });
+  }
+
+  //dispose with safe check
+  void safeDispose(VoidCallback fn) {
+    if (mounted) {
+      fn();
     }
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/features/tales/tale_pages/page.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_redux/myspace_redux.dart';
 
 class TalesPage extends StatelessWidget {
@@ -35,9 +37,23 @@ class _Tales extends StatelessWidget {
               itemBuilder: (context, index) {
                 final tale = tales[index];
                 return ListTile(
-                  leading: tale.coverImage.isNotEmpty ? Image.network(tale.coverImage) : null,
-                  title: Text(tale.title),
-                  subtitle: Text(tale.pages.length.toString()),
+                  leading: Image.network(
+                    tale.coverImage,
+                    errorBuilder: (context, error, stackTrace) => const SizedBox(),
+                  ),
+                  title: TextComponent.any(tale.title),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => TalePagesPage(taleId: tale.id),
+                      ),
+                    );
+                  },
+                  subtitle: TextComponent.any(
+                    tale.description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 );
               },
             );

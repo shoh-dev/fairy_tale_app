@@ -20,11 +20,11 @@ class Tale extends Equatable {
   });
 
   factory Tale.fromJson(Map<String, dynamic> json) => Tale(
-        id: json['id'] as String,
-        title: json['title'] as String,
-        description: json['description'] as String,
-        languageCode: json['language_code'] as String,
-        coverImage: json['cover_image'] as String,
+        id: json['id'] ?? "",
+        title: json['title'] ?? "",
+        description: json['description'] ?? "",
+        languageCode: json['language_code'] ?? "",
+        coverImage: json['cover_image'] ?? "",
         pages: (json['tale_pages'] as List<dynamic>?)?.map((e) => TalePage.fromJson(e as Map<String, dynamic>)).toList() ?? [],
       );
 
