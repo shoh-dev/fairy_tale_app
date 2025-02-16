@@ -1,0 +1,6 @@
+# melos_managed_dependency_overrides: myspace_data,myspace_redux
+dependency_overrides:
+  myspace_data:
+    path: ../../myspace_data
+  myspace_redux:
+    path: ..
