@@ -19,6 +19,8 @@ class TaleInteraction extends Equatable {
   final Size size;
   final Offset initialPosition;
   final Offset? finalPosition;
+  final String imageUrl;
+  final int animationDuration;
 
   final Offset currentPosition;
 
@@ -59,7 +61,9 @@ class TaleInteraction extends Equatable {
     required this.initialPosition,
     this.finalPosition,
     required this.eventSubType,
-    required this.currentPosition,
+    this.currentPosition = Offset.zero,
+    required this.imageUrl,
+    required this.animationDuration,
     this.isUsed = false,
   });
 
@@ -73,7 +77,8 @@ class TaleInteraction extends Equatable {
       initialPosition: Offset(json['initial_pos']['x'].toDouble(), json['initial_pos']['y'].toDouble()),
       finalPosition: json['final_pos'] != null ? Offset(json['final_pos']['x'].toDouble(), json['final_pos']['y'].toDouble()) : null,
       eventSubType: json['event_subtype'] as String,
-      currentPosition: Offset.zero,
+      imageUrl: json['object_image_url'] ?? "",
+      animationDuration: json['animation_duration'] as int,
     );
     return interaction.updateCurrentPosition(interaction.initialPosition);
   }
@@ -89,6 +94,8 @@ class TaleInteraction extends Equatable {
     Offset? finalPosition,
     String? eventSubType,
     bool? isUsed,
+    String? imageUrl,
+    int? animationDuration,
   }) {
     return TaleInteraction(
       id: id ?? this.id,
@@ -101,6 +108,8 @@ class TaleInteraction extends Equatable {
       eventSubType: eventSubType ?? this.eventSubType,
       currentPosition: currentPosition ?? this.currentPosition,
       isUsed: isUsed ?? this.isUsed,
+      imageUrl: imageUrl ?? this.imageUrl,
+      animationDuration: animationDuration ?? this.animationDuration,
     );
   }
 
@@ -126,5 +135,7 @@ class TaleInteraction extends Equatable {
         eventSubType,
         currentPosition,
         isUsed,
+        imageUrl,
+        animationDuration,
       ];
 }

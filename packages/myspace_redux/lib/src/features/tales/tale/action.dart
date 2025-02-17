@@ -76,16 +76,7 @@ class TaleInteractionHandlerAction extends DefautAction {
                 TaleInteractionEventSubType.swipeLeft ||
                 TaleInteractionEventSubType.swipeUp ||
                 TaleInteractionEventSubType.swipeDown) {
-          final newPosition = interaction.finalPosition;
-          if (newPosition == null) {
-            return null;
-          }
-
-          final newInteraction = interaction.updateCurrentPosition(newPosition).updateIsUsed(true);
-          final newPage = talePage.updateInteraction(newInteraction);
-          final newTale = tale.updatePage(newPage);
-
-          return state.copyWith(taleState: taleState.copyWith(selectedTale: newTale));
+          return handleSwipe(tale, talePage);
         }
 
       case TaleInteractionEventType.tap:
@@ -94,6 +85,23 @@ class TaleInteractionHandlerAction extends DefautAction {
     }
     return null;
   }
+
+  AppState? handleSwipe(Tale tale, TalePage talePage) {
+    final newPosition = interaction.finalPosition;
+    if (newPosition == null) {
+      return null;
+    }
+
+    final newInteraction = interaction.updateCurrentPosition(newPosition).updateIsUsed(true);
+    final newPage = talePage.updateInteraction(newInteraction);
+    final newTale = tale.updatePage(newPage);
+
+    return state.copyWith(taleState: taleState.copyWith(selectedTale: newTale));
+  }
+}
+
+
+
 
   // final oldPos = objectPos;
   // objectPos += value;
@@ -112,4 +120,3 @@ class TaleInteractionHandlerAction extends DefautAction {
   // if (oldPos != objectPos) {
   //   setState(() {});
   // }
-}

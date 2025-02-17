@@ -120,8 +120,8 @@ class _TaleView extends StatelessWidget {
                 for (var interaction in page.interactions)
                   //tale object
                   AnimatedPositioned(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOutCubicEmphasized,
+                    // curve: Curves.easeInOutCubicEmphasized,
+                    duration: Duration(milliseconds: interaction.animationDuration),
                     width: interaction.size.width,
                     height: interaction.size.height,
                     left: interaction.currentPosition.dx,

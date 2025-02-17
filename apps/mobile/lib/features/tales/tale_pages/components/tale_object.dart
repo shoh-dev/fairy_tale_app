@@ -66,13 +66,16 @@ class _Child extends StatelessWidget {
     return Container(
       width: interaction.size.width,
       height: interaction.size.height,
-      decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(10), boxShadow: [
-        BoxShadow(
-          color: Colors.black.withAlpha(100),
-          blurRadius: 10,
-          spreadRadius: 2,
-        ),
-      ]),
+      decoration: interaction.imageUrl.isEmpty
+          ? BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(10), boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(100),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+            ])
+          : null,
+      child: interaction.imageUrl.isNotEmpty ? Image.network(interaction.imageUrl) : null,
     );
   }
 }
