@@ -9,22 +9,8 @@ void main() async {
 
   final appStore = const AppStore();
 
-  final supabase = SupabaseServiceImpl();
+  await appStore.setupDependencies();
 
-  final client = await supabase.initialize(
-    url: "http://127.0.0.1:54321",
-    key:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0",
-  );
-
-  client.fold(
-    (ok) => appStore.registerSingleton(ok),
-    (_) {
-      //todo: handle error
-    },
-  );
-
-  appStore.registerSingleton(TaleServiceImpl(appStore.getDependency()));
   runApp(AppStoreProvider(
     appStore: appStore.createStore(),
     child: const MyApp(),

@@ -2,16 +2,21 @@ import 'package:myspace_data/myspace_data.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class SupabaseService {
-  ResultFuture<SupabaseClient> initialize({required String url, required String key});
+  final EnvKeysServiceImpl _envKeysService;
+  const SupabaseService(this._envKeysService);
+
+  ResultFuture<SupabaseClient> initialize();
 }
 
-class SupabaseServiceImpl implements SupabaseService {
+class SupabaseServiceImpl extends SupabaseService {
+  const SupabaseServiceImpl(super._envKeysService);
+
   @override
-  ResultFuture<SupabaseClient> initialize({required String url, required String key}) async {
+  ResultFuture<SupabaseClient> initialize() async {
     try {
       final supabase = await Supabase.initialize(
-        url: url,
-        anonKey: key,
+        url: _envKeysService.supabaseUrl,
+        anonKey: _envKeysService.supabaseKey,
       );
 
       return Result.ok(supabase.client);

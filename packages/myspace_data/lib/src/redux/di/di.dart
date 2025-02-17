@@ -20,6 +20,20 @@ abstract class DependencyInjection {
     log("Registered $T");
   }
 
+  static void registerAsyncSingleton<T extends Object>(FactoryFuncAsync<T> di, {bool deregisterIfExists = false}) {
+    if (_getIt.isRegistered<T>()) {
+      if (deregisterIfExists) {
+        _getIt.unregister<T>();
+      } else {
+        return;
+      }
+    }
+
+    _getIt.registerSingletonAsync<T>(di);
+
+    log("Registered $T");
+  }
+
   static T get<T extends Object>() {
     return _getIt.get<T>();
   }
@@ -30,6 +44,10 @@ abstract class DependencyInjection {
 
   static void unregister<T extends Object>() {
     _getIt.unregister<T>();
+  }
+
+  static Future<void> allReady() {
+    return _getIt.allReady();
   }
 }
 
