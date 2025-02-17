@@ -1,4 +1,4 @@
-export 'package:async_redux/async_redux.dart' show StoreConnector, VmFactory, Vm;
+export 'package:async_redux/async_redux.dart' show StoreConnector, VmFactory, Vm, BuildContextExtensionForProviderAndConnector;
 
 export 'src/action.dart';
 export 'src/state.dart';
@@ -10,3 +10,5 @@ export 'src/factory.dart';
 export 'src/di/di.dart' show ContextHelperDi;
 
 export 'src/features/features.dart';
+
+export 'src/helpers.dart';

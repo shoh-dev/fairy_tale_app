@@ -49,24 +49,59 @@ class LoadTaleAction extends DefautAction {
   }
 }
 
-// class UpdateSelectedTaleInteractionAction extends DefautAction {
-//   final TaleInteraction interaction;
+class TaleInteractionHandlerAction extends DefautAction {
+  final TaleInteraction interaction;
 
-//   UpdateSelectedTaleInteractionAction(this.interaction);
+  TaleInteractionHandlerAction(this.interaction);
 
-//   @override
-//   AppState? reduce() {
-//     final taleResult = state.talesState.selectedTale;
-//     if (!taleResult.isOk) return null;
-//     final tale = taleResult.asOk.value;
+  @override
+  AppState? reduce() {
+    if (!taleState.status.isOk) {
+      return null;
+    }
 
-//     switch (interaction.eventTypeEnum) {
-//       case TaleInteractionEventType.swipe:
-//         // TODO: Handle this case.
-//         throw UnimplementedError();
-//       case TaleInteractionEventType.tap:
-//         // TODO: Handle this case.
-//         throw UnimplementedError();
-//     }
-//   }
-// }
+    final tale = taleState.selectedTale;
+    final talePage = tale.pages.firstWhereOrNull((e) => e.id == interaction.pageId);
+
+    if (talePage == null) {
+      return null;
+    }
+
+    switch (interaction.eventTypeEnum) {
+      case TaleInteractionEventType.swipe:
+        // move current position to final position or vice versa
+        final newPosition = interaction.isUsed ? interaction.initialPosition : interaction.finalPosition;
+        if (newPosition == null) {
+          return null;
+        }
+
+        final newInteraction = interaction.updateCurrentPosition(newPosition);
+        final newPage = talePage.updateInteraction(newInteraction);
+        final newTale = tale.updatePage(newPage);
+
+        return state.copyWith(taleState: taleState.copyWith(selectedTale: newTale));
+      case TaleInteractionEventType.tap:
+        // TODO: Handle this case.
+        throw UnimplementedError();
+    }
+
+    return null;
+  }
+  // final oldPos = objectPos;
+  // objectPos += value;
+  // if (objectPos.dx < 0) {
+  //   objectPos = Offset(0, objectPos.dy);
+  // } else if (objectPos.dx > (cc.maxWidth - 40)) {
+  //   //-40 is the size of the object
+  //   objectPos = Offset((cc.maxWidth - 40), objectPos.dy);
+  // }
+  // if (objectPos.dy < 0) {
+  //   objectPos = Offset(objectPos.dx, 0);
+  // } else if (objectPos.dy > (cc.maxHeight - 40)) {
+  //   //-40 is the size of the object
+  //   objectPos = Offset(objectPos.dx, (cc.maxHeight - 40));
+  // }
+  // if (oldPos != objectPos) {
+  //   setState(() {});
+  // }
+}

@@ -31,6 +31,37 @@ class TalePage extends Equatable {
         interactions: (json['tale_interactions'] as List<dynamic>?)?.map((e) => TaleInteraction.fromJson(e as Map<String, dynamic>)).toList() ?? [],
       );
 
+  //copyWithMethod
+  TalePage _copyWith({
+    String? id,
+    String? taleId,
+    int? pageNumber,
+    String? text,
+    String? image,
+    String? narrationAudio,
+    List<TaleInteraction>? interactions,
+  }) {
+    return TalePage(
+      id: id ?? this.id,
+      taleId: taleId ?? this.taleId,
+      pageNumber: pageNumber ?? this.pageNumber,
+      text: text ?? this.text,
+      image: image ?? this.image,
+      narrationAudio: narrationAudio ?? this.narrationAudio,
+      interactions: interactions ?? this.interactions,
+    );
+  }
+
+  //updateInteractionMethod
+  TalePage updateInteraction(TaleInteraction interaction) {
+    final interactions = List<TaleInteraction>.from(this.interactions);
+    final index = interactions.indexWhere((element) => element.id == interaction.id);
+    if (index != -1) {
+      interactions[index] = interaction;
+    }
+    return _copyWith(interactions: interactions);
+  }
+
   @override
   List<Object?> get props => [id, taleId, pageNumber, text, image, narrationAudio, interactions];
 }

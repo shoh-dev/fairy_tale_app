@@ -60,71 +60,9 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers {
                 return StoreConnector<AppState, Tale>(
                     converter: (store) => store.state.taleState.selectedTale,
                     builder: (context, vm) {
-                      return Scaffold(
-                        appBar: AppBar(
-                          title: TextComponent.any(vm.title),
-                          bottom: PreferredSize(
-                            preferredSize: const Size.fromHeight(40),
-                            child: Text(
-                              vm.description,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                        body: LayoutBuilder(builder: (context, cc) {
-                          return PageView.builder(
-                            controller: pageController,
-                            itemCount: vm.pages.length,
-                            physics: const NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (context, index) {
-                              final page = vm.pages[index];
-                              return Stack(
-                                children: [
-                                  //image
-                                  if (page.image.isNotEmpty) Positioned.fill(child: TalePageBackroundComponent(imageUrl: page.image)),
-
-                                  for (var interaction in page.interactions)
-                                    //tale object
-                                    Positioned(
-                                      // left: objectPos.dx,
-                                      // top: objectPos.dy,
-                                      width: interaction.size.width,
-                                      height: interaction.size.height,
-                                      left: interaction.initialPosition.dx,
-                                      top: interaction.initialPosition.dy,
-                                      child: const TaleInteractionObjectComponent(
-                                          // final oldPos = objectPos;
-                                          // objectPos += value;
-                                          // if (objectPos.dx < 0) {
-                                          //   objectPos = Offset(0, objectPos.dy);
-                                          // } else if (objectPos.dx > (cc.maxWidth - 40)) {
-                                          //   //-40 is the size of the object
-                                          //   objectPos = Offset((cc.maxWidth - 40), objectPos.dy);
-                                          // }
-                                          // if (objectPos.dy < 0) {
-                                          //   objectPos = Offset(objectPos.dx, 0);
-                                          // } else if (objectPos.dy > (cc.maxHeight - 40)) {
-                                          //   //-40 is the size of the object
-                                          //   objectPos = Offset(objectPos.dx, (cc.maxHeight - 40));
-                                          // }
-                                          // if (oldPos != objectPos) {
-                                          //   setState(() {});
-                                          // }
-
-                                          ),
-                                    ),
-                                ],
-                              );
-                            },
-                          );
-                        }),
-                        bottomNavigationBar: BottomAppBar(
-                          child: TalePageNavigatorComponent(
-                            controller: pageController,
-                            totalPages: vm.pages.length,
-                          ),
-                        ),
+                      return _TaleView(
+                        tale: vm,
+                        pageController: pageController,
                       );
                     });
               },
@@ -141,5 +79,68 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers {
             ),
           );
         });
+  }
+}
+
+class _TaleView extends StatelessWidget {
+  const _TaleView({
+    required this.tale,
+    required this.pageController,
+  });
+
+  final PageController pageController;
+  final Tale tale;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: TextComponent.any(tale.title),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(40),
+          child: Text(
+            tale.description,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+      body: LayoutBuilder(builder: (context, cc) {
+        return PageView.builder(
+          controller: pageController,
+          itemCount: tale.pages.length,
+          physics: const NeverScrollableScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, index) {
+            final page = tale.pages[index];
+            return Stack(
+              children: [
+                //image
+                if (page.image.isNotEmpty) Positioned.fill(child: TalePageBackroundComponent(imageUrl: page.image)),
+
+                for (var interaction in page.interactions)
+                  //tale object
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOutCubicEmphasized,
+                    width: interaction.size.width,
+                    height: interaction.size.height,
+                    left: interaction.currentPosition.dx,
+                    top: interaction.currentPosition.dy,
+                    child: TaleInteractionObjectComponent(
+                      interaction: interaction,
+                    ),
+                  ),
+              ],
+            );
+          },
+        );
+      }),
+      bottomNavigationBar: BottomAppBar(
+        child: TalePageNavigatorComponent(
+          controller: pageController,
+          totalPages: tale.pages.length,
+        ),
+      ),
+    );
   }
 }

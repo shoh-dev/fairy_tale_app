@@ -39,4 +39,33 @@ class Tale extends Equatable {
     coverImage: "",
     pages: [],
   );
+
+  //copyWithMethod
+  Tale _copyWith({
+    String? id,
+    String? title,
+    String? description,
+    String? languageCode,
+    String? coverImage,
+    List<TalePage>? pages,
+  }) {
+    return Tale(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      languageCode: languageCode ?? this.languageCode,
+      coverImage: coverImage ?? this.coverImage,
+      pages: pages ?? this.pages,
+    );
+  }
+
+  //updatePageMethod
+  Tale updatePage(TalePage page) {
+    final pages = List<TalePage>.from(this.pages);
+    final index = pages.indexWhere((element) => element.id == page.id);
+    if (index != -1) {
+      pages[index] = page;
+    }
+    return _copyWith(pages: pages);
+  }
 }
