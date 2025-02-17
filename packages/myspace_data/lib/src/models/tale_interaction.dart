@@ -3,6 +3,13 @@ import 'package:flutter/services.dart';
 
 enum TaleInteractionEventType { swipe, tap }
 
+enum TaleInteractionEventSubType {
+  swipeRight,
+  swipeLeft,
+  swipeUp,
+  swipeDown,
+}
+
 class TaleInteraction extends Equatable {
   final String id;
   final String eventType;
@@ -15,6 +22,8 @@ class TaleInteraction extends Equatable {
 
   final Offset currentPosition;
 
+  final bool isUsed;
+
   TaleInteractionEventType get eventTypeEnum {
     switch (eventType) {
       case 'swipe':
@@ -26,7 +35,20 @@ class TaleInteraction extends Equatable {
     }
   }
 
-  bool get isUsed => currentPosition != initialPosition;
+  TaleInteractionEventSubType get eventSubTypeEnum {
+    switch (eventSubType) {
+      case 'swipe_right':
+        return TaleInteractionEventSubType.swipeRight;
+      case 'swipe_left':
+        return TaleInteractionEventSubType.swipeLeft;
+      case 'swipe_up':
+        return TaleInteractionEventSubType.swipeUp;
+      case 'swipe_down':
+        return TaleInteractionEventSubType.swipeDown;
+      default:
+        throw UnimplementedError('Unknown event subtype: $eventSubType');
+    }
+  }
 
   const TaleInteraction({
     required this.id,
@@ -38,6 +60,7 @@ class TaleInteraction extends Equatable {
     this.finalPosition,
     required this.eventSubType,
     required this.currentPosition,
+    this.isUsed = false,
   });
 
   factory TaleInteraction.fromJson(Map<String, dynamic> json) {
@@ -65,6 +88,7 @@ class TaleInteraction extends Equatable {
     Offset? currentPosition,
     Offset? finalPosition,
     String? eventSubType,
+    bool? isUsed,
   }) {
     return TaleInteraction(
       id: id ?? this.id,
@@ -76,6 +100,7 @@ class TaleInteraction extends Equatable {
       finalPosition: finalPosition ?? this.finalPosition,
       eventSubType: eventSubType ?? this.eventSubType,
       currentPosition: currentPosition ?? this.currentPosition,
+      isUsed: isUsed ?? this.isUsed,
     );
   }
 
@@ -84,6 +109,22 @@ class TaleInteraction extends Equatable {
     return _copyWith(currentPosition: currentPosition);
   }
 
+  //toggleIsUsed method
+  TaleInteraction updateIsUsed(bool isUsed) {
+    return _copyWith(isUsed: isUsed);
+  }
+
   @override
-  List<Object?> get props => [id, pageId, eventType, hintKey, size, initialPosition, finalPosition, eventSubType, currentPosition];
+  List<Object?> get props => [
+        id,
+        pageId,
+        eventType,
+        hintKey,
+        size,
+        initialPosition,
+        finalPosition,
+        eventSubType,
+        currentPosition,
+        isUsed,
+      ];
 }

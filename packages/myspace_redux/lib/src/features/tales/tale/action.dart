@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_redux/myspace_redux.dart';
 
@@ -69,24 +71,30 @@ class TaleInteractionHandlerAction extends DefautAction {
 
     switch (interaction.eventTypeEnum) {
       case TaleInteractionEventType.swipe:
-        // move current position to final position or vice versa
-        final newPosition = interaction.isUsed ? interaction.initialPosition : interaction.finalPosition;
-        if (newPosition == null) {
-          return null;
+        if (interaction.eventSubTypeEnum
+            case TaleInteractionEventSubType.swipeRight ||
+                TaleInteractionEventSubType.swipeLeft ||
+                TaleInteractionEventSubType.swipeUp ||
+                TaleInteractionEventSubType.swipeDown) {
+          final newPosition = interaction.finalPosition;
+          if (newPosition == null) {
+            return null;
+          }
+
+          final newInteraction = interaction.updateCurrentPosition(newPosition).updateIsUsed(true);
+          final newPage = talePage.updateInteraction(newInteraction);
+          final newTale = tale.updatePage(newPage);
+
+          return state.copyWith(taleState: taleState.copyWith(selectedTale: newTale));
         }
 
-        final newInteraction = interaction.updateCurrentPosition(newPosition);
-        final newPage = talePage.updateInteraction(newInteraction);
-        final newTale = tale.updatePage(newPage);
-
-        return state.copyWith(taleState: taleState.copyWith(selectedTale: newTale));
       case TaleInteractionEventType.tap:
         // TODO: Handle this case.
         throw UnimplementedError();
     }
-
     return null;
   }
+
   // final oldPos = objectPos;
   // objectPos += value;
   // if (objectPos.dx < 0) {

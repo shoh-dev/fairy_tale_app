@@ -22,6 +22,7 @@ dependencies:
 
   # core
   core_tales: 0.0.1
+  simple_gesture_detector: ^0.2.1
   # core_database: 0.0.1
   # core_localization: 0.0.1
   # core_sensors: 0.0.1

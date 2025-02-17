@@ -3,6 +3,7 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   errors:
     invalid_override_of_non_virtual_member: error
+    # non_exhaustive_switch_statement: ignore
 
 linter:
   rules:
