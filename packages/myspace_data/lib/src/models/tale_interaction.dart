@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 
+enum TaleInteractionEventType { swipe, tap }
+
 class TaleInteraction extends Equatable {
   final String id;
   final String eventType;
@@ -10,6 +12,17 @@ class TaleInteraction extends Equatable {
   final Size size;
   final Offset initialPosition;
   final Offset? finalPosition;
+
+  TaleInteractionEventType get eventTypeEnum {
+    switch (eventType) {
+      case 'swipe':
+        return TaleInteractionEventType.swipe;
+      case 'tap':
+        return TaleInteractionEventType.tap;
+      default:
+        throw UnimplementedError('Unknown event type: $eventType');
+    }
+  }
 
   const TaleInteraction({
     required this.id,

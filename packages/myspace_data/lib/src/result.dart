@@ -15,6 +15,9 @@ extension ResultHelper<T> on Result<T> {
     }
   }
 
+  Ok<T> get asOk => this as Ok<T>;
+  ErrorX<T> get asError => this as ErrorX<T>;
+
   bool get isOk => this is Ok<T>;
   bool get isError => this is ErrorX<T>;
   bool get isLoading => this is Loading<T>;

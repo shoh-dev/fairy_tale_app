@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 
 class TaleInteractionObjectComponent extends StatelessWidget {
-  const TaleInteractionObjectComponent({super.key, this.onDrag, this.onTap});
-
-  final VoidCallback? onTap;
-  final ValueChanged<Offset>? onDrag;
+  const TaleInteractionObjectComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      onPanUpdate: (details) {
-        onDrag?.call(details.delta);
-      },
+      onTap: () {},
+      onPanUpdate: (details) {},
       child: const CircleAvatar(
         child: Text("A"),
       ),

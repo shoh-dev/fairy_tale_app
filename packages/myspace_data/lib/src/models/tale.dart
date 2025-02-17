@@ -30,4 +30,13 @@ class Tale extends Equatable {
 
   @override
   List<Object?> get props => [id, title, description, languageCode, coverImage, pages];
+
+  static const empty = Tale(
+    id: "",
+    title: "",
+    description: "",
+    languageCode: "",
+    coverImage: "",
+    pages: [],
+  );
 }
