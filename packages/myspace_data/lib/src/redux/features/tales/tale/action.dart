@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:myspace_data/myspace_data.dart';
-import 'package:myspace_redux/myspace_redux.dart';
+import 'package:myspace_data/src/redux.dart';
 
 class _TaleAction extends DefautAction {
   final Tale? tale;

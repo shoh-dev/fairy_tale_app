@@ -6,11 +6,9 @@
       <module fileurl="file://$PROJECT_DIR$/packages/core_audio/melos_core_audio.iml" filepath="$PROJECT_DIR$/packages/core_audio/melos_core_audio.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/core_localization/melos_core_localization.iml" filepath="$PROJECT_DIR$/packages/core_localization/melos_core_localization.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/core_sensors/melos_core_sensors.iml" filepath="$PROJECT_DIR$/packages/core_sensors/melos_core_sensors.iml" />
-      <module fileurl="file://$PROJECT_DIR$/packages/core_tales/melos_core_tales.iml" filepath="$PROJECT_DIR$/packages/core_tales/melos_core_tales.iml" />
       <module fileurl="file://$PROJECT_DIR$/apps/mobile/melos_mobile.iml" filepath="$PROJECT_DIR$/apps/mobile/melos_mobile.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/myspace_data/melos_myspace_data.iml" filepath="$PROJECT_DIR$/packages/myspace_data/melos_myspace_data.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/myspace_design_system/melos_myspace_design_system.iml" filepath="$PROJECT_DIR$/packages/myspace_design_system/melos_myspace_design_system.iml" />
-      <module fileurl="file://$PROJECT_DIR$/packages/myspace_redux/melos_myspace_redux.iml" filepath="$PROJECT_DIR$/packages/myspace_redux/melos_myspace_redux.iml" />
       <module fileurl="file://$PROJECT_DIR$/melos_fairy_tale_app.iml" filepath="$PROJECT_DIR$/melos_fairy_tale_app.iml" />
     </modules>
   </component>

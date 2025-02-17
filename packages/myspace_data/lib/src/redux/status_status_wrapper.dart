@@ -1,7 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
-import 'package:myspace_redux/myspace_redux.dart';
+import 'package:myspace_data/src/redux.dart';
 
 class StatusStatusWrapper extends StatelessWidget {
   const StatusStatusWrapper({

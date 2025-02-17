@@ -1,8 +1,6 @@
-import 'package:core_tales/core_tales.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
-import 'package:myspace_redux/myspace_redux.dart';
 
 import 'features/tales/page.dart';
 

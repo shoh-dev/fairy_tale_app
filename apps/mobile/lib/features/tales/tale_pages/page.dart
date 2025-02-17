@@ -4,7 +4,6 @@ import 'package:mobile/features/tales/tale_pages/components/page_navigator.dart'
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_design_system/utils/helpers/context.dart';
-import 'package:myspace_redux/myspace_redux.dart';
 
 import 'components/tale_object.dart';
 

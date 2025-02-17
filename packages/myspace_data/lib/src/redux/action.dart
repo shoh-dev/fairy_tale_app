@@ -1,10 +1,7 @@
 import 'package:async_redux/async_redux.dart';
-import 'package:core_tales/core_tales.dart';
-import 'package:myspace_redux/src/di/di.dart';
-import 'package:myspace_redux/src/state.dart';
-
-import 'features/tales/state.dart';
-import 'features/tales/tale/state.dart';
+import 'package:myspace_data/src/redux.dart';
+import 'package:myspace_data/src/redux/di/di.dart';
+import 'package:myspace_data/src/repos.dart';
 
 abstract class DefautAction extends ReduxAction<AppState> {
   T getDependency<T extends Object>() {

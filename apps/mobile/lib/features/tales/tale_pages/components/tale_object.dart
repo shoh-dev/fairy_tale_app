@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
-import 'package:myspace_redux/myspace_redux.dart';
+
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
 class TaleInteractionObjectComponent extends StatelessWidget {
