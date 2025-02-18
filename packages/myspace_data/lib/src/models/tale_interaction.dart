@@ -8,6 +8,7 @@ enum TaleInteractionEventSubType {
   swipeLeft,
   swipeUp,
   swipeDown,
+  playSound,
 }
 
 class TaleInteraction extends Equatable {
@@ -47,6 +48,8 @@ class TaleInteraction extends Equatable {
         return TaleInteractionEventSubType.swipeUp;
       case 'swipe_down':
         return TaleInteractionEventSubType.swipeDown;
+      case 'play_sound':
+        return TaleInteractionEventSubType.playSound;
       default:
         throw UnimplementedError('Unknown event subtype: $eventSubType');
     }

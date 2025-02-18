@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/features/tales/tale_pages/components/background.dart';
-import 'package:mobile/features/tales/tale_pages/components/page_navigator.dart';
+import 'package:mobile/features/tales/tale_pages/components/tale_page_background.dart';
+import 'package:mobile/features/tales/tale_pages/components/tale_page_navigator.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_design_system/utils/helpers/context.dart';
 
-import 'components/tale_object.dart';
+import 'components/tale_interaction_object.dart';
 
 class TalePagesPage extends StatefulWidget {
   const TalePagesPage({

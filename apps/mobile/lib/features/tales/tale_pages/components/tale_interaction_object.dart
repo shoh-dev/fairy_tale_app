@@ -14,36 +14,14 @@ class TaleInteractionObjectComponent extends StatelessWidget {
       context.dispatch(TaleInteractionHandlerAction(interaction));
     }
 
-    void handleSwipe(SwipeDirection direction) {
-      switch (direction) {
-        case SwipeDirection.right:
-        case SwipeDirection.left:
-          if (interaction.eventSubTypeEnum case TaleInteractionEventSubType.swipeRight || TaleInteractionEventSubType.swipeLeft) {
-            handleInteraction();
-          }
-          break;
-        case SwipeDirection.up:
-        case SwipeDirection.down:
-          // if (interaction.eventSubTypeEnum case TaleInteractionEventSubType.swipeUp || TaleInteractionEventSubType.swipeDown) {
-          // handleInteraction();
-          // }
-          // break;
-          throw UnimplementedError('Swipe up and down not implemented');
-      }
-    }
-
-    void handleTap() {
-      handleInteraction();
-    }
-
     if (interaction.isUsed) {
       return _Child(interaction: interaction);
     }
 
     return SimpleGestureDetector(
-      onTap: interaction.eventTypeEnum == TaleInteractionEventType.tap ? handleTap : null,
-      onVerticalSwipe: interaction.eventTypeEnum == TaleInteractionEventType.swipe ? (direction) => handleSwipe(direction) : null,
-      onHorizontalSwipe: interaction.eventTypeEnum == TaleInteractionEventType.swipe ? (direction) => handleSwipe(direction) : null,
+      onTap: interaction.eventTypeEnum == TaleInteractionEventType.tap ? handleInteraction : null,
+      onVerticalSwipe: interaction.eventTypeEnum == TaleInteractionEventType.swipe ? (direction) => handleInteraction() : null,
+      onHorizontalSwipe: interaction.eventTypeEnum == TaleInteractionEventType.swipe ? (direction) => handleInteraction() : null,
       swipeConfig: const SimpleSwipeConfig(
         horizontalThreshold: 40.0,
         verticalThreshold: 40.0,
@@ -65,7 +43,7 @@ class _Child extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tooltip(
       triggerMode: TooltipTriggerMode.longPress,
-      message: interaction.hintKey,
+      message: context.tr(interaction.hintKey),
       showDuration: const Duration(seconds: 5),
       child: Container(
         width: interaction.size.width,
@@ -82,5 +60,16 @@ class _Child extends StatelessWidget {
         child: interaction.imageUrl.isNotEmpty ? Image.network(interaction.imageUrl) : null,
       ),
     );
+  }
+}
+
+extension TaleLocalizationHelper on BuildContext {
+  String? tr(String? key) {
+    final state = getState<AppState>();
+    final status = state.taleState.status;
+    if (!status.isOk) {
+      return key;
+    }
+    return state.taleState.localizations.firstWhereOrNull((element) => element.key == key)?.value ?? key;
   }
 }

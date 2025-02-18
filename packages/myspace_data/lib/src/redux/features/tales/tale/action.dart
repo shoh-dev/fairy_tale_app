@@ -1,14 +1,16 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:myspace_data/myspace_data.dart';
-import 'package:myspace_data/src/redux.dart';
 
 class _TaleAction extends DefautAction {
-  final Tale? tale;
   final Result<void> taleStatus;
+  final Tale? tale;
+  final List<TaleLocalization>? localizations;
 
   _TaleAction({
     this.tale,
+    this.localizations,
     required this.taleStatus,
   });
 
@@ -18,6 +20,7 @@ class _TaleAction extends DefautAction {
       taleState: taleState.copyWith(
         selectedTale: tale,
         status: taleStatus,
+        localizations: localizations,
       ),
     );
   }
@@ -38,9 +41,18 @@ class LoadTaleAction extends DefautAction {
 
     final tale = await taleService.getTaleById(taleId);
 
-    tale.fold(
-      (tale) {
-        dispatch(_TaleAction(tale: tale, taleStatus: Result.ok(null)));
+    await tale.fold(
+      (tale) async {
+        final localizations = await taleService.getTaleLocalizations(tale.id, "en"); //todo: get from app state
+        localizations.fold((locs) {
+          dispatch(_TaleAction(
+            tale: tale,
+            localizations: locs,
+            taleStatus: Result.ok(null),
+          ));
+        }, (error) {
+          dispatch(_TaleAction(taleStatus: Result.error(error)));
+        });
       },
       (error) {
         dispatch(_TaleAction(taleStatus: Result.error(error)));
@@ -69,19 +81,22 @@ class TaleInteractionHandlerAction extends DefautAction {
       return null;
     }
 
+    final subType = interaction.eventSubTypeEnum;
+
     switch (interaction.eventTypeEnum) {
       case TaleInteractionEventType.swipe:
-        if (interaction.eventSubTypeEnum
+        if (subType
             case TaleInteractionEventSubType.swipeRight ||
                 TaleInteractionEventSubType.swipeLeft ||
                 TaleInteractionEventSubType.swipeUp ||
                 TaleInteractionEventSubType.swipeDown) {
           return handleSwipe(tale, talePage);
         }
-
       case TaleInteractionEventType.tap:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        if (subType case TaleInteractionEventSubType.playSound) {
+          log("Playing sound");
+          return handleTap(tale, talePage);
+        }
     }
     return null;
   }
@@ -93,6 +108,14 @@ class TaleInteractionHandlerAction extends DefautAction {
     }
 
     final newInteraction = interaction.updateCurrentPosition(newPosition).updateIsUsed(true);
+    final newPage = talePage.updateInteraction(newInteraction);
+    final newTale = tale.updatePage(newPage);
+
+    return state.copyWith(taleState: taleState.copyWith(selectedTale: newTale));
+  }
+
+  AppState? handleTap(Tale tale, TalePage talePage) {
+    final newInteraction = interaction.updateIsUsed(true);
     final newPage = talePage.updateInteraction(newInteraction);
     final newTale = tale.updatePage(newPage);
 

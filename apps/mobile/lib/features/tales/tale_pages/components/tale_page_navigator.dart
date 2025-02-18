@@ -43,13 +43,15 @@ class TalePageNavigatorComponent extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.arrow_downward_rounded),
             onPressed: isAllInteractionsUsed()
-                ? () {
-                    if (controller.page == totalPages - 1) {
-                      return;
-                    } else {
-                      controller.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
-                    }
-                  }
+                ? hasClient && (controller.page ?? 0) < totalPages - 1
+                    ? () {
+                        if (controller.page == totalPages - 1) {
+                          return;
+                        } else {
+                          controller.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
+                        }
+                      }
+                    : null
                 : null,
           ),
         ],
