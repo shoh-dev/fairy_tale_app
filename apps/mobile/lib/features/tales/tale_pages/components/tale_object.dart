@@ -63,19 +63,24 @@ class _Child extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: interaction.size.width,
-      height: interaction.size.height,
-      decoration: interaction.imageUrl.isEmpty
-          ? BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(10), boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(100),
-                blurRadius: 10,
-                spreadRadius: 2,
-              ),
-            ])
-          : null,
-      child: interaction.imageUrl.isNotEmpty ? Image.network(interaction.imageUrl) : null,
+    return Tooltip(
+      triggerMode: TooltipTriggerMode.longPress,
+      message: interaction.hintKey,
+      showDuration: const Duration(seconds: 5),
+      child: Container(
+        width: interaction.size.width,
+        height: interaction.size.height,
+        decoration: interaction.imageUrl.isEmpty
+            ? BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(10), boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withAlpha(100),
+                  blurRadius: 10,
+                  spreadRadius: 2,
+                ),
+              ])
+            : null,
+        child: interaction.imageUrl.isNotEmpty ? Image.network(interaction.imageUrl) : null,
+      ),
     );
   }
 }

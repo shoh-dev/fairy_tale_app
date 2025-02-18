@@ -138,6 +138,7 @@ class _TaleView extends StatelessWidget {
         child: TalePageNavigatorComponent(
           controller: pageController,
           totalPages: tale.pages.length,
+          interactions: pageController.hasClients ? tale.pages[pageController.page?.toInt() ?? 0].interactions : tale.pages.first.interactions,
         ),
       ),
     );

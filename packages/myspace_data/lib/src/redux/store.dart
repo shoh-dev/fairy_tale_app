@@ -59,7 +59,7 @@ class AppStore {
       initialState: AppState.initial(),
     );
 
-    registerSingleton(store);
+    // registerSingleton(store);
 
     return store;
   }
