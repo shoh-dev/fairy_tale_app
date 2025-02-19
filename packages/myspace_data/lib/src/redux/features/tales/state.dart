@@ -21,4 +21,9 @@ class TalesState extends Equatable {
   TalesState copyWith({Result<List<Tale>>? tales}) {
     return TalesState(tales: tales ?? this.tales);
   }
+
+  @override
+  String toString() {
+    return "TalesState(tales: $tales)";
+  }
 }

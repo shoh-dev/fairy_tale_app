@@ -141,4 +141,9 @@ class TaleInteraction extends Equatable {
         imageUrl,
         animationDuration,
       ];
+
+  @override
+  String toString() {
+    return 'TaleInteraction(id: $id, pageId: $pageId, eventType: $eventType, hintKey: $hintKey, size: $size, initialPosition: $initialPosition, finalPosition: $finalPosition, eventSubType: $eventSubType, currentPosition: $currentPosition, isUsed: $isUsed, imageUrl: $imageUrl, animationDuration: $animationDuration)';
+  }
 }

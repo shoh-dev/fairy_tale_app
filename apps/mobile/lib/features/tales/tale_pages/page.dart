@@ -114,7 +114,7 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
         onDispose: (store) {
           store.dispatch(LoadTaleAction(widget.taleId, reset: true));
         },
-        child: (context, vm) {
+        builder: (context, vm) {
           return Scaffold(
             body: vm.fold(
               (ok) {
@@ -177,7 +177,7 @@ class _TaleView extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(40),
           child: Text(
-            context.tr(tale.description) ?? "-", //todo: handle localization if fetched as all
+            context.taleTr(tale.description) ?? "-", //todo: handle localization if fetched as all
             textAlign: TextAlign.center,
           ),
         ),

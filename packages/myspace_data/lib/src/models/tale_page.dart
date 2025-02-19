@@ -64,4 +64,9 @@ class TalePage extends Equatable {
 
   @override
   List<Object?> get props => [id, taleId, pageNumber, text, image, narrationAudio, interactions];
+
+  @override
+  String toString() {
+    return "TalePage(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, image: $image, narrationAudio: $narrationAudio, interactions: $interactions)";
+  }
 }

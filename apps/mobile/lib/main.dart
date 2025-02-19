@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/features/splash/page.dart';
+// import 'package:flutter/services.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
@@ -6,6 +8,14 @@ import 'features/tales/page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //hide status bar
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+  // SystemChrome.setPreferredOrientations([
+  // DeviceOrientation.landscapeLeft,
+  // DeviceOrientation.landscapeRight,
+  // ]);
 
   final appStore = const AppStore();
 
@@ -28,7 +38,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: appTheme.lightTheme,
       darkTheme: appTheme.darkTheme,
-      home: const TalesPage(),
+      home: const SplashPage(),
     );
   }
 }

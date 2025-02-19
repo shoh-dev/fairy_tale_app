@@ -6,12 +6,14 @@ import 'package:core_audio/core_audio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_data/src/repos/application_service.dart';
+import 'package:myspace_data/src/repos/path_service.dart';
 
 import 'di/di.dart';
 
 class AppStore {
   const AppStore({
-    this.enableActionLog = false,
+    this.enableActionLog = true,
   });
 
   final bool enableActionLog;
@@ -41,7 +43,7 @@ class AppStore {
 
   Future<void> setupDependencies() async {
     registerSingleton(EnvKeysServiceImpl());
-
+    registerSingleton(PathServiceImpl());
     registerSingleton(MainAudioPlayerServiceImpl(AudioPlayer()));
 
     await registerAsyncSingleton(
@@ -54,6 +56,7 @@ class AppStore {
       },
     );
 
+    registerSingleton(ApplicationServiceImpl(getDependency()));
     registerSingleton(TaleServiceImpl(getDependency()));
   }
 
@@ -68,6 +71,8 @@ class AppStore {
     );
 
     // registerSingleton(store);
+
+    log("Application has loaded these states:\n${store.state}");
 
     return store;
   }

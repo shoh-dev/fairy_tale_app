@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:myspace_data/myspace_data.dart';
 
-class _TaleAction extends DefautAction {
+class _TaleAction extends DefaultAction {
   final Result<void> taleStatus;
   final Tale? tale;
   final List<TaleLocalization>? localizations;
@@ -26,7 +26,7 @@ class _TaleAction extends DefautAction {
   }
 }
 
-class LoadTaleAction extends DefautAction {
+class LoadTaleAction extends DefaultAction {
   final String taleId;
   final bool reset;
 
@@ -63,7 +63,7 @@ class LoadTaleAction extends DefautAction {
   }
 }
 
-class TaleInteractionHandlerAction extends DefautAction {
+class TaleInteractionHandlerAction extends DefaultAction {
   final TaleInteraction interaction;
 
   TaleInteractionHandlerAction(this.interaction);
@@ -94,10 +94,7 @@ class TaleInteractionHandlerAction extends DefautAction {
         }
       case TaleInteractionEventType.tap:
         if (subType case TaleInteractionEventSubType.playSound) {
-          log("Playing sound");
-          //todo: test play sound
-          final result = await audioPlayerService.playFromUrl("http://127.0.0.1:54321/storage/v1/object/public/default/abrobey-qimmat-dunyo-mp3.mp3");
-          print(result);
+          final result = await mainAudioPlayerService.playFromUrl("http://127.0.0.1:54321/storage/v1/object/public/default/abrobey-qimmat-dunyo-mp3.mp3");
           return result.fold((success) {
             return handleTap(tale, talePage);
           }, (error) {

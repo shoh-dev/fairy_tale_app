@@ -43,7 +43,7 @@ class _Child extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tooltip(
       triggerMode: TooltipTriggerMode.longPress,
-      message: context.tr(interaction.hintKey),
+      message: context.taleTr(interaction.hintKey),
       showDuration: const Duration(seconds: 5),
       child: Container(
         width: interaction.size.width,

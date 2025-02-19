@@ -1,18 +1,17 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
-import 'package:myspace_data/src/redux.dart';
 
 class StatusStatusWrapper extends StatelessWidget {
   const StatusStatusWrapper({
     super.key,
-    required this.child,
+    required this.builder,
     required this.converter,
     this.onDispose,
     this.onInitialBuild,
   });
 
-  final Widget Function(BuildContext context, Result<void> result) child;
+  final Widget Function(BuildContext context, Result<void> result) builder;
   final StoreConverter<AppState, Result<void>> converter;
   final OnDisposeCallback<AppState>? onDispose;
   final OnInitialBuildCallback<AppState, Result<void>>? onInitialBuild;
@@ -23,7 +22,7 @@ class StatusStatusWrapper extends StatelessWidget {
       converter: converter,
       onInitialBuild: onInitialBuild,
       onDispose: onDispose,
-      builder: (context, vm) => child(context, vm),
+      builder: (context, vm) => builder(context, vm),
     );
   }
 }

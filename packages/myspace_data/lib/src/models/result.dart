@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 extension ResultHelper<T> on Result<T> {
   //fold method
@@ -39,6 +40,9 @@ class ErrorX<T> extends Result<T> with EquatableMixin {
         return "Type Error: ${exception.toString()}";
       case SocketException():
         return "Please check your internet connection!";
+      case StorageException():
+        final e = exception as StorageException;
+        return "Storage Exception: ${e.error} - ${e.message} - ${e.statusCode}";
     }
     return exception.toString();
   }

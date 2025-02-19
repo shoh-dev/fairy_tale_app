@@ -29,4 +29,9 @@ class TaleLocalization extends Equatable {
 
   @override
   List<Object?> get props => [id, languageCode, taleId, key, value];
+
+  @override
+  String toString() {
+    return 'TaleLocalization { id: $id, languageCode: $languageCode, key: $key, value: $value, taleId: $taleId }';
+  }
 }

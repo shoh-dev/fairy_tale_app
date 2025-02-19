@@ -23,7 +23,6 @@ class _Tales extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, Result<List<Tale>>>(
-      // vm: () => _Factory(this),
       converter: (store) => store.state.talesState.tales,
       onInitialBuild: (context, store, viewModel) {
         store.dispatch(LoadAllTalesAction());
@@ -40,7 +39,7 @@ class _Tales extends StatelessWidget {
                     tale.coverImage,
                     errorBuilder: (context, error, stackTrace) => const SizedBox(),
                   ),
-                  title: TextComponent.any(tale.title),
+                  title: TextComponent.any(context.taleTr(tale.title)),
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -49,7 +48,7 @@ class _Tales extends StatelessWidget {
                     );
                   },
                   subtitle: TextComponent.any(
-                    tale.description,
+                    context.taleTr(tale.description),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -65,20 +64,3 @@ class _Tales extends StatelessWidget {
     );
   }
 }
-
-// class _Factory extends BaseFactory<_Tales, _Vm> {
-//   _Factory(super.connector);
-
-//   @override
-//   _Vm fromStore() {
-//     return _Vm(
-//       tales: state.talesState.tales,
-//     );
-//   }
-// }
-
-// class _Vm extends Vm {
-//   final Result<List<Tale>> tales;
-
-//   _Vm({required this.tales});
-// }

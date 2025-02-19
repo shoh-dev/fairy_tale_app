@@ -68,4 +68,9 @@ class Tale extends Equatable {
     }
     return _copyWith(pages: pages);
   }
+
+  @override
+  String toString() {
+    return "Tale(id: $id, title: $title, description: $description, languageCode: $languageCode, coverImage: $coverImage, pages: $pages)";
+  }
 }

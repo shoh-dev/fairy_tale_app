@@ -17,6 +17,7 @@ dependencies:
   supabase_flutter: ^2.8.3
 
   core_audio: 0.0.1
+  path_provider: ^2.1.5
 
 
 dev_dependencies:
