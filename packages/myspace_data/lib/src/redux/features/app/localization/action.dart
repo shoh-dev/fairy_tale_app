@@ -12,6 +12,7 @@ class _Action extends DefaultAction {
   final Map<String, String>? translations;
   final String? locale;
 
+  // ignore: unused_element
   _Action({this.stateStatus, this.localeVersion, this.translations, this.locale});
 
   @override

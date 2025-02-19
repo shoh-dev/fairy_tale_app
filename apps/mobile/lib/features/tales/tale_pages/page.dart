@@ -177,7 +177,7 @@ class _TaleView extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(40),
           child: Text(
-            context.taleTr(tale.description) ?? "-", //todo: handle localization if fetched as all
+            context.taleTr(tale.description),
             textAlign: TextAlign.center,
           ),
         ),

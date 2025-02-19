@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:myspace_data/src/redux/features/app/state.dart';
 import 'package:myspace_data/src/redux/features/features.dart';
 
 class AppState extends Equatable {

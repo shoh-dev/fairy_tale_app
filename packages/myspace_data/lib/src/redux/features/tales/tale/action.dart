@@ -1,16 +1,13 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:myspace_data/myspace_data.dart';
 
 class _TaleAction extends DefaultAction {
   final Result<void> taleStatus;
   final Tale? tale;
-  final List<TaleLocalization>? localizations;
 
   _TaleAction({
     this.tale,
-    this.localizations,
     required this.taleStatus,
   });
 
@@ -20,7 +17,6 @@ class _TaleAction extends DefaultAction {
       taleState: taleState.copyWith(
         selectedTale: tale,
         status: taleStatus,
-        localizations: localizations,
       ),
     );
   }
@@ -43,16 +39,10 @@ class LoadTaleAction extends DefaultAction {
 
     await tale.fold(
       (tale) async {
-        final localizations = await taleService.getTaleLocalizations(tale.id, "en"); //todo: get from app state
-        localizations.fold((locs) {
-          dispatch(_TaleAction(
-            tale: tale,
-            localizations: locs,
-            taleStatus: Result.ok(null),
-          ));
-        }, (error) {
-          dispatch(_TaleAction(taleStatus: Result.error(error)));
-        });
+        dispatch(_TaleAction(
+          tale: tale,
+          taleStatus: Result.ok(null),
+        ));
       },
       (error) {
         dispatch(_TaleAction(taleStatus: Result.error(error)));

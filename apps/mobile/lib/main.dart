@@ -4,8 +4,6 @@ import 'package:mobile/features/splash/page.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
-import 'features/tales/page.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
