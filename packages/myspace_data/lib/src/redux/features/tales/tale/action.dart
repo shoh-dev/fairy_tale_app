@@ -69,7 +69,7 @@ class TaleInteractionHandlerAction extends DefautAction {
   TaleInteractionHandlerAction(this.interaction);
 
   @override
-  AppState? reduce() {
+  Future<AppState?> reduce() async {
     if (!taleState.status.isOk) {
       return null;
     }
@@ -95,7 +95,14 @@ class TaleInteractionHandlerAction extends DefautAction {
       case TaleInteractionEventType.tap:
         if (subType case TaleInteractionEventSubType.playSound) {
           log("Playing sound");
-          return handleTap(tale, talePage);
+          //todo: test play sound
+          final result = await audioPlayerService.playFromUrl("https://www.youtube.com/watch?v=mOVwfhOjUs8");
+          print(result);
+          return result.fold((success) {
+            return handleTap(tale, talePage);
+          }, (error) {
+            return null;
+          });
         }
     }
     return null;

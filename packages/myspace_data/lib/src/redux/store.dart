@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
+import 'package:core_audio/core_audio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -36,6 +37,8 @@ class AppStore {
 
   Future<void> setupDependencies() async {
     registerSingleton(EnvKeysServiceImpl());
+
+    registerSingleton(AudioPlayerServiceImpl(AudioPlayer()));
 
     await registerAsyncSingleton(
       () async {

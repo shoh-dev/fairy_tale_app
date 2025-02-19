@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 
 class TaleState extends Equatable {
@@ -34,5 +35,16 @@ class TaleState extends Equatable {
       status: status ?? this.status,
       localizations: localizations ?? this.localizations,
     );
+  }
+}
+
+extension TaleLocalizationHelper on BuildContext {
+  String? tr(String? key) {
+    final state = getState<AppState>();
+    final status = state.taleState.status;
+    if (!status.isOk) {
+      return key;
+    }
+    return state.taleState.localizations.firstWhereOrNull((element) => element.key == key)?.value ?? key;
   }
 }

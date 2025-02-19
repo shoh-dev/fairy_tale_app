@@ -21,7 +21,7 @@ dependencies:
 
   # core
   simple_gesture_detector: ^0.2.1
-  # core_database: 0.0.1
+  core_audio: 0.0.1
   # core_localization: 0.0.1
   # core_sensors: 0.0.1
   # core_assets: 0.0.1
