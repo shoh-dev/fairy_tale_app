@@ -10,7 +10,11 @@ import 'package:myspace_data/myspace_data.dart';
 import 'di/di.dart';
 
 class AppStore {
-  const AppStore();
+  const AppStore({
+    this.enableActionLog = false,
+  });
+
+  final bool enableActionLog;
 
   void registerSingleton<T extends Object>(T di, {bool unregisterIfExists = false}) {
     DependencyInjection.registerSingleton<T>(di, deregisterIfExists: unregisterIfExists);
@@ -38,7 +42,7 @@ class AppStore {
   Future<void> setupDependencies() async {
     registerSingleton(EnvKeysServiceImpl());
 
-    registerSingleton(AudioPlayerServiceImpl(AudioPlayer()));
+    registerSingleton(MainAudioPlayerServiceImpl(AudioPlayer()));
 
     await registerAsyncSingleton(
       () async {
@@ -57,7 +61,8 @@ class AppStore {
     log('Creating store...');
     final store = Store<AppState>(
       actionObservers: [
-        if (kDebugMode) Log.printer(formatter: Log.verySimpleFormatter),
+        if (enableActionLog)
+          if (kDebugMode) Log.printer(formatter: Log.verySimpleFormatter),
       ],
       initialState: AppState.initial(),
     );

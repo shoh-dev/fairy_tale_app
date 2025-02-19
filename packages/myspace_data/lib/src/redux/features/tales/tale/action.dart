@@ -96,7 +96,7 @@ class TaleInteractionHandlerAction extends DefautAction {
         if (subType case TaleInteractionEventSubType.playSound) {
           log("Playing sound");
           //todo: test play sound
-          final result = await audioPlayerService.playFromUrl("https://www.youtube.com/watch?v=mOVwfhOjUs8");
+          final result = await audioPlayerService.playFromUrl("http://127.0.0.1:54321/storage/v1/object/public/default/abrobey-qimmat-dunyo-mp3.mp3");
           print(result);
           return result.fold((success) {
             return handleTap(tale, talePage);

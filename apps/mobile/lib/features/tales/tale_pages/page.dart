@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:core_audio/core_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/features/tales/tale_pages/components/tale_page_background.dart';
 import 'package:mobile/features/tales/tale_pages/components/tale_page_navigator.dart';
@@ -19,25 +22,84 @@ class TalePagesPage extends StatefulWidget {
   State<TalePagesPage> createState() => _TalePagesPageState();
 }
 
-class _TalePagesPageState extends State<TalePagesPage> with StateHelpers {
+class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, WidgetsBindingObserver {
   final pageController = PageController();
 
   @override
   void dispose() {
-    safeDispose(pageController.dispose);
+    safeDispose(() {
+      final audioService = context.getDependency<MainAudioPlayerServiceImpl>();
+      if (audioService.isPlaying()) {
+        stopAudio(audioService);
+      }
+      pageController.dispose();
+      WidgetsBinding.instance.removeObserver(this);
+    });
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    afterBuild(() {
-      // pageController.addListener(() {
-      //   if (pageController.page == pageController.page?.toInt()) {
-      //     setState(() {});
-      //   }
-      // });
-    });
+    WidgetsBinding.instance.addObserver(this);
+    afterBuild(() {});
+  }
+
+  void pauseAudio(MainAudioPlayerServiceImpl audioService) async {
+    final paused = await audioService.pause();
+    paused.fold(
+      (ok) {
+        log("audio paused");
+      },
+      (error) {
+        log(error.toString());
+      },
+    );
+  }
+
+  void stopAudio(MainAudioPlayerServiceImpl audioService) async {
+    final stopped = await audioService.stop();
+    stopped.fold(
+      (ok) {
+        log("audio stopped");
+      },
+      (error) {
+        log(error.toString());
+      },
+    );
+  }
+
+  void resumeAudio(MainAudioPlayerServiceImpl audioService) async {
+    final resumed = await audioService.play();
+    resumed.fold(
+      (ok) {
+        log("audio resumed");
+      },
+      (error) {
+        log(error.toString());
+      },
+    );
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    log(state.toString());
+
+    final audioService = context.getDependency<MainAudioPlayerServiceImpl>();
+    final bool isAudioPlaying = audioService.isPlaying();
+
+    if (isAudioPlaying) {
+      if (state case AppLifecycleState.hidden || AppLifecycleState.inactive || AppLifecycleState.paused) {
+        pauseAudio(audioService);
+      }
+      if (state case AppLifecycleState.detached) {
+        stopAudio(audioService);
+      }
+    } else {
+      if (state case AppLifecycleState.resumed) {
+        resumeAudio(audioService);
+      }
+    }
   }
 
   Offset objectPos = const Offset(0, 0);
@@ -92,9 +154,26 @@ class _TaleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final audioService = context.getDependency<MainAudioPlayerServiceImpl>();
     return Scaffold(
       appBar: AppBar(
         title: TextComponent.any(tale.title),
+        actions: [
+          StreamBuilder(
+              stream: audioService.isPlayingStream,
+              builder: (context, snapshot) {
+                if (snapshot.data == true) {
+                  return const Tooltip(
+                    triggerMode: TooltipTriggerMode.tap,
+                    message: 'Audio is playing',
+                    child: Icon(Icons.pause),
+                  );
+                }
+                return const SizedBox();
+              }),
+          const SizedBox(width: 10),
+        ],
+        centerTitle: true,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(40),
           child: Text(

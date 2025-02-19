@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 
@@ -30,12 +31,14 @@ class ErrorX<T> extends Result<T> with EquatableMixin {
   const ErrorX(this.exception, [this.stackTrace]);
 
   @override
-  //todo: handle different types of exceptions
+  // handle different types of exceptions
   String toString() {
     log(exception.runtimeType.toString());
-    if (exception is TypeError) {
-      log(stackTrace.toString());
-      return "Type Error: ${exception.toString()}";
+    switch (exception) {
+      case TypeError():
+        return "Type Error: ${exception.toString()}";
+      case SocketException():
+        return "Please check your internet connection!";
     }
     return exception.toString();
   }
