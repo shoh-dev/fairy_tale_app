@@ -18,6 +18,7 @@ abstract class DefaultAction extends ReduxAction<AppState> {
 
   TaleServiceImpl get taleService => getDependency<TaleServiceImpl>();
   MainAudioPlayerServiceImpl get mainAudioPlayerService => getDependency<MainAudioPlayerServiceImpl>();
+  InteractionAudioPlayerServiceImpl get interactionAudioPlayerService => getDependency<InteractionAudioPlayerServiceImpl>();
   ApplicationServiceImpl get applicationService => getDependency<ApplicationServiceImpl>();
   PathServiceImpl get pathService => getDependency<PathServiceImpl>();
 }

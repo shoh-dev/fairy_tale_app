@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:core_audio/core_audio.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/features/tales/tale_pages/components/tale_page_background.dart';
-import 'package:mobile/features/tales/tale_pages/components/tale_page_navigator.dart';
+import 'package:mobile/features/tales/pages/components/tale_page_background.dart';
+import 'package:mobile/features/tales/pages/components/tale_page_navigator.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_design_system/utils/helpers/context.dart';
@@ -25,13 +25,14 @@ class TalePagesPage extends StatefulWidget {
 class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, WidgetsBindingObserver {
   final pageController = PageController();
 
+  InteractionAudioPlayerServiceImpl audioService(BuildContext context) {
+    return context.getDependency<InteractionAudioPlayerServiceImpl>();
+  }
+
   @override
   void dispose() {
     safeDispose(() {
-      final audioService = context.getDependency<MainAudioPlayerServiceImpl>();
-      if (audioService.isPlaying()) {
-        stopAudio(audioService);
-      }
+      stopAudio(audioService(context));
       pageController.dispose();
       WidgetsBinding.instance.removeObserver(this);
     });
@@ -45,7 +46,7 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
     afterBuild(() {});
   }
 
-  void pauseAudio(MainAudioPlayerServiceImpl audioService) async {
+  void pauseAudio(InteractionAudioPlayerServiceImpl audioService) async {
     final paused = await audioService.pause();
     paused.fold(
       (ok) {
@@ -57,7 +58,7 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
     );
   }
 
-  void stopAudio(MainAudioPlayerServiceImpl audioService) async {
+  void stopAudio(InteractionAudioPlayerServiceImpl audioService) async {
     final stopped = await audioService.stop();
     stopped.fold(
       (ok) {
@@ -69,7 +70,7 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
     );
   }
 
-  void resumeAudio(MainAudioPlayerServiceImpl audioService) async {
+  void resumeAudio(InteractionAudioPlayerServiceImpl audioService) async {
     final resumed = await audioService.play();
     resumed.fold(
       (ok) {
@@ -85,19 +86,20 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
   void didChangeAppLifecycleState(AppLifecycleState state) {
     log(state.toString());
 
-    final audioService = context.getDependency<MainAudioPlayerServiceImpl>();
-    final bool isAudioPlaying = audioService.isPlaying();
+    final bool isAudioPlaying = audioService(context).isPlaying();
+
+    print(isAudioPlaying);
 
     if (isAudioPlaying) {
       if (state case AppLifecycleState.hidden || AppLifecycleState.inactive || AppLifecycleState.paused) {
-        pauseAudio(audioService);
+        pauseAudio(audioService(context));
       }
       if (state case AppLifecycleState.detached) {
-        stopAudio(audioService);
+        stopAudio(audioService(context));
       }
     } else {
       if (state case AppLifecycleState.resumed) {
-        resumeAudio(audioService);
+        resumeAudio(audioService(context));
       }
     }
   }

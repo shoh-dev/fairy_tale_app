@@ -44,7 +44,8 @@ class AppStore {
   Future<void> setupDependencies() async {
     registerSingleton(EnvKeysServiceImpl());
     registerSingleton(PathServiceImpl());
-    registerSingleton(MainAudioPlayerServiceImpl(AudioPlayer()));
+    registerSingleton(MainAudioPlayerServiceImpl());
+    registerSingleton(InteractionAudioPlayerServiceImpl());
 
     await registerAsyncSingleton(
       () async {

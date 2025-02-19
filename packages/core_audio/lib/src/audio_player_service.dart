@@ -57,5 +57,9 @@ abstract class AudioPlayerService {
 
 //main player service
 class MainAudioPlayerServiceImpl extends AudioPlayerService {
-  const MainAudioPlayerServiceImpl(super.player);
+  MainAudioPlayerServiceImpl() : super(AudioPlayer());
+}
+
+class InteractionAudioPlayerServiceImpl extends AudioPlayerService {
+  InteractionAudioPlayerServiceImpl() : super(AudioPlayer());
 }
