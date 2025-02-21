@@ -34,7 +34,7 @@ mixin StateHelpers<T extends StatefulWidget> on State<T> {
   }
 
   //initState with WidgetsBinding.instance.addPostFrameCallback
-  void afterBuild(VoidCallback fn) {
+  void safeInitialize(VoidCallback fn) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fn();
     });

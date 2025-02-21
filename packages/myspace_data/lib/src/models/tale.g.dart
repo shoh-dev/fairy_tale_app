@@ -15,6 +15,7 @@ _$TaleImpl _$$TaleImplFromJson(Map<String, dynamic> json) => _$TaleImpl(
               ?.map((e) => TalePage.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      orientation: json['orientation'] as String? ?? 'portrait',
     );
 
 Map<String, dynamic> _$$TaleImplToJson(_$TaleImpl instance) =>
@@ -24,4 +25,5 @@ Map<String, dynamic> _$$TaleImplToJson(_$TaleImpl instance) =>
       'description': instance.description,
       'cover_image': instance.coverImage,
       'tale_pages': instance.talePages,
+      'orientation': instance.orientation,
     };

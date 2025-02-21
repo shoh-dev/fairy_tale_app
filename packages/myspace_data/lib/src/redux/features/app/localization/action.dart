@@ -51,7 +51,7 @@ class GetTranslationsAction extends DefaultAction {
       (serverLocaleVersion) async {
         final appDir = await pathService.getApplicationDocumentsDirectory();
         await appDir.fold((dirOk) async {
-          final localTrFile = File('${dirOk.path}/tr11111_${localizationState.locale}_$serverLocaleVersion.json');
+          final localTrFile = File('${dirOk.path}/tr_${localizationState.locale}_$serverLocaleVersion.json');
           if (localTrFile.existsSync()) {
             log("Loading translations from local");
             final translations = mapTrFile(localTrFile);
@@ -63,7 +63,7 @@ class GetTranslationsAction extends DefaultAction {
           } else {
             log("Loading translations from server");
             //do: get translations from server db
-            final translations = await applicationService.getTranslationsFile('localizationState.locale', serverLocaleVersion);
+            final translations = await applicationService.getTranslationsFile(localizationState.locale, serverLocaleVersion);
             await translations.fold((trOk) async {
               //do: save translations to local db
               try {

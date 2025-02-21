@@ -25,6 +25,7 @@ mixin _$Tale {
   String get description => throw _privateConstructorUsedError;
   String get coverImage => throw _privateConstructorUsedError;
   List<TalePage> get talePages => throw _privateConstructorUsedError;
+  String get orientation => throw _privateConstructorUsedError;
 
   /// Serializes this Tale to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,7 +46,8 @@ abstract class $TaleCopyWith<$Res> {
       String title,
       String description,
       String coverImage,
-      List<TalePage> talePages});
+      List<TalePage> talePages,
+      String orientation});
 }
 
 /// @nodoc
@@ -68,6 +70,7 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
     Object? description = null,
     Object? coverImage = null,
     Object? talePages = null,
+    Object? orientation = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -90,6 +93,10 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
           ? _value.talePages
           : talePages // ignore: cast_nullable_to_non_nullable
               as List<TalePage>,
+      orientation: null == orientation
+          ? _value.orientation
+          : orientation // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -106,7 +113,8 @@ abstract class _$$TaleImplCopyWith<$Res> implements $TaleCopyWith<$Res> {
       String title,
       String description,
       String coverImage,
-      List<TalePage> talePages});
+      List<TalePage> talePages,
+      String orientation});
 }
 
 /// @nodoc
@@ -126,6 +134,7 @@ class __$$TaleImplCopyWithImpl<$Res>
     Object? description = null,
     Object? coverImage = null,
     Object? talePages = null,
+    Object? orientation = null,
   }) {
     return _then(_$TaleImpl(
       id: null == id
@@ -148,6 +157,10 @@ class __$$TaleImplCopyWithImpl<$Res>
           ? _value._talePages
           : talePages // ignore: cast_nullable_to_non_nullable
               as List<TalePage>,
+      orientation: null == orientation
+          ? _value.orientation
+          : orientation // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -161,7 +174,8 @@ class _$TaleImpl extends _Tale {
       required this.title,
       required this.description,
       required this.coverImage,
-      final List<TalePage> talePages = const []})
+      final List<TalePage> talePages = const [],
+      this.orientation = 'portrait'})
       : _talePages = talePages,
         super._();
 
@@ -186,8 +200,12 @@ class _$TaleImpl extends _Tale {
   }
 
   @override
+  @JsonKey()
+  final String orientation;
+
+  @override
   String toString() {
-    return 'Tale(id: $id, title: $title, description: $description, coverImage: $coverImage, talePages: $talePages)';
+    return 'Tale(id: $id, title: $title, description: $description, coverImage: $coverImage, talePages: $talePages, orientation: $orientation)';
   }
 
   @override
@@ -202,13 +220,15 @@ class _$TaleImpl extends _Tale {
             (identical(other.coverImage, coverImage) ||
                 other.coverImage == coverImage) &&
             const DeepCollectionEquality()
-                .equals(other._talePages, _talePages));
+                .equals(other._talePages, _talePages) &&
+            (identical(other.orientation, orientation) ||
+                other.orientation == orientation));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, description,
-      coverImage, const DeepCollectionEquality().hash(_talePages));
+      coverImage, const DeepCollectionEquality().hash(_talePages), orientation);
 
   /// Create a copy of Tale
   /// with the given fields replaced by the non-null parameter values.
@@ -232,7 +252,8 @@ abstract class _Tale extends Tale {
       required final String title,
       required final String description,
       required final String coverImage,
-      final List<TalePage> talePages}) = _$TaleImpl;
+      final List<TalePage> talePages,
+      final String orientation}) = _$TaleImpl;
   const _Tale._() : super._();
 
   factory _Tale.fromJson(Map<String, dynamic> json) = _$TaleImpl.fromJson;
@@ -247,6 +268,8 @@ abstract class _Tale extends Tale {
   String get coverImage;
   @override
   List<TalePage> get talePages;
+  @override
+  String get orientation;
 
   /// Create a copy of Tale
   /// with the given fields replaced by the non-null parameter values.

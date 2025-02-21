@@ -14,7 +14,7 @@ class TaleServiceImpl implements TaleService {
   @override
   ResultFuture<List<Tale>> getAllTales() async {
     try {
-      final response = await _supabase.from('tales').select('id, title, description, language_code, cover_image');
+      final response = await _supabase.from('tales').select('id, title, description, cover_image');
 
       return Result.ok(response.map((e) => Tale.fromJson(e)).toList());
     } catch (e, st) {

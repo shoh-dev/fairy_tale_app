@@ -16,6 +16,7 @@ class Tale with _$Tale {
     required String description,
     required String coverImage,
     @Default([]) List<TalePage> talePages,
+    @Default('portrait') String orientation,
   }) = _Tale;
 
   factory Tale.fromJson(Map<String, dynamic> json) => _$TaleFromJson(json);
@@ -26,7 +27,10 @@ class Tale with _$Tale {
     description: "",
     coverImage: "",
     talePages: [],
+    orientation: "portrait",
   );
+
+  bool get isPortrait => orientation == "portrait";
 
   //updatePageMethod
   Tale updatePage(TalePage page) {

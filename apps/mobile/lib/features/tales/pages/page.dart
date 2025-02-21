@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:core_audio/core_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile/features/tales/pages/components/tale_page_background.dart';
 import 'package:mobile/features/tales/pages/components/tale_page_navigator.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -43,7 +44,7 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    afterBuild(() {});
+    safeInitialize(() {});
   }
 
   void pauseAudio(InteractionAudioPlayerServiceImpl audioService) async {
@@ -143,7 +144,7 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
   }
 }
 
-class _TaleView extends StatelessWidget {
+class _TaleView extends StatefulWidget {
   const _TaleView({
     required this.tale,
     required this.pageController,
@@ -153,11 +154,52 @@ class _TaleView extends StatelessWidget {
   final Tale tale;
 
   @override
+  State<_TaleView> createState() => _TaleViewState();
+}
+
+class _TaleViewState extends State<_TaleView> with StateHelpers {
+  @override
+  void initState() {
+    super.initState();
+    safeInitialize(() async {
+      if (!widget.tale.isPortrait) {
+        context.getDependency<ApplicationServiceImpl>().setDeviceOrientation([
+          DeviceOrientation.landscapeLeft,
+          DeviceOrientation.landscapeRight,
+        ]).then(
+          (value) {
+            if (value.isError) {
+              log((value as ErrorX).toString());
+            }
+          },
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    safeDispose(() async {
+      context.getDependency<ApplicationServiceImpl>().setDeviceOrientation([
+        DeviceOrientation.portraitDown,
+        DeviceOrientation.portraitUp,
+      ]).then(
+        (value) {
+          if (value.isError) {
+            log((value as ErrorX).toString());
+          }
+        },
+      );
+    });
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final audioService = context.getDependency<InteractionAudioPlayerServiceImpl>();
     return Scaffold(
       appBar: AppBar(
-        title: TextComponent.any(context.taleTr(tale.title)),
+        title: TextComponent.any(context.taleTr(widget.tale.title)),
         actions: [
           StreamBuilder(
               stream: audioService.isPlayingStream,
@@ -177,19 +219,19 @@ class _TaleView extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(40),
           child: Text(
-            context.taleTr(tale.description),
+            context.taleTr(widget.tale.description),
             textAlign: TextAlign.center,
           ),
         ),
       ),
       body: LayoutBuilder(builder: (context, cc) {
         return PageView.builder(
-          controller: pageController,
-          itemCount: tale.talePages.length,
+          controller: widget.pageController,
+          itemCount: widget.tale.talePages.length,
           physics: const NeverScrollableScrollPhysics(),
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
-            final page = tale.talePages[index];
+            final page = widget.tale.talePages[index];
             return Stack(
               children: [
                 //image
@@ -215,9 +257,11 @@ class _TaleView extends StatelessWidget {
       }),
       bottomNavigationBar: BottomAppBar(
         child: TalePageNavigatorComponent(
-          controller: pageController,
-          totalPages: tale.talePages.length,
-          interactions: pageController.hasClients ? tale.talePages[pageController.page?.toInt() ?? 0].taleInteractions : tale.talePages.first.taleInteractions,
+          controller: widget.pageController,
+          totalPages: widget.tale.talePages.length,
+          interactions: widget.pageController.hasClients
+              ? widget.tale.talePages[widget.pageController.page?.toInt() ?? 0].taleInteractions
+              : widget.tale.talePages.first.taleInteractions,
         ),
       ),
     );

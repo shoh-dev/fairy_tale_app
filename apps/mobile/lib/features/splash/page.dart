@@ -44,7 +44,7 @@ class __Loaded1State extends State<_Loaded1> with StateHelpers {
   @override
   void initState() {
     super.initState();
-    afterBuild(() {
+    safeInitialize(() {
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const TalesPage()));
     });
   }
