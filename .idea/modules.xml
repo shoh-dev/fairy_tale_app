@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/apps/mobile/melos_mobile.iml" filepath="$PROJECT_DIR$/apps/mobile/melos_mobile.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/myspace_data/melos_myspace_data.iml" filepath="$PROJECT_DIR$/packages/myspace_data/melos_myspace_data.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/myspace_design_system/melos_myspace_design_system.iml" filepath="$PROJECT_DIR$/packages/myspace_design_system/melos_myspace_design_system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apps/tale_buider_app/melos_tale_buider_app.iml" filepath="$PROJECT_DIR$/apps/tale_buider_app/melos_tale_buider_app.iml" />
       <module fileurl="file://$PROJECT_DIR$/melos_fairy_tale_app.iml" filepath="$PROJECT_DIR$/melos_fairy_tale_app.iml" />
     </modules>
   </component>

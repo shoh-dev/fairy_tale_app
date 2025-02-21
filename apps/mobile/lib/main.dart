@@ -9,12 +9,6 @@ void main() async {
 
   //hide status bar
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-
-  // SystemChrome.setPreferredOrientations([
-  // DeviceOrientation.landscapeLeft,
-  // DeviceOrientation.landscapeRight,
-  // ]);
-
   final appStore = const AppStore();
 
   await appStore.setupDependencies();

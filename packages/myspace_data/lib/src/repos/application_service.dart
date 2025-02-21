@@ -5,7 +5,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 abstract class ApplicationService {
   ResultFuture<int> getLocaleVersion();
   ResultFuture<Uint8List> getTranslationsFile(String locale, int version);
-  ResultFuture<void> setDeviceOrientation(List<DeviceOrientation> orientations);
 }
 
 class ApplicationServiceImpl implements ApplicationService {
@@ -28,19 +27,6 @@ class ApplicationServiceImpl implements ApplicationService {
     try {
       final response = await _supabase.storage.from("default").download("localizations/tr_${locale}_$version.json");
       return Result.ok(response);
-    } catch (e, st) {
-      return Result.error(ErrorX(e, st));
-    }
-  }
-
-  @override
-  ResultFuture<void> setDeviceOrientation(List<DeviceOrientation> orientations) async {
-    try {
-      if (orientations.isEmpty) {
-        return Result.error(ErrorX('Please provide orientations!'));
-      }
-      await SystemChrome.setPreferredOrientations(orientations);
-      return Result.ok(null);
     } catch (e, st) {
       return Result.error(ErrorX(e, st));
     }

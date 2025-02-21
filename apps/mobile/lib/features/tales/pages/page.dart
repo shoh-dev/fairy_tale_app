@@ -163,7 +163,7 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
     super.initState();
     safeInitialize(() async {
       if (!widget.tale.isPortrait) {
-        context.getDependency<ApplicationServiceImpl>().setDeviceOrientation([
+        context.getDependency<SystemServiceImpl>().setDeviceOrientation([
           DeviceOrientation.landscapeLeft,
           DeviceOrientation.landscapeRight,
         ]).then(
@@ -180,7 +180,7 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
   @override
   void dispose() {
     safeDispose(() async {
-      context.getDependency<ApplicationServiceImpl>().setDeviceOrientation([
+      context.getDependency<SystemServiceImpl>().setDeviceOrientation([
         DeviceOrientation.portraitDown,
         DeviceOrientation.portraitUp,
       ]).then(
