@@ -1,29 +1,17 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 
-class TalesState extends Equatable {
-  final Result<List<Tale>> tales;
+part 'state.freezed.dart';
 
-  const TalesState({
-    required this.tales,
-  });
-
-  @override
-  List<Object?> get props => [tales];
+@freezed
+class TalesState with _$TalesState {
+  const factory TalesState({
+    required Result<List<Tale>> tales,
+  }) = _TalesState;
 
   factory TalesState.initial() {
     return const TalesState(
       tales: Result.ok([]),
     );
-  }
-
-  // CopyWith method
-  TalesState copyWith({Result<List<Tale>>? tales}) {
-    return TalesState(tales: tales ?? this.tales);
-  }
-
-  @override
-  String toString() {
-    return "TalesState(tales: $tales)";
   }
 }

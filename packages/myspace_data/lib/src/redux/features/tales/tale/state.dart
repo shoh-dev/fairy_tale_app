@@ -1,40 +1,21 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 
-class TaleState extends Equatable {
-  final Result<void> status;
-  final Tale selectedTale;
+part 'state.freezed.dart';
 
-  const TaleState({
-    required this.status,
-    required this.selectedTale,
-  });
-
-  @override
-  List<Object?> get props => [selectedTale, status];
+@freezed
+class TaleState with _$TaleState {
+  const factory TaleState({
+    required Result<void> status,
+    required Tale selectedTale,
+  }) = _TaleState;
 
   factory TaleState.initial() {
     return const TaleState(
       selectedTale: Tale.empty,
       status: Result.loading(),
     );
-  }
-
-  // CopyWith method
-  TaleState copyWith({
-    Result<void>? status,
-    Tale? selectedTale,
-  }) {
-    return TaleState(
-      selectedTale: selectedTale ?? this.selectedTale,
-      status: status ?? this.status,
-    );
-  }
-
-  @override
-  String toString() {
-    return 'TaleState{status: $status, selectedTale: $selectedTale}';
   }
 }
 

@@ -1,72 +1,35 @@
 // TalePage Model
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_data/src/annotations/json_serializable.dart';
 
-class TalePage extends Equatable {
-  final String id;
-  final String taleId;
-  final int pageNumber;
-  final String text;
-  final String image;
-  final String? narrationAudio;
-  final List<TaleInteraction> interactions;
+part 'tale_page.g.dart';
+part 'tale_page.freezed.dart';
 
-  const TalePage({
-    required this.id,
-    required this.taleId,
-    required this.pageNumber,
-    required this.text,
-    required this.image,
-    this.narrationAudio,
-    required this.interactions,
-  });
+@freezed
+class TalePage with _$TalePage {
+  const TalePage._();
 
-  factory TalePage.fromJson(Map<String, dynamic> json) => TalePage(
-        id: json['id'] as String,
-        taleId: json['tale_id'] as String,
-        pageNumber: json['page_number'] as int,
-        text: json['text'] as String,
-        image: json['background_image'] as String,
-        narrationAudio: json['narration_audio'] as String?,
-        interactions: (json['tale_interactions'] as List<dynamic>?)?.map((e) => TaleInteraction.fromJson(e as Map<String, dynamic>)).toList() ?? [],
-      );
+  @appJsonSerializable
+  const factory TalePage({
+    required String id,
+    required String taleId,
+    required int pageNumber,
+    required String text,
+    required String backgroundImage,
+    String? backgroundAudio,
+    @Default([]) List<TaleInteraction> taleInteractions,
+  }) = _TalePage;
 
-  //copyWithMethod
-  TalePage _copyWith({
-    String? id,
-    String? taleId,
-    int? pageNumber,
-    String? text,
-    String? image,
-    String? narrationAudio,
-    List<TaleInteraction>? interactions,
-  }) {
-    return TalePage(
-      id: id ?? this.id,
-      taleId: taleId ?? this.taleId,
-      pageNumber: pageNumber ?? this.pageNumber,
-      text: text ?? this.text,
-      image: image ?? this.image,
-      narrationAudio: narrationAudio ?? this.narrationAudio,
-      interactions: interactions ?? this.interactions,
-    );
-  }
+  factory TalePage.fromJson(Map<String, dynamic> json) => _$TalePageFromJson(json);
 
   //updateInteractionMethod
   TalePage updateInteraction(TaleInteraction interaction) {
-    final interactions = List<TaleInteraction>.from(this.interactions);
+    final interactions = List<TaleInteraction>.from(taleInteractions);
     final index = interactions.indexWhere((element) => element.id == interaction.id);
     if (index != -1) {
       interactions[index] = interaction;
     }
-    return _copyWith(interactions: interactions);
-  }
-
-  @override
-  List<Object?> get props => [id, taleId, pageNumber, text, image, narrationAudio, interactions];
-
-  @override
-  String toString() {
-    return "TalePage(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, image: $image, narrationAudio: $narrationAudio, interactions: $interactions)";
+    return copyWith(taleInteractions: interactions);
   }
 }

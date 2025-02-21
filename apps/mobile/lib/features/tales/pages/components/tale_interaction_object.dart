@@ -48,8 +48,8 @@ class _Child extends StatelessWidget {
       child: Container(
         width: interaction.size.width,
         height: interaction.size.height,
-        decoration: interaction.imageUrl.isEmpty
-            ? BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(10), boxShadow: [
+        decoration: interaction.objectImageUrl.isEmpty
+            ? BoxDecoration(border: Border.all(color: Colors.black, width: 1), borderRadius: BorderRadius.circular(10), boxShadow: [
                 BoxShadow(
                   color: Colors.black.withAlpha(100),
                   blurRadius: 10,
@@ -57,7 +57,7 @@ class _Child extends StatelessWidget {
                 ),
               ])
             : null,
-        child: interaction.imageUrl.isNotEmpty ? Image.network(interaction.imageUrl) : null,
+        child: interaction.objectImageUrl.isNotEmpty ? Image.network(interaction.objectImageUrl) : null,
       ),
     );
   }

@@ -27,7 +27,7 @@ class TaleServiceImpl implements TaleService {
     try {
       final response = await _supabase.from('tales').select('*, tale_pages(*, tale_interactions(*))').eq('id', taleId).maybeSingle();
 
-      if (response == null) return ErrorX("Tale not found");
+      if (response == null) return Result.error(ErrorX("Tale not found"));
 
       return Result.ok(Tale.fromJson(response));
     } catch (e, st) {

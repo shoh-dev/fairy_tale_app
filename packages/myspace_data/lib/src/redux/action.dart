@@ -4,7 +4,6 @@ import 'package:myspace_data/src/redux.dart';
 import 'package:myspace_data/src/redux/di/di.dart';
 import 'package:myspace_data/src/repos.dart';
 import 'package:myspace_data/src/repos/application_service.dart';
-import 'package:myspace_data/src/repos/path_service.dart';
 
 abstract class DefaultAction extends ReduxAction<AppState> {
   T getDependency<T extends Object>() {

@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_data/src/repos/application_service.dart';
-import 'package:myspace_data/src/repos/path_service.dart';
 
 import 'di/di.dart';
 
@@ -26,12 +25,6 @@ class AppStore {
     DependencyInjection.registerAsyncSingleton<T>(di, deregisterIfExists: unregisterIfExists);
     return allReady();
   }
-
-  // void registerSingletonAll(List<Object> diList, {bool deregisterIfExists = false}) {
-  //   for (var di in diList) {
-  //     registerSingleton<Object>(di, unregisterIfExists: deregisterIfExists);
-  //   }
-  // }
 
   Future<void> allReady() {
     return DependencyInjection.allReady();

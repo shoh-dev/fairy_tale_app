@@ -1,21 +1,16 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 
-class AppLocalizationState extends Equatable {
-  final Result status;
-  final String locale;
-  final Map<String, String> translations;
-  final int localeVersion;
+part 'state.freezed.dart';
 
-  const AppLocalizationState({
-    required this.locale,
-    required this.status,
-    required this.translations,
-    required this.localeVersion,
-  });
-
-  @override
-  List<Object?> get props => [locale];
+@freezed
+class AppLocalizationState with _$AppLocalizationState {
+  const factory AppLocalizationState({
+    required Result status,
+    required String locale,
+    required Map<String, String> translations,
+    required int localeVersion,
+  }) = _AppLocalizationState;
 
   factory AppLocalizationState.initial() {
     return const AppLocalizationState(
@@ -24,25 +19,5 @@ class AppLocalizationState extends Equatable {
       translations: {},
       localeVersion: 0,
     );
-  }
-
-  // CopyWith method
-  AppLocalizationState copyWith({
-    Result? status,
-    String? locale,
-    Map<String, String>? translations,
-    int? localeVersion,
-  }) {
-    return AppLocalizationState(
-      status: status ?? this.status,
-      locale: locale ?? this.locale,
-      translations: translations ?? this.translations,
-      localeVersion: localeVersion ?? this.localeVersion,
-    );
-  }
-
-  @override
-  String toString() {
-    return 'AppLocalizationState{status: $status, locale: $locale, translations: $translations, localeVersion: $localeVersion}';
   }
 }

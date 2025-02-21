@@ -88,8 +88,6 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
 
     final bool isAudioPlaying = audioService(context).isPlaying();
 
-    print(isAudioPlaying);
-
     if (isAudioPlaying) {
       if (state case AppLifecycleState.hidden || AppLifecycleState.inactive || AppLifecycleState.paused) {
         pauseAudio(audioService(context));
@@ -156,10 +154,10 @@ class _TaleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final audioService = context.getDependency<MainAudioPlayerServiceImpl>();
+    final audioService = context.getDependency<InteractionAudioPlayerServiceImpl>();
     return Scaffold(
       appBar: AppBar(
-        title: TextComponent.any(tale.title),
+        title: TextComponent.any(context.taleTr(tale.title)),
         actions: [
           StreamBuilder(
               stream: audioService.isPlayingStream,
@@ -187,20 +185,20 @@ class _TaleView extends StatelessWidget {
       body: LayoutBuilder(builder: (context, cc) {
         return PageView.builder(
           controller: pageController,
-          itemCount: tale.pages.length,
+          itemCount: tale.talePages.length,
           physics: const NeverScrollableScrollPhysics(),
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
-            final page = tale.pages[index];
+            final page = tale.talePages[index];
             return Stack(
               children: [
                 //image
-                if (page.image.isNotEmpty) Positioned.fill(child: TalePageBackroundComponent(imageUrl: page.image)),
+                if (page.backgroundImage.isNotEmpty) Positioned.fill(child: TalePageBackroundComponent(imageUrl: page.backgroundImage)),
 
-                for (var interaction in page.interactions)
+                for (var interaction in page.taleInteractions)
                   //tale object
                   AnimatedPositioned(
-                    // curve: Curves.easeInOutCubicEmphasized,
+                    // curve: Curves.easeInOutCubicEmphasized,//todo: get curve from db
                     duration: Duration(milliseconds: interaction.animationDuration),
                     width: interaction.size.width,
                     height: interaction.size.height,
@@ -218,8 +216,8 @@ class _TaleView extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         child: TalePageNavigatorComponent(
           controller: pageController,
-          totalPages: tale.pages.length,
-          interactions: pageController.hasClients ? tale.pages[pageController.page?.toInt() ?? 0].interactions : tale.pages.first.interactions,
+          totalPages: tale.talePages.length,
+          interactions: pageController.hasClients ? tale.talePages[pageController.page?.toInt() ?? 0].taleInteractions : tale.talePages.first.taleInteractions,
         ),
       ),
     );

@@ -15,7 +15,7 @@ class _TaleAction extends DefaultAction {
   AppState reduce() {
     return state.copyWith(
       taleState: taleState.copyWith(
-        selectedTale: tale,
+        selectedTale: tale ?? taleState.selectedTale,
         status: taleStatus,
       ),
     );
@@ -65,7 +65,7 @@ class TaleInteractionHandlerAction extends DefaultAction {
     }
 
     final tale = taleState.selectedTale;
-    final talePage = tale.pages.firstWhereOrNull((e) => e.id == interaction.pageId);
+    final talePage = tale.talePages.firstWhereOrNull((e) => e.id == interaction.talePageId);
 
     if (talePage == null) {
       return null;
