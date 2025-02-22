@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_design_system/utils/helpers/theme.dart';
 // import 'package:tale_buider_app/features/tale_page_interactions_editor/components/left_sidebar.dart';
 import 'package:tale_buider_app/features/tale_page_interactions_editor/components/right_sidebar.dart';
@@ -39,8 +40,8 @@ class _Body extends StatelessWidget {
             builder: (context, page) {
               return Center(
                 child: Container(
-                    width: tale.isPortrait ? 480 : 720,
-                    height: tale.isPortrait ? 720 : 480,
+                    width: Sizes.web.devicePreviewSize(tale.isPortrait).width,
+                    height: Sizes.web.devicePreviewSize(tale.isPortrait).height,
                     decoration: BoxDecoration(
                       border: Border.all(color: context.colorScheme.primary),
                     ),

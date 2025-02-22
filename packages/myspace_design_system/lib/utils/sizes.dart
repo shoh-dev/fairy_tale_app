@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 abstract class Sizes {
   static final web = _WebSizes();
 }
@@ -12,4 +14,6 @@ class _WebSizes {
   final double kDefaultSpace = 16;
 
   double get fieldWidth => kLayoutMaxWidth / 5;
+
+  Size devicePreviewSize(bool isPortrait) => isPortrait ? const Size(480, 720) : const Size(720, 480);
 }
