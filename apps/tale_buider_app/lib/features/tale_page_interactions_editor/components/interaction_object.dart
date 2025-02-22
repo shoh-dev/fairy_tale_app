@@ -15,7 +15,6 @@ class _InteractionObjectComponentState extends State<InteractionObjectComponent>
   TaleInteraction get interaction => widget.interaction;
 
   Offset _position = Offset.zero;
-  Size _size = Size.zero;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +23,9 @@ class _InteractionObjectComponentState extends State<InteractionObjectComponent>
         onInitialBuild: (context, store, viewModel) {
           setState(() {
             _position = interaction.currentPosition.toOffset();
-            _size = interaction.size.toSize();
           });
         },
         builder: (context, selectedInteractions) {
-          print(selectedInteractions);
           final bool isSelected = selectedInteractions.contains(interaction);
           return StoreConnector<Tale>(
               converter: (store) => store.state.taleState.selectedTale,
@@ -36,8 +33,8 @@ class _InteractionObjectComponentState extends State<InteractionObjectComponent>
                 final deviceSize = Sizes.web.devicePreviewSize(tale.isPortrait);
                 return AnimatedPositioned(
                   duration: Duration(milliseconds: interaction.animationDuration),
-                  width: _size.width,
-                  height: _size.height,
+                  width: interaction.size.width,
+                  height: interaction.size.height,
                   left: _position.dx,
                   top: _position.dy,
                   child: MouseRegion(
@@ -53,28 +50,29 @@ class _InteractionObjectComponentState extends State<InteractionObjectComponent>
                               _position += details.delta;
                               if (_position.dx < 0) {
                                 _position = Offset(0, _position.dy);
-                              } else if (_position.dx > (deviceSize.width - _size.width)) {
+                              } else if (_position.dx > (deviceSize.width - interaction.size.width)) {
                                 //-40 is the size of the object
-                                _position = Offset((deviceSize.width - _size.width), _position.dy);
+                                _position = Offset((deviceSize.width - interaction.size.width), _position.dy);
                               }
                               if (_position.dy < 0) {
                                 _position = Offset(_position.dx, 0);
-                              } else if (_position.dy > (deviceSize.height - _size.height)) {
+                              } else if (_position.dy > (deviceSize.height - interaction.size.height)) {
                                 //-40 is the size of the object
-                                _position = Offset(_position.dx, (deviceSize.height - _size.height));
+                                _position = Offset(_position.dx, (deviceSize.height - interaction.size.height));
                               }
                               if (oldPos != _position) {
                                 setState(() {});
                               }
                             },
                       onPanEnd: (_) {
-                        context.dispatch(SelectTaleEditorTalePageInteractionAction(
-                            [interaction.copyWith(currentPosition: TaleInteractionPosition(_position.dx, _position.dy))]));
+                        context.dispatch(SelectTaleEditorTalePageInteractionAction([
+                          interaction.copyWith(currentPosition: TaleInteractionPosition(_position.dx, _position.dy)),
+                        ]));
                       },
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 100),
-                        width: _size.width,
-                        height: _size.height,
+                        width: interaction.size.width,
+                        height: interaction.size.height,
                         decoration: BoxDecoration(
                           border: isSelected ? Border.all(color: Colors.red, width: 2) : Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(10),

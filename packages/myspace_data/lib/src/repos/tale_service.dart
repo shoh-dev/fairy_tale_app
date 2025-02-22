@@ -29,16 +29,7 @@ class TaleServiceImpl implements TaleService {
 
       if (response == null) return Result.error(ErrorX("Tale not found"));
 
-      final tale = Tale.fromJson(response);
-
-      final pages = tale.talePages.map((page) {
-        final interactions = page.taleInteractions.map((interaction) {
-          return interaction.copyWith(currentPosition: interaction.initialPosition);
-        }).toList();
-        return page.copyWith(taleInteractions: interactions);
-      });
-
-      return Result.ok(tale.copyWith(talePages: pages.toList()));
+      return Result.ok(Tale.fromJson(response));
     } catch (e, st) {
       return Result.error(ErrorX(e, st));
     }

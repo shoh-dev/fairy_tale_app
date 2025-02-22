@@ -48,8 +48,15 @@ class GetTaleAction extends DefaultAction {
 
     await tale.fold(
       (tale) async {
+        final pages = tale.talePages.map((page) {
+          final interactions = page.taleInteractions.map((interaction) {
+            return interaction.copyWith(currentPosition: interaction.initialPosition);
+          }).toList();
+          return page.copyWith(taleInteractions: interactions);
+        });
+
         dispatch(_TaleAction(
-          tale: tale,
+          tale: tale.copyWith(talePages: pages.toList()),
           taleStatus: StateResult.ok(),
         ));
       },
