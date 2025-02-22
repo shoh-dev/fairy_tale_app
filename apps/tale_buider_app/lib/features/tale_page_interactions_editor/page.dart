@@ -54,6 +54,12 @@ class _Body extends StatelessWidget {
                             fit: BoxFit.cover,
                           )),
 
+                        Positioned.fill(child: GestureDetector(
+                          onTap: () {
+                            context.dispatch(SelectTaleEditorTalePageInteractionAction([]));
+                          },
+                        )),
+
                         for (var interaction in page.taleInteractions)
                           //tale object
                           InteractionObjectComponent(interaction: interaction),

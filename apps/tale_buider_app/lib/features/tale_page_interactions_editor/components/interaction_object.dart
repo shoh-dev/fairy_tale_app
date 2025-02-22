@@ -19,6 +19,7 @@ class InteractionObjectComponent extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             print("interaction.id: ${interaction.id}");
+            context.dispatch(SelectTaleEditorTalePageInteractionAction([interaction]));
           },
           child: Container(
             width: interaction.size.width,
