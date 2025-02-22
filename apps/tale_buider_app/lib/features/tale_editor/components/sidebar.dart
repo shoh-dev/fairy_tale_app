@@ -24,7 +24,7 @@ class TaleEditorSidebarComponent extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: StoreConnector<AppState, TalePage>(
+        child: StoreConnector<TalePage>(
             converter: (state) => state.state.taleEditorState.selectedPage,
             builder: (context, selectedPage) {
               return Column(

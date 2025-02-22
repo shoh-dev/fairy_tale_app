@@ -55,7 +55,7 @@ class _Layout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, Tale>(
+    return StoreConnector<Tale>(
         converter: (store) => store.state.taleState.selectedTale,
         builder: (context, tale) {
           return DefaultLayout(
@@ -63,6 +63,7 @@ class _Layout extends StatelessWidget {
             leftSidebar: TaleEditorSidebarComponent(
               pages: tale.talePages,
             ),
+            // body: StoreConnector<AppState>(),
             body: const SizedBox(),
           );
         });

@@ -9,7 +9,7 @@ class TalesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, List<Tale>>(
+    return StoreConnector<List<Tale>>(
       converter: (store) => store.state.talesState.tales,
       builder: (context, vm) {
         return DefaultLayout(

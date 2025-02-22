@@ -1,4 +1,4 @@
-import 'package:async_redux/async_redux.dart';
+import 'package:async_redux/async_redux.dart' as ar;
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 
@@ -11,14 +11,14 @@ class StatusStatusWrapper extends StatelessWidget {
     this.onInitialBuild,
   });
 
-  final StoreConverter<AppState, StateResult> converter;
+  final ar.StoreConverter<AppState, StateResult> converter;
   final Widget Function(BuildContext context, StateResult result) builder;
-  final OnDisposeCallback<AppState>? onDispose;
-  final OnInitialBuildCallback<AppState, StateResult>? onInitialBuild;
+  final ar.OnDisposeCallback<AppState>? onDispose;
+  final ar.OnInitialBuildCallback<AppState, StateResult>? onInitialBuild;
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, StateResult>(
+    return StoreConnector<StateResult>(
       converter: converter,
       onInitialBuild: onInitialBuild,
       onDispose: onDispose,
