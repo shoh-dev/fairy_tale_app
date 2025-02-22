@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:tale_buider_app/features/tale_editor/components/sidebar.dart';
+import 'package:tale_buider_app/features/tale_editor/components/tale_details_form.dart';
 import 'package:tale_buider_app/layout/default_layout.dart';
 
 class TaleEditorPage extends StatelessWidget {
@@ -63,8 +64,18 @@ class _Layout extends StatelessWidget {
             leftSidebar: TaleEditorSidebarComponent(
               pages: tale.talePages,
             ),
-            // body: StoreConnector<AppState>(),
-            body: const SizedBox(),
+            body: StoreConnector<TalePage>(
+              converter: (store) => store.state.taleEditorState.selectedPage,
+              builder: (context, selectedPage) {
+                final bool isSelected = selectedPage.id.isNotEmpty;
+                if (isSelected) {
+                  //show page editor details
+                  return const Text("Tale Page Details");
+                }
+                //show tale editor details
+                return TaleDetailsForm(tale: tale);
+              },
+            ),
           );
         });
   }

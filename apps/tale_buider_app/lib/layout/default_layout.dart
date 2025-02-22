@@ -21,6 +21,7 @@ class DefaultLayout extends StatelessWidget {
         title: title,
       ),
       body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (leftSidebar != null) leftSidebar!,
           Expanded(

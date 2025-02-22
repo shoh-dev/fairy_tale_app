@@ -111,17 +111,13 @@ class __MenuState<T> extends State<_Menu<T>> {
                 DropdownMenuEntry(
                   value: item,
                   label: item.label,
-                  leadingIcon: item.label == field.value?.label
-                      ? const Icon(Icons.check)
-                      : null,
+                  leadingIcon: item.label == field.value?.label ? const Icon(Icons.check) : null,
                 ),
             ],
             searchCallback: (entries, query) {
               if (query.isEmpty) return null;
               final index = entries.indexWhere((element) {
-                return element.label
-                    .toLowerCase()
-                    .contains(query.toLowerCase());
+                return element.label.toLowerCase().contains(query.toLowerCase());
               });
               return index == -1 ? null : index;
             },
@@ -137,8 +133,9 @@ class __MenuState<T> extends State<_Menu<T>> {
             initialSelection: widget.initialValue,
             hintText: widget.hintText,
             enabled: widget.enabled,
-            enableSearch: false,
-            enableFilter: false,
+            // enableSearch: true,
+            // enableFilter: true,
+            // requestFocusOnTap: false,
             errorText: field.errorText,
             expandedInsets: EdgeInsets.zero,
             onSelected: (value) {

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:myspace_data/myspace_data.dart';
 
 class _TaleAction extends DefaultAction {
@@ -40,6 +41,10 @@ class GetTaleAction extends DefaultAction {
     }
 
     final tale = await taleService.getTaleById(taleId);
+
+    if (kDebugMode) {
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
 
     await tale.fold(
       (tale) async {
@@ -135,7 +140,19 @@ class SelectEmptyTaleAction extends DefaultAction {
   }
 }
 
+class UpdateSelectedTaleAction extends DefaultAction {
+  final Tale tale;
 
+  UpdateSelectedTaleAction(this.tale);
+
+  @override
+  AppState? reduce() {
+    if (tale == taleState.selectedTale) {
+      return null;
+    }
+    return state.copyWith(taleState: taleState.copyWith(selectedTale: tale));
+  }
+}
 
 
   // final oldPos = objectPos;
