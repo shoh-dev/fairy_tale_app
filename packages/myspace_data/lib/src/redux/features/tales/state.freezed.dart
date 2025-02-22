@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TalesState {
-  Result<void> get status => throw _privateConstructorUsedError;
+  StateResult get status => throw _privateConstructorUsedError;
   List<Tale> get tales => throw _privateConstructorUsedError;
 
   /// Create a copy of TalesState
@@ -32,9 +32,9 @@ abstract class $TalesStateCopyWith<$Res> {
           TalesState value, $Res Function(TalesState) then) =
       _$TalesStateCopyWithImpl<$Res, TalesState>;
   @useResult
-  $Res call({Result<void> status, List<Tale> tales});
+  $Res call({StateResult status, List<Tale> tales});
 
-  $ResultCopyWith<void, $Res> get status;
+  $StateResultCopyWith<$Res> get status;
 }
 
 /// @nodoc
@@ -59,7 +59,7 @@ class _$TalesStateCopyWithImpl<$Res, $Val extends TalesState>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as Result<void>,
+              as StateResult,
       tales: null == tales
           ? _value.tales
           : tales // ignore: cast_nullable_to_non_nullable
@@ -71,8 +71,8 @@ class _$TalesStateCopyWithImpl<$Res, $Val extends TalesState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ResultCopyWith<void, $Res> get status {
-    return $ResultCopyWith<void, $Res>(_value.status, (value) {
+  $StateResultCopyWith<$Res> get status {
+    return $StateResultCopyWith<$Res>(_value.status, (value) {
       return _then(_value.copyWith(status: value) as $Val);
     });
   }
@@ -86,10 +86,10 @@ abstract class _$$TalesStateImplCopyWith<$Res>
       __$$TalesStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Result<void> status, List<Tale> tales});
+  $Res call({StateResult status, List<Tale> tales});
 
   @override
-  $ResultCopyWith<void, $Res> get status;
+  $StateResultCopyWith<$Res> get status;
 }
 
 /// @nodoc
@@ -112,7 +112,7 @@ class __$$TalesStateImplCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as Result<void>,
+              as StateResult,
       tales: null == tales
           ? _value._tales
           : tales // ignore: cast_nullable_to_non_nullable
@@ -130,7 +130,7 @@ class _$TalesStateImpl extends _TalesState {
         super._();
 
   @override
-  final Result<void> status;
+  final StateResult status;
   final List<Tale> _tales;
   @override
   List<Tale> get tales {
@@ -168,12 +168,12 @@ class _$TalesStateImpl extends _TalesState {
 
 abstract class _TalesState extends TalesState {
   const factory _TalesState(
-      {required final Result<void> status,
+      {required final StateResult status,
       required final List<Tale> tales}) = _$TalesStateImpl;
   const _TalesState._() : super._();
 
   @override
-  Result<void> get status;
+  StateResult get status;
   @override
   List<Tale> get tales;
 

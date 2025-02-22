@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:myspace_data/myspace_data.dart';
 
 class _TaleAction extends DefaultAction {
-  final Result<void> taleStatus;
+  final StateResult taleStatus;
   final Tale? tale;
 
   _TaleAction({
@@ -28,31 +28,29 @@ class GetTaleAction extends DefaultAction {
 
   GetTaleAction(
     this.taleId, {
+    ///resets TaleState
     this.reset = false,
   });
 
   @override
   Future<AppState?> reduce() async {
     if (reset) {
-      dispatch(_TaleAction(taleStatus: Result.loading()));
+      dispatch(_TaleAction(taleStatus: StateResult.loading()));
       return null;
     }
 
     final tale = await taleService.getTaleById(taleId);
 
-    await Future.delayed(const Duration(seconds: 1));
-
     await tale.fold(
       (tale) async {
         dispatch(_TaleAction(
           tale: tale,
-          taleStatus: Result.ok(null),
+          taleStatus: StateResult.ok(),
         ));
       },
       (error) {
-        dispatch(_TaleAction(taleStatus: Result.error(error)));
+        dispatch(_TaleAction(taleStatus: StateResult.error(error)));
       },
-      () => dispatch(_TaleAction(taleStatus: Result.loading())),
     );
     return null;
   }
@@ -91,11 +89,14 @@ class TaleInteractionHandlerAction extends DefaultAction {
         if (subType case TaleInteractionEventSubType.playSound) {
           final result =
               await interactionAudioPlayerService.playFromUrl("http://127.0.0.1:54321/storage/v1/object/public/default/abrobey-qimmat-dunyo-mp3.mp3");
-          return result.fold((success) {
-            return handleTap(tale, talePage);
-          }, (error) {
-            return null;
-          });
+          return result.fold(
+            (success) {
+              return handleTap(tale, talePage);
+            },
+            (error) {
+              return null;
+            },
+          );
         }
     }
     return null;
@@ -128,7 +129,7 @@ class SelectEmptyTaleAction extends DefaultAction {
   AppState? reduce() {
     dispatch(_TaleAction(
       tale: Tale.empty,
-      taleStatus: Result.ok(null),
+      taleStatus: StateResult.ok(),
     ));
     return null;
   }

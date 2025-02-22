@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:tale_buider_app/features/tale_editor/components/sidebar.dart';
 import 'package:tale_buider_app/layout/default_layout.dart';
 
 class TaleEditorPage extends StatelessWidget {
@@ -26,7 +27,7 @@ class TaleEditorPage extends StatelessWidget {
       },
       builder: (context, result) {
         return result.fold(
-          (data) {
+          () {
             return const _Layout();
           },
           (error) {
@@ -59,6 +60,9 @@ class _Layout extends StatelessWidget {
         builder: (context, tale) {
           return DefaultLayout(
             title: tale.id.isEmpty ? const Text("Create Tale") : const Text("Update Tale"),
+            leftSidebar: TaleEditorSidebarComponent(
+              pages: tale.talePages,
+            ),
             body: const SizedBox(),
           );
         });

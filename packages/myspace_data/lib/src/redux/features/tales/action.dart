@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:myspace_data/myspace_data.dart';
-import 'package:myspace_data/src/redux.dart';
 
 class _Action extends DefaultAction {
-  final Result<void>? result;
+  final StateResult? result;
   final List<Tale>? tales;
 
   _Action({this.result, this.tales});
@@ -21,11 +20,11 @@ class _Action extends DefaultAction {
 class GetAllTalesAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
-    dispatch(_Action(result: Result.loading()));
+    dispatch(_Action(result: StateResult.loading()));
     final tales = await taleService.getAllTales();
     tales.fold(
-      (data) => dispatch(_Action(result: Result.ok(null), tales: data)),
-      (e) => dispatch(_Action(result: Result.error(e))),
+      (data) => dispatch(_Action(result: StateResult.ok(), tales: data)),
+      (e) => dispatch(_Action(result: StateResult.error(e))),
     );
     return null;
   }

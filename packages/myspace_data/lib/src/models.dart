@@ -1,4 +1,5 @@
 export 'models/result.dart';
+export 'models/state_result.dart';
 
 export 'models/translation.dart';
 

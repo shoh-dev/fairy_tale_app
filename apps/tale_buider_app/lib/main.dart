@@ -15,9 +15,12 @@ void main() async {
     () async {
       final supabase = SupabaseServiceImpl(appStore.getDependency());
       final client = await supabase.initialize();
-      return client.fold((ok) => ok, (e) {
-        throw Exception('Error initializing Supabase. $e');
-      });
+      return client.fold(
+        (ok) => ok,
+        (e) {
+          throw Exception('Error initializing Supabase. $e');
+        },
+      );
     },
   );
 

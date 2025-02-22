@@ -17,7 +17,7 @@ class SplashPage extends StatelessWidget {
             },
             builder: (context, status) {
               return status.fold(
-                (localizationOk) {
+                () {
                   return const Center(child: _Loaded());
                 },
                 (e) {

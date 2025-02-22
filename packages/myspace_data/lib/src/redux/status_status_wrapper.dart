@@ -11,14 +11,14 @@ class StatusStatusWrapper extends StatelessWidget {
     this.onInitialBuild,
   });
 
-  final StoreConverter<AppState, Result<void>> converter;
-  final Widget Function(BuildContext context, Result<void> result) builder;
+  final StoreConverter<AppState, StateResult> converter;
+  final Widget Function(BuildContext context, StateResult result) builder;
   final OnDisposeCallback<AppState>? onDispose;
-  final OnInitialBuildCallback<AppState, Result<void>>? onInitialBuild;
+  final OnInitialBuildCallback<AppState, StateResult>? onInitialBuild;
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, Result<void>>(
+    return StoreConnector<AppState, StateResult>(
       converter: converter,
       onInitialBuild: onInitialBuild,
       onDispose: onDispose,

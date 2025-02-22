@@ -6,7 +6,7 @@ part 'state.freezed.dart';
 @freezed
 class AppLocalizationState with _$AppLocalizationState {
   const factory AppLocalizationState({
-    required Result status,
+    required StateResult status,
     required String locale,
     required Map<String, String> translations,
     required int localeVersion,
@@ -14,7 +14,7 @@ class AppLocalizationState with _$AppLocalizationState {
 
   factory AppLocalizationState.initial() {
     return const AppLocalizationState(
-      status: Result.loading(),
+      status: StateResult.loading(),
       locale: 'en',
       translations: {},
       localeVersion: 0,

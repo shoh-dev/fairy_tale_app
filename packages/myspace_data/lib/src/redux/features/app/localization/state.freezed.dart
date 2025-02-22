@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AppLocalizationState {
-  Result<dynamic> get status => throw _privateConstructorUsedError;
+  StateResult get status => throw _privateConstructorUsedError;
   String get locale => throw _privateConstructorUsedError;
   Map<String, String> get translations => throw _privateConstructorUsedError;
   int get localeVersion => throw _privateConstructorUsedError;
@@ -35,12 +35,12 @@ abstract class $AppLocalizationStateCopyWith<$Res> {
       _$AppLocalizationStateCopyWithImpl<$Res, AppLocalizationState>;
   @useResult
   $Res call(
-      {Result<dynamic> status,
+      {StateResult status,
       String locale,
       Map<String, String> translations,
       int localeVersion});
 
-  $ResultCopyWith<dynamic, $Res> get status;
+  $StateResultCopyWith<$Res> get status;
 }
 
 /// @nodoc
@@ -68,7 +68,7 @@ class _$AppLocalizationStateCopyWithImpl<$Res,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as Result<dynamic>,
+              as StateResult,
       locale: null == locale
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
@@ -88,8 +88,8 @@ class _$AppLocalizationStateCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ResultCopyWith<dynamic, $Res> get status {
-    return $ResultCopyWith<dynamic, $Res>(_value.status, (value) {
+  $StateResultCopyWith<$Res> get status {
+    return $StateResultCopyWith<$Res>(_value.status, (value) {
       return _then(_value.copyWith(status: value) as $Val);
     });
   }
@@ -104,13 +104,13 @@ abstract class _$$AppLocalizationStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {Result<dynamic> status,
+      {StateResult status,
       String locale,
       Map<String, String> translations,
       int localeVersion});
 
   @override
-  $ResultCopyWith<dynamic, $Res> get status;
+  $StateResultCopyWith<$Res> get status;
 }
 
 /// @nodoc
@@ -135,7 +135,7 @@ class __$$AppLocalizationStateImplCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as Result<dynamic>,
+              as StateResult,
       locale: null == locale
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
@@ -163,7 +163,7 @@ class _$AppLocalizationStateImpl implements _AppLocalizationState {
       : _translations = translations;
 
   @override
-  final Result<dynamic> status;
+  final StateResult status;
   @override
   final String locale;
   final Map<String, String> _translations;
@@ -212,13 +212,13 @@ class _$AppLocalizationStateImpl implements _AppLocalizationState {
 
 abstract class _AppLocalizationState implements AppLocalizationState {
   const factory _AppLocalizationState(
-      {required final Result<dynamic> status,
+      {required final StateResult status,
       required final String locale,
       required final Map<String, String> translations,
       required final int localeVersion}) = _$AppLocalizationStateImpl;
 
   @override
-  Result<dynamic> get status;
+  StateResult get status;
   @override
   String get locale;
   @override

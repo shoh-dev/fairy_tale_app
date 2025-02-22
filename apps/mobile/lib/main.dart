@@ -1,3 +1,4 @@
+import 'package:core_audio/core_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/features/splash/page.dart';
 // import 'package:flutter/services.dart';
@@ -11,7 +12,27 @@ void main() async {
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   final appStore = const AppStore();
 
-  await appStore.setupDependencies();
+  appStore.registerSingleton(EnvKeysServiceImpl());
+  appStore.registerSingleton(PathServiceImpl());
+  appStore.registerSingleton(const SystemServiceImpl());
+  appStore.registerSingleton(MainAudioPlayerServiceImpl());
+  appStore.registerSingleton(InteractionAudioPlayerServiceImpl());
+
+  await appStore.registerAsyncSingleton(
+    () async {
+      final supabase = SupabaseServiceImpl(appStore.getDependency());
+      final client = await supabase.initialize();
+      return client.fold(
+        (ok) => ok,
+        (e) {
+          throw Exception('Error initializing Supabase. $e');
+        },
+      );
+    },
+  );
+
+  appStore.registerSingleton(ApplicationServiceImpl(appStore.getDependency()));
+  appStore.registerSingleton(TaleServiceImpl(appStore.getDependency()));
 
   runApp(AppStoreProvider(
     appStore: appStore.createStore(),

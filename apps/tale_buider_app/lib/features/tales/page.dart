@@ -55,7 +55,7 @@ class _Grid extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(tale.title),
+                  child: Text(context.taleTr(tale.title)),
                 ),
               ],
             ),

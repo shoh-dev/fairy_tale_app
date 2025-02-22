@@ -118,7 +118,7 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
         builder: (context, vm) {
           return Scaffold(
             body: vm.fold(
-              (ok) {
+              () {
                 return StoreConnector<AppState, Tale>(
                     converter: (store) => store.state.taleState.selectedTale,
                     builder: (context, vm) {

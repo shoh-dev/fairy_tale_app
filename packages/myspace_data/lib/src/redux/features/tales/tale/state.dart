@@ -7,14 +7,14 @@ part 'state.freezed.dart';
 @freezed
 class TaleState with _$TaleState {
   const factory TaleState({
-    required Result<void> status,
+    required StateResult status,
     required Tale selectedTale,
   }) = _TaleState;
 
   factory TaleState.initial() {
     return const TaleState(
       selectedTale: Tale.empty,
-      status: Result.loading(),
+      status: StateResult.loading(),
     );
   }
 }

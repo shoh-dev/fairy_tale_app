@@ -5,12 +5,13 @@ import 'dart:io';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+export 'state_result.dart';
+
 part 'result.freezed.dart';
 
 @freezed
 sealed class Result<T> with _$Result<T> {
   const factory Result.ok(T value) = OkX<T>;
-  const factory Result.loading() = LoadingX;
   const factory Result.error(ErrorX error) = Error;
 }
 
@@ -46,20 +47,13 @@ typedef ResultFuture<R> = Future<Result<R>>;
 
 extension ResultHelper<T> on Result<T> {
   // fold method
-  R fold<R>(R Function(T ok) onSuccess, R Function(ErrorX error) onError, [R Function()? onLoading]) {
+  R fold<R>(R Function(T ok) onSuccess, R Function(ErrorX error) onError) {
     return when(
       ok: onSuccess,
       error: onError,
-      loading: () {
-        if (onLoading != null) {
-          return onLoading();
-        }
-        throw Exception('Result is Loading, but onLoading is not provided. Please provide onLoading function.');
-      },
     );
   }
 
   bool get isOk => this is OkX<T>;
   bool get isError => this is Error;
-  bool get isLoading => this is LoadingX;
 }

@@ -29,7 +29,7 @@ class _Tales extends StatelessWidget {
       },
       builder: (context, vm) {
         return vm.fold(
-          (_) {
+          () {
             return const _Loaded();
           },
           (e) => Center(
