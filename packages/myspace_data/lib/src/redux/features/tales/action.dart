@@ -22,6 +22,7 @@ class GetAllTalesAction extends DefaultAction {
   Future<AppState?> reduce() async {
     dispatch(_Action(result: StateResult.loading()));
     final tales = await taleService.getAllTales();
+    await Future.delayed(const Duration(seconds: 1));
     tales.fold(
       (data) => dispatch(_Action(result: StateResult.ok(), tales: data)),
       (e) => dispatch(_Action(result: StateResult.error(e))),

@@ -68,9 +68,7 @@ class _Layout extends StatelessWidget {
         builder: (context, tale) {
           return DefaultLayout(
             title: tale.id.isEmpty ? const Text("Create Tale") : const Text("Update Tale"),
-            leftSidebar: TaleEditorSidebarComponent(
-              pages: tale.talePages,
-            ),
+            leftSidebar: TaleEditorSidebarComponent(pages: tale.talePages),
             rigthSidebar: TaleEditorRightSidebarComponent(tale: tale),
             body: StoreConnector<TalePage>(
               converter: (store) => store.state.taleEditorState.selectedPage,

@@ -59,10 +59,18 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm> with StateHel
         Text("Page Details", style: context.textTheme.headlineSmall),
         if (page.id.isNotEmpty) ...[
           space(8),
-          Text("Page Number: ${page.pageNumber}", style: context.textTheme.titleMedium),
-          space(4),
           Text("ID: ${page.id}", style: context.textTheme.titleMedium),
+          space(4),
+          Text("Page Number: ${page.pageNumber}", style: context.textTheme.titleMedium),
         ],
+        space(16),
+        ButtonComponent.destructive(
+          text: 'Delete Page',
+          icon: Icons.delete_rounded,
+          onPressed: () {
+            //todo:
+          },
+        ),
         space(16),
         ButtonComponent.outlined(
           text: "Preview Page",
@@ -73,6 +81,14 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm> with StateHel
                 builder: (context) {
                   return TalePreviewDialog(pageNumber: page.pageNumber);
                 });
+          },
+        ),
+        space(16),
+        ButtonComponent.outlined(
+          text: "Interactions Editor",
+          icon: Icons.edit_rounded,
+          onPressed: () {
+            //todo: interactions editor
           },
         ),
         space(16),

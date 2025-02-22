@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:myspace_design_system/utils/helpers/theme.dart';
 
 class DefaultLayout extends StatelessWidget {
   const DefaultLayout({
@@ -27,7 +28,11 @@ class DefaultLayout extends StatelessWidget {
         children: [
           if (leftSidebar != null) leftSidebar!,
           Expanded(
-            child: Padding(
+            child: Container(
+              decoration: BoxDecoration(
+                color: context.colorScheme.surfaceContainer,
+              ),
+              height: context.height,
               padding: EdgeInsets.all(Sizes.web.kLayoutPadding),
               child: body,
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/utils/helpers/theme.dart';
+import 'package:myspace_design_system/utils/sizes.dart';
 
 class TaleEditorSidebarComponent extends StatelessWidget {
   const TaleEditorSidebarComponent({
@@ -23,7 +24,7 @@ class TaleEditorSidebarComponent extends StatelessWidget {
         ),
       ),
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(Sizes.web.kLayoutPadding),
         child: StoreConnector<TalePage>(
             converter: (state) => state.state.taleEditorState.selectedPage,
             builder: (context, selectedPage) {
