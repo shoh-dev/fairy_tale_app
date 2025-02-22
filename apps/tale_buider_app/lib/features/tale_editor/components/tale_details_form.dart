@@ -1,12 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:myspace_design_system/utils/helpers/context.dart';
 import 'package:myspace_design_system/utils/helpers/theme.dart';
 
-class TaleDetailsForm extends StatelessWidget {
+import 'image_selector.dart';
+
+class TaleDetailsForm extends StatefulWidget {
   const TaleDetailsForm({super.key, required this.tale});
 
   final Tale tale;
+
+  @override
+  State<TaleDetailsForm> createState() => _TaleDetailsFormState();
+}
+
+class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
+  Tale get tale => widget.tale;
+
+  final TextEditingController titleCtrl = TextEditingController();
+  final TextEditingController descriptionCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    safeInitialize(() {
+      titleCtrl.text = tale.title;
+      descriptionCtrl.text = tale.description;
+      titleCtrl.addListener(() {
+        context.dispatch(UpdateSelectedTaleAction(widget.tale.copyWith(title: titleCtrl.text)));
+      });
+      descriptionCtrl.addListener(() {
+        context.dispatch(UpdateSelectedTaleAction(widget.tale.copyWith(description: descriptionCtrl.text)));
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,30 +43,29 @@ class TaleDetailsForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Tale Details", style: context.textTheme.headlineSmall),
-        if (tale.id.isNotEmpty) ...[
+        if (widget.tale.id.isNotEmpty) ...[
           space(8),
-          Text("ID: ${tale.id}", style: context.textTheme.titleMedium),
+          Text("ID: ${widget.tale.id}", style: context.textTheme.titleMedium),
           //todo: uncomment when date is added to tale
           // Text("Created Date: ${tale.date}", style: context.textTheme.titleMedium),
         ],
         space(16),
         TextFieldComponent(
           label: "Title",
-          initialValue: tale.title,
-          onChanged: (value) {
-            context.dispatch(UpdateSelectedTaleAction(tale.copyWith(title: value)));
-          },
+          controller: titleCtrl,
         ),
         space(),
         TextFieldComponent(
           label: "Description",
-          initialValue: tale.description,
-          onChanged: (value) {
-            context.dispatch(UpdateSelectedTaleAction(tale.copyWith(description: value)));
-          },
+          controller: descriptionCtrl,
         ),
         space(),
-        _OrientationDropdown(tale: tale),
+        _OrientationDropdown(tale: widget.tale),
+        space(),
+        ImageSelectorComponent(
+          title: "Cover Image",
+          imagePath: widget.tale.coverImage,
+        ),
       ],
     );
   }

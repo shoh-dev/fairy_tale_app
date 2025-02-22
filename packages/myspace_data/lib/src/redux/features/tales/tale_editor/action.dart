@@ -17,3 +17,17 @@ class SelectTaleEditorTalePageAction extends DefaultAction {
     );
   }
 }
+
+class UpdateSelectedTalePageAction extends DefaultAction {
+  final TalePage page;
+
+  UpdateSelectedTalePageAction(this.page);
+
+  @override
+  AppState? reduce() {
+    if (page == taleEditorState.selectedPage) {
+      return null;
+    }
+    return state.copyWith(taleEditorState: taleEditorState.copyWith(selectedPage: page));
+  }
+}

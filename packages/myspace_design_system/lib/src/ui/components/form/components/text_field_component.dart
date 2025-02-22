@@ -85,7 +85,7 @@ class __FieldState extends State<_Field> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (widget.controller == null) _controller.dispose();
     log('_Field dispose');
     super.dispose();
   }

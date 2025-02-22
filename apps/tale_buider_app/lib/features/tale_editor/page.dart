@@ -4,6 +4,8 @@ import 'package:tale_buider_app/features/tale_editor/components/sidebar.dart';
 import 'package:tale_buider_app/features/tale_editor/components/tale_details_form.dart';
 import 'package:tale_buider_app/layout/default_layout.dart';
 
+import 'components/tale_page_details_form.dart';
+
 class TaleEditorPage extends StatelessWidget {
   const TaleEditorPage({
     super.key,
@@ -24,7 +26,10 @@ class TaleEditorPage extends StatelessWidget {
         }
       },
       onDispose: (store) {
-        store.dispatch(GetTaleAction('', reset: true));
+        store.dispatchAll([
+          GetTaleAction('', reset: true),
+          SelectTaleEditorTalePageAction(null),
+        ]);
       },
       builder: (context, result) {
         return result.fold(
@@ -70,7 +75,7 @@ class _Layout extends StatelessWidget {
                 final bool isSelected = selectedPage.id.isNotEmpty;
                 if (isSelected) {
                   //show page editor details
-                  return const Text("Tale Page Details");
+                  return TalePageDetailsForm(page: selectedPage);
                 }
                 //show tale editor details
                 return TaleDetailsForm(tale: tale);
