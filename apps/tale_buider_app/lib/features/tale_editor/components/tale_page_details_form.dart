@@ -5,6 +5,7 @@ import 'package:myspace_design_system/utils/helpers/context.dart';
 import 'package:myspace_design_system/utils/helpers/theme.dart';
 
 import 'image_selector.dart';
+import 'tale_preview_dialog.dart';
 
 class TalePageDetailsForm extends StatefulWidget {
   const TalePageDetailsForm({super.key, required this.page});
@@ -34,8 +35,10 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm> with StateHel
   @override
   void didUpdateWidget(covariant TalePageDetailsForm oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.page != page) {
-      pageTitleCtrl.text = page.text;
+    if (mounted) {
+      if (oldWidget.page != page) {
+        pageTitleCtrl.text = page.text;
+      }
     }
   }
 
@@ -60,6 +63,18 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm> with StateHel
           space(4),
           Text("ID: ${page.id}", style: context.textTheme.titleMedium),
         ],
+        space(16),
+        ButtonComponent.outlined(
+          text: "Preview Page",
+          icon: Icons.remove_red_eye,
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return TalePreviewDialog(pageNumber: page.pageNumber);
+                });
+          },
+        ),
         space(16),
         TextFieldComponent(
           label: "Page Title",
