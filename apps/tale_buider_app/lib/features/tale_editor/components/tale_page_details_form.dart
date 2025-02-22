@@ -41,7 +41,9 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm> with StateHel
 
   @override
   void dispose() {
-    pageTitleCtrl.dispose();
+    safeDispose(() {
+      pageTitleCtrl.dispose();
+    });
     super.dispose();
   }
 

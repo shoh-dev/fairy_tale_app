@@ -6,11 +6,13 @@ class DefaultLayout extends StatelessWidget {
     super.key,
     required this.body,
     this.leftSidebar,
+    this.rigthSidebar,
     this.title,
   });
 
   final Widget body;
   final Widget? leftSidebar;
+  final Widget? rigthSidebar;
   final Widget? title;
 
   @override
@@ -30,6 +32,7 @@ class DefaultLayout extends StatelessWidget {
               child: body,
             ),
           ),
+          if (rigthSidebar != null) rigthSidebar!,
         ],
       ),
     );

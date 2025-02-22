@@ -37,6 +37,15 @@ class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
   }
 
   @override
+  void dispose() {
+    safeDispose(() {
+      titleCtrl.dispose();
+      descriptionCtrl.dispose();
+    });
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
