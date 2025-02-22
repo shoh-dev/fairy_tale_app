@@ -3,7 +3,6 @@ import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/utils/helpers/theme.dart';
 import 'package:tale_buider_app/features/tale_editor/components/right_sidebar.dart';
 import 'package:tale_buider_app/features/tale_editor/components/sidebar.dart';
-import 'package:tale_buider_app/features/tale_editor/components/tale_details_form.dart';
 import 'package:tale_buider_app/layout/default_layout.dart';
 
 import 'components/tale_page_details_form.dart';

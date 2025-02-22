@@ -3,6 +3,7 @@ import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_design_system/utils/helpers/context.dart';
 import 'package:myspace_design_system/utils/helpers/theme.dart';
+import 'package:tale_buider_app/features/tale_page_interactions_editor/page.dart';
 
 import 'image_selector.dart';
 import 'tale_preview_dialog.dart';
@@ -64,12 +65,10 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm> with StateHel
           Text("Page Number: ${page.pageNumber}", style: context.textTheme.titleMedium),
         ],
         space(16),
-        ButtonComponent.destructive(
+        const ButtonComponent.destructive(
           text: 'Delete Page',
           icon: Icons.delete_rounded,
-          onPressed: () {
-            //todo:
-          },
+          //todo: onPressed
         ),
         space(16),
         ButtonComponent.outlined(
@@ -88,7 +87,9 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm> with StateHel
           text: "Interactions Editor",
           icon: Icons.edit_rounded,
           onPressed: () {
-            //todo: interactions editor
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const TalePageInteractionsEditor()),
+            );
           },
         ),
         space(16),

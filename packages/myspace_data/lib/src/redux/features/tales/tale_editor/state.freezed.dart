@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TaleEditorState {
   TalePage get selectedPage => throw _privateConstructorUsedError;
+  List<TaleInteraction> get selectedInteractions =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of TaleEditorState
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +33,8 @@ abstract class $TaleEditorStateCopyWith<$Res> {
           TaleEditorState value, $Res Function(TaleEditorState) then) =
       _$TaleEditorStateCopyWithImpl<$Res, TaleEditorState>;
   @useResult
-  $Res call({TalePage selectedPage});
+  $Res call(
+      {TalePage selectedPage, List<TaleInteraction> selectedInteractions});
 
   $TalePageCopyWith<$Res> get selectedPage;
 }
@@ -52,12 +55,17 @@ class _$TaleEditorStateCopyWithImpl<$Res, $Val extends TaleEditorState>
   @override
   $Res call({
     Object? selectedPage = null,
+    Object? selectedInteractions = null,
   }) {
     return _then(_value.copyWith(
       selectedPage: null == selectedPage
           ? _value.selectedPage
           : selectedPage // ignore: cast_nullable_to_non_nullable
               as TalePage,
+      selectedInteractions: null == selectedInteractions
+          ? _value.selectedInteractions
+          : selectedInteractions // ignore: cast_nullable_to_non_nullable
+              as List<TaleInteraction>,
     ) as $Val);
   }
 
@@ -80,7 +88,8 @@ abstract class _$$TaleEditorStateImplCopyWith<$Res>
       __$$TaleEditorStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({TalePage selectedPage});
+  $Res call(
+      {TalePage selectedPage, List<TaleInteraction> selectedInteractions});
 
   @override
   $TalePageCopyWith<$Res> get selectedPage;
@@ -100,12 +109,17 @@ class __$$TaleEditorStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selectedPage = null,
+    Object? selectedInteractions = null,
   }) {
     return _then(_$TaleEditorStateImpl(
       selectedPage: null == selectedPage
           ? _value.selectedPage
           : selectedPage // ignore: cast_nullable_to_non_nullable
               as TalePage,
+      selectedInteractions: null == selectedInteractions
+          ? _value._selectedInteractions
+          : selectedInteractions // ignore: cast_nullable_to_non_nullable
+              as List<TaleInteraction>,
     ));
   }
 }
@@ -113,14 +127,26 @@ class __$$TaleEditorStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TaleEditorStateImpl extends _TaleEditorState {
-  const _$TaleEditorStateImpl({required this.selectedPage}) : super._();
+  const _$TaleEditorStateImpl(
+      {required this.selectedPage,
+      required final List<TaleInteraction> selectedInteractions})
+      : _selectedInteractions = selectedInteractions,
+        super._();
 
   @override
   final TalePage selectedPage;
+  final List<TaleInteraction> _selectedInteractions;
+  @override
+  List<TaleInteraction> get selectedInteractions {
+    if (_selectedInteractions is EqualUnmodifiableListView)
+      return _selectedInteractions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectedInteractions);
+  }
 
   @override
   String toString() {
-    return 'TaleEditorState(selectedPage: $selectedPage)';
+    return 'TaleEditorState(selectedPage: $selectedPage, selectedInteractions: $selectedInteractions)';
   }
 
   @override
@@ -129,11 +155,14 @@ class _$TaleEditorStateImpl extends _TaleEditorState {
         (other.runtimeType == runtimeType &&
             other is _$TaleEditorStateImpl &&
             (identical(other.selectedPage, selectedPage) ||
-                other.selectedPage == selectedPage));
+                other.selectedPage == selectedPage) &&
+            const DeepCollectionEquality()
+                .equals(other._selectedInteractions, _selectedInteractions));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, selectedPage);
+  int get hashCode => Object.hash(runtimeType, selectedPage,
+      const DeepCollectionEquality().hash(_selectedInteractions));
 
   /// Create a copy of TaleEditorState
   /// with the given fields replaced by the non-null parameter values.
@@ -146,12 +175,16 @@ class _$TaleEditorStateImpl extends _TaleEditorState {
 }
 
 abstract class _TaleEditorState extends TaleEditorState {
-  const factory _TaleEditorState({required final TalePage selectedPage}) =
+  const factory _TaleEditorState(
+          {required final TalePage selectedPage,
+          required final List<TaleInteraction> selectedInteractions}) =
       _$TaleEditorStateImpl;
   const _TaleEditorState._() : super._();
 
   @override
   TalePage get selectedPage;
+  @override
+  List<TaleInteraction> get selectedInteractions;
 
   /// Create a copy of TaleEditorState
   /// with the given fields replaced by the non-null parameter values.

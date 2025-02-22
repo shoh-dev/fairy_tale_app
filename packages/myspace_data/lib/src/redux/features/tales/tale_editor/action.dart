@@ -31,3 +31,19 @@ class UpdateSelectedTalePageAction extends DefaultAction {
     return state.copyWith(taleEditorState: taleEditorState.copyWith(selectedPage: page));
   }
 }
+
+class SelectTaleEditorTalePageInteractionAction extends DefaultAction {
+  final List<TaleInteraction> interaction;
+
+  /// if [interaction] is null, it will unselect the page
+  SelectTaleEditorTalePageInteractionAction(this.interaction);
+
+  @override
+  AppState reduce() {
+    return state.copyWith(
+      taleEditorState: state.taleEditorState.copyWith(
+        selectedInteractions: List.of(interaction),
+      ),
+    );
+  }
+}
