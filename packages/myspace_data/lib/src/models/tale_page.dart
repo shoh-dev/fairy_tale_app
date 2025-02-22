@@ -21,6 +21,15 @@ class TalePage with _$TalePage {
     @Default([]) List<TaleInteraction> taleInteractions,
   }) = _TalePage;
 
+  static const empty = TalePage(
+    id: '',
+    taleId: '',
+    pageNumber: 0,
+    text: '',
+    backgroundImage: '',
+    taleInteractions: [],
+  );
+
   factory TalePage.fromJson(Map<String, dynamic> json) => _$TalePageFromJson(json);
 
   //updateInteractionMethod

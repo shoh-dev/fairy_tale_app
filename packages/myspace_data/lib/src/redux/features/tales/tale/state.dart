@@ -18,14 +18,3 @@ class TaleState with _$TaleState {
     );
   }
 }
-
-extension TaleLocalizationHelper on BuildContext {
-  String taleTr(String? key) {
-    final state = getState<AppState>();
-    final status = state.applicationState.localizationState.status;
-    if (!status.isOk) {
-      return key ?? 'translation not found';
-    }
-    return state.applicationState.localizationState.translations[key] ?? key ?? 'translation not found';
-  }
-}
