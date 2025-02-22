@@ -16,7 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TalesState {
-  Result<List<Tale>> get tales => throw _privateConstructorUsedError;
+  Result<void> get status => throw _privateConstructorUsedError;
+  List<Tale> get tales => throw _privateConstructorUsedError;
 
   /// Create a copy of TalesState
   /// with the given fields replaced by the non-null parameter values.
@@ -31,9 +32,9 @@ abstract class $TalesStateCopyWith<$Res> {
           TalesState value, $Res Function(TalesState) then) =
       _$TalesStateCopyWithImpl<$Res, TalesState>;
   @useResult
-  $Res call({Result<List<Tale>> tales});
+  $Res call({Result<void> status, List<Tale> tales});
 
-  $ResultCopyWith<List<Tale>, $Res> get tales;
+  $ResultCopyWith<void, $Res> get status;
 }
 
 /// @nodoc
@@ -51,13 +52,18 @@ class _$TalesStateCopyWithImpl<$Res, $Val extends TalesState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? status = null,
     Object? tales = null,
   }) {
     return _then(_value.copyWith(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as Result<void>,
       tales: null == tales
           ? _value.tales
           : tales // ignore: cast_nullable_to_non_nullable
-              as Result<List<Tale>>,
+              as List<Tale>,
     ) as $Val);
   }
 
@@ -65,9 +71,9 @@ class _$TalesStateCopyWithImpl<$Res, $Val extends TalesState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ResultCopyWith<List<Tale>, $Res> get tales {
-    return $ResultCopyWith<List<Tale>, $Res>(_value.tales, (value) {
-      return _then(_value.copyWith(tales: value) as $Val);
+  $ResultCopyWith<void, $Res> get status {
+    return $ResultCopyWith<void, $Res>(_value.status, (value) {
+      return _then(_value.copyWith(status: value) as $Val);
     });
   }
 }
@@ -80,10 +86,10 @@ abstract class _$$TalesStateImplCopyWith<$Res>
       __$$TalesStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Result<List<Tale>> tales});
+  $Res call({Result<void> status, List<Tale> tales});
 
   @override
-  $ResultCopyWith<List<Tale>, $Res> get tales;
+  $ResultCopyWith<void, $Res> get status;
 }
 
 /// @nodoc
@@ -99,28 +105,43 @@ class __$$TalesStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? status = null,
     Object? tales = null,
   }) {
     return _then(_$TalesStateImpl(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as Result<void>,
       tales: null == tales
-          ? _value.tales
+          ? _value._tales
           : tales // ignore: cast_nullable_to_non_nullable
-              as Result<List<Tale>>,
+              as List<Tale>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$TalesStateImpl implements _TalesState {
-  const _$TalesStateImpl({required this.tales});
+class _$TalesStateImpl extends _TalesState {
+  const _$TalesStateImpl(
+      {required this.status, required final List<Tale> tales})
+      : _tales = tales,
+        super._();
 
   @override
-  final Result<List<Tale>> tales;
+  final Result<void> status;
+  final List<Tale> _tales;
+  @override
+  List<Tale> get tales {
+    if (_tales is EqualUnmodifiableListView) return _tales;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tales);
+  }
 
   @override
   String toString() {
-    return 'TalesState(tales: $tales)';
+    return 'TalesState(status: $status, tales: $tales)';
   }
 
   @override
@@ -128,11 +149,13 @@ class _$TalesStateImpl implements _TalesState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TalesStateImpl &&
-            (identical(other.tales, tales) || other.tales == tales));
+            (identical(other.status, status) || other.status == status) &&
+            const DeepCollectionEquality().equals(other._tales, _tales));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, tales);
+  int get hashCode => Object.hash(
+      runtimeType, status, const DeepCollectionEquality().hash(_tales));
 
   /// Create a copy of TalesState
   /// with the given fields replaced by the non-null parameter values.
@@ -143,12 +166,16 @@ class _$TalesStateImpl implements _TalesState {
       __$$TalesStateImplCopyWithImpl<_$TalesStateImpl>(this, _$identity);
 }
 
-abstract class _TalesState implements TalesState {
-  const factory _TalesState({required final Result<List<Tale>> tales}) =
-      _$TalesStateImpl;
+abstract class _TalesState extends TalesState {
+  const factory _TalesState(
+      {required final Result<void> status,
+      required final List<Tale> tales}) = _$TalesStateImpl;
+  const _TalesState._() : super._();
 
   @override
-  Result<List<Tale>> get tales;
+  Result<void> get status;
+  @override
+  List<Tale> get tales;
 
   /// Create a copy of TalesState
   /// with the given fields replaced by the non-null parameter values.

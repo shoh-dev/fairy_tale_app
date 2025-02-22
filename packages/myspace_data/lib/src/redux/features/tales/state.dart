@@ -5,13 +5,16 @@ part 'state.freezed.dart';
 
 @freezed
 class TalesState with _$TalesState {
+  const TalesState._();
   const factory TalesState({
-    required Result<List<Tale>> tales,
+    required Result<void> status,
+    required List<Tale> tales,
   }) = _TalesState;
 
   factory TalesState.initial() {
     return const TalesState(
-      tales: Result.ok([]),
+      status: Result.loading(),
+      tales: [],
     );
   }
 }

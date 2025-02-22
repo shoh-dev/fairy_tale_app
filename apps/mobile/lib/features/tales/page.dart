@@ -22,45 +22,63 @@ class _Tales extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, Result<List<Tale>>>(
-      converter: (store) => store.state.talesState.tales,
+    return StatusStatusWrapper(
+      converter: (store) => store.state.talesState.status,
       onInitialBuild: (context, store, viewModel) {
-        store.dispatch(LoadAllTalesAction());
+        store.dispatch(GetAllTalesAction());
       },
       builder: (context, vm) {
         return vm.fold(
-          (tales) {
-            return ListView.builder(
-              itemCount: tales.length,
-              itemBuilder: (context, index) {
-                final tale = tales[index];
-                return ListTile(
-                  leading: Image.network(
-                    tale.coverImage,
-                    errorBuilder: (context, error, stackTrace) => const SizedBox(),
-                  ),
-                  title: TextComponent.any(context.taleTr(tale.title)),
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => TalePagesPage(taleId: tale.id),
-                      ),
-                    );
-                  },
-                  subtitle: TextComponent.any(
-                    context.taleTr(tale.description),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                );
-              },
-            );
+          (_) {
+            return const _Loaded();
           },
           (e) => Center(
             child: Text(e.toString()),
           ),
+          () {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         );
       },
     );
+  }
+}
+
+class _Loaded extends StatelessWidget {
+  const _Loaded();
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, List<Tale>>(
+        converter: (store) => store.state.talesState.tales,
+        builder: (context, tales) {
+          return ListView.builder(
+            itemCount: tales.length,
+            itemBuilder: (context, index) {
+              final tale = tales[index];
+              return ListTile(
+                leading: Image.network(
+                  tale.coverImage,
+                  errorBuilder: (context, error, stackTrace) => const SizedBox(),
+                ),
+                title: TextComponent.any(context.taleTr(tale.title)),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => TalePagesPage(taleId: tale.id),
+                    ),
+                  );
+                },
+                subtitle: TextComponent.any(
+                  context.taleTr(tale.description),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              );
+            },
+          );
+        });
   }
 }

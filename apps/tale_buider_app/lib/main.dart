@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
@@ -21,6 +20,8 @@ void main() async {
       });
     },
   );
+
+  appStore.registerSingleton(TaleServiceImpl(appStore.getDependency()));
 
   runApp(AppStoreProvider(
     appStore: appStore.createStore(),
