@@ -5,14 +5,14 @@ import 'package:myspace_data/myspace_data.dart';
 class StatusStatusWrapper extends StatelessWidget {
   const StatusStatusWrapper({
     super.key,
-    required this.builder,
     required this.converter,
+    required this.builder,
     this.onDispose,
     this.onInitialBuild,
   });
 
-  final Widget Function(BuildContext context, Result<void> result) builder;
   final StoreConverter<AppState, Result<void>> converter;
+  final Widget Function(BuildContext context, Result<void> result) builder;
   final OnDisposeCallback<AppState>? onDispose;
   final OnInitialBuildCallback<AppState, Result<void>>? onInitialBuild;
 

@@ -13,3 +13,5 @@ export 'src/ui/components/popup_menu_button/popup_menu_button_component.dart';
 export 'src/ui/theme/app_theme.dart';
 
 export 'src/ui/overlay/wrapper.dart';
+
+export 'utils/sizes.dart';

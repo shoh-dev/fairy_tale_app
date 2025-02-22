@@ -22,11 +22,14 @@ class _TaleAction extends DefaultAction {
   }
 }
 
-class LoadTaleAction extends DefaultAction {
+class GetTaleAction extends DefaultAction {
   final String taleId;
   final bool reset;
 
-  LoadTaleAction(this.taleId, {this.reset = false});
+  GetTaleAction(
+    this.taleId, {
+    this.reset = false,
+  });
 
   @override
   Future<AppState?> reduce() async {
@@ -36,6 +39,8 @@ class LoadTaleAction extends DefaultAction {
     }
 
     final tale = await taleService.getTaleById(taleId);
+
+    await Future.delayed(const Duration(seconds: 1));
 
     await tale.fold(
       (tale) async {
@@ -115,6 +120,17 @@ class TaleInteractionHandlerAction extends DefaultAction {
     final newTale = tale.updatePage(newPage);
 
     return state.copyWith(taleState: taleState.copyWith(selectedTale: newTale));
+  }
+}
+
+class SelectEmptyTaleAction extends DefaultAction {
+  @override
+  AppState? reduce() {
+    dispatch(_TaleAction(
+      tale: Tale.empty,
+      taleStatus: Result.ok(null),
+    ));
+    return null;
   }
 }
 

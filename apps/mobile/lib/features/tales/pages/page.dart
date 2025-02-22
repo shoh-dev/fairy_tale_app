@@ -110,10 +110,10 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
     return StatusStatusWrapper(
         converter: (store) => store.state.taleState.status,
         onInitialBuild: (context, store, viewModel) async {
-          store.dispatch(LoadTaleAction(widget.taleId));
+          store.dispatch(GetTaleAction(widget.taleId));
         },
         onDispose: (store) {
-          store.dispatch(LoadTaleAction(widget.taleId, reset: true));
+          store.dispatch(GetTaleAction(widget.taleId, reset: true));
         },
         builder: (context, vm) {
           return Scaffold(
