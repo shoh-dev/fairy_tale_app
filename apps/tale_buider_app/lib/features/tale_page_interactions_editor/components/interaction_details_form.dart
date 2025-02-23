@@ -16,7 +16,7 @@ class InteractionDetailsForm extends StatelessWidget {
       spacing: 16,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Page Details", style: context.textTheme.headlineSmall),
+        Text("Interaction Details", style: context.textTheme.headlineSmall),
         for (final interaction in interactions)
           ExpansionTile(
             collapsedBackgroundColor: context.colorScheme.surface,
@@ -138,6 +138,14 @@ class __FormState extends State<_Form> with StateHelpers {
           controller: _widthCtrl,
           suffixWidgets: [
             ButtonComponent.icon(
+              icon: Icons.aspect_ratio_rounded,
+              onPressed:
+                  //function to make with and height equal to width
+                  isValid(_widthCtrl)
+                      ? () => dispatch(interaction.updateSize(TaleInteractionSize(num.parse(_widthCtrl.text), num.parse(_widthCtrl.text))))
+                      : null,
+            ),
+            ButtonComponent.icon(
               icon: Icons.save,
               onPressed:
                   isValid(_widthCtrl) ? () => dispatch(interaction.updateSize(TaleInteractionSize(num.parse(_widthCtrl.text), interaction.size.h))) : null,
@@ -149,6 +157,14 @@ class __FormState extends State<_Form> with StateHelpers {
           maxLines: 1,
           controller: _heightCtrl,
           suffixWidgets: [
+            ButtonComponent.icon(
+              icon: Icons.aspect_ratio_rounded,
+              onPressed:
+                  //function to make with and height equal to height
+                  isValid(_heightCtrl)
+                      ? () => dispatch(interaction.updateSize(TaleInteractionSize(num.parse(_heightCtrl.text), num.parse(_heightCtrl.text))))
+                      : null,
+            ),
             ButtonComponent.icon(
               icon: Icons.save,
               onPressed:

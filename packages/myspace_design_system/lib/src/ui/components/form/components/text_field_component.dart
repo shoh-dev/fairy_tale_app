@@ -136,7 +136,8 @@ class __FieldState extends State<_Field> {
               hintText: widget.hintText,
               suffixIcon: canShowResetButton
                   ? Transform.scale(
-                      scale: .6,
+                      scale: .8,
+                      alignment: Alignment.centerRight,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         spacing: 8,
@@ -147,16 +148,21 @@ class __FieldState extends State<_Field> {
                             icon: Icons.clear_rounded,
                             onPressed: () => reset(field.context),
                           ),
+                          const SizedBox(width: 1),
                         ],
                       ),
                     )
                   : widget.suffixWidgets.isNotEmpty
                       ? Transform.scale(
-                          scale: .6,
+                          scale: .8,
+                          alignment: Alignment.centerRight,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             spacing: 8,
-                            children: widget.suffixWidgets,
+                            children: [
+                              for (var icon in widget.suffixWidgets) icon,
+                              const SizedBox(width: 1),
+                            ],
                           ),
                         )
                       : null,

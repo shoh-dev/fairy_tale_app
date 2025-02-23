@@ -7,6 +7,7 @@ import 'package:tale_buider_app/features/tale_page_interactions_editor/component
 import 'package:tale_buider_app/layout/default_layout.dart';
 
 import 'components/interaction_object.dart';
+import 'components/left_sidebar.dart';
 
 class TalePageInteractionsEditor extends StatelessWidget {
   const TalePageInteractionsEditor({
@@ -17,7 +18,7 @@ class TalePageInteractionsEditor extends StatelessWidget {
   Widget build(BuildContext context) {
     return const DefaultLayout(
       title: Text("Update Tale Interactions"),
-      // leftSidebar: const InteractionLeftSidebarComponent(),
+      leftSidebar: InteractionLeftSidebarComponent(),
       rigthSidebar: InteractionRightSidebarComponent(),
       body: _Body(),
     );
