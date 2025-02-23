@@ -43,6 +43,18 @@ extension TaleInteractionEventSubTypeExt on TaleInteractionEventSubType {
         return 'play_sound';
     }
   }
+
+  bool get isSwipe {
+    switch (this) {
+      case TaleInteractionEventSubType.swipeRight:
+      case TaleInteractionEventSubType.swipeLeft:
+      case TaleInteractionEventSubType.swipeUp:
+      case TaleInteractionEventSubType.swipeDown:
+        return true;
+      default:
+        return false;
+    }
+  }
 }
 
 @freezed
@@ -64,6 +76,21 @@ class TaleInteraction with _$TaleInteraction {
     @JsonKey(name: 'final_pos') TaleInteractionPosition? finalPosition,
     @JsonKey(includeFromJson: false) @Default(TaleInteractionPosition.zero) TaleInteractionPosition currentPosition,
   }) = _TaleInteraction;
+
+  static const TaleInteraction empty = TaleInteraction(
+    id: '',
+    talePageId: '',
+    eventType: '',
+    eventSubtype: '',
+    objectImageUrl: '',
+    hintKey: '',
+    animationDuration: 0,
+    isUsed: false,
+    size: TaleInteractionSize.zero,
+    initialPosition: TaleInteractionPosition.zero,
+    finalPosition: TaleInteractionPosition.zero,
+    currentPosition: TaleInteractionPosition.zero,
+  );
 
   factory TaleInteraction.fromJson(Map<String, dynamic> json) => _$TaleInteractionFromJson(json);
 

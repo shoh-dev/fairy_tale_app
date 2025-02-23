@@ -17,16 +17,17 @@ class InteractionDetailsForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Interaction Details", style: context.textTheme.headlineSmall),
-        for (final interaction in interactions)
-          ExpansionTile(
-            collapsedBackgroundColor: context.colorScheme.surface,
-            title: Text(interaction.id),
-            initiallyExpanded: true,
-            childrenPadding: EdgeInsets.symmetric(vertical: Sizes.web.kLayoutPadding),
-            children: [
-              _Form(interaction: interaction),
-            ],
-          ),
+        for (final interaction in interactions) _Form(interaction: interaction),
+        //todo: can open when user can select multiple interactions at once
+        // ExpansionTile(
+        // collapsedBackgroundColor: context.colorScheme.surface,
+        // title: Text(interaction.id),
+        // initiallyExpanded: true,
+        // childrenPadding: EdgeInsets.symmetric(vertical: Sizes.web.kLayoutPadding),
+        // children: [
+        // _Form(interaction: interaction),
+        // ],
+        // ),
       ],
     );
   }
@@ -130,6 +131,8 @@ class __FormState extends State<_Form> with StateHelpers {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 16,
       children: [
+        Text("ID: ${interaction.id}", style: context.textTheme.titleMedium),
+        const Divider(height: 0),
         _TypeDropdown(interaction: interaction),
         _SubTypeDropdown(interaction: interaction),
         TextFieldComponent(
@@ -202,6 +205,7 @@ class __FormState extends State<_Form> with StateHelpers {
           label: 'Final Position X',
           maxLines: 1,
           controller: _finaldxCtrl,
+          enabled: interaction.eventSubtype.isEmpty ? false : interaction.eventSubTypeEnum.isSwipe,
           suffixWidgets: [
             ButtonComponent.icon(
               icon: Icons.save,
@@ -215,6 +219,7 @@ class __FormState extends State<_Form> with StateHelpers {
           label: 'Final Position Y',
           maxLines: 1,
           controller: _finaldyCtrl,
+          enabled: interaction.eventSubtype.isEmpty ? false : interaction.eventSubTypeEnum.isSwipe,
           suffixWidgets: [
             ButtonComponent.icon(
               icon: Icons.save,
@@ -256,7 +261,7 @@ class _TypeDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownComponent<TaleInteractionEventType>(
       label: 'Event Type',
-      initialValue: DropdownItem(value: interaction.eventTypeEnum, label: interaction.eventTypeEnum.name),
+      initialValue: interaction.eventType.isEmpty ? null : DropdownItem(value: interaction.eventTypeEnum, label: interaction.eventTypeEnum.name),
       items: [
         for (final type in TaleInteractionEventType.values) DropdownItem(value: type, label: type.name),
       ],
@@ -279,7 +284,7 @@ class _SubTypeDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownComponent<TaleInteractionEventSubType>(
       label: 'Event Type',
-      initialValue: DropdownItem(value: interaction.eventSubTypeEnum, label: interaction.eventSubTypeEnum.name),
+      initialValue: interaction.eventSubtype.isEmpty ? null : DropdownItem(value: interaction.eventSubTypeEnum, label: interaction.eventSubTypeEnum.name),
       items: [
         for (final type in TaleInteractionEventSubType.values) DropdownItem(value: type, label: type.name),
       ],

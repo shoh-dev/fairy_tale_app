@@ -134,3 +134,34 @@ class AddEmptyTalePageAction extends DefaultAction {
     );
   }
 }
+
+class AddEmptyTalePageInteractionAction extends DefaultAction {
+  @override
+  AppState? reduce() {
+    final selectedPage = state.taleEditorState.selectedPage.copyWith(
+      taleInteractions: List.from(state.taleEditorState.selectedPage.taleInteractions)
+        ..add(TaleInteraction.empty.copyWith(id: "${state.taleEditorState.selectedPage.taleInteractions.length + 1}")),
+    );
+
+    final selectedTale = state.taleState.selectedTale;
+
+    final index = selectedTale.talePages.indexWhere((e) => e.id == selectedPage.id);
+
+    if (index == -1) {
+      return null;
+    }
+
+    final updatedTale = selectedTale.copyWith(
+      talePages: List.from(selectedTale.talePages)..[index] = selectedPage,
+    );
+
+    return state.copyWith(
+      taleState: state.taleState.copyWith(
+        selectedTale: updatedTale,
+      ),
+      taleEditorState: state.taleEditorState.copyWith(
+        selectedPage: selectedPage,
+      ),
+    );
+  }
+}

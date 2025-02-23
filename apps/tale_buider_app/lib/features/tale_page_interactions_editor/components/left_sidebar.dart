@@ -27,7 +27,7 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
                 text: "Add interaction",
                 icon: Icons.add_rounded,
                 onPressed: () {
-                  // context.dispatch(AddEmptyTalePageAction());
+                  context.dispatch(AddEmptyTalePageInteractionAction());
                 },
               ),
             ),
@@ -53,6 +53,7 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
                               }, //todo:
                               borderRadius: BorderRadius.circular(8),
                               child: Container(
+                                width: double.infinity,
                                 padding: EdgeInsets.all(Sizes.web.kLayoutPadding),
                                 decoration: BoxDecoration(
                                   color: isSelected ? context.colorScheme.primary.withAlpha(100) : null,
