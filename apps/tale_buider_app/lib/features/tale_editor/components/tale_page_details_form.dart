@@ -61,8 +61,8 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm> with StateHel
         if (page.id.isNotEmpty) ...[
           space(8),
           Text("ID: ${page.id}", style: context.textTheme.titleMedium),
-          space(4),
-          Text("Page Number: ${page.pageNumber}", style: context.textTheme.titleMedium),
+          // space(4),
+          // Text("Page Number: ${page.pageNumber}", style: context.textTheme.titleMedium),
         ],
         space(16),
         const ButtonComponent.destructive(

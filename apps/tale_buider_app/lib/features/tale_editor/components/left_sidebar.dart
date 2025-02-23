@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_design_system/utils/helpers/theme.dart';
 import 'package:myspace_design_system/utils/sizes.dart';
 
-class TaleEditorSidebarComponent extends StatelessWidget {
-  const TaleEditorSidebarComponent({
+class TaleEditorLeftSidebarComponent extends StatelessWidget {
+  const TaleEditorLeftSidebarComponent({
     super.key,
     required this.pages,
   });
@@ -33,6 +34,16 @@ class TaleEditorSidebarComponent extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text("Pages", style: context.textTheme.titleLarge),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ButtonComponent.outlined(
+                      text: "Add page",
+                      icon: Icons.add_rounded,
+                      onPressed: () {
+                        context.dispatch(AddEmptyTalePageAction());
+                      },
+                    ),
+                  ),
                   const Divider(height: 0),
                   //pages
                   for (var page in pages)
@@ -48,7 +59,9 @@ class TaleEditorSidebarComponent extends StatelessWidget {
                         },
                         borderRadius: BorderRadius.circular(8),
                         child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
+                          duration: const Duration(milliseconds: 100),
+                          width: double.infinity,
+                          height: 340,
                           decoration: BoxDecoration(
                             color: isSelected ? context.colorScheme.primaryContainer : null,
                             border: isSelected
@@ -59,14 +72,26 @@ class TaleEditorSidebarComponent extends StatelessWidget {
                                 : null,
                           ),
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Image.network(
-                                page.backgroundImage,
-                                fit: BoxFit.cover,
-                              ),
+                              if (page.backgroundImage.isNotEmpty)
+                                Image.network(
+                                  page.backgroundImage,
+                                  fit: BoxFit.cover,
+                                )
+                              else
+                                Container(
+                                  height: 300,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey, //todo: no image placeholder
+                                    ),
+                                  ),
+                                  child: const Placeholder(),
+                                ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(context.taleTr(page.text)),
+                                child: Text(page.text.isEmpty ? "No page title" : context.taleTr(page.text)),
                               ),
                             ],
                           ),

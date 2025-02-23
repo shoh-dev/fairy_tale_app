@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:async_redux/async_redux.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_data/src/models.dart';
 import 'package:myspace_data/src/redux/action.dart';
@@ -29,7 +32,21 @@ class UpdateSelectedTalePageAction extends DefaultAction {
     if (page == taleEditorState.selectedPage) {
       return null;
     }
-    return state.copyWith(taleEditorState: taleEditorState.copyWith(selectedPage: page));
+
+    final index = state.taleState.selectedTale.talePages.indexWhere((e) => e.id == page.id);
+
+    if (index == -1) {
+      return null;
+    }
+
+    final updatedTale = state.taleState.selectedTale.copyWith(
+      talePages: List.from(state.taleState.selectedTale.talePages)..[index] = page,
+    );
+
+    return state.copyWith(
+      taleState: state.taleState.copyWith(selectedTale: updatedTale),
+      taleEditorState: taleEditorState.copyWith(selectedPage: page),
+    );
   }
 }
 
@@ -98,6 +115,21 @@ class UpdateSelectedInteractionAction extends DefaultAction {
       taleEditorState: state.taleEditorState.copyWith(
         selectedPage: updatedPage,
         selectedInteractions: List.from(selectedInteractions),
+      ),
+    );
+  }
+}
+
+class AddEmptyTalePageAction extends DefaultAction {
+  @override
+  AppState reduce() {
+    final tale = state.taleState.selectedTale.copyWith(
+      talePages: List.from(state.taleState.selectedTale.talePages)..add(TalePage.empty.copyWith(id: "${state.taleState.selectedTale.talePages.length + 1}")),
+    );
+
+    return state.copyWith(
+      taleState: state.taleState.copyWith(
+        selectedTale: tale,
       ),
     );
   }

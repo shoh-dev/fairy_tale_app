@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/utils/helpers/theme.dart';
 import 'package:tale_buider_app/features/tale_editor/components/right_sidebar.dart';
-import 'package:tale_buider_app/features/tale_editor/components/sidebar.dart';
+import 'package:tale_buider_app/features/tale_editor/components/left_sidebar.dart';
 import 'package:tale_buider_app/layout/default_layout.dart';
 
 import 'components/tale_page_details_form.dart';
@@ -67,7 +67,7 @@ class _Layout extends StatelessWidget {
         builder: (context, tale) {
           return DefaultLayout(
             title: tale.id.isEmpty ? const Text("Create Tale") : const Text("Update Tale"),
-            leftSidebar: TaleEditorSidebarComponent(pages: tale.talePages),
+            leftSidebar: TaleEditorLeftSidebarComponent(pages: tale.talePages),
             rigthSidebar: TaleEditorRightSidebarComponent(tale: tale),
             body: StoreConnector<TalePage>(
               converter: (store) => store.state.taleEditorState.selectedPage,
