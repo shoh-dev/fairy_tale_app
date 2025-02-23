@@ -36,8 +36,8 @@ class AppStore {
     log('Creating store...');
     final store = Store<AppState>(
       actionObservers: [
-        if (enableActionLog)
-          if (kDebugMode) Log.printer(formatter: Log.verySimpleFormatter),
+        // if (enableActionLog)
+        // if (kDebugMode) Log.printer(formatter: Log.verySimpleFormatter),
       ],
       initialState: AppState.initial(),
     );

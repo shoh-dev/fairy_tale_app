@@ -21,6 +21,7 @@ class InteractionDetailsForm extends StatelessWidget {
           ExpansionTile(
             collapsedBackgroundColor: context.colorScheme.surface,
             title: Text(interaction.id),
+            initiallyExpanded: true,
             childrenPadding: EdgeInsets.symmetric(vertical: Sizes.web.kLayoutPadding),
             children: [
               _Form(interaction: interaction),
@@ -87,79 +88,23 @@ class __FormState extends State<_Form> with StateHelpers {
       _finaldyCtrl.text = interaction.finalPosition?.dy.toString() ?? "";
       safeSetState(() {});
 
-      // _widthCtrl.addListener(() {
-      //   if (num.tryParse(_widthCtrl.text) == null) {
-      //     showSnackbar(context, "Please enter a valid number");
-      //     return;
-      //   }
-      //   if (_widthCtrl.text.isEmpty || num.parse(_widthCtrl.text) == interaction.size.w) {
-      //     return;
-      //   }
-      //   context.dispatch(SelectEditorTalePageInteractionAction([
-      //     interaction.updateSize(TaleInteractionSize(num.parse(_widthCtrl.text), interaction.size.h)),
-      //   ]));
-      // });
-      // _heightCtrl.addListener(() {
-      //   if (num.tryParse(_heightCtrl.text) == null) {
-      //     showSnackbar(context, "Please enter a valid number");
-      //     return;
-      //   }
-      //   if (_heightCtrl.text.isEmpty || num.parse(_heightCtrl.text) == interaction.size.h) {
-      //     return;
-      //   }
-      //   context.dispatch(SelectEditorTalePageInteractionAction([
-      //     interaction.updateSize(TaleInteractionSize(interaction.size.w, num.parse(_heightCtrl.text))),
-      //   ]));
-      // });
-      // _initialdxCtrl.addListener(() {
-      //   if (num.tryParse(_initialdxCtrl.text) == null) {
-      //     showSnackbar(context, "Please enter a valid number");
-      //     return;
-      //   }
-      //   if (_initialdxCtrl.text.isEmpty || num.parse(_initialdxCtrl.text) == interaction.initialPosition.dx) {
-      //     return;
-      //   }
-      //   context.dispatch(SelectEditorTalePageInteractionAction([
-      //     interaction.updateInitialPosition(TaleInteractionPosition(num.parse(_initialdxCtrl.text), interaction.initialPosition.dy)),
-      //   ]));
-      // });
-      // _initialdyCtrl.addListener(() {
-      //   if (num.tryParse(_initialdyCtrl.text) == null) {
-      //     showSnackbar(context, "Please enter a valid number");
-      //     return;
-      //   }
-      //   if (_initialdyCtrl.text.isEmpty || num.parse(_initialdyCtrl.text) == interaction.initialPosition.dy) {
-      //     return;
-      //   }
-      //   context.dispatch(SelectEditorTalePageInteractionAction([
-      //     interaction.updateInitialPosition(TaleInteractionPosition(interaction.initialPosition.dx, num.parse(_initialdyCtrl.text))),
-      //   ]));
-      // });
-      // _finaldxCtrl.addListener(() {
-      //   if (num.tryParse(_finaldxCtrl.text) == null) {
-      //     showSnackbar(context, "Please enter a valid number");
-      //     return;
-      //   }
-      //   if (_finaldxCtrl.text.isEmpty || num.parse(_finaldxCtrl.text) == (interaction.finalPosition?.dx ?? 0)) {
-      //     return;
-      //   }
-      //   context.dispatch(SelectEditorTalePageInteractionAction([
-      //     interaction.updateFinalPosition(TaleInteractionPosition(num.parse(_finaldxCtrl.text), interaction.finalPosition?.dy ?? 0)),
-      //   ]));
-      // });
+      _widthCtrl.addListener(() {
+        safeSetState(() {});
+      });
+      _heightCtrl.addListener(() {
+        safeSetState(() {});
+      });
+      _initialdxCtrl.addListener(() {
+        safeSetState(() {});
+      });
+      _initialdyCtrl.addListener(() {
+        safeSetState(() {});
+      });
+      _finaldxCtrl.addListener(() {
+        safeSetState(() {});
+      });
       _finaldyCtrl.addListener(() {
         safeSetState(() {});
-        return;
-        if (num.tryParse(_finaldyCtrl.text) == null) {
-          showSnackbar(context, "Please enter a valid number");
-          return;
-        }
-        if (_finaldyCtrl.text.isEmpty || num.parse(_finaldyCtrl.text) == (interaction.finalPosition?.dy ?? 0)) {
-          return;
-        }
-        context.dispatch(SelectEditorTalePageInteractionAction([
-          interaction.updateFinalPosition(TaleInteractionPosition(interaction.finalPosition?.dx ?? 0, num.parse(_finaldyCtrl.text))),
-        ]));
       });
     });
   }
@@ -191,30 +136,69 @@ class __FormState extends State<_Form> with StateHelpers {
           label: 'Width',
           maxLines: 1,
           controller: _widthCtrl,
+          suffixWidgets: [
+            ButtonComponent.icon(
+              icon: Icons.save,
+              onPressed:
+                  isValid(_widthCtrl) ? () => dispatch(interaction.updateSize(TaleInteractionSize(num.parse(_widthCtrl.text), interaction.size.h))) : null,
+            ),
+          ],
         ),
         TextFieldComponent(
           label: 'Height',
           maxLines: 1,
           controller: _heightCtrl,
+          suffixWidgets: [
+            ButtonComponent.icon(
+              icon: Icons.save,
+              onPressed:
+                  isValid(_heightCtrl) ? () => dispatch(interaction.updateSize(TaleInteractionSize(interaction.size.w, num.parse(_heightCtrl.text)))) : null,
+            ),
+          ],
         ),
         TextFieldComponent(
           label: 'Initial Position X',
           maxLines: 1,
           controller: _initialdxCtrl,
+          suffixWidgets: [
+            ButtonComponent.icon(
+              icon: Icons.save,
+              onPressed: isValid(_initialdxCtrl)
+                  ? () => dispatch(interaction.updateInitialPosition(TaleInteractionPosition(num.parse(_initialdxCtrl.text), interaction.initialPosition.dy)))
+                  : null,
+            ),
+          ],
         ),
         TextFieldComponent(
           label: 'Initial Position Y',
           maxLines: 1,
           controller: _initialdyCtrl,
+          suffixWidgets: [
+            ButtonComponent.icon(
+              icon: Icons.save,
+              onPressed: isValid(_initialdyCtrl)
+                  ? () => dispatch(interaction.updateInitialPosition(TaleInteractionPosition(interaction.initialPosition.dx, num.parse(_initialdyCtrl.text))))
+                  : null,
+            ),
+          ],
         ),
         TextFieldComponent(
           label: 'Final Position X',
           maxLines: 1,
           controller: _finaldxCtrl,
+          suffixWidgets: [
+            ButtonComponent.icon(
+              icon: Icons.save,
+              onPressed: isValid(_finaldxCtrl)
+                  ? () => dispatch(interaction.updateFinalPosition(TaleInteractionPosition(num.parse(_finaldxCtrl.text), interaction.finalPosition?.dy ?? 0)))
+                  : null,
+            ),
+          ],
         ),
         TextFieldComponent(
           label: 'Final Position Y',
           maxLines: 1,
+          controller: _finaldyCtrl,
           suffixWidgets: [
             ButtonComponent.icon(
               icon: Icons.save,
@@ -223,7 +207,6 @@ class __FormState extends State<_Form> with StateHelpers {
                   : null,
             ),
           ],
-          controller: _finaldyCtrl,
         ),
         ImageSelectorComponent(
           title: "Object Image",
@@ -238,13 +221,12 @@ class __FormState extends State<_Form> with StateHelpers {
       // showSnackbar(context, "Please enter a valid number");
       return false;
     }
-    print(controller.text);
     return true;
   }
 
   void dispatch(TaleInteraction interaction) {
     if (mounted) {
-      context.dispatch(SelectEditorTalePageInteractionAction([interaction]));
+      context.dispatch(UpdateSelectedInteractionAction(interaction));
     }
   }
 }
@@ -266,9 +248,7 @@ class _TypeDropdown extends StatelessWidget {
         if (value == null) {
           return;
         }
-        context.dispatch(SelectEditorTalePageInteractionAction([
-          interaction.updateEventType(value.value),
-        ]));
+        context.dispatch(UpdateSelectedInteractionAction(interaction.updateEventType(value.value)));
       },
     );
   }
@@ -291,9 +271,7 @@ class _SubTypeDropdown extends StatelessWidget {
         if (value == null) {
           return;
         }
-        context.dispatch(SelectEditorTalePageInteractionAction([
-          interaction.updateEventSubType(value.value),
-        ]));
+        context.dispatch(UpdateSelectedInteractionAction(interaction.updateEventSubType(value.value)));
       },
     );
   }

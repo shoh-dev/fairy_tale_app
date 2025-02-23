@@ -9,12 +9,14 @@ class StoreConnector<Model> extends StatelessWidget {
     required this.builder,
     this.onDispose,
     this.onInitialBuild,
+    this.onDidChange,
   });
 
   final ar.StoreConverter<AppState, Model>? converter;
   final ar.ViewModelBuilder<Model> builder;
   final ar.OnDisposeCallback<AppState>? onDispose;
   final ar.OnInitialBuildCallback<AppState, Model>? onInitialBuild;
+  final ar.OnDidChangeCallback<AppState, Model>? onDidChange;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class StoreConnector<Model> extends StatelessWidget {
       converter: converter,
       onDispose: onDispose,
       onInitialBuild: onInitialBuild,
+      onDidChange: onDidChange,
       builder: builder,
     );
   }

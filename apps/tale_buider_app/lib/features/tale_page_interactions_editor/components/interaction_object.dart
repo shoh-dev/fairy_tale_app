@@ -20,6 +20,17 @@ class _InteractionObjectComponentState extends State<InteractionObjectComponent>
   Widget build(BuildContext context) {
     return StoreConnector<List<TaleInteraction>>(
         converter: (store) => store.state.taleEditorState.selectedInteractions,
+        onDidChange: (context, store, viewModel) {
+          for (var interaction in viewModel) {
+            if (interaction.id == widget.interaction.id) {
+              if (_position != interaction.initialPosition.toOffset()) {
+                setState(() {
+                  _position = viewModel.first.initialPosition.toOffset();
+                });
+              }
+            }
+          }
+        },
         onInitialBuild: (context, store, viewModel) {
           setState(() {
             _position = interaction.currentPosition.toOffset();
@@ -32,7 +43,7 @@ class _InteractionObjectComponentState extends State<InteractionObjectComponent>
               builder: (context, tale) {
                 final deviceSize = Sizes.web.devicePreviewSize(tale.isPortrait);
                 return AnimatedPositioned(
-                  duration: Duration(milliseconds: interaction.animationDuration),
+                  duration: const Duration(milliseconds: 100),
                   width: interaction.size.width,
                   height: interaction.size.height,
                   left: _position.dx,
@@ -65,9 +76,9 @@ class _InteractionObjectComponentState extends State<InteractionObjectComponent>
                               }
                             },
                       onPanEnd: (_) {
-                        context.dispatch(SelectEditorTalePageInteractionAction([
-                          interaction.copyWith(currentPosition: TaleInteractionPosition(_position.dx, _position.dy)),
-                        ]));
+                        context.dispatch(UpdateSelectedInteractionAction(
+                          interaction.copyWith(initialPosition: TaleInteractionPosition(_position.dx, _position.dy)),
+                        ));
                       },
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 100),
