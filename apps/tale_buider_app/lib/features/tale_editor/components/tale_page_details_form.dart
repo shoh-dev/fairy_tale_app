@@ -78,7 +78,7 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm> with StateHel
             showDialog(
                 context: context,
                 builder: (context) {
-                  return TalePreviewDialog(pageNumber: page.pageNumber);
+                  return TalePreviewDialog(id: page.id);
                 });
           },
         ),

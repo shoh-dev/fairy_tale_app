@@ -37,14 +37,14 @@ class TaleEditorSidebarComponent extends StatelessWidget {
                   //pages
                   for (var page in pages)
                     Builder(builder: (context) {
-                      final bool isSelected = page == selectedPage;
+                      final bool isSelected = page.id == selectedPage.id;
                       return InkWell(
                         onTap: () {
                           if (isSelected) {
-                            context.dispatch(SelectTaleEditorTalePageAction(null));
+                            context.dispatch(SelectEditorTalePageAction(null));
                             return;
                           }
-                          context.dispatch(SelectTaleEditorTalePageAction(page));
+                          context.dispatch(SelectEditorTalePageAction(page));
                         },
                         borderRadius: BorderRadius.circular(8),
                         child: AnimatedContainer(

@@ -29,7 +29,7 @@ class TaleEditorPage extends StatelessWidget {
       onDispose: (store) {
         store.dispatchAll([
           GetTaleAction('', reset: true),
-          SelectTaleEditorTalePageAction(null),
+          SelectEditorTalePageAction(null),
         ]);
       },
       builder: (context, result) {

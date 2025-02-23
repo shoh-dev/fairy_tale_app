@@ -32,7 +32,7 @@ class _Body extends StatelessWidget {
     return StoreConnector<Tale>(
         converter: (store) => store.state.taleState.selectedTale,
         onDispose: (store) {
-          store.dispatch(SelectTaleEditorTalePageInteractionAction([]));
+          store.dispatch(SelectEditorTalePageInteractionAction([]));
         },
         builder: (context, tale) {
           return StoreConnector<TalePage>(
@@ -57,7 +57,7 @@ class _Body extends StatelessWidget {
 
                         Positioned.fill(child: GestureDetector(
                           onTap: () {
-                            context.dispatch(SelectTaleEditorTalePageInteractionAction([]));
+                            context.dispatch(SelectEditorTalePageInteractionAction([]));
                           },
                         )),
 

@@ -2,11 +2,11 @@ import 'package:myspace_data/src/models.dart';
 import 'package:myspace_data/src/redux/action.dart';
 import 'package:myspace_data/src/redux/state.dart';
 
-class SelectTaleEditorTalePageAction extends DefaultAction {
+class SelectEditorTalePageAction extends DefaultAction {
   final TalePage? page;
 
   /// if [page] is null, it will unselect the page
-  SelectTaleEditorTalePageAction(this.page);
+  SelectEditorTalePageAction(this.page);
 
   @override
   AppState reduce() {
@@ -32,11 +32,11 @@ class UpdateSelectedTalePageAction extends DefaultAction {
   }
 }
 
-class SelectTaleEditorTalePageInteractionAction extends DefaultAction {
+class SelectEditorTalePageInteractionAction extends DefaultAction {
   final List<TaleInteraction> interaction;
 
   /// if [interaction] is null, it will unselect the page
-  SelectTaleEditorTalePageInteractionAction(this.interaction);
+  SelectEditorTalePageInteractionAction(this.interaction);
 
   @override
   AppState reduce() {

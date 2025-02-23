@@ -4,16 +4,16 @@ import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_design_system/utils/helpers/theme.dart';
 
 class TalePreviewDialog extends StatelessWidget {
-  const TalePreviewDialog({super.key, this.pageNumber});
+  const TalePreviewDialog({super.key, required this.id});
 
-  final int? pageNumber;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<Tale>(
         converter: (store) => store.state.taleState.selectedTale,
         builder: (context, tale) {
-          final page = tale.talePages.firstWhereOrNull((element) => element.pageNumber == pageNumber);
+          final page = tale.talePages.firstWhereOrNull((element) => element.id == id);
 
           return AlertDialog(
             title: const Text("Page Preview"),
@@ -67,7 +67,7 @@ class TalePreviewDialog extends StatelessWidget {
                     )
                   : Center(
                       child: Text(
-                        "Page not found ($pageNumber)",
+                        "Page not found ($id)",
                         style: context.textTheme.titleLarge,
                       ),
                     ),

@@ -26,7 +26,7 @@ class _InteractionObjectComponentState extends State<InteractionObjectComponent>
           });
         },
         builder: (context, selectedInteractions) {
-          final bool isSelected = selectedInteractions.contains(interaction);
+          final bool isSelected = selectedInteractions.any((element) => element.id == interaction.id);
           return StoreConnector<Tale>(
               converter: (store) => store.state.taleState.selectedTale,
               builder: (context, tale) {
@@ -41,7 +41,7 @@ class _InteractionObjectComponentState extends State<InteractionObjectComponent>
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
                       onTap: () {
-                        context.dispatch(SelectTaleEditorTalePageInteractionAction([interaction]));
+                        context.dispatch(SelectEditorTalePageInteractionAction([interaction]));
                       },
                       onPanUpdate: !isSelected
                           ? null
@@ -65,7 +65,7 @@ class _InteractionObjectComponentState extends State<InteractionObjectComponent>
                               }
                             },
                       onPanEnd: (_) {
-                        context.dispatch(SelectTaleEditorTalePageInteractionAction([
+                        context.dispatch(SelectEditorTalePageInteractionAction([
                           interaction.copyWith(currentPosition: TaleInteractionPosition(_position.dx, _position.dy)),
                         ]));
                       },

@@ -17,6 +17,34 @@ enum TaleInteractionEventSubType {
   playSound,
 }
 
+extension TaleInteractionEventTypeExt on TaleInteractionEventType {
+  String get name {
+    switch (this) {
+      case TaleInteractionEventType.swipe:
+        return 'swipe';
+      case TaleInteractionEventType.tap:
+        return 'tap';
+    }
+  }
+}
+
+extension TaleInteractionEventSubTypeExt on TaleInteractionEventSubType {
+  String get name {
+    switch (this) {
+      case TaleInteractionEventSubType.swipeRight:
+        return 'swipe_right';
+      case TaleInteractionEventSubType.swipeLeft:
+        return 'swipe_left';
+      case TaleInteractionEventSubType.swipeUp:
+        return 'swipe_up';
+      case TaleInteractionEventSubType.swipeDown:
+        return 'swipe_down';
+      case TaleInteractionEventSubType.playSound:
+        return 'play_sound';
+    }
+  }
+}
+
 @freezed
 class TaleInteraction with _$TaleInteraction {
   const TaleInteraction._();
@@ -75,5 +103,25 @@ class TaleInteraction with _$TaleInteraction {
   //toggleIsUsed method
   TaleInteraction updateIsUsed(bool isUsed) {
     return copyWith(isUsed: isUsed);
+  }
+
+  TaleInteraction updateEventType(TaleInteractionEventType eventType) {
+    return copyWith(eventType: eventType.name);
+  }
+
+  TaleInteraction updateEventSubType(TaleInteractionEventSubType eventSubType) {
+    return copyWith(eventSubtype: eventSubType.name);
+  }
+
+  TaleInteraction updateSize(TaleInteractionSize size) {
+    return copyWith(size: size);
+  }
+
+  TaleInteraction updateInitialPosition(TaleInteractionPosition initialPosition) {
+    return copyWith(initialPosition: initialPosition);
+  }
+
+  TaleInteraction updateFinalPosition(TaleInteractionPosition finalPosition) {
+    return copyWith(finalPosition: finalPosition);
   }
 }

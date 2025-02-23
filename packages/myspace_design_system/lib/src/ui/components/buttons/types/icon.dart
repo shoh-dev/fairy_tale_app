@@ -23,6 +23,10 @@ class IconButtonComponent extends ButtonComponent {
       IconButton(
         onPressed: onPressed,
         icon: Icon(icon!),
+        style: IconButton.styleFrom(
+          disabledBackgroundColor: context.colorScheme.primaryContainer.withValues(alpha: 0.3),
+          disabledForegroundColor: context.colorScheme.onSurface.withValues(alpha: 0.3),
+        ),
       ),
       onPressed,
     );
@@ -46,10 +50,9 @@ class IconButtonComponentOutlined extends ButtonComponent {
         style: IconButton.styleFrom(
           backgroundColor: Colors.transparent,
           foregroundColor: context.colorScheme.onSurface,
+          disabledForegroundColor: context.colorScheme.onSurface.withValues(alpha: 0.3),
           side: BorderSide(
-            color: onPressed == null
-                ? context.colorScheme.outline.withValues(alpha: 0.3)
-                : context.colorScheme.outline,
+            color: onPressed == null ? context.colorScheme.outline.withValues(alpha: 0.3) : context.colorScheme.outline,
           ),
         ),
       ),

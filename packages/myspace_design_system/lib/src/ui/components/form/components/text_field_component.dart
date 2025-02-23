@@ -18,6 +18,7 @@ class TextFieldComponent extends FormField<String> {
     bool canClear = false,
     int? maxLines,
     TextEditingController? controller,
+    List<Widget> suffixWidgets = const [],
   }) : super(
           builder: (field) {
             return _Field(
@@ -32,6 +33,7 @@ class TextFieldComponent extends FormField<String> {
               validator: validator,
               onSaved: onSaved,
               maxLines: maxLines,
+              suffixWidgets: suffixWidgets,
             );
           },
         );
@@ -61,6 +63,7 @@ class _Field extends StatefulWidget {
     this.onSaved,
     this.maxLines,
     this.controller,
+    this.suffixWidgets = const [],
   });
 
   final FormFieldState<String> field;
@@ -74,6 +77,7 @@ class _Field extends StatefulWidget {
   final ValueChanged<String>? onSaved;
   final int? maxLines;
   final TextEditingController? controller;
+  final List<Widget> suffixWidgets;
 
   @override
   State<_Field> createState() => __FieldState();
@@ -133,12 +137,29 @@ class __FieldState extends State<_Field> {
               suffixIcon: canShowResetButton
                   ? Transform.scale(
                       scale: .6,
-                      child: ButtonComponent.iconOutlined(
-                        icon: Icons.clear_rounded,
-                        onPressed: () => reset(field.context),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        spacing: 8,
+                        children: [
+                          if (widget.suffixWidgets.isNotEmpty)
+                            for (var icon in widget.suffixWidgets) icon,
+                          ButtonComponent.iconOutlined(
+                            icon: Icons.clear_rounded,
+                            onPressed: () => reset(field.context),
+                          ),
+                        ],
                       ),
                     )
-                  : null,
+                  : widget.suffixWidgets.isNotEmpty
+                      ? Transform.scale(
+                          scale: .6,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            spacing: 8,
+                            children: widget.suffixWidgets,
+                          ),
+                        )
+                      : null,
             ),
             enabled: widget.enabled,
           ),
