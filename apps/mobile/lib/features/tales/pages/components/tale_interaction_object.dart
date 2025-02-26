@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
@@ -11,7 +11,7 @@ class TaleInteractionObjectComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void handleInteraction() {
-      context.dispatch(TaleInteractionHandlerAction(interaction));
+      // context.dispatch(TaleInteractionHandlerAction(interaction));//todo:
     }
 
     if (interaction.isUsed) {

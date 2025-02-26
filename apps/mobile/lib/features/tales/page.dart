@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/features/tales/pages/page.dart';
-import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
 class TalesPage extends StatelessWidget {
@@ -28,14 +28,14 @@ class _Tales extends StatelessWidget {
         store.dispatch(GetAllTalesAction());
       },
       builder: (context, vm) {
-        return vm.fold(
-          () {
+        return vm.when(
+          ok: () {
             return const _Loaded();
           },
-          (e) => Center(
+          error: (e) => Center(
             child: Text(e.toString()),
           ),
-          () {
+          loading: () {
             return const Center(
               child: CircularProgressIndicator(),
             );

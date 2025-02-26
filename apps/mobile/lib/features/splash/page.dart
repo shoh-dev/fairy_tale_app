@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/features/tales/page.dart';
-import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 import 'package:myspace_design_system/utils/helpers/context.dart';
 
 class SplashPage extends StatelessWidget {
@@ -15,14 +15,14 @@ class SplashPage extends StatelessWidget {
             store.dispatch(GetTranslationsAction());
           },
           builder: (context, status) {
-            return status.fold(
-              () {
+            return status.when(
+              ok: () {
                 return const Center(child: _Loaded1());
               },
-              (localizationError) {
+              error: (localizationError) {
                 return Center(child: Text(localizationError.toString()));
               },
-              () {
+              loading: () {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );

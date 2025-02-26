@@ -6,8 +6,9 @@ import 'state.dart';
 class AppStore extends ReduxStore<AppState> {
   AppStore({
     super.enableActionLog,
+    required DependencyInjection di,
   }) : super(
           initialState: AppState.initial(),
-          di: DependencyInjection(),
+          di: di,
         );
 }

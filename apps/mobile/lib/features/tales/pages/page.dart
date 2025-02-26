@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile/features/tales/pages/components/tale_page_background.dart';
 import 'package:mobile/features/tales/pages/components/tale_page_navigator.dart';
-import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_design_system/utils/helpers/context.dart';
 
@@ -27,7 +27,8 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
   final pageController = PageController();
 
   InteractionAudioPlayerServiceImpl audioService(BuildContext context) {
-    return context.getDependency<InteractionAudioPlayerServiceImpl>();
+    throw UnimplementedError(); //todo:
+    // return context.getDependency<InteractionAudioPlayerServiceImpl>();
   }
 
   @override
@@ -49,38 +50,38 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
 
   void pauseAudio(InteractionAudioPlayerServiceImpl audioService) async {
     final paused = await audioService.pause();
-    paused.fold(
-      (ok) {
-        log("audio paused");
-      },
-      (error) {
-        log(error.toString());
-      },
-    );
+    // paused.fold(
+    //   (ok) {
+    //     log("audio paused");
+    //   },
+    //   (error) {
+    //     log(error.toString());
+    //   },
+    // );
   }
 
   void stopAudio(InteractionAudioPlayerServiceImpl audioService) async {
     final stopped = await audioService.stop();
-    stopped.fold(
-      (ok) {
-        log("audio stopped");
-      },
-      (error) {
-        log(error.toString());
-      },
-    );
+    // stopped.fold(
+    //   (ok) {
+    //     log("audio stopped");
+    //   },
+    //   (error) {
+    //     log(error.toString());
+    //   },
+    // );
   }
 
   void resumeAudio(InteractionAudioPlayerServiceImpl audioService) async {
     final resumed = await audioService.play();
-    resumed.fold(
-      (ok) {
-        log("audio resumed");
-      },
-      (error) {
-        log(error.toString());
-      },
-    );
+    // resumed.fold(
+    //   (ok) {
+    //     log("audio resumed");
+    //   },
+    //   (error) {
+    //     log(error.toString());
+    //   },
+    // );
   }
 
   @override
@@ -117,8 +118,8 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
         },
         builder: (context, vm) {
           return Scaffold(
-            body: vm.fold(
-              () {
+            body: vm.when(
+              ok: () {
                 return StoreConnector<Tale>(
                     converter: (store) => store.state.taleState.selectedTale,
                     builder: (context, vm) {
@@ -128,12 +129,12 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
                       );
                     });
               },
-              (error) {
+              error: (error) {
                 return Center(
                   child: TextComponent.any(error.toString()),
                 );
               },
-              () {
+              loading: () {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
@@ -163,56 +164,56 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
     super.initState();
     safeInitialize(() async {
       if (!widget.tale.isPortrait) {
-        context.getDependency<SystemServiceImpl>().setDeviceOrientation([
-          DeviceOrientation.landscapeLeft,
-          DeviceOrientation.landscapeRight,
-        ]).then(
-          (value) {
-            if (value.isError) {
-              log((value as ErrorX).toString());
-            }
-          },
-        );
+        // context.getDependency<SystemServiceImpl>().setDeviceOrientation([
+        // DeviceOrientation.landscapeLeft,
+        // DeviceOrientation.landscapeRight,
+        // ]).then(
+        // (value) {
+        // if (value.isError) {
+        // log((value as ErrorX).toString());
+        // }
+        // },
+        // );//todo:
       }
     });
   }
 
   @override
   void dispose() {
-    safeDispose(() async {
-      context.getDependency<SystemServiceImpl>().setDeviceOrientation([
-        DeviceOrientation.portraitDown,
-        DeviceOrientation.portraitUp,
-      ]).then(
-        (value) {
-          if (value.isError) {
-            log((value as ErrorX).toString());
-          }
-        },
-      );
-    });
+    // safeDispose(() async {
+    // context.getDependency<SystemServiceImpl>().setDeviceOrientation([
+    // DeviceOrientation.portraitDown,
+    // DeviceOrientation.portraitUp,
+    // ]).then(
+    // (value) {
+    // if (value.isError) {
+    // log((value as ErrorX).toString());
+    // }
+    // },
+    // );
+    // });//todo:
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final audioService = context.getDependency<InteractionAudioPlayerServiceImpl>();
+    // final audioService = context.getDependency<InteractionAudioPlayerServiceImpl>();
     return Scaffold(
       appBar: AppBar(
         title: TextComponent.any(context.taleTr(widget.tale.title)),
         actions: [
-          StreamBuilder(
-              stream: audioService.isPlayingStream,
-              builder: (context, snapshot) {
-                if (snapshot.data == true) {
-                  return const Tooltip(
-                    triggerMode: TooltipTriggerMode.tap,
-                    message: 'Audio is playing',
-                    child: Icon(Icons.pause),
-                  );
-                }
-                return const SizedBox();
-              }),
+          // StreamBuilder(
+          //     stream: audioService.isPlayingStream,
+          //     builder: (context, snapshot) {
+          //       if (snapshot.data == true) {
+          //         return const Tooltip(
+          //           triggerMode: TooltipTriggerMode.tap,
+          //           message: 'Audio is playing',
+          //           child: Icon(Icons.pause),
+          //         );
+          //       }
+          //       return const SizedBox();
+          //     }),//todo:
           const SizedBox(width: 10),
         ],
         centerTitle: true,
