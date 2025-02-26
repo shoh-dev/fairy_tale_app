@@ -239,14 +239,19 @@ class __FormState extends State<_Form> with StateHelpers {
 
   bool isValid(TextEditingController controller) {
     if (controller.text.isEmpty || num.tryParse(controller.text) == null) {
-      // showSnackbar(context, "Please enter a valid number");
       return false;
     }
     return true;
   }
 
-  void dispatch(TaleInteraction interaction) {
+  void dispatch(TaleInteraction interaction, [TextEditingController? controller]) {
     if (mounted) {
+      if (controller != null) {
+        if (!isValid(controller)) {
+          showSnackbar(context, "Please enter a valid number");
+          return;
+        }
+      }
       context.dispatch(UpdateSelectedInteractionAction(interaction));
     }
   }

@@ -9,7 +9,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StatusStatusWrapper(
+      body: ResultStatusWrapper(
           converter: (store) => store.state.applicationState.localizationState.status,
           onInitialBuild: (context, store, viewModel) {
             store.dispatch(GetTranslationsAction());

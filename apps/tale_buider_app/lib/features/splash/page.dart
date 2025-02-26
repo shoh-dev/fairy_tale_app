@@ -10,7 +10,7 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       return Scaffold(
-        body: StatusStatusWrapper(
+        body: ResultStatusWrapper(
             converter: (store) => store.state.talesState.status,
             onInitialBuild: (context, store, viewModel) {
               store.dispatch(GetAllTalesAction());

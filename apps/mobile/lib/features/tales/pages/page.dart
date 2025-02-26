@@ -107,7 +107,7 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
 
   @override
   Widget build(BuildContext context) {
-    return StatusStatusWrapper(
+    return ResultStatusWrapper(
         converter: (store) => store.state.taleState.status,
         onInitialBuild: (context, store, viewModel) async {
           store.dispatch(GetTaleAction(widget.taleId));

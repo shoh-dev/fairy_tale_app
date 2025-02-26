@@ -22,7 +22,7 @@ class _Tales extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StatusStatusWrapper(
+    return ResultStatusWrapper(
       converter: (store) => store.state.talesState.status,
       onInitialBuild: (context, store, viewModel) {
         store.dispatch(GetAllTalesAction());

@@ -134,25 +134,9 @@ class __FieldState extends State<_Field> {
             onChanged: widget.onChanged,
             decoration: InputDecoration(
               hintText: widget.hintText,
-              suffixIcon: canShowResetButton
-                  ? Transform.scale(
-                      scale: .8,
-                      alignment: Alignment.centerRight,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        spacing: 8,
-                        children: [
-                          if (widget.suffixWidgets.isNotEmpty)
-                            for (var icon in widget.suffixWidgets) icon,
-                          ButtonComponent.iconOutlined(
-                            icon: Icons.clear_rounded,
-                            onPressed: () => reset(field.context),
-                          ),
-                          const SizedBox(width: 1),
-                        ],
-                      ),
-                    )
-                  : widget.suffixWidgets.isNotEmpty
+              suffixIcon: !widget.enabled
+                  ? null
+                  : canShowResetButton
                       ? Transform.scale(
                           scale: .8,
                           alignment: Alignment.centerRight,
@@ -160,12 +144,30 @@ class __FieldState extends State<_Field> {
                             mainAxisSize: MainAxisSize.min,
                             spacing: 8,
                             children: [
-                              for (var icon in widget.suffixWidgets) icon,
+                              if (widget.suffixWidgets.isNotEmpty)
+                                for (var icon in widget.suffixWidgets) icon,
+                              ButtonComponent.iconOutlined(
+                                icon: Icons.clear_rounded,
+                                onPressed: () => reset(field.context),
+                              ),
                               const SizedBox(width: 1),
                             ],
                           ),
                         )
-                      : null,
+                      : widget.suffixWidgets.isNotEmpty
+                          ? Transform.scale(
+                              scale: .8,
+                              alignment: Alignment.centerRight,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                spacing: 8,
+                                children: [
+                                  for (var icon in widget.suffixWidgets) icon,
+                                  const SizedBox(width: 1),
+                                ],
+                              ),
+                            )
+                          : null,
             ),
             enabled: widget.enabled,
           ),
