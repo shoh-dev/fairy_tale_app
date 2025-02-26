@@ -1,4 +1,4 @@
 name: fairy_tale_app
 packages:
-  - apps/*
-  - packages/*
+  - apps/**
+  - packages/**
