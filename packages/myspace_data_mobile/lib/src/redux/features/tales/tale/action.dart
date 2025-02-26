@@ -5,12 +5,12 @@ import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 
 class _TaleAction extends DefaultAction {
-  final StateResult? taleStatus;
+  final StateResult? selectedTaleResult;
   final Tale? tale;
 
   _TaleAction({
     this.tale,
-    this.taleStatus,
+    this.selectedTaleResult,
   });
 
   @override
@@ -19,7 +19,7 @@ class _TaleAction extends DefaultAction {
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
           selectedTale: tale ?? taleState.selectedTale,
-          status: taleStatus ?? taleState.status,
+          selectedTaleResult: selectedTaleResult ?? taleState.selectedTaleResult,
         ),
       ),
     );
@@ -39,7 +39,7 @@ class GetTaleAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     if (reset) {
-      dispatch(_TaleAction(taleStatus: StateResult.loading()));
+      dispatch(_TaleAction(selectedTaleResult: StateResult.loading()));
       return null;
     }
 
@@ -60,11 +60,11 @@ class GetTaleAction extends DefaultAction {
 
         dispatch(_TaleAction(
           tale: tale.copyWith(talePages: pages.toList()),
-          taleStatus: StateResult.ok(),
+          selectedTaleResult: StateResult.ok(),
         ));
       },
       (error) {
-        dispatch(_TaleAction(taleStatus: StateResult.error(error)));
+        dispatch(_TaleAction(selectedTaleResult: StateResult.error(error)));
       },
     );
     return null;
@@ -78,7 +78,7 @@ class TaleInteractionHandlerAction extends DefaultAction {
 
   @override
   Future<AppState?> reduce() async {
-    if (!taleState.status.isOk) {
+    if (!taleState.selectedTaleResult.isOk) {
       return null;
     }
 

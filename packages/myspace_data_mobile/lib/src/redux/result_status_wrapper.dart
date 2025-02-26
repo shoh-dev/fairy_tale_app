@@ -2,8 +2,8 @@ import 'package:myspace_data/myspace_data.dart' as data;
 
 import 'state.dart';
 
-class ResultStatusWrapper extends data.ResultStatusWrapper<AppState> {
-  const ResultStatusWrapper({
+class ResultStoreConnector extends data.ResultStoreConnector<AppState> {
+  const ResultStoreConnector({
     super.key,
     required super.converter,
     required super.builder,

@@ -10,14 +10,14 @@ part 'state.freezed.dart';
 class TaleListState with _$TaleListState {
   const TaleListState._();
   const factory TaleListState({
-    required StateResult taleListStatus,
+    required StateResult taleListResult,
     required List<Tale> taleList,
     required TaleState taleState,
   }) = _TaleListState;
 
   factory TaleListState.initial() {
     return TaleListState(
-      taleListStatus: StateResult.loading(),
+      taleListResult: StateResult.loading(),
       taleList: [],
       taleState: TaleState.initial(),
     );

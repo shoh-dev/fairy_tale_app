@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TaleState {
-  StateResult get status => throw _privateConstructorUsedError;
+  StateResult get selectedTaleResult => throw _privateConstructorUsedError;
   Tale get selectedTale => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleState
@@ -31,9 +31,9 @@ abstract class $TaleStateCopyWith<$Res> {
   factory $TaleStateCopyWith(TaleState value, $Res Function(TaleState) then) =
       _$TaleStateCopyWithImpl<$Res, TaleState>;
   @useResult
-  $Res call({StateResult status, Tale selectedTale});
+  $Res call({StateResult selectedTaleResult, Tale selectedTale});
 
-  $StateResultCopyWith<$Res> get status;
+  $StateResultCopyWith<$Res> get selectedTaleResult;
   $TaleCopyWith<$Res> get selectedTale;
 }
 
@@ -52,13 +52,13 @@ class _$TaleStateCopyWithImpl<$Res, $Val extends TaleState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
+    Object? selectedTaleResult = null,
     Object? selectedTale = null,
   }) {
     return _then(_value.copyWith(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
+      selectedTaleResult: null == selectedTaleResult
+          ? _value.selectedTaleResult
+          : selectedTaleResult // ignore: cast_nullable_to_non_nullable
               as StateResult,
       selectedTale: null == selectedTale
           ? _value.selectedTale
@@ -71,9 +71,9 @@ class _$TaleStateCopyWithImpl<$Res, $Val extends TaleState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $StateResultCopyWith<$Res> get status {
-    return $StateResultCopyWith<$Res>(_value.status, (value) {
-      return _then(_value.copyWith(status: value) as $Val);
+  $StateResultCopyWith<$Res> get selectedTaleResult {
+    return $StateResultCopyWith<$Res>(_value.selectedTaleResult, (value) {
+      return _then(_value.copyWith(selectedTaleResult: value) as $Val);
     });
   }
 
@@ -96,10 +96,10 @@ abstract class _$$TaleStateImplCopyWith<$Res>
       __$$TaleStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({StateResult status, Tale selectedTale});
+  $Res call({StateResult selectedTaleResult, Tale selectedTale});
 
   @override
-  $StateResultCopyWith<$Res> get status;
+  $StateResultCopyWith<$Res> get selectedTaleResult;
   @override
   $TaleCopyWith<$Res> get selectedTale;
 }
@@ -117,13 +117,13 @@ class __$$TaleStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
+    Object? selectedTaleResult = null,
     Object? selectedTale = null,
   }) {
     return _then(_$TaleStateImpl(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
+      selectedTaleResult: null == selectedTaleResult
+          ? _value.selectedTaleResult
+          : selectedTaleResult // ignore: cast_nullable_to_non_nullable
               as StateResult,
       selectedTale: null == selectedTale
           ? _value.selectedTale
@@ -136,16 +136,17 @@ class __$$TaleStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TaleStateImpl implements _TaleState {
-  const _$TaleStateImpl({required this.status, required this.selectedTale});
+  const _$TaleStateImpl(
+      {required this.selectedTaleResult, required this.selectedTale});
 
   @override
-  final StateResult status;
+  final StateResult selectedTaleResult;
   @override
   final Tale selectedTale;
 
   @override
   String toString() {
-    return 'TaleState(status: $status, selectedTale: $selectedTale)';
+    return 'TaleState(selectedTaleResult: $selectedTaleResult, selectedTale: $selectedTale)';
   }
 
   @override
@@ -153,13 +154,15 @@ class _$TaleStateImpl implements _TaleState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TaleStateImpl &&
-            (identical(other.status, status) || other.status == status) &&
+            (identical(other.selectedTaleResult, selectedTaleResult) ||
+                other.selectedTaleResult == selectedTaleResult) &&
             (identical(other.selectedTale, selectedTale) ||
                 other.selectedTale == selectedTale));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, selectedTale);
+  int get hashCode =>
+      Object.hash(runtimeType, selectedTaleResult, selectedTale);
 
   /// Create a copy of TaleState
   /// with the given fields replaced by the non-null parameter values.
@@ -172,11 +175,11 @@ class _$TaleStateImpl implements _TaleState {
 
 abstract class _TaleState implements TaleState {
   const factory _TaleState(
-      {required final StateResult status,
+      {required final StateResult selectedTaleResult,
       required final Tale selectedTale}) = _$TaleStateImpl;
 
   @override
-  StateResult get status;
+  StateResult get selectedTaleResult;
   @override
   Tale get selectedTale;
 

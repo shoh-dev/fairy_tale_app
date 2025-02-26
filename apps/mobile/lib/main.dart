@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mobile/features/splash/page.dart';
 import 'package:myspace_data_mobile/myspace_data_mobile.dart';
@@ -9,7 +11,7 @@ void main() async {
   final DependencyInjection di = DependencyInjection();
 
   FlutterError.onError = (details) {
-    di.log.error(details.exception, details.stack);
+    log(details.exception.toString());
     FlutterError.presentError(details);
   };
 

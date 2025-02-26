@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TaleListState {
-  StateResult get taleListStatus => throw _privateConstructorUsedError;
+  StateResult get taleListResult => throw _privateConstructorUsedError;
   List<Tale> get taleList => throw _privateConstructorUsedError;
   TaleState get taleState => throw _privateConstructorUsedError;
 
@@ -34,9 +34,9 @@ abstract class $TaleListStateCopyWith<$Res> {
       _$TaleListStateCopyWithImpl<$Res, TaleListState>;
   @useResult
   $Res call(
-      {StateResult taleListStatus, List<Tale> taleList, TaleState taleState});
+      {StateResult taleListResult, List<Tale> taleList, TaleState taleState});
 
-  $StateResultCopyWith<$Res> get taleListStatus;
+  $StateResultCopyWith<$Res> get taleListResult;
   $TaleStateCopyWith<$Res> get taleState;
 }
 
@@ -55,14 +55,14 @@ class _$TaleListStateCopyWithImpl<$Res, $Val extends TaleListState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? taleListStatus = null,
+    Object? taleListResult = null,
     Object? taleList = null,
     Object? taleState = null,
   }) {
     return _then(_value.copyWith(
-      taleListStatus: null == taleListStatus
-          ? _value.taleListStatus
-          : taleListStatus // ignore: cast_nullable_to_non_nullable
+      taleListResult: null == taleListResult
+          ? _value.taleListResult
+          : taleListResult // ignore: cast_nullable_to_non_nullable
               as StateResult,
       taleList: null == taleList
           ? _value.taleList
@@ -79,9 +79,9 @@ class _$TaleListStateCopyWithImpl<$Res, $Val extends TaleListState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $StateResultCopyWith<$Res> get taleListStatus {
-    return $StateResultCopyWith<$Res>(_value.taleListStatus, (value) {
-      return _then(_value.copyWith(taleListStatus: value) as $Val);
+  $StateResultCopyWith<$Res> get taleListResult {
+    return $StateResultCopyWith<$Res>(_value.taleListResult, (value) {
+      return _then(_value.copyWith(taleListResult: value) as $Val);
     });
   }
 
@@ -105,10 +105,10 @@ abstract class _$$TaleListStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {StateResult taleListStatus, List<Tale> taleList, TaleState taleState});
+      {StateResult taleListResult, List<Tale> taleList, TaleState taleState});
 
   @override
-  $StateResultCopyWith<$Res> get taleListStatus;
+  $StateResultCopyWith<$Res> get taleListResult;
   @override
   $TaleStateCopyWith<$Res> get taleState;
 }
@@ -126,14 +126,14 @@ class __$$TaleListStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? taleListStatus = null,
+    Object? taleListResult = null,
     Object? taleList = null,
     Object? taleState = null,
   }) {
     return _then(_$TaleListStateImpl(
-      taleListStatus: null == taleListStatus
-          ? _value.taleListStatus
-          : taleListStatus // ignore: cast_nullable_to_non_nullable
+      taleListResult: null == taleListResult
+          ? _value.taleListResult
+          : taleListResult // ignore: cast_nullable_to_non_nullable
               as StateResult,
       taleList: null == taleList
           ? _value._taleList
@@ -151,14 +151,14 @@ class __$$TaleListStateImplCopyWithImpl<$Res>
 
 class _$TaleListStateImpl extends _TaleListState {
   const _$TaleListStateImpl(
-      {required this.taleListStatus,
+      {required this.taleListResult,
       required final List<Tale> taleList,
       required this.taleState})
       : _taleList = taleList,
         super._();
 
   @override
-  final StateResult taleListStatus;
+  final StateResult taleListResult;
   final List<Tale> _taleList;
   @override
   List<Tale> get taleList {
@@ -172,7 +172,7 @@ class _$TaleListStateImpl extends _TaleListState {
 
   @override
   String toString() {
-    return 'TaleListState(taleListStatus: $taleListStatus, taleList: $taleList, taleState: $taleState)';
+    return 'TaleListState(taleListResult: $taleListResult, taleList: $taleList, taleState: $taleState)';
   }
 
   @override
@@ -180,15 +180,15 @@ class _$TaleListStateImpl extends _TaleListState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TaleListStateImpl &&
-            (identical(other.taleListStatus, taleListStatus) ||
-                other.taleListStatus == taleListStatus) &&
+            (identical(other.taleListResult, taleListResult) ||
+                other.taleListResult == taleListResult) &&
             const DeepCollectionEquality().equals(other._taleList, _taleList) &&
             (identical(other.taleState, taleState) ||
                 other.taleState == taleState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, taleListStatus,
+  int get hashCode => Object.hash(runtimeType, taleListResult,
       const DeepCollectionEquality().hash(_taleList), taleState);
 
   /// Create a copy of TaleListState
@@ -202,13 +202,13 @@ class _$TaleListStateImpl extends _TaleListState {
 
 abstract class _TaleListState extends TaleListState {
   const factory _TaleListState(
-      {required final StateResult taleListStatus,
+      {required final StateResult taleListResult,
       required final List<Tale> taleList,
       required final TaleState taleState}) = _$TaleListStateImpl;
   const _TaleListState._() : super._();
 
   @override
-  StateResult get taleListStatus;
+  StateResult get taleListResult;
   @override
   List<Tale> get taleList;
   @override

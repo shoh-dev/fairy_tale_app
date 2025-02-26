@@ -22,10 +22,10 @@ class _Tales extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResultStatusWrapper(
-      converter: (state) => state.taleListState.taleListStatus,
-      onInitialBuild: (context, viewModel) {
-        context.dispatchReduxAction(GetTaleListAction());
+    return ResultStoreConnector(
+      converter: (state) => state.taleListState.taleListResult,
+      onInitialBuild: (dispatch, viewModel) {
+        dispatch(GetTaleListAction());
       },
       builder: (context, result) {
         return result.when(

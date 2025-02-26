@@ -46,6 +46,26 @@ class _SelectedTalePageState extends State<SelectedTalePage> with StateHelpers, 
     safeInitialize(() {});
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    log(state.toString());
+
+    final bool isAudioPlaying = audioService(context).isPlaying();
+
+    if (isAudioPlaying) {
+      if (state case AppLifecycleState.hidden || AppLifecycleState.inactive || AppLifecycleState.paused) {
+        pauseAudio(audioService(context));
+      }
+      if (state case AppLifecycleState.detached) {
+        stopAudio(audioService(context));
+      }
+    } else {
+      if (state case AppLifecycleState.resumed) {
+        resumeAudio(audioService(context));
+      }
+    }
+  }
+
   void pauseAudio(AudioPlayerRepository audioService) async {
     final paused = await audioService.pause();
     paused.when(
@@ -83,40 +103,18 @@ class _SelectedTalePageState extends State<SelectedTalePage> with StateHelpers, 
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    log(state.toString());
-
-    final bool isAudioPlaying = audioService(context).isPlaying();
-
-    if (isAudioPlaying) {
-      if (state case AppLifecycleState.hidden || AppLifecycleState.inactive || AppLifecycleState.paused) {
-        pauseAudio(audioService(context));
-      }
-      if (state case AppLifecycleState.detached) {
-        stopAudio(audioService(context));
-      }
-    } else {
-      if (state case AppLifecycleState.resumed) {
-        resumeAudio(audioService(context));
-      }
-    }
-  }
-
-  Offset objectPos = const Offset(0, 0);
-
-  @override
   Widget build(BuildContext context) {
-    return ResultStatusWrapper(
-        converter: (state) => state.taleListState.taleState.status,
-        onInitialBuild: (context, viewModel) async {
-          context.dispatchReduxAction(GetTaleAction(widget.taleId));
+    return StoreConnector<TaleState>(
+        converter: (state) => state.taleListState.taleState,
+        onInitialBuild: (dispatch, viewModel) async {
+          dispatch(GetTaleAction(widget.taleId));
         },
-        onDispose: (context) {
-          context.dispatchReduxAction(GetTaleAction(widget.taleId, reset: true));
+        onDispose: (dispatch) {
+          dispatch(GetTaleAction(widget.taleId, reset: true));
         },
         builder: (context, vm) {
           return Scaffold(
-            body: vm.when(
+            body: vm.selectedTaleResult.when(
               ok: () {
                 return StoreConnector<Tale>(
                     converter: (state) => state.taleListState.taleState.selectedTale,
@@ -171,7 +169,7 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
         // log((value as ErrorX).toString());
         // }
         // },
-        // );//todo:
+        // );//todo: add as action
       }
     });
   }
@@ -239,7 +237,7 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
                 for (var interaction in page.taleInteractions)
                   //tale object
                   AnimatedPositioned(
-                    // curve: Curves.easeInOutCubicEmphasized,//todo: get curve from db
+                    // curve: Curves.ease, //todo: get curve from db
                     duration: Duration(milliseconds: interaction.animationDuration),
                     width: interaction.size.width,
                     height: interaction.size.height,
