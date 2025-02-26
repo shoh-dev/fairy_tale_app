@@ -8,15 +8,13 @@ part 'state.freezed.dart';
 @freezed
 class AppState with _$AppState {
   const factory AppState({
-    required TalesState talesState,
-    required TaleState taleState,
+    required TaleListState taleListState,
     required ApplicationState applicationState,
   }) = _AppState;
 
   factory AppState.initial() {
     return AppState(
-      talesState: TalesState.initial(),
-      taleState: TaleState.initial(),
+      taleListState: TaleListState.initial(),
       applicationState: ApplicationState.initial(),
     );
   }

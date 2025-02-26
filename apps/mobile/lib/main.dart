@@ -8,16 +8,25 @@ void main() async {
 
   final DependencyInjection di = DependencyInjection();
 
+  FlutterError.onError = (details) {
+    di.log.error(details.exception, details.stack);
+    FlutterError.presentError(details);
+  };
+
   final diResult = await di.init();
 
   diResult.when(
     ok: (_) {
+      di.log.debug("DI initialized successfully!");
       runApp(AppStoreProvider(
         appStore: AppStore(di: di).createStore(),
         child: const MyApp(),
       ));
     },
-    error: (error) => throw error,
+    error: (error) {
+      di.log.error(error);
+      throw error;
+    },
   );
 }
 
@@ -33,6 +42,13 @@ class MyApp extends StatelessWidget {
       theme: appTheme.lightTheme,
       darkTheme: appTheme.darkTheme,
       home: const SplashPage(),
+      builder: (context, child) {
+        Widget error = const Text('...rendering error...');
+        if (child is Scaffold || child is Navigator) {
+          error = Scaffold(body: Center(child: error));
+        }
+        return child!;
+      },
     );
   }
 }

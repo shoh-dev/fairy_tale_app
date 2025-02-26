@@ -109,7 +109,7 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
   @override
   Widget build(BuildContext context) {
     return ResultStatusWrapper(
-        converter: (store) => store.state.taleState.status,
+        converter: (store) => store.state.taleListState.taleState.status,
         onInitialBuild: (context, store, viewModel) async {
           store.dispatch(GetTaleAction(widget.taleId));
         },
@@ -121,7 +121,7 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
             body: vm.when(
               ok: () {
                 return StoreConnector<Tale>(
-                    converter: (store) => store.state.taleState.selectedTale,
+                    converter: (store) => store.state.taleListState.taleState.selectedTale,
                     builder: (context, vm) {
                       return _TaleView(
                         tale: vm,

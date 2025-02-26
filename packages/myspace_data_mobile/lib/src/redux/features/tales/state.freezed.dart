@@ -15,172 +15,209 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$TalesState {
-  StateResult get status => throw _privateConstructorUsedError;
-  List<Tale> get tales => throw _privateConstructorUsedError;
+mixin _$TaleListState {
+  StateResult get taleListStatus => throw _privateConstructorUsedError;
+  List<Tale> get taleList => throw _privateConstructorUsedError;
+  TaleState get taleState => throw _privateConstructorUsedError;
 
-  /// Create a copy of TalesState
+  /// Create a copy of TaleListState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $TalesStateCopyWith<TalesState> get copyWith =>
+  $TaleListStateCopyWith<TaleListState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TalesStateCopyWith<$Res> {
-  factory $TalesStateCopyWith(
-          TalesState value, $Res Function(TalesState) then) =
-      _$TalesStateCopyWithImpl<$Res, TalesState>;
+abstract class $TaleListStateCopyWith<$Res> {
+  factory $TaleListStateCopyWith(
+          TaleListState value, $Res Function(TaleListState) then) =
+      _$TaleListStateCopyWithImpl<$Res, TaleListState>;
   @useResult
-  $Res call({StateResult status, List<Tale> tales});
+  $Res call(
+      {StateResult taleListStatus, List<Tale> taleList, TaleState taleState});
 
-  $StateResultCopyWith<$Res> get status;
+  $StateResultCopyWith<$Res> get taleListStatus;
+  $TaleStateCopyWith<$Res> get taleState;
 }
 
 /// @nodoc
-class _$TalesStateCopyWithImpl<$Res, $Val extends TalesState>
-    implements $TalesStateCopyWith<$Res> {
-  _$TalesStateCopyWithImpl(this._value, this._then);
+class _$TaleListStateCopyWithImpl<$Res, $Val extends TaleListState>
+    implements $TaleListStateCopyWith<$Res> {
+  _$TaleListStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TalesState
+  /// Create a copy of TaleListState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
-    Object? tales = null,
+    Object? taleListStatus = null,
+    Object? taleList = null,
+    Object? taleState = null,
   }) {
     return _then(_value.copyWith(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
+      taleListStatus: null == taleListStatus
+          ? _value.taleListStatus
+          : taleListStatus // ignore: cast_nullable_to_non_nullable
               as StateResult,
-      tales: null == tales
-          ? _value.tales
-          : tales // ignore: cast_nullable_to_non_nullable
+      taleList: null == taleList
+          ? _value.taleList
+          : taleList // ignore: cast_nullable_to_non_nullable
               as List<Tale>,
+      taleState: null == taleState
+          ? _value.taleState
+          : taleState // ignore: cast_nullable_to_non_nullable
+              as TaleState,
     ) as $Val);
   }
 
-  /// Create a copy of TalesState
+  /// Create a copy of TaleListState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $StateResultCopyWith<$Res> get status {
-    return $StateResultCopyWith<$Res>(_value.status, (value) {
-      return _then(_value.copyWith(status: value) as $Val);
+  $StateResultCopyWith<$Res> get taleListStatus {
+    return $StateResultCopyWith<$Res>(_value.taleListStatus, (value) {
+      return _then(_value.copyWith(taleListStatus: value) as $Val);
+    });
+  }
+
+  /// Create a copy of TaleListState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TaleStateCopyWith<$Res> get taleState {
+    return $TaleStateCopyWith<$Res>(_value.taleState, (value) {
+      return _then(_value.copyWith(taleState: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$TalesStateImplCopyWith<$Res>
-    implements $TalesStateCopyWith<$Res> {
-  factory _$$TalesStateImplCopyWith(
-          _$TalesStateImpl value, $Res Function(_$TalesStateImpl) then) =
-      __$$TalesStateImplCopyWithImpl<$Res>;
+abstract class _$$TaleListStateImplCopyWith<$Res>
+    implements $TaleListStateCopyWith<$Res> {
+  factory _$$TaleListStateImplCopyWith(
+          _$TaleListStateImpl value, $Res Function(_$TaleListStateImpl) then) =
+      __$$TaleListStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({StateResult status, List<Tale> tales});
+  $Res call(
+      {StateResult taleListStatus, List<Tale> taleList, TaleState taleState});
 
   @override
-  $StateResultCopyWith<$Res> get status;
+  $StateResultCopyWith<$Res> get taleListStatus;
+  @override
+  $TaleStateCopyWith<$Res> get taleState;
 }
 
 /// @nodoc
-class __$$TalesStateImplCopyWithImpl<$Res>
-    extends _$TalesStateCopyWithImpl<$Res, _$TalesStateImpl>
-    implements _$$TalesStateImplCopyWith<$Res> {
-  __$$TalesStateImplCopyWithImpl(
-      _$TalesStateImpl _value, $Res Function(_$TalesStateImpl) _then)
+class __$$TaleListStateImplCopyWithImpl<$Res>
+    extends _$TaleListStateCopyWithImpl<$Res, _$TaleListStateImpl>
+    implements _$$TaleListStateImplCopyWith<$Res> {
+  __$$TaleListStateImplCopyWithImpl(
+      _$TaleListStateImpl _value, $Res Function(_$TaleListStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TalesState
+  /// Create a copy of TaleListState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
-    Object? tales = null,
+    Object? taleListStatus = null,
+    Object? taleList = null,
+    Object? taleState = null,
   }) {
-    return _then(_$TalesStateImpl(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
+    return _then(_$TaleListStateImpl(
+      taleListStatus: null == taleListStatus
+          ? _value.taleListStatus
+          : taleListStatus // ignore: cast_nullable_to_non_nullable
               as StateResult,
-      tales: null == tales
-          ? _value._tales
-          : tales // ignore: cast_nullable_to_non_nullable
+      taleList: null == taleList
+          ? _value._taleList
+          : taleList // ignore: cast_nullable_to_non_nullable
               as List<Tale>,
+      taleState: null == taleState
+          ? _value.taleState
+          : taleState // ignore: cast_nullable_to_non_nullable
+              as TaleState,
     ));
   }
 }
 
 /// @nodoc
 
-class _$TalesStateImpl extends _TalesState {
-  const _$TalesStateImpl(
-      {required this.status, required final List<Tale> tales})
-      : _tales = tales,
+class _$TaleListStateImpl extends _TaleListState {
+  const _$TaleListStateImpl(
+      {required this.taleListStatus,
+      required final List<Tale> taleList,
+      required this.taleState})
+      : _taleList = taleList,
         super._();
 
   @override
-  final StateResult status;
-  final List<Tale> _tales;
+  final StateResult taleListStatus;
+  final List<Tale> _taleList;
   @override
-  List<Tale> get tales {
-    if (_tales is EqualUnmodifiableListView) return _tales;
+  List<Tale> get taleList {
+    if (_taleList is EqualUnmodifiableListView) return _taleList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tales);
+    return EqualUnmodifiableListView(_taleList);
   }
 
   @override
+  final TaleState taleState;
+
+  @override
   String toString() {
-    return 'TalesState(status: $status, tales: $tales)';
+    return 'TaleListState(taleListStatus: $taleListStatus, taleList: $taleList, taleState: $taleState)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TalesStateImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality().equals(other._tales, _tales));
+            other is _$TaleListStateImpl &&
+            (identical(other.taleListStatus, taleListStatus) ||
+                other.taleListStatus == taleListStatus) &&
+            const DeepCollectionEquality().equals(other._taleList, _taleList) &&
+            (identical(other.taleState, taleState) ||
+                other.taleState == taleState));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, status, const DeepCollectionEquality().hash(_tales));
+  int get hashCode => Object.hash(runtimeType, taleListStatus,
+      const DeepCollectionEquality().hash(_taleList), taleState);
 
-  /// Create a copy of TalesState
+  /// Create a copy of TaleListState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$TalesStateImplCopyWith<_$TalesStateImpl> get copyWith =>
-      __$$TalesStateImplCopyWithImpl<_$TalesStateImpl>(this, _$identity);
+  _$$TaleListStateImplCopyWith<_$TaleListStateImpl> get copyWith =>
+      __$$TaleListStateImplCopyWithImpl<_$TaleListStateImpl>(this, _$identity);
 }
 
-abstract class _TalesState extends TalesState {
-  const factory _TalesState(
-      {required final StateResult status,
-      required final List<Tale> tales}) = _$TalesStateImpl;
-  const _TalesState._() : super._();
+abstract class _TaleListState extends TaleListState {
+  const factory _TaleListState(
+      {required final StateResult taleListStatus,
+      required final List<Tale> taleList,
+      required final TaleState taleState}) = _$TaleListStateImpl;
+  const _TaleListState._() : super._();
 
   @override
-  StateResult get status;
+  StateResult get taleListStatus;
   @override
-  List<Tale> get tales;
+  List<Tale> get taleList;
+  @override
+  TaleState get taleState;
 
-  /// Create a copy of TalesState
+  /// Create a copy of TaleListState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TalesStateImplCopyWith<_$TalesStateImpl> get copyWith =>
+  _$$TaleListStateImplCopyWith<_$TaleListStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

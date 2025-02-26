@@ -17,8 +17,8 @@ class SupabaseServiceImpl extends SupabaseService {
   ResultFuture<SupabaseClient> initialize() async {
     try {
       final supabase = await Supabase.initialize(
-        url: _envKeysService.supabaseUrl,
-        anonKey: _envKeysService.supabaseKey,
+        url: _envKeysService.supabaseUrl(),
+        anonKey: _envKeysService.supabaseKey(),
       );
 
       return Result.ok(supabase.client);

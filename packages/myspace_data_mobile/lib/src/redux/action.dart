@@ -7,8 +7,8 @@ abstract class DefaultAction<T> extends ReduxAction<AppState> {
   DependencyInjection get env => super.env as DependencyInjection;
 
   //States
-  TalesState get talesState => state.talesState;
-  TaleState get taleState => state.taleState;
+  TaleListState get taleListState => state.taleListState;
+  TaleState get taleState => taleListState.taleState;
   ApplicationState get applicationState => state.applicationState;
   LocalizationState get localizationState => applicationState.localizationState;
 

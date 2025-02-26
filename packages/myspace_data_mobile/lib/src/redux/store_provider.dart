@@ -15,8 +15,8 @@ class AppStoreProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreProvider<AppState>(
-      store: appStore,
+    return ReduxAppStoreProvider<AppState>(
+      appStore: appStore,
       child: child,
     );
   }

@@ -4,17 +4,17 @@ import 'package:myspace_data_mobile/src/redux.dart';
 import 'package:myspace_data_mobile/src/repositories/tale/models.dart';
 
 class _Action extends DefaultAction {
-  final StateResult? result;
-  final List<Tale>? tales;
+  final StateResult? taleListStatus;
+  final List<Tale>? taleList;
 
-  _Action({this.result, this.tales});
+  _Action({this.taleListStatus, this.taleList});
 
   @override
   AppState? reduce() {
     return state.copyWith(
-        talesState: talesState.copyWith(
-      status: result ?? talesState.status,
-      tales: tales ?? talesState.tales,
+        taleListState: taleListState.copyWith(
+      taleListStatus: taleListStatus ?? taleListState.taleListStatus,
+      taleList: taleList ?? taleListState.taleList,
     ));
   }
 }
@@ -22,12 +22,12 @@ class _Action extends DefaultAction {
 class GetTaleListAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
-    dispatch(_Action(result: StateResult.loading()));
+    dispatch(_Action(taleListStatus: StateResult.loading()));
     final tales = await taleRepository.getAllTales();
     await Future.delayed(const Duration(seconds: 1));
     tales.fold(
-      (data) => dispatch(_Action(result: StateResult.ok(), tales: data)),
-      (e) => dispatch(_Action(result: StateResult.error(e))),
+      (data) => dispatch(_Action(taleListStatus: StateResult.ok(), taleList: data)),
+      (e) => dispatch(_Action(taleListStatus: StateResult.error(e))),
     );
     return null;
   }

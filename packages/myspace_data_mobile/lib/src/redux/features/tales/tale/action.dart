@@ -1,28 +1,26 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 
 class _TaleAction extends DefaultAction {
-  final StateResult taleStatus;
+  final StateResult? taleStatus;
   final Tale? tale;
-  final bool? isInteractionAudioIsPlaying;
 
   _TaleAction({
     this.tale,
-    required this.taleStatus,
-    this.isInteractionAudioIsPlaying,
+    this.taleStatus,
   });
 
   @override
   AppState reduce() {
     return state.copyWith(
-      taleState: taleState.copyWith(
-        selectedTale: tale ?? taleState.selectedTale,
-        status: taleStatus,
-        isInteractionAudioIsPlaying: isInteractionAudioIsPlaying ?? taleState.isInteractionAudioIsPlaying,
+      taleListState: taleListState.copyWith(
+        taleState: taleState.copyWith(
+          selectedTale: tale ?? taleState.selectedTale,
+          status: taleStatus ?? taleState.status,
+        ),
       ),
     );
   }
@@ -129,7 +127,7 @@ class TaleInteractionHandlerAction extends DefaultAction {
     final newPage = talePage.updateInteraction(newInteraction);
     final newTale = tale.updatePage(newPage);
 
-    return state.copyWith(taleState: taleState.copyWith(selectedTale: newTale));
+    return state.copyWith(taleListState: taleListState.copyWith(taleState: taleState.copyWith(selectedTale: newTale)));
   }
 
   AppState? handleTap(Tale tale, TalePage talePage) {
@@ -137,6 +135,6 @@ class TaleInteractionHandlerAction extends DefaultAction {
     final newPage = talePage.updateInteraction(newInteraction);
     final newTale = tale.updatePage(newPage);
 
-    return state.copyWith(taleState: taleState.copyWith(selectedTale: newTale));
+    return state.copyWith(taleListState: taleListState.copyWith(taleState: taleState.copyWith(selectedTale: newTale)));
   }
 }

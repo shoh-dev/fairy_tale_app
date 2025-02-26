@@ -23,7 +23,7 @@ class _Tales extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResultStatusWrapper(
-      converter: (store) => store.state.talesState.status,
+      converter: (store) => store.state.taleListState.taleListStatus,
       onInitialBuild: (context, store, viewModel) {
         store.dispatch(GetTaleListAction());
       },
@@ -52,12 +52,12 @@ class _Loaded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<List<Tale>>(
-        converter: (store) => store.state.talesState.tales,
-        builder: (context, tales) {
+        converter: (store) => store.state.taleListState.taleList,
+        builder: (context, taleList) {
           return ListView.builder(
-            itemCount: tales.length,
+            itemCount: taleList.length,
             itemBuilder: (context, index) {
-              final tale = tales[index];
+              final tale = taleList[index];
               return ListTile(
                 leading: Image.network(
                   tale.coverImage,
