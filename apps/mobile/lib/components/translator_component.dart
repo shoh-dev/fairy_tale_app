@@ -16,13 +16,11 @@ class Translator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<LocalizationState>(
-      rebuildOnChange: false,
-      isDistinct: false,
       converter: (state) => state.applicationState.localizationState,
-      builder: (context, dispatch, vm) {
-        log('TRANSLATOR COMPONENT IS REBUILDING');
+      builder: (_, __, vm) {
         return vm.status.when(
           ok: () {
+            log('TRANSLATOR COMPONENT IS REBUILDING');
             final translatedList = [
               for (final key in toTranslate) vm.translations[key] ?? "$key: not_found",
             ];

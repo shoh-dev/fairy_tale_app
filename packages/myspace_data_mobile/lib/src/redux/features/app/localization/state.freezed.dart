@@ -18,7 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$LocalizationState {
   StateResult get status => throw _privateConstructorUsedError;
   String get locale => throw _privateConstructorUsedError;
-  Map<String, String> get translations => throw _privateConstructorUsedError;
+  Map<String, String> get translations =>
+      throw _privateConstructorUsedError; //todo: change it to handle hashcode
   int get localeVersion => throw _privateConstructorUsedError;
 
   /// Create a copy of LocalizationState
@@ -173,6 +174,7 @@ class _$AppLocalizationStateImpl implements _AppLocalizationState {
     return EqualUnmodifiableMapView(_translations);
   }
 
+//todo: change it to handle hashcode
   @override
   final int localeVersion;
 
@@ -221,7 +223,7 @@ abstract class _AppLocalizationState implements LocalizationState {
   @override
   String get locale;
   @override
-  Map<String, String> get translations;
+  Map<String, String> get translations; //todo: change it to handle hashcode
   @override
   int get localeVersion;
 
