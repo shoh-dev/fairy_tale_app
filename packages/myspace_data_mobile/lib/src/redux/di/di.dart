@@ -7,8 +7,8 @@ import 'package:myspace_data_mobile/src/services.dart';
 import 'package:core_audio/core_audio.dart';
 
 class DependencyInjection extends ReduxDependencyInjection {
-  late final ApplicationRepository applicationService;
-  late final SupabaseRepository supabaseRepository;
+  late final LocaleRepository applicationrepository;
+  late final SupabaseService supabaseRepository;
   late final TaleRepository taleRepository;
   late final PathProviderService pathProviderService;
   late final AudioPlayerRepository interactionAudioPlayerRepository;
@@ -20,11 +20,11 @@ class DependencyInjection extends ReduxDependencyInjection {
       pathProviderService = PathProviderServiceImpl() as PathProviderService;
       interactionAudioPlayerRepository = InteractionAudioPlayerRepositoryImpl() as AudioPlayerRepository;
       mainAudioPlayerRepository = MainAudioPlayerRepositoryImpl() as AudioPlayerRepository;
-      supabaseRepository = SupabaseRepositoryImpl(EnvironmentKeyServiceImpl() as EnvironmentKeyService);
+      supabaseRepository = SupabaseServiceImpl(EnvironmentKeyServiceImpl() as EnvironmentKeyService);
       final supabaseClient = await supabaseRepository.initialize();
       return supabaseClient.fold(
         (client) {
-          applicationService = ApplicationRepositoryImpl(client) as ApplicationRepository;
+          applicationrepository = LocaleRepositoryImpl(client) as LocaleRepository;
           taleRepository = TaleRepositoryImpl(client) as TaleRepository;
           return Result.ok(null);
         },

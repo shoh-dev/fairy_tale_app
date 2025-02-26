@@ -7,12 +7,12 @@ part 'state.freezed.dart';
 @freezed
 class ApplicationState with _$ApplicationState {
   const factory ApplicationState({
-    required AppLocalizationState localizationState,
+    required LocalizationState localizationState,
   }) = _ApplicationState;
 
   factory ApplicationState.initial() {
     return ApplicationState(
-      localizationState: AppLocalizationState.initial(),
+      localizationState: LocalizationState.initial(),
     );
   }
 }

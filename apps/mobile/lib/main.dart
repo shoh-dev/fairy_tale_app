@@ -8,13 +8,12 @@ void main() async {
 
   final DependencyInjection di = DependencyInjection();
 
-  final result = await di.init();
+  final diResult = await di.init();
 
-  result.when(
+  diResult.when(
     ok: (_) {
-      final appStore = AppStore(di: di);
       runApp(AppStoreProvider(
-        appStore: appStore.createStore(),
+        appStore: AppStore(di: di).createStore(),
         child: const MyApp(),
       ));
     },

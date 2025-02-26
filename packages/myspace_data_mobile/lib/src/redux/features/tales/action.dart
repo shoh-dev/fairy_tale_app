@@ -19,7 +19,7 @@ class _Action extends DefaultAction {
   }
 }
 
-class GetAllTalesAction extends DefaultAction {
+class GetTaleListAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     dispatch(_Action(result: StateResult.loading()));

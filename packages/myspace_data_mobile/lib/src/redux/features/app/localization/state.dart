@@ -4,16 +4,16 @@ import 'package:myspace_data/myspace_data.dart';
 part 'state.freezed.dart';
 
 @freezed
-class AppLocalizationState with _$AppLocalizationState {
-  const factory AppLocalizationState({
+class LocalizationState with _$LocalizationState {
+  const factory LocalizationState({
     required StateResult status,
     required String locale,
     required Map<String, String> translations,
     required int localeVersion,
   }) = _AppLocalizationState;
 
-  factory AppLocalizationState.initial() {
-    return const AppLocalizationState(
+  factory LocalizationState.initial() {
+    return const LocalizationState(
       status: StateResult.loading(),
       locale: 'en',
       translations: {},

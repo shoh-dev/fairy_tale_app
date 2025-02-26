@@ -1,3 +1,3 @@
 export 'repositories/tale/tale_repository.dart';
-export 'repositories/supabase_repository.dart';
-export 'repositories/application_repository.dart';
+export 'repositories/locale_repository.dart';
+export 'repositories/device_repository.dart';

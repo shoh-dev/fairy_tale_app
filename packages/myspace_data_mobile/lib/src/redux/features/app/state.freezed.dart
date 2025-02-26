@@ -16,8 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ApplicationState {
-  AppLocalizationState get localizationState =>
-      throw _privateConstructorUsedError;
+  LocalizationState get localizationState => throw _privateConstructorUsedError;
 
   /// Create a copy of ApplicationState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,9 +31,9 @@ abstract class $ApplicationStateCopyWith<$Res> {
           ApplicationState value, $Res Function(ApplicationState) then) =
       _$ApplicationStateCopyWithImpl<$Res, ApplicationState>;
   @useResult
-  $Res call({AppLocalizationState localizationState});
+  $Res call({LocalizationState localizationState});
 
-  $AppLocalizationStateCopyWith<$Res> get localizationState;
+  $LocalizationStateCopyWith<$Res> get localizationState;
 }
 
 /// @nodoc
@@ -58,7 +57,7 @@ class _$ApplicationStateCopyWithImpl<$Res, $Val extends ApplicationState>
       localizationState: null == localizationState
           ? _value.localizationState
           : localizationState // ignore: cast_nullable_to_non_nullable
-              as AppLocalizationState,
+              as LocalizationState,
     ) as $Val);
   }
 
@@ -66,9 +65,8 @@ class _$ApplicationStateCopyWithImpl<$Res, $Val extends ApplicationState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AppLocalizationStateCopyWith<$Res> get localizationState {
-    return $AppLocalizationStateCopyWith<$Res>(_value.localizationState,
-        (value) {
+  $LocalizationStateCopyWith<$Res> get localizationState {
+    return $LocalizationStateCopyWith<$Res>(_value.localizationState, (value) {
       return _then(_value.copyWith(localizationState: value) as $Val);
     });
   }
@@ -82,10 +80,10 @@ abstract class _$$ApplicationStateImplCopyWith<$Res>
       __$$ApplicationStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AppLocalizationState localizationState});
+  $Res call({LocalizationState localizationState});
 
   @override
-  $AppLocalizationStateCopyWith<$Res> get localizationState;
+  $LocalizationStateCopyWith<$Res> get localizationState;
 }
 
 /// @nodoc
@@ -107,7 +105,7 @@ class __$$ApplicationStateImplCopyWithImpl<$Res>
       localizationState: null == localizationState
           ? _value.localizationState
           : localizationState // ignore: cast_nullable_to_non_nullable
-              as AppLocalizationState,
+              as LocalizationState,
     ));
   }
 }
@@ -118,7 +116,7 @@ class _$ApplicationStateImpl implements _ApplicationState {
   const _$ApplicationStateImpl({required this.localizationState});
 
   @override
-  final AppLocalizationState localizationState;
+  final LocalizationState localizationState;
 
   @override
   String toString() {
@@ -149,11 +147,11 @@ class _$ApplicationStateImpl implements _ApplicationState {
 
 abstract class _ApplicationState implements ApplicationState {
   const factory _ApplicationState(
-          {required final AppLocalizationState localizationState}) =
+          {required final LocalizationState localizationState}) =
       _$ApplicationStateImpl;
 
   @override
-  AppLocalizationState get localizationState;
+  LocalizationState get localizationState;
 
   /// Create a copy of ApplicationState
   /// with the given fields replaced by the non-null parameter values.

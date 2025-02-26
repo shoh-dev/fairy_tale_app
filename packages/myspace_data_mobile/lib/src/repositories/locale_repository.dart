@@ -2,15 +2,15 @@ import 'package:flutter/services.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-abstract class ApplicationRepository {
+abstract class LocaleRepository {
   ResultFuture<int> getLocaleVersion();
   ResultFuture<Uint8List> getTranslationsFile(String locale, int version);
 }
 
-class ApplicationRepositoryImpl implements ApplicationRepository {
+class LocaleRepositoryImpl implements LocaleRepository {
   final SupabaseClient _supabase;
 
-  const ApplicationRepositoryImpl(this._supabase);
+  const LocaleRepositoryImpl(this._supabase);
 
   @override
   ResultFuture<int> getLocaleVersion() async {

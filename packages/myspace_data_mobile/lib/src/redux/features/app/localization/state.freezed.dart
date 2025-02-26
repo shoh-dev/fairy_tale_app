@@ -15,24 +15,24 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$AppLocalizationState {
+mixin _$LocalizationState {
   StateResult get status => throw _privateConstructorUsedError;
   String get locale => throw _privateConstructorUsedError;
   Map<String, String> get translations => throw _privateConstructorUsedError;
   int get localeVersion => throw _privateConstructorUsedError;
 
-  /// Create a copy of AppLocalizationState
+  /// Create a copy of LocalizationState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AppLocalizationStateCopyWith<AppLocalizationState> get copyWith =>
+  $LocalizationStateCopyWith<LocalizationState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AppLocalizationStateCopyWith<$Res> {
-  factory $AppLocalizationStateCopyWith(AppLocalizationState value,
-          $Res Function(AppLocalizationState) then) =
-      _$AppLocalizationStateCopyWithImpl<$Res, AppLocalizationState>;
+abstract class $LocalizationStateCopyWith<$Res> {
+  factory $LocalizationStateCopyWith(
+          LocalizationState value, $Res Function(LocalizationState) then) =
+      _$LocalizationStateCopyWithImpl<$Res, LocalizationState>;
   @useResult
   $Res call(
       {StateResult status,
@@ -44,17 +44,16 @@ abstract class $AppLocalizationStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AppLocalizationStateCopyWithImpl<$Res,
-        $Val extends AppLocalizationState>
-    implements $AppLocalizationStateCopyWith<$Res> {
-  _$AppLocalizationStateCopyWithImpl(this._value, this._then);
+class _$LocalizationStateCopyWithImpl<$Res, $Val extends LocalizationState>
+    implements $LocalizationStateCopyWith<$Res> {
+  _$LocalizationStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of AppLocalizationState
+  /// Create a copy of LocalizationState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -84,7 +83,7 @@ class _$AppLocalizationStateCopyWithImpl<$Res,
     ) as $Val);
   }
 
-  /// Create a copy of AppLocalizationState
+  /// Create a copy of LocalizationState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -97,7 +96,7 @@ class _$AppLocalizationStateCopyWithImpl<$Res,
 
 /// @nodoc
 abstract class _$$AppLocalizationStateImplCopyWith<$Res>
-    implements $AppLocalizationStateCopyWith<$Res> {
+    implements $LocalizationStateCopyWith<$Res> {
   factory _$$AppLocalizationStateImplCopyWith(_$AppLocalizationStateImpl value,
           $Res Function(_$AppLocalizationStateImpl) then) =
       __$$AppLocalizationStateImplCopyWithImpl<$Res>;
@@ -115,13 +114,13 @@ abstract class _$$AppLocalizationStateImplCopyWith<$Res>
 
 /// @nodoc
 class __$$AppLocalizationStateImplCopyWithImpl<$Res>
-    extends _$AppLocalizationStateCopyWithImpl<$Res, _$AppLocalizationStateImpl>
+    extends _$LocalizationStateCopyWithImpl<$Res, _$AppLocalizationStateImpl>
     implements _$$AppLocalizationStateImplCopyWith<$Res> {
   __$$AppLocalizationStateImplCopyWithImpl(_$AppLocalizationStateImpl _value,
       $Res Function(_$AppLocalizationStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AppLocalizationState
+  /// Create a copy of LocalizationState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -179,7 +178,7 @@ class _$AppLocalizationStateImpl implements _AppLocalizationState {
 
   @override
   String toString() {
-    return 'AppLocalizationState(status: $status, locale: $locale, translations: $translations, localeVersion: $localeVersion)';
+    return 'LocalizationState(status: $status, locale: $locale, translations: $translations, localeVersion: $localeVersion)';
   }
 
   @override
@@ -199,7 +198,7 @@ class _$AppLocalizationStateImpl implements _AppLocalizationState {
   int get hashCode => Object.hash(runtimeType, status, locale,
       const DeepCollectionEquality().hash(_translations), localeVersion);
 
-  /// Create a copy of AppLocalizationState
+  /// Create a copy of LocalizationState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -210,7 +209,7 @@ class _$AppLocalizationStateImpl implements _AppLocalizationState {
               this, _$identity);
 }
 
-abstract class _AppLocalizationState implements AppLocalizationState {
+abstract class _AppLocalizationState implements LocalizationState {
   const factory _AppLocalizationState(
       {required final StateResult status,
       required final String locale,
@@ -226,7 +225,7 @@ abstract class _AppLocalizationState implements AppLocalizationState {
   @override
   int get localeVersion;
 
-  /// Create a copy of AppLocalizationState
+  /// Create a copy of LocalizationState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)

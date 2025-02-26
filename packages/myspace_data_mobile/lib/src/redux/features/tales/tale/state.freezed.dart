@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TaleState {
   StateResult get status => throw _privateConstructorUsedError;
   Tale get selectedTale => throw _privateConstructorUsedError;
-  bool get isInteractionAudioIsPlaying => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,10 +31,7 @@ abstract class $TaleStateCopyWith<$Res> {
   factory $TaleStateCopyWith(TaleState value, $Res Function(TaleState) then) =
       _$TaleStateCopyWithImpl<$Res, TaleState>;
   @useResult
-  $Res call(
-      {StateResult status,
-      Tale selectedTale,
-      bool isInteractionAudioIsPlaying});
+  $Res call({StateResult status, Tale selectedTale});
 
   $StateResultCopyWith<$Res> get status;
   $TaleCopyWith<$Res> get selectedTale;
@@ -58,7 +54,6 @@ class _$TaleStateCopyWithImpl<$Res, $Val extends TaleState>
   $Res call({
     Object? status = null,
     Object? selectedTale = null,
-    Object? isInteractionAudioIsPlaying = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -69,10 +64,6 @@ class _$TaleStateCopyWithImpl<$Res, $Val extends TaleState>
           ? _value.selectedTale
           : selectedTale // ignore: cast_nullable_to_non_nullable
               as Tale,
-      isInteractionAudioIsPlaying: null == isInteractionAudioIsPlaying
-          ? _value.isInteractionAudioIsPlaying
-          : isInteractionAudioIsPlaying // ignore: cast_nullable_to_non_nullable
-              as bool,
     ) as $Val);
   }
 
@@ -105,10 +96,7 @@ abstract class _$$TaleStateImplCopyWith<$Res>
       __$$TaleStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {StateResult status,
-      Tale selectedTale,
-      bool isInteractionAudioIsPlaying});
+  $Res call({StateResult status, Tale selectedTale});
 
   @override
   $StateResultCopyWith<$Res> get status;
@@ -131,7 +119,6 @@ class __$$TaleStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? selectedTale = null,
-    Object? isInteractionAudioIsPlaying = null,
   }) {
     return _then(_$TaleStateImpl(
       status: null == status
@@ -142,10 +129,6 @@ class __$$TaleStateImplCopyWithImpl<$Res>
           ? _value.selectedTale
           : selectedTale // ignore: cast_nullable_to_non_nullable
               as Tale,
-      isInteractionAudioIsPlaying: null == isInteractionAudioIsPlaying
-          ? _value.isInteractionAudioIsPlaying
-          : isInteractionAudioIsPlaying // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -153,21 +136,16 @@ class __$$TaleStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TaleStateImpl implements _TaleState {
-  const _$TaleStateImpl(
-      {required this.status,
-      required this.selectedTale,
-      required this.isInteractionAudioIsPlaying});
+  const _$TaleStateImpl({required this.status, required this.selectedTale});
 
   @override
   final StateResult status;
   @override
   final Tale selectedTale;
-  @override
-  final bool isInteractionAudioIsPlaying;
 
   @override
   String toString() {
-    return 'TaleState(status: $status, selectedTale: $selectedTale, isInteractionAudioIsPlaying: $isInteractionAudioIsPlaying)';
+    return 'TaleState(status: $status, selectedTale: $selectedTale)';
   }
 
   @override
@@ -177,16 +155,11 @@ class _$TaleStateImpl implements _TaleState {
             other is _$TaleStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.selectedTale, selectedTale) ||
-                other.selectedTale == selectedTale) &&
-            (identical(other.isInteractionAudioIsPlaying,
-                    isInteractionAudioIsPlaying) ||
-                other.isInteractionAudioIsPlaying ==
-                    isInteractionAudioIsPlaying));
+                other.selectedTale == selectedTale));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, status, selectedTale, isInteractionAudioIsPlaying);
+  int get hashCode => Object.hash(runtimeType, status, selectedTale);
 
   /// Create a copy of TaleState
   /// with the given fields replaced by the non-null parameter values.
@@ -200,15 +173,12 @@ class _$TaleStateImpl implements _TaleState {
 abstract class _TaleState implements TaleState {
   const factory _TaleState(
       {required final StateResult status,
-      required final Tale selectedTale,
-      required final bool isInteractionAudioIsPlaying}) = _$TaleStateImpl;
+      required final Tale selectedTale}) = _$TaleStateImpl;
 
   @override
   StateResult get status;
   @override
   Tale get selectedTale;
-  @override
-  bool get isInteractionAudioIsPlaying;
 
   /// Create a copy of TaleState
   /// with the given fields replaced by the non-null parameter values.

@@ -25,7 +25,7 @@ class _Tales extends StatelessWidget {
     return ResultStatusWrapper(
       converter: (store) => store.state.talesState.status,
       onInitialBuild: (context, store, viewModel) {
-        store.dispatch(GetAllTalesAction());
+        store.dispatch(GetTaleListAction());
       },
       builder: (context, vm) {
         return vm.when(

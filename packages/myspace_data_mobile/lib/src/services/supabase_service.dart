@@ -1,17 +1,17 @@
 import 'package:myspace_data/myspace_data.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../services/environment_key_service.dart';
+import 'environment_key_service.dart';
 
-abstract class SupabaseRepository {
+abstract class SupabaseService {
   final EnvironmentKeyService _envKeysService;
-  const SupabaseRepository(this._envKeysService);
+  const SupabaseService(this._envKeysService);
 
   ResultFuture<SupabaseClient> initialize();
 }
 
-class SupabaseRepositoryImpl extends SupabaseRepository {
-  const SupabaseRepositoryImpl(super._envKeysService);
+class SupabaseServiceImpl extends SupabaseService {
+  const SupabaseServiceImpl(super._envKeysService);
 
   @override
   ResultFuture<SupabaseClient> initialize() async {

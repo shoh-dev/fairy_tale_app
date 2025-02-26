@@ -1,12 +1,12 @@
 import 'package:flutter/services.dart';
 import 'package:myspace_data/myspace_data.dart';
 
-abstract class SystemService {
+abstract class DeviceRepository {
   ResultFuture<void> setDeviceOrientation(List<DeviceOrientation> orientations);
 }
 
-class SystemServiceImpl implements SystemService {
-  const SystemServiceImpl();
+class DeviceRepositoryImpl implements DeviceRepository {
+  const DeviceRepositoryImpl();
 
   @override
   ResultFuture<void> setDeviceOrientation(List<DeviceOrientation> orientations) async {
