@@ -4,14 +4,19 @@ import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
 class TaleInteractionObjectComponent extends StatelessWidget {
-  const TaleInteractionObjectComponent({super.key, required this.interaction});
+  const TaleInteractionObjectComponent({
+    super.key,
+    required this.interaction,
+    required this.onInteraction,
+  });
 
   final TaleInteraction interaction;
+  final ValueChanged<TaleInteraction> onInteraction;
 
   @override
   Widget build(BuildContext context) {
     void handleInteraction() {
-      context.dispatchReduxAction(TaleInteractionHandlerAction(interaction));
+      onInteraction(interaction);
     }
 
     if (interaction.isUsed) {

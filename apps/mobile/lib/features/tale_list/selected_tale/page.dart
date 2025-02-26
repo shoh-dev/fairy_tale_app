@@ -112,18 +112,15 @@ class _SelectedTalePageState extends State<SelectedTalePage> with StateHelpers, 
         onDispose: (dispatch) {
           dispatch(GetTaleAction(widget.taleId, reset: true));
         },
-        builder: (context, vm) {
+        builder: (context, dispatch, vm) {
           return Scaffold(
             body: vm.selectedTaleResult.when(
               ok: () {
-                return StoreConnector<Tale>(
-                    converter: (state) => state.taleListState.taleState.selectedTale,
-                    builder: (context, vm) {
-                      return _TaleView(
-                        tale: vm,
-                        pageController: pageController,
-                      );
-                    });
+                return _TaleView(
+                  tale: vm.selectedTale,
+                  pageController: pageController,
+                  onInteraction: (value) => dispatch(TaleInteractionHandlerAction(value)),
+                );
               },
               error: (error) {
                 return Center(
@@ -145,10 +142,12 @@ class _TaleView extends StatefulWidget {
   const _TaleView({
     required this.tale,
     required this.pageController,
+    required this.onInteraction,
   });
 
   final PageController pageController;
   final Tale tale;
+  final ValueChanged<TaleInteraction> onInteraction;
 
   @override
   State<_TaleView> createState() => _TaleViewState();
@@ -245,6 +244,7 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
                     top: interaction.currentPosition.dy,
                     child: TaleInteractionObjectComponent(
                       interaction: interaction,
+                      onInteraction: widget.onInteraction,
                     ),
                   ),
               ],

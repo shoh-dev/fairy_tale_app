@@ -14,7 +14,7 @@ class SplashPage extends StatelessWidget {
           onInitialBuild: (dispatch, viewModel) {
             dispatch(GetTranslationsAction());
           },
-          builder: (context, result) {
+          builder: (context, dispatch, result) {
             return result.when(
               ok: () {
                 return const Center(child: _Loaded1());

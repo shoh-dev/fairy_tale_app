@@ -27,7 +27,7 @@ class _Tales extends StatelessWidget {
       onInitialBuild: (dispatch, viewModel) {
         dispatch(GetTaleListAction());
       },
-      builder: (context, result) {
+      builder: (context, dispatch, result) {
         return result.when(
           ok: () {
             return const _Loaded();
@@ -53,7 +53,7 @@ class _Loaded extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<List<Tale>>(
         converter: (state) => state.taleListState.taleList,
-        builder: (context, taleList) {
+        builder: (context, dispatch, taleList) {
           return ListView.builder(
             itemCount: taleList.length,
             itemBuilder: (context, index) {

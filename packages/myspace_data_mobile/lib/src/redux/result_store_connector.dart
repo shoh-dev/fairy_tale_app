@@ -11,3 +11,12 @@ class ResultStoreConnector extends data.ResultStoreConnector<AppState> {
     super.onDispose,
   });
 }
+
+class DispatchStoreConnector extends data.DispatchStoreConnector<AppState> {
+  DispatchStoreConnector({
+    super.key,
+    required super.builder,
+    super.onInitialBuild,
+    super.onDispose,
+  });
+}
