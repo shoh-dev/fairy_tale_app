@@ -29,32 +29,32 @@ class TalePageNavigatorComponent extends StatelessWidget {
         children: [
           IconButton(
             icon: const Icon(Icons.arrow_upward_rounded),
-            onPressed: () => controller.previousPage(duration: const Duration(milliseconds: 200), curve: Curves.easeInOut),
-            //  hasClient && (controller.page ?? 0) > 0
-            // ? () {
-            // if (controller.page == 0) {
-            // return;
-            // } else {
-            // controller.previousPage(duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
-            // }
-            // }
-            // : null,
+            onPressed:
+                // () => controller.previousPage(duration: const Duration(milliseconds: 200), curve: Curves.easeInOut),
+                hasClient && (controller.page ?? 0) > 0
+                    ? () {
+                        if (controller.page == 0) {
+                          return;
+                        } else {
+                          controller.previousPage(duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
+                        }
+                      }
+                    : null,
           ),
           SizedBox(width: 80, child: Center(child: TextComponent.any('${(controller.hasClients ? (controller.page?.toInt() ?? 0) : 0) + 1} / $totalPages'))),
           IconButton(
             icon: const Icon(Icons.arrow_downward_rounded),
-            // onPressed: isAllInteractionsUsed()
-            // ? hasClient && (controller.page ?? 0) < totalPages - 1
-            // ? () {
-            // if (controller.page == totalPages - 1) {
-            // return;
-            // } else {
-            // controller.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
-            // }
-            // }
-            // : null
-            // : null,//todo:
-            onPressed: () => controller.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.easeInOut),
+            onPressed: isAllInteractionsUsed()
+                ? hasClient && (controller.page ?? 0) < totalPages - 1
+                    ? () {
+                        if (controller.page == totalPages - 1) {
+                          return;
+                        } else {
+                          controller.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
+                        }
+                      }
+                    : null
+                : null,
           ),
         ],
       ),

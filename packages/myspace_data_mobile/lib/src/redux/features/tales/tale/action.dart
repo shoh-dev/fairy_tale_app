@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -99,6 +100,8 @@ class TaleInteractionHandlerAction extends DefaultAction {
                 TaleInteractionEventSubType.swipeUp ||
                 TaleInteractionEventSubType.swipeDown) {
           return handleSwipe(tale, talePage);
+        } else {
+          invalidType();
         }
       case TaleInteractionEventType.tap:
         if (subType case TaleInteractionEventSubType.playSound) {
@@ -112,9 +115,20 @@ class TaleInteractionHandlerAction extends DefaultAction {
               return null;
             },
           );
+        } else {
+          invalidType();
         }
     }
     return null;
+  }
+
+  void invalidType() {
+    dispatch(
+      _TaleAction(
+        selectedTaleResult:
+            StateResult.error(ErrorX("[${interaction.id}]:\nInvalid [${interaction.eventType}] event type for [${interaction.eventSubtype}] subtype")),
+      ),
+    );
   }
 
   AppState? handleSwipe(Tale tale, TalePage talePage) {

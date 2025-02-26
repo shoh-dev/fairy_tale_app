@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 
@@ -20,7 +18,6 @@ class Translator extends StatelessWidget {
       builder: (_, __, vm) {
         return vm.status.when(
           ok: () {
-            log('TRANSLATOR COMPONENT IS REBUILDING');
             final translatedList = [
               for (final key in toTranslate) vm.translations[key] ?? "$key: not_found",
             ];
