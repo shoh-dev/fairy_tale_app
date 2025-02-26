@@ -1,19 +1,17 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:core_audio/core_audio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:mobile/features/tales/pages/components/tale_page_background.dart';
-import 'package:mobile/features/tales/pages/components/tale_page_navigator.dart';
+import 'package:mobile/features/tale_list/selected_tale/components/tale_page_background.dart';
+import 'package:mobile/features/tale_list/selected_tale/components/tale_page_navigator.dart';
 import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_design_system/utils/helpers/context.dart';
 
 import 'components/tale_interaction_object.dart';
 
-class TalePagesPage extends StatefulWidget {
-  const TalePagesPage({
+class SelectedTalePage extends StatefulWidget {
+  const SelectedTalePage({
     super.key,
     required this.taleId,
   });
@@ -21,10 +19,10 @@ class TalePagesPage extends StatefulWidget {
   final String taleId;
 
   @override
-  State<TalePagesPage> createState() => _TalePagesPageState();
+  State<SelectedTalePage> createState() => _SelectedTalePageState();
 }
 
-class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, WidgetsBindingObserver {
+class _SelectedTalePageState extends State<SelectedTalePage> with StateHelpers, WidgetsBindingObserver {
   final pageController = PageController();
 
   AudioPlayerRepository audioService(BuildContext context) {
@@ -109,19 +107,19 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
   @override
   Widget build(BuildContext context) {
     return ResultStatusWrapper(
-        converter: (store) => store.state.taleListState.taleState.status,
-        onInitialBuild: (context, store, viewModel) async {
-          store.dispatch(GetTaleAction(widget.taleId));
+        converter: (state) => state.taleListState.taleState.status,
+        onInitialBuild: (context, viewModel) async {
+          context.dispatchReduxAction(GetTaleAction(widget.taleId));
         },
-        onDispose: (store) {
-          store.dispatch(GetTaleAction(widget.taleId, reset: true));
+        onDispose: (context) {
+          context.dispatchReduxAction(GetTaleAction(widget.taleId, reset: true));
         },
         builder: (context, vm) {
           return Scaffold(
             body: vm.when(
               ok: () {
                 return StoreConnector<Tale>(
-                    converter: (store) => store.state.taleListState.taleState.selectedTale,
+                    converter: (state) => state.taleListState.taleState.selectedTale,
                     builder: (context, vm) {
                       return _TaleView(
                         tale: vm,

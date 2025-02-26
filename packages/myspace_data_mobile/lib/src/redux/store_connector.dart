@@ -6,14 +6,12 @@ import 'state.dart';
 class StoreConnector<Model> extends data.StoreConnector<AppState, Model> {
   const StoreConnector({
     super.key,
-    required Model Function(data.Store<AppState> store) converter,
+    required super.converter,
     required super.builder,
     super.onDidChange,
     super.onDispose,
     super.onInitialBuild,
-  }) : super(
-          converter: converter,
-        );
+  });
 
   @override
   Widget build(BuildContext context) {

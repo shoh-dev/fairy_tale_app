@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/features/tales/page.dart';
+import 'package:mobile/features/tale_list/page.dart';
 import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 import 'package:myspace_design_system/utils/helpers/context.dart';
 
@@ -10,12 +10,12 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ResultStatusWrapper(
-          converter: (store) => store.state.applicationState.localizationState.status,
-          onInitialBuild: (context, store, viewModel) {
-            store.dispatch(GetTranslationsAction());
+          converter: (state) => state.applicationState.localizationState.status,
+          onInitialBuild: (context, viewModel) {
+            context.dispatchReduxAction(GetTranslationsAction());
           },
-          builder: (context, status) {
-            return status.when(
+          builder: (context, result) {
+            return result.when(
               ok: () {
                 return const Center(child: _Loaded1());
               },
@@ -45,7 +45,7 @@ class __Loaded1State extends State<_Loaded1> with StateHelpers {
   void initState() {
     super.initState();
     safeInitialize(() {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const TalesPage()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const TaleListPage()));
     });
   }
 

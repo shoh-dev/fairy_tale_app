@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/features/tales/pages/page.dart';
+import 'package:mobile/features/tale_list/selected_tale/page.dart';
 import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
-class TalesPage extends StatelessWidget {
-  const TalesPage({super.key});
+class TaleListPage extends StatelessWidget {
+  const TaleListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +23,12 @@ class _Tales extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResultStatusWrapper(
-      converter: (store) => store.state.taleListState.taleListStatus,
-      onInitialBuild: (context, store, viewModel) {
-        store.dispatch(GetTaleListAction());
+      converter: (state) => state.taleListState.taleListStatus,
+      onInitialBuild: (context, viewModel) {
+        context.dispatchReduxAction(GetTaleListAction());
       },
-      builder: (context, vm) {
-        return vm.when(
+      builder: (context, result) {
+        return result.when(
           ok: () {
             return const _Loaded();
           },
@@ -52,7 +52,7 @@ class _Loaded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<List<Tale>>(
-        converter: (store) => store.state.taleListState.taleList,
+        converter: (state) => state.taleListState.taleList,
         builder: (context, taleList) {
           return ListView.builder(
             itemCount: taleList.length,
@@ -67,7 +67,7 @@ class _Loaded extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => TalePagesPage(taleId: tale.id),
+                      builder: (context) => SelectedTalePage(taleId: tale.id),
                     ),
                   );
                 },
