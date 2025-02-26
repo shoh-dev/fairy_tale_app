@@ -33,7 +33,10 @@ class GetTranslationsAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     dispatch(_Action(stateStatus: StateResult.loading()));
-    // await Future.delayed(const Duration(seconds: 2));//todo: implement
+
+    await Future.delayed(const Duration(seconds: 1));
+    dispatch(_Action(stateStatus: StateResult.ok()));
+    //todo: implement
     // final serverLocaleVersion = await applicationService.getLocaleVersion();
     // await serverLocaleVersion.fold(
     //   (serverLocaleVersion) async {
