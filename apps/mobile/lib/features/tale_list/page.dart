@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/components/translator_component.dart';
 import 'package:mobile/features/tale_list/selected_tale/page.dart';
 import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
@@ -58,25 +59,32 @@ class _Loaded extends StatelessWidget {
             itemCount: taleList.length,
             itemBuilder: (context, index) {
               final tale = taleList[index];
-              return ListTile(
-                leading: Image.network(
-                  tale.coverImage,
-                  errorBuilder: (context, error, stackTrace) => const SizedBox(),
-                ),
-                title: TextComponent.any(context.taleTr(tale.title)),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => SelectedTalePage(taleId: tale.id),
-                    ),
-                  );
-                },
-                subtitle: TextComponent.any(
-                  context.taleTr(tale.description),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              );
+              return Translator(
+                  toTranslate: [
+                    tale.title,
+                    tale.description,
+                  ],
+                  builder: (translatedValue) {
+                    return ListTile(
+                      leading: Image.network(
+                        tale.coverImage,
+                        errorBuilder: (context, error, stackTrace) => const SizedBox(),
+                      ),
+                      title: TextComponent.any(translatedValue[0]),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SelectedTalePage(taleId: tale.id),
+                          ),
+                        );
+                      },
+                      subtitle: TextComponent.any(
+                        translatedValue[1],
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    );
+                  });
             },
           );
         });

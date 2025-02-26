@@ -11,11 +11,15 @@ class StoreConnector<Model> extends data.StoreConnector<AppState, Model> {
     super.onDidChange,
     super.onDispose,
     super.onInitialBuild,
+    super.rebuildOnChange,
+    super.isDistinct,
   });
 
   @override
   Widget build(BuildContext context) {
     return data.StoreConnector<AppState, Model>(
+      rebuildOnChange: rebuildOnChange,
+      isDistinct: isDistinct,
       converter: converter,
       onDispose: onDispose,
       onInitialBuild: onInitialBuild,

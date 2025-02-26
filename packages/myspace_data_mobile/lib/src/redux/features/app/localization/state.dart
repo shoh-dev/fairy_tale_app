@@ -8,7 +8,7 @@ class LocalizationState with _$LocalizationState {
   const factory LocalizationState({
     required StateResult status,
     required String locale,
-    required Map<String, String> translations,
+    required Map<String, String> translations, //todo: change it to handle hashcode
     required int localeVersion,
   }) = _AppLocalizationState;
 

@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_data_mobile/src/redux.dart';
 
 part 'state.freezed.dart';
@@ -21,13 +20,13 @@ class AppState with _$AppState {
 }
 
 extension TaleLocalizationHelper on BuildContext {
-  String taleTr(String? key) {
-    return key ?? "translation not found"; //todo:
-    // final state = getReduxState<AppState>();
-    // final status = state.applicationState.localizationState.status;
-    // if (!status.isOk) {
-    // return key ?? 'translation not found';
-    // }
-    // return state.applicationState.localizationState.translations[key] ?? key ?? 'translation not found';
-  }
+  // String taleTr(String? key) {
+  //   return key ?? "translation not found"; //todo:
+  //   // final state = getReduxState<AppState>();
+  //   // final status = state.applicationState.localizationState.status;
+  //   // if (!status.isOk) {
+  //   // return key ?? 'translation not found';
+  //   // }
+  //   // return state.applicationState.localizationState.translations[key] ?? key ?? 'translation not found';
+  // }
 }

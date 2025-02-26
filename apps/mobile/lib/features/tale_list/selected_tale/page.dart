@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:core_audio/core_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/components/translator_component.dart';
 import 'package:mobile/features/tale_list/selected_tale/components/tale_page_background.dart';
 import 'package:mobile/features/tale_list/selected_tale/components/tale_page_navigator.dart';
 import 'package:myspace_data_mobile/myspace_data_mobile.dart';
@@ -32,7 +33,9 @@ class _SelectedTalePageState extends State<SelectedTalePage> with StateHelpers, 
   @override
   void dispose() {
     safeDispose(() {
-      stopAudio(audioService(context));
+      if (audioService(context).isPlaying()) {
+        stopAudio(audioService(context));
+      }
       pageController.dispose();
       WidgetsBinding.instance.removeObserver(this);
     });
@@ -193,74 +196,81 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
   @override
   Widget build(BuildContext context) {
     final audioService = context.getDepdendency<DependencyInjection>().interactionAudioPlayerRepository;
-    return Scaffold(
-      appBar: AppBar(
-        title: TextComponent.any(context.taleTr(widget.tale.title)),
-        actions: [
-          StreamBuilder(
-              stream: audioService.isPlayingStream,
-              builder: (context, snapshot) {
-                if (snapshot.data == true) {
-                  return const Tooltip(
-                    triggerMode: TooltipTriggerMode.tap,
-                    message: 'Audio is playing',
-                    child: Icon(Icons.pause),
-                  );
-                }
-                return const SizedBox();
-              }),
-          const SizedBox(width: 10),
+    return Translator(
+        toTranslate: [
+          widget.tale.title,
+          widget.tale.description,
         ],
-        centerTitle: true,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(40),
-          child: Text(
-            context.taleTr(widget.tale.description),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-      body: LayoutBuilder(builder: (context, cc) {
-        return PageView.builder(
-          controller: widget.pageController,
-          itemCount: widget.tale.talePages.length,
-          physics: const NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            final page = widget.tale.talePages[index];
-            return Stack(
-              children: [
-                //image
-                if (page.backgroundImage.isNotEmpty) Positioned.fill(child: TalePageBackroundComponent(imageUrl: page.backgroundImage)),
-
-                for (var interaction in page.taleInteractions)
-                  //tale object
-                  AnimatedPositioned(
-                    // curve: Curves.ease, //todo: get curve from db
-                    duration: Duration(milliseconds: interaction.animationDuration),
-                    width: interaction.size.width,
-                    height: interaction.size.height,
-                    left: interaction.currentPosition.dx,
-                    top: interaction.currentPosition.dy,
-                    child: TaleInteractionObjectComponent(
-                      interaction: interaction,
-                      onInteraction: widget.onInteraction,
-                    ),
-                  ),
+        builder: (translatedValue) {
+          return Scaffold(
+            appBar: AppBar(
+              title: TextComponent.any(translatedValue[0]),
+              actions: [
+                StreamBuilder(
+                    stream: audioService.isPlayingStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.data == true) {
+                        return const Tooltip(
+                          triggerMode: TooltipTriggerMode.tap,
+                          message: 'Audio is playing',
+                          child: Icon(Icons.pause),
+                        );
+                      }
+                      return const SizedBox();
+                    }),
+                const SizedBox(width: 10),
               ],
-            );
-          },
-        );
-      }),
-      bottomNavigationBar: BottomAppBar(
-        child: TalePageNavigatorComponent(
-          controller: widget.pageController,
-          totalPages: widget.tale.talePages.length,
-          interactions: widget.pageController.hasClients
-              ? widget.tale.talePages[widget.pageController.page?.toInt() ?? 0].taleInteractions
-              : widget.tale.talePages.first.taleInteractions,
-        ),
-      ),
-    );
+              centerTitle: true,
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(40),
+                child: Text(
+                  translatedValue[1],
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            body: LayoutBuilder(builder: (context, cc) {
+              return PageView.builder(
+                controller: widget.pageController,
+                itemCount: widget.tale.talePages.length,
+                physics: const NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  final page = widget.tale.talePages[index];
+                  return Stack(
+                    children: [
+                      //image
+                      if (page.backgroundImage.isNotEmpty) Positioned.fill(child: TalePageBackroundComponent(imageUrl: page.backgroundImage)),
+
+                      for (var interaction in page.taleInteractions)
+                        //tale object
+                        AnimatedPositioned(
+                          // curve: Curves.ease, //todo: get curve from db
+                          duration: Duration(milliseconds: interaction.animationDuration),
+                          width: interaction.size.width,
+                          height: interaction.size.height,
+                          left: interaction.currentPosition.dx,
+                          top: interaction.currentPosition.dy,
+                          child: TaleInteractionObjectComponent(
+                            interaction: interaction,
+                            onInteraction: widget.onInteraction,
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              );
+            }),
+            bottomNavigationBar: BottomAppBar(
+              child: TalePageNavigatorComponent(
+                controller: widget.pageController,
+                totalPages: widget.tale.talePages.length,
+                interactions: widget.pageController.hasClients
+                    ? widget.tale.talePages[widget.pageController.page?.toInt() ?? 0].taleInteractions
+                    : widget.tale.talePages.first.taleInteractions,
+              ),
+            ),
+          );
+        });
   }
 }

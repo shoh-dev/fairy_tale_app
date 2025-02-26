@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/components/translator_component.dart';
 import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
@@ -46,24 +47,28 @@ class _Child extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Tooltip(
-      triggerMode: TooltipTriggerMode.longPress,
-      message: context.taleTr(interaction.hintKey),
-      showDuration: const Duration(seconds: 5),
-      child: Container(
-        width: interaction.size.width,
-        height: interaction.size.height,
-        decoration: interaction.objectImageUrl.isEmpty
-            ? BoxDecoration(border: Border.all(color: Colors.black, width: 1), borderRadius: BorderRadius.circular(10), boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withAlpha(100),
-                  blurRadius: 10,
-                  spreadRadius: 2,
-                ),
-              ])
-            : null,
-        child: interaction.objectImageUrl.isNotEmpty ? Image.network(interaction.objectImageUrl) : null,
-      ),
-    );
+    return Translator(
+        toTranslate: [interaction.hintKey],
+        builder: (translatedValue) {
+          return Tooltip(
+            triggerMode: TooltipTriggerMode.longPress,
+            message: translatedValue[0],
+            showDuration: const Duration(seconds: 5),
+            child: Container(
+              width: interaction.size.width,
+              height: interaction.size.height,
+              decoration: interaction.objectImageUrl.isEmpty
+                  ? BoxDecoration(border: Border.all(color: Colors.black, width: 1), borderRadius: BorderRadius.circular(10), boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withAlpha(100),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      ),
+                    ])
+                  : null,
+              child: interaction.objectImageUrl.isNotEmpty ? Image.network(interaction.objectImageUrl) : null,
+            ),
+          );
+        });
   }
 }
