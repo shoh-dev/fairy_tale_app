@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_data_mobile/src/redux.dart';
 
 part 'state.freezed.dart';
 
@@ -10,7 +11,6 @@ class AppState with _$AppState {
     required TalesState talesState,
     required TaleState taleState,
     required ApplicationState applicationState,
-    required TaleEditorState taleEditorState,
   }) = _AppState;
 
   factory AppState.initial() {
@@ -18,7 +18,6 @@ class AppState with _$AppState {
       talesState: TalesState.initial(),
       taleState: TaleState.initial(),
       applicationState: ApplicationState.initial(),
-      taleEditorState: TaleEditorState.initial(),
     );
   }
 }

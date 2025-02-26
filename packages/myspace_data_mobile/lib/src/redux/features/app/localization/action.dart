@@ -2,9 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:myspace_data/src/models/result.dart';
-import 'package:myspace_data/src/redux.dart';
+import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_data_mobile/myspace_data_mobile.dart';
 
 class _Action extends DefaultAction {
   final StateResult? stateStatus;
@@ -34,62 +33,62 @@ class GetTranslationsAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     dispatch(_Action(stateStatus: StateResult.loading()));
-    await Future.delayed(const Duration(seconds: 2));
-    final serverLocaleVersion = await applicationService.getLocaleVersion();
-    await serverLocaleVersion.fold(
-      (serverLocaleVersion) async {
-        final appDir = await pathService.getApplicationDocumentsDirectory();
-        await appDir.fold(
-          (dirOk) async {
-            final localTrFile = File('${dirOk.path}/tr_${localizationState.locale}_$serverLocaleVersion.json');
-            if (localTrFile.existsSync()) {
-              log("Loading translations from local");
-              final translations = mapTrFile(localTrFile);
-              if (translations == null) {
-                dispatch(_Action(stateStatus: StateResult.error(ErrorX('Error reading translations file'))));
-              } else {
-                dispatch(_Action(stateStatus: StateResult.ok(), localeVersion: serverLocaleVersion, translations: translations));
-              }
-            } else {
-              log("Loading translations from server");
-              //do: get translations from server db
-              final translations = await applicationService.getTranslationsFile(localizationState.locale, serverLocaleVersion);
-              await translations.fold(
-                (trOk) async {
-                  //do: save translations to local db
-                  try {
-                    final trFile = File('${dirOk.path}/tr_${localizationState.locale}_$serverLocaleVersion.json');
-                    await trFile.writeAsBytes(trOk);
-                    final translations = mapTrFile(trFile);
-                    if (translations == null) {
-                      dispatch(_Action(stateStatus: StateResult.error(ErrorX('Error reading translations file'))));
-                    } else {
-                      log("Loaded new version of translations. Version:$serverLocaleVersion");
-                      dispatch(_Action(stateStatus: StateResult.ok(), localeVersion: serverLocaleVersion, translations: translations));
-                    }
-                  } catch (e, st) {
-                    dispatch(_Action(stateStatus: StateResult.error(ErrorX(e, st))));
-                  }
-                },
-                (trE) {
-                  dispatch(_Action(stateStatus: StateResult.error(trE)));
-                },
-              );
-            }
-          },
-          (dirE) {
-            dispatch(_Action(stateStatus: StateResult.error(dirE)));
-          },
-        );
-      },
-      (error) {
-        dispatch(_Action(stateStatus: StateResult.error(error)));
-      },
-    );
+    // await Future.delayed(const Duration(seconds: 2));//todo: implement
+    // final serverLocaleVersion = await applicationService.getLocaleVersion();
+    // await serverLocaleVersion.fold(
+    //   (serverLocaleVersion) async {
+    //     final appDir = await pathService.getApplicationDocumentsDirectory();
+    //     await appDir.fold(
+    //       (dirOk) async {
+    //         final localTrFile = File('${dirOk.path}/tr_${localizationState.locale}_$serverLocaleVersion.json');
+    //         if (localTrFile.existsSync()) {
+    //           log("Loading translations from local");
+    //           final translations = _mapTrFile(localTrFile);
+    //           if (translations == null) {
+    //             dispatch(_Action(stateStatus: StateResult.error(ErrorX('Error reading translations file'))));
+    //           } else {
+    //             dispatch(_Action(stateStatus: StateResult.ok(), localeVersion: serverLocaleVersion, translations: translations));
+    //           }
+    //         } else {
+    //           log("Loading translations from server");
+    //           //do: get translations from server db
+    //           final translations = await applicationService.getTranslationsFile(localizationState.locale, serverLocaleVersion);
+    //           await translations.fold(
+    //             (trOk) async {
+    //               //do: save translations to local db
+    //               try {
+    //                 final trFile = File('${dirOk.path}/tr_${localizationState.locale}_$serverLocaleVersion.json');
+    //                 await trFile.writeAsBytes(trOk);
+    //                 final translations = _mapTrFile(trFile);
+    //                 if (translations == null) {
+    //                   dispatch(_Action(stateStatus: StateResult.error(ErrorX('Error reading translations file'))));
+    //                 } else {
+    //                   log("Loaded new version of translations. Version:$serverLocaleVersion");
+    //                   dispatch(_Action(stateStatus: StateResult.ok(), localeVersion: serverLocaleVersion, translations: translations));
+    //                 }
+    //               } catch (e, st) {
+    //                 dispatch(_Action(stateStatus: StateResult.error(ErrorX(e, st))));
+    //               }
+    //             },
+    //             (trE) {
+    //               dispatch(_Action(stateStatus: StateResult.error(trE)));
+    //             },
+    //           );
+    //         }
+    //       },
+    //       (dirE) {
+    //         dispatch(_Action(stateStatus: StateResult.error(dirE)));
+    //       },
+    //     );
+    //   },
+    //   (error) {
+    //     dispatch(_Action(stateStatus: StateResult.error(error)));
+    //   },
+    // );
     return null;
   }
 
-  Map<String, String>? mapTrFile(File file) {
+  Map<String, String>? _mapTrFile(File file) {
     try {
       final fileLocal = file.readAsStringSync();
       final Map<String, dynamic> json = jsonDecode(fileLocal);

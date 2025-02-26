@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_data_mobile/myspace_data_mobile.dart';
+import 'package:myspace_data_mobile/src/repositories/tale/models.dart';
 
 class _TaleAction extends DefaultAction {
   final StateResult taleStatus;
@@ -40,7 +42,7 @@ class GetTaleAction extends DefaultAction {
       return null;
     }
 
-    final tale = await taleService.getTaleById(taleId);
+    final tale = await taleRepository.getTaleById(taleId);
 
     if (kDebugMode) {
       await Future.delayed(const Duration(milliseconds: 500));
@@ -99,16 +101,16 @@ class TaleInteractionHandlerAction extends DefaultAction {
         }
       case TaleInteractionEventType.tap:
         if (subType case TaleInteractionEventSubType.playSound) {
-          final result =
-              await interactionAudioPlayerService.playFromUrl("http://127.0.0.1:54321/storage/v1/object/public/default/abrobey-qimmat-dunyo-mp3.mp3");
-          return result.fold(
-            (success) {
-              return handleTap(tale, talePage);
-            },
-            (error) {
-              return null;
-            },
-          );
+          // final result =
+          // await interactionAudioPlayerService.playFromUrl("http://127.0.0.1:54321/storage/v1/object/public/default/abrobey-qimmat-dunyo-mp3.mp3");
+          // return result.fold(
+          // (success) {
+          // return handleTap(tale, talePage);
+          // },
+          // (error) {
+          // return null;
+          // },
+          // );//todo: play sound
         }
     }
     return null;
@@ -160,25 +162,3 @@ class UpdateSelectedTaleAction extends DefaultAction {
     return state.copyWith(taleState: taleState.copyWith(selectedTale: tale));
   }
 }
-
-
-
-
-
-  // final oldPos = objectPos;
-  // objectPos += value;
-  // if (objectPos.dx < 0) {
-  //   objectPos = Offset(0, objectPos.dy);
-  // } else if (objectPos.dx > (cc.maxWidth - 40)) {
-  //   //-40 is the size of the object
-  //   objectPos = Offset((cc.maxWidth - 40), objectPos.dy);
-  // }
-  // if (objectPos.dy < 0) {
-  //   objectPos = Offset(objectPos.dx, 0);
-  // } else if (objectPos.dy > (cc.maxHeight - 40)) {
-  //   //-40 is the size of the object
-  //   objectPos = Offset(objectPos.dx, (cc.maxHeight - 40));
-  // }
-  // if (oldPos != objectPos) {
-  //   setState(() {});
-  // }

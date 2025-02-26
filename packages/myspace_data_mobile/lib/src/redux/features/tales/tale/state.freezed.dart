@@ -34,6 +34,7 @@ abstract class $TaleStateCopyWith<$Res> {
   $Res call({StateResult status, Tale selectedTale});
 
   $StateResultCopyWith<$Res> get status;
+  $TaleCopyWith<$Res> get selectedTale;
 }
 
 /// @nodoc
@@ -52,14 +53,14 @@ class _$TaleStateCopyWithImpl<$Res, $Val extends TaleState>
   @override
   $Res call({
     Object? status = null,
-    Object? selectedTale = freezed,
+    Object? selectedTale = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as StateResult,
-      selectedTale: freezed == selectedTale
+      selectedTale: null == selectedTale
           ? _value.selectedTale
           : selectedTale // ignore: cast_nullable_to_non_nullable
               as Tale,
@@ -73,6 +74,16 @@ class _$TaleStateCopyWithImpl<$Res, $Val extends TaleState>
   $StateResultCopyWith<$Res> get status {
     return $StateResultCopyWith<$Res>(_value.status, (value) {
       return _then(_value.copyWith(status: value) as $Val);
+    });
+  }
+
+  /// Create a copy of TaleState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TaleCopyWith<$Res> get selectedTale {
+    return $TaleCopyWith<$Res>(_value.selectedTale, (value) {
+      return _then(_value.copyWith(selectedTale: value) as $Val);
     });
   }
 }
@@ -89,6 +100,8 @@ abstract class _$$TaleStateImplCopyWith<$Res>
 
   @override
   $StateResultCopyWith<$Res> get status;
+  @override
+  $TaleCopyWith<$Res> get selectedTale;
 }
 
 /// @nodoc
@@ -105,14 +118,14 @@ class __$$TaleStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
-    Object? selectedTale = freezed,
+    Object? selectedTale = null,
   }) {
     return _then(_$TaleStateImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as StateResult,
-      selectedTale: freezed == selectedTale
+      selectedTale: null == selectedTale
           ? _value.selectedTale
           : selectedTale // ignore: cast_nullable_to_non_nullable
               as Tale,
@@ -141,13 +154,12 @@ class _$TaleStateImpl implements _TaleState {
         (other.runtimeType == runtimeType &&
             other is _$TaleStateImpl &&
             (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality()
-                .equals(other.selectedTale, selectedTale));
+            (identical(other.selectedTale, selectedTale) ||
+                other.selectedTale == selectedTale));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, status, const DeepCollectionEquality().hash(selectedTale));
+  int get hashCode => Object.hash(runtimeType, status, selectedTale);
 
   /// Create a copy of TaleState
   /// with the given fields replaced by the non-null parameter values.

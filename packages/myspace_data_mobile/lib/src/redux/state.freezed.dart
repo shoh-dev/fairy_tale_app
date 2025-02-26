@@ -19,7 +19,6 @@ mixin _$AppState {
   TalesState get talesState => throw _privateConstructorUsedError;
   TaleState get taleState => throw _privateConstructorUsedError;
   ApplicationState get applicationState => throw _privateConstructorUsedError;
-  TaleEditorState get taleEditorState => throw _privateConstructorUsedError;
 
   /// Create a copy of AppState
   /// with the given fields replaced by the non-null parameter values.
@@ -36,8 +35,11 @@ abstract class $AppStateCopyWith<$Res> {
   $Res call(
       {TalesState talesState,
       TaleState taleState,
-      ApplicationState applicationState,
-      TaleEditorState taleEditorState});
+      ApplicationState applicationState});
+
+  $TalesStateCopyWith<$Res> get talesState;
+  $TaleStateCopyWith<$Res> get taleState;
+  $ApplicationStateCopyWith<$Res> get applicationState;
 }
 
 /// @nodoc
@@ -55,29 +57,54 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? talesState = freezed,
-    Object? taleState = freezed,
-    Object? applicationState = freezed,
-    Object? taleEditorState = freezed,
+    Object? talesState = null,
+    Object? taleState = null,
+    Object? applicationState = null,
   }) {
     return _then(_value.copyWith(
-      talesState: freezed == talesState
+      talesState: null == talesState
           ? _value.talesState
           : talesState // ignore: cast_nullable_to_non_nullable
               as TalesState,
-      taleState: freezed == taleState
+      taleState: null == taleState
           ? _value.taleState
           : taleState // ignore: cast_nullable_to_non_nullable
               as TaleState,
-      applicationState: freezed == applicationState
+      applicationState: null == applicationState
           ? _value.applicationState
           : applicationState // ignore: cast_nullable_to_non_nullable
               as ApplicationState,
-      taleEditorState: freezed == taleEditorState
-          ? _value.taleEditorState
-          : taleEditorState // ignore: cast_nullable_to_non_nullable
-              as TaleEditorState,
     ) as $Val);
+  }
+
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TalesStateCopyWith<$Res> get talesState {
+    return $TalesStateCopyWith<$Res>(_value.talesState, (value) {
+      return _then(_value.copyWith(talesState: value) as $Val);
+    });
+  }
+
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TaleStateCopyWith<$Res> get taleState {
+    return $TaleStateCopyWith<$Res>(_value.taleState, (value) {
+      return _then(_value.copyWith(taleState: value) as $Val);
+    });
+  }
+
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ApplicationStateCopyWith<$Res> get applicationState {
+    return $ApplicationStateCopyWith<$Res>(_value.applicationState, (value) {
+      return _then(_value.copyWith(applicationState: value) as $Val);
+    });
   }
 }
 
@@ -92,8 +119,14 @@ abstract class _$$AppStateImplCopyWith<$Res>
   $Res call(
       {TalesState talesState,
       TaleState taleState,
-      ApplicationState applicationState,
-      TaleEditorState taleEditorState});
+      ApplicationState applicationState});
+
+  @override
+  $TalesStateCopyWith<$Res> get talesState;
+  @override
+  $TaleStateCopyWith<$Res> get taleState;
+  @override
+  $ApplicationStateCopyWith<$Res> get applicationState;
 }
 
 /// @nodoc
@@ -109,28 +142,23 @@ class __$$AppStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? talesState = freezed,
-    Object? taleState = freezed,
-    Object? applicationState = freezed,
-    Object? taleEditorState = freezed,
+    Object? talesState = null,
+    Object? taleState = null,
+    Object? applicationState = null,
   }) {
     return _then(_$AppStateImpl(
-      talesState: freezed == talesState
+      talesState: null == talesState
           ? _value.talesState
           : talesState // ignore: cast_nullable_to_non_nullable
               as TalesState,
-      taleState: freezed == taleState
+      taleState: null == taleState
           ? _value.taleState
           : taleState // ignore: cast_nullable_to_non_nullable
               as TaleState,
-      applicationState: freezed == applicationState
+      applicationState: null == applicationState
           ? _value.applicationState
           : applicationState // ignore: cast_nullable_to_non_nullable
               as ApplicationState,
-      taleEditorState: freezed == taleEditorState
-          ? _value.taleEditorState
-          : taleEditorState // ignore: cast_nullable_to_non_nullable
-              as TaleEditorState,
     ));
   }
 }
@@ -141,8 +169,7 @@ class _$AppStateImpl implements _AppState {
   const _$AppStateImpl(
       {required this.talesState,
       required this.taleState,
-      required this.applicationState,
-      required this.taleEditorState});
+      required this.applicationState});
 
   @override
   final TalesState talesState;
@@ -150,12 +177,10 @@ class _$AppStateImpl implements _AppState {
   final TaleState taleState;
   @override
   final ApplicationState applicationState;
-  @override
-  final TaleEditorState taleEditorState;
 
   @override
   String toString() {
-    return 'AppState(talesState: $talesState, taleState: $taleState, applicationState: $applicationState, taleEditorState: $taleEditorState)';
+    return 'AppState(talesState: $talesState, taleState: $taleState, applicationState: $applicationState)';
   }
 
   @override
@@ -163,22 +188,17 @@ class _$AppStateImpl implements _AppState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AppStateImpl &&
-            const DeepCollectionEquality()
-                .equals(other.talesState, talesState) &&
-            const DeepCollectionEquality().equals(other.taleState, taleState) &&
-            const DeepCollectionEquality()
-                .equals(other.applicationState, applicationState) &&
-            const DeepCollectionEquality()
-                .equals(other.taleEditorState, taleEditorState));
+            (identical(other.talesState, talesState) ||
+                other.talesState == talesState) &&
+            (identical(other.taleState, taleState) ||
+                other.taleState == taleState) &&
+            (identical(other.applicationState, applicationState) ||
+                other.applicationState == applicationState));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(talesState),
-      const DeepCollectionEquality().hash(taleState),
-      const DeepCollectionEquality().hash(applicationState),
-      const DeepCollectionEquality().hash(taleEditorState));
+  int get hashCode =>
+      Object.hash(runtimeType, talesState, taleState, applicationState);
 
   /// Create a copy of AppState
   /// with the given fields replaced by the non-null parameter values.
@@ -193,8 +213,7 @@ abstract class _AppState implements AppState {
   const factory _AppState(
       {required final TalesState talesState,
       required final TaleState taleState,
-      required final ApplicationState applicationState,
-      required final TaleEditorState taleEditorState}) = _$AppStateImpl;
+      required final ApplicationState applicationState}) = _$AppStateImpl;
 
   @override
   TalesState get talesState;
@@ -202,8 +221,6 @@ abstract class _AppState implements AppState {
   TaleState get taleState;
   @override
   ApplicationState get applicationState;
-  @override
-  TaleEditorState get taleEditorState;
 
   /// Create a copy of AppState
   /// with the given fields replaced by the non-null parameter values.
