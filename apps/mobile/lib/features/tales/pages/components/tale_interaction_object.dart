@@ -11,7 +11,7 @@ class TaleInteractionObjectComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void handleInteraction() {
-      // context.dispatch(TaleInteractionHandlerAction(interaction));//todo:
+      context.dispatchReduxAction(TaleInteractionHandlerAction(interaction));
     }
 
     if (interaction.isUsed) {

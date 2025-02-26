@@ -1,1 +1,1 @@
-export 'src/audio_player_service.dart';
+export 'src/audio_player_repository.dart';

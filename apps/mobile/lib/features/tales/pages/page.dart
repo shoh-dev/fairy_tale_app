@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:core_audio/core_audio.dart';
@@ -26,9 +27,8 @@ class TalePagesPage extends StatefulWidget {
 class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, WidgetsBindingObserver {
   final pageController = PageController();
 
-  InteractionAudioPlayerServiceImpl audioService(BuildContext context) {
-    throw UnimplementedError(); //todo:
-    // return context.getDependency<InteractionAudioPlayerServiceImpl>();
+  AudioPlayerRepository audioService(BuildContext context) {
+    return context.getDepdendency<DependencyInjection>().interactionAudioPlayerRepository;
   }
 
   @override
@@ -48,40 +48,40 @@ class _TalePagesPageState extends State<TalePagesPage> with StateHelpers, Widget
     safeInitialize(() {});
   }
 
-  void pauseAudio(InteractionAudioPlayerServiceImpl audioService) async {
+  void pauseAudio(AudioPlayerRepository audioService) async {
     final paused = await audioService.pause();
-    // paused.fold(
-    //   (ok) {
-    //     log("audio paused");
-    //   },
-    //   (error) {
-    //     log(error.toString());
-    //   },
-    // );
+    paused.when(
+      ok: (ok) {
+        log("audio paused");
+      },
+      error: (error) {
+        log(error.toString());
+      },
+    );
   }
 
-  void stopAudio(InteractionAudioPlayerServiceImpl audioService) async {
+  void stopAudio(AudioPlayerRepository audioService) async {
     final stopped = await audioService.stop();
-    // stopped.fold(
-    //   (ok) {
-    //     log("audio stopped");
-    //   },
-    //   (error) {
-    //     log(error.toString());
-    //   },
-    // );
+    stopped.when(
+      ok: (ok) {
+        log("audio stopped");
+      },
+      error: (error) {
+        log(error.toString());
+      },
+    );
   }
 
-  void resumeAudio(InteractionAudioPlayerServiceImpl audioService) async {
+  void resumeAudio(AudioPlayerRepository audioService) async {
     final resumed = await audioService.play();
-    // resumed.fold(
-    //   (ok) {
-    //     log("audio resumed");
-    //   },
-    //   (error) {
-    //     log(error.toString());
-    //   },
-    // );
+    resumed.when(
+      ok: (ok) {
+        log("audio resumed");
+      },
+      error: (error) {
+        log(error.toString());
+      },
+    );
   }
 
   @override
@@ -197,23 +197,23 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
 
   @override
   Widget build(BuildContext context) {
-    // final audioService = context.getDependency<InteractionAudioPlayerServiceImpl>();
+    final audioService = context.getDepdendency<DependencyInjection>().interactionAudioPlayerRepository;
     return Scaffold(
       appBar: AppBar(
         title: TextComponent.any(context.taleTr(widget.tale.title)),
         actions: [
-          // StreamBuilder(
-          //     stream: audioService.isPlayingStream,
-          //     builder: (context, snapshot) {
-          //       if (snapshot.data == true) {
-          //         return const Tooltip(
-          //           triggerMode: TooltipTriggerMode.tap,
-          //           message: 'Audio is playing',
-          //           child: Icon(Icons.pause),
-          //         );
-          //       }
-          //       return const SizedBox();
-          //     }),//todo:
+          StreamBuilder(
+              stream: audioService.isPlayingStream,
+              builder: (context, snapshot) {
+                if (snapshot.data == true) {
+                  return const Tooltip(
+                    triggerMode: TooltipTriggerMode.tap,
+                    message: 'Audio is playing',
+                    child: Icon(Icons.pause),
+                  );
+                }
+                return const SizedBox();
+              }),
           const SizedBox(width: 10),
         ],
         centerTitle: true,

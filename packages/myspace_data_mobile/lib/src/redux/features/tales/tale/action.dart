@@ -1,17 +1,19 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_data_mobile/myspace_data_mobile.dart';
-import 'package:myspace_data_mobile/src/repositories/tale/models.dart';
 
 class _TaleAction extends DefaultAction {
   final StateResult taleStatus;
   final Tale? tale;
+  final bool? isInteractionAudioIsPlaying;
 
   _TaleAction({
     this.tale,
     required this.taleStatus,
+    this.isInteractionAudioIsPlaying,
   });
 
   @override
@@ -20,6 +22,7 @@ class _TaleAction extends DefaultAction {
       taleState: taleState.copyWith(
         selectedTale: tale ?? taleState.selectedTale,
         status: taleStatus,
+        isInteractionAudioIsPlaying: isInteractionAudioIsPlaying ?? taleState.isInteractionAudioIsPlaying,
       ),
     );
   }
@@ -101,16 +104,16 @@ class TaleInteractionHandlerAction extends DefaultAction {
         }
       case TaleInteractionEventType.tap:
         if (subType case TaleInteractionEventSubType.playSound) {
-          // final result =
-          // await interactionAudioPlayerService.playFromUrl("http://127.0.0.1:54321/storage/v1/object/public/default/abrobey-qimmat-dunyo-mp3.mp3");
-          // return result.fold(
-          // (success) {
-          // return handleTap(tale, talePage);
-          // },
-          // (error) {
-          // return null;
-          // },
-          // );//todo: play sound
+          final result =
+              await interactionAudioPlayerRepository.playFromUrl("http://127.0.0.1:54321/storage/v1/object/public/default/abrobey-qimmat-dunyo-mp3.mp3");
+          return result.fold(
+            (success) {
+              return handleTap(tale, talePage);
+            },
+            (error) {
+              return null;
+            },
+          );
         }
     }
     return null;
@@ -135,30 +138,5 @@ class TaleInteractionHandlerAction extends DefaultAction {
     final newTale = tale.updatePage(newPage);
 
     return state.copyWith(taleState: taleState.copyWith(selectedTale: newTale));
-  }
-}
-
-class SelectEmptyTaleAction extends DefaultAction {
-  @override
-  AppState? reduce() {
-    dispatch(_TaleAction(
-      tale: Tale.empty,
-      taleStatus: StateResult.ok(),
-    ));
-    return null;
-  }
-}
-
-class UpdateSelectedTaleAction extends DefaultAction {
-  final Tale tale;
-
-  UpdateSelectedTaleAction(this.tale);
-
-  @override
-  AppState? reduce() {
-    if (tale == taleState.selectedTale) {
-      return null;
-    }
-    return state.copyWith(taleState: taleState.copyWith(selectedTale: tale));
   }
 }

@@ -1,10 +1,10 @@
 import 'package:just_audio/just_audio.dart';
 import 'package:myspace_data/myspace_data.dart';
 
-abstract class AudioPlayerService {
+abstract class AudioPlayerRepository {
   final AudioPlayer _player;
 
-  const AudioPlayerService(this._player);
+  const AudioPlayerRepository(this._player);
 
   ResultFuture<void> playFromUrl(String url) async {
     try {
@@ -56,10 +56,10 @@ abstract class AudioPlayerService {
 }
 
 //main player service
-class MainAudioPlayerServiceImpl extends AudioPlayerService {
-  MainAudioPlayerServiceImpl() : super(AudioPlayer());
+class MainAudioPlayerRepositoryImpl extends AudioPlayerRepository {
+  MainAudioPlayerRepositoryImpl() : super(AudioPlayer());
 }
 
-class InteractionAudioPlayerServiceImpl extends AudioPlayerService {
-  InteractionAudioPlayerServiceImpl() : super(AudioPlayer());
+class InteractionAudioPlayerRepositoryImpl extends AudioPlayerRepository {
+  InteractionAudioPlayerRepositoryImpl() : super(AudioPlayer());
 }

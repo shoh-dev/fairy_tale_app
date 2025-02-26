@@ -33,61 +33,58 @@ class GetTranslationsAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     dispatch(_Action(stateStatus: StateResult.loading()));
-
     await Future.delayed(const Duration(seconds: 1));
-    dispatch(_Action(stateStatus: StateResult.ok()));
-    //todo: implement
-    // final serverLocaleVersion = await applicationService.getLocaleVersion();
-    // await serverLocaleVersion.fold(
-    //   (serverLocaleVersion) async {
-    //     final appDir = await pathService.getApplicationDocumentsDirectory();
-    //     await appDir.fold(
-    //       (dirOk) async {
-    //         final localTrFile = File('${dirOk.path}/tr_${localizationState.locale}_$serverLocaleVersion.json');
-    //         if (localTrFile.existsSync()) {
-    //           log("Loading translations from local");
-    //           final translations = _mapTrFile(localTrFile);
-    //           if (translations == null) {
-    //             dispatch(_Action(stateStatus: StateResult.error(ErrorX('Error reading translations file'))));
-    //           } else {
-    //             dispatch(_Action(stateStatus: StateResult.ok(), localeVersion: serverLocaleVersion, translations: translations));
-    //           }
-    //         } else {
-    //           log("Loading translations from server");
-    //           //do: get translations from server db
-    //           final translations = await applicationService.getTranslationsFile(localizationState.locale, serverLocaleVersion);
-    //           await translations.fold(
-    //             (trOk) async {
-    //               //do: save translations to local db
-    //               try {
-    //                 final trFile = File('${dirOk.path}/tr_${localizationState.locale}_$serverLocaleVersion.json');
-    //                 await trFile.writeAsBytes(trOk);
-    //                 final translations = _mapTrFile(trFile);
-    //                 if (translations == null) {
-    //                   dispatch(_Action(stateStatus: StateResult.error(ErrorX('Error reading translations file'))));
-    //                 } else {
-    //                   log("Loaded new version of translations. Version:$serverLocaleVersion");
-    //                   dispatch(_Action(stateStatus: StateResult.ok(), localeVersion: serverLocaleVersion, translations: translations));
-    //                 }
-    //               } catch (e, st) {
-    //                 dispatch(_Action(stateStatus: StateResult.error(ErrorX(e, st))));
-    //               }
-    //             },
-    //             (trE) {
-    //               dispatch(_Action(stateStatus: StateResult.error(trE)));
-    //             },
-    //           );
-    //         }
-    //       },
-    //       (dirE) {
-    //         dispatch(_Action(stateStatus: StateResult.error(dirE)));
-    //       },
-    //     );
-    //   },
-    //   (error) {
-    //     dispatch(_Action(stateStatus: StateResult.error(error)));
-    //   },
-    // );
+    final serverLocaleVersion = await applicationRepository.getLocaleVersion();
+    await serverLocaleVersion.fold(
+      (serverLocaleVersion) async {
+        final appDir = await pathService.getApplicationDocumentsDirectory();
+        await appDir.fold(
+          (dirOk) async {
+            final localTrFile = File('${dirOk.path}/tr_${localizationState.locale}_$serverLocaleVersion.json');
+            if (localTrFile.existsSync()) {
+              log("Loading translations from local");
+              final translations = _mapTrFile(localTrFile);
+              if (translations == null) {
+                dispatch(_Action(stateStatus: StateResult.error(ErrorX('Error reading translations file'))));
+              } else {
+                dispatch(_Action(stateStatus: StateResult.ok(), localeVersion: serverLocaleVersion, translations: translations));
+              }
+            } else {
+              log("Loading translations from server");
+              //do: get translations from server db
+              final translations = await applicationRepository.getTranslationsFile(localizationState.locale, serverLocaleVersion);
+              await translations.fold(
+                (trOk) async {
+                  //do: save translations to local db
+                  try {
+                    final trFile = File('${dirOk.path}/tr_${localizationState.locale}_$serverLocaleVersion.json');
+                    await trFile.writeAsBytes(trOk);
+                    final translations = _mapTrFile(trFile);
+                    if (translations == null) {
+                      dispatch(_Action(stateStatus: StateResult.error(ErrorX('Error reading translations file'))));
+                    } else {
+                      log("Loaded new version of translations. Version:$serverLocaleVersion");
+                      dispatch(_Action(stateStatus: StateResult.ok(), localeVersion: serverLocaleVersion, translations: translations));
+                    }
+                  } catch (e, st) {
+                    dispatch(_Action(stateStatus: StateResult.error(ErrorX(e, st))));
+                  }
+                },
+                (trE) {
+                  dispatch(_Action(stateStatus: StateResult.error(trE)));
+                },
+              );
+            }
+          },
+          (dirE) {
+            dispatch(_Action(stateStatus: StateResult.error(dirE)));
+          },
+        );
+      },
+      (error) {
+        dispatch(_Action(stateStatus: StateResult.error(error)));
+      },
+    );
     return null;
   }
 

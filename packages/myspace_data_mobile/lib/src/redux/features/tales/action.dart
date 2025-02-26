@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_data_mobile/src/redux.dart';
-import 'package:myspace_data_mobile/src/redux/action.dart';
 import 'package:myspace_data_mobile/src/repositories/tale/models.dart';
 
 class _Action extends DefaultAction {
