@@ -30,12 +30,13 @@ class _TaleAction extends DefaultAction {
 }
 
 class GetTaleAction extends DefaultAction {
-  final String? taleId;
+  final String taleId;
   final bool reset;
 
-  GetTaleAction(
+  GetTaleAction({
     /// if taleId is null, selects an empty tale
-    this.taleId, {
+    this.taleId = '',
+
     ///resets TaleState
     this.reset = false,
   });
@@ -45,7 +46,7 @@ class GetTaleAction extends DefaultAction {
     if (reset) {
       dispatch(_TaleAction(selectedTaleResult: const StateResult.loading()));
     }
-    if (taleId == null) {
+    if (taleId.isEmpty) {
       dispatch(
         _TaleAction(
           selectedTaleResult: const StateResult.ok(),
@@ -55,7 +56,7 @@ class GetTaleAction extends DefaultAction {
       return null;
     }
 
-    final tale = await taleRepository.getTaleById(taleId!);
+    final tale = await taleRepository.getTaleById(taleId);
 
     if (kDebugMode) {
       // ignored for now while development

@@ -1,3 +1,4 @@
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
@@ -9,12 +10,14 @@ class TaleState with _$TaleState {
   const factory TaleState({
     required StateResult selectedTaleResult,
     required Tale selectedTale,
+    required TaleEditorState editorState,
   }) = _TaleState;
 
   factory TaleState.initial() {
-    return const TaleState(
+    return TaleState(
       selectedTale: Tale.empty,
-      selectedTaleResult: StateResult.loading(),
+      selectedTaleResult: const StateResult.loading(),
+      editorState: TaleEditorState.initial(),
     );
   }
 }
