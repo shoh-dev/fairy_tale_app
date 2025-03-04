@@ -1,8 +1,4 @@
-# melos_managed_dependency_overrides: core_audio,myspace_data,myspace_design_system
+# melos_managed_dependency_overrides: myspace_data_tale_builder
 dependency_overrides:
-  core_audio:
-    path: ../../packages/core_audio
-  myspace_data:
-    path: ../../packages/myspace_data
-  myspace_design_system:
-    path: ../../packages/myspace_design_system
+  myspace_data_tale_builder:
+    path: ../../packages/myspace_data_tale_builder
