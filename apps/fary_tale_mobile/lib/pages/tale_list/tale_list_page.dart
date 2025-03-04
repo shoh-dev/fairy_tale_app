@@ -41,9 +41,7 @@ class _Tales extends StatelessWidget {
             child: Text(e.toString()),
           ),
           loading: () {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator.adaptive());
           },
           initial: () {
             return const SizedBox();

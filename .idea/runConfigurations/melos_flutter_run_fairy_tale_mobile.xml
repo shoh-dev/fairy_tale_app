@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Flutter Run -&gt; 'fairy_tale_mobile'" type="FlutterRunConfigurationType" factoryName="Flutter">
+    <option name="filePath" value="$PROJECT_DIR$/apps/fary_tale_mobile/lib/main.dart" />
+    <method v="2" />
+  </configuration>
+</component>

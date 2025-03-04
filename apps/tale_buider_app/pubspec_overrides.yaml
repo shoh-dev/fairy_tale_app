@@ -1,4 +1,0 @@
-# melos_managed_dependency_overrides: myspace_data_tale_builder
-dependency_overrides:
-  myspace_data_tale_builder:
-    path: ../../packages/myspace_data_tale_builder

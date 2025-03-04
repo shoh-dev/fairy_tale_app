@@ -137,7 +137,7 @@ class _SelectedTalePageState extends State<SelectedTalePage>
             },
             loading: () {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(),
               );
             },
             initial: () {

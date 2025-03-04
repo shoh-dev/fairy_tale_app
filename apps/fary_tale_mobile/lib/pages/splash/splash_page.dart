@@ -1,5 +1,5 @@
-import 'package:fairy_tale_mobile/pages/tale_list/tale_list_page.dart';
 import 'package:fairy_tale_mobile/manager/redux.dart';
+import 'package:fairy_tale_mobile/pages/tale_list/tale_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
@@ -25,7 +25,7 @@ class SplashPage extends StatelessWidget {
             },
             loading: () {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(),
               );
             },
             initial: () {

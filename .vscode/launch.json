@@ -8,30 +8,7 @@
       "name": "fairy_tale_app",
       "request": "launch",
       "type": "dart",
-      "args": ["--dart-define-from-file", "spec.json"]
-    },
-    {
-      "name": "mobile",
-      "cwd": "apps/mobile",
-      "request": "launch",
-      "type": "dart",
-      "args": ["--dart-define-from-file", "spec.json"]
-    },
-    {
-      "name": "mobile (profile mode)",
-      "cwd": "apps/mobile",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "profile",
-      "args": ["--dart-define-from-file", "spec.json"]
-    },
-    {
-      "name": "mobile (release mode)",
-      "cwd": "apps/mobile",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "release",
-      "args": ["--dart-define-from-file", "spec.json"]
+      "args": ["--dart-define-from-file", "../../spec.json"]
     }
   ]
 }

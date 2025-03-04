@@ -1,18 +1,16 @@
-name: fairy_tale_mobile
-description: ""
-homepage: www.shoh.dev
+name: fairy_tale_builder_platform
+description: "A new Flutter project."
 publish_to: 'none'
-
 
 version: 1.0.0+1
 
 environment:
   sdk: ^3.6.0
 
+
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.8
   simple_gesture_detector: ^0.2.1
   supabase_flutter: ^2.8.3
@@ -28,7 +26,6 @@ dependencies:
     path: /Users/shoh/Documents/github/personal/myspace/packages/myspace_design_system
   myspace_data:
     path: /Users/shoh/Documents/github/personal/myspace/packages/myspace_data
-
 
 dev_dependencies:
   flutter_test:
