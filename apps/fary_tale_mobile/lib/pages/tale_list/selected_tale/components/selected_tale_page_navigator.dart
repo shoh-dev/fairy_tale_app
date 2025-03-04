@@ -1,6 +1,6 @@
-import 'package:fairy_tale_app/manager/repositories/tale/models.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:shared/shared.dart';
 
 class SelectedTalePageNavigatorComponent extends StatelessWidget {
   const SelectedTalePageNavigatorComponent({

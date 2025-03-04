@@ -1,17 +1,15 @@
 import 'dart:developer';
 
-import 'package:fairy_tale_app/components/translator_component.dart';
-import 'package:fairy_tale_app/features/tale_list/selected_tale/components/selected_tale_interaction_object.dart';
-import 'package:fairy_tale_app/features/tale_list/selected_tale/components/selected_tale_page_background.dart';
-import 'package:fairy_tale_app/features/tale_list/selected_tale/components/selected_tale_page_navigator.dart';
-import 'package:fairy_tale_app/manager/redux.dart';
-import 'package:fairy_tale_app/manager/services/device_service.dart';
-import 'package:fairy_tale_app/manager/repositories/tale/models.dart';
-import 'package:fairy_tale_app/manager/services.dart';
+import 'package:fairy_tale_mobile/components/translator_component.dart';
+import 'package:fairy_tale_mobile/manager/redux.dart';
+import 'package:fairy_tale_mobile/pages/tale_list/selected_tale/components/selected_tale_interaction_object.dart';
+import 'package:fairy_tale_mobile/pages/tale_list/selected_tale/components/selected_tale_page_background.dart';
+import 'package:fairy_tale_mobile/pages/tale_list/selected_tale/components/selected_tale_page_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:shared/shared.dart';
 
 class SelectedTalePage extends StatefulWidget {
   const SelectedTalePage({

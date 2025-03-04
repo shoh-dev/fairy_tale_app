@@ -1,5 +1,5 @@
-import 'package:fairy_tale_app/features/app/app.dart';
-import 'package:fairy_tale_app/manager/redux.dart';
+import 'package:fairy_tale_mobile/pages/app/app.dart';
+import 'package:fairy_tale_mobile/manager/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 

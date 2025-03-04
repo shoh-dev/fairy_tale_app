@@ -1,6 +1,6 @@
 // TalePage Model
-import 'package:fairy_tale_app/manager/repositories/tale/models/tale_interaction.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale_page.freezed.dart';
 part 'tale_page.g.dart';

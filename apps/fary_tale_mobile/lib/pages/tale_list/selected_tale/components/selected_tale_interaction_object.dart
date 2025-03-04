@@ -1,8 +1,8 @@
-import 'package:fairy_tale_app/components/translator_component.dart';
-import 'package:fairy_tale_app/manager/redux.dart';
-import 'package:fairy_tale_app/manager/repositories/tale/models.dart';
+import 'package:fairy_tale_mobile/components/translator_component.dart';
+import 'package:fairy_tale_mobile/manager/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:shared/shared.dart';
 
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 

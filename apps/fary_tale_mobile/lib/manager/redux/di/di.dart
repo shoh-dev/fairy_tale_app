@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:fairy_tale_app/manager/repositories.dart';
-import 'package:fairy_tale_app/manager/services.dart';
+import 'package:fairy_tale_mobile/manager/services.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:shared/shared.dart';
 
 class DependencyInjection extends ReduxDependencyInjection {
   late final LocaleRepository applicationrepository;

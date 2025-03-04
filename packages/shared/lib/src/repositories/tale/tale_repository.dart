@@ -1,5 +1,5 @@
-import 'package:fairy_tale_app/manager/repositories/tale/models.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:shared/src/repositories/tale/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class TaleRepository {

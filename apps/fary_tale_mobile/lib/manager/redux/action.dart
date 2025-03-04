@@ -1,8 +1,7 @@
-import 'package:fairy_tale_app/manager/redux.dart';
-import 'package:fairy_tale_app/manager/redux/features/app/state.dart';
-import 'package:fairy_tale_app/manager/repositories.dart';
-import 'package:fairy_tale_app/manager/services.dart';
+import 'package:fairy_tale_mobile/manager/redux.dart';
+import 'package:fairy_tale_mobile/manager/redux/features/app/state.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:shared/shared.dart';
 
 abstract class DefaultAction extends ReduxAction<AppState> {
   @override

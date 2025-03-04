@@ -1,4 +1,4 @@
-name: fairy_tale_app
+name: fairy_tale_mobile
 description: ""
 homepage: www.shoh.dev
 publish_to: 'none'
@@ -27,6 +27,8 @@ dependencies:
     path: /Users/shoh/Documents/github/personal/myspace/packages/myspace_design_system
   myspace_data:
     path: /Users/shoh/Documents/github/personal/myspace/packages/myspace_data
+
+  shared: 0.0.1
 
 dev_dependencies:
   flutter_test:

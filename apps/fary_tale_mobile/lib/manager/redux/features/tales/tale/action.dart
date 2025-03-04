@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:fairy_tale_app/manager/redux.dart';
-import 'package:fairy_tale_app/manager/repositories/tale/models.dart';
+import 'package:fairy_tale_mobile/manager/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:shared/shared.dart';
 
 class _TaleAction extends DefaultAction {
   final StateResult? selectedTaleResult;

@@ -1,6 +1,6 @@
-import 'package:fairy_tale_app/manager/repositories/tale/models/tale.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:shared/shared.dart';
 
 part 'state.freezed.dart';
 

@@ -2,3 +2,6 @@ name: fairy_tale_app
 packages:
   - apps/**
   - packages/**
+
+ignore:
+  - packages/myspace_design_system

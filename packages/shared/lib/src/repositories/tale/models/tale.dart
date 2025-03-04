@@ -1,5 +1,5 @@
-import 'package:fairy_tale_app/manager/repositories/tale/models/tale_page.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale.freezed.dart';
 part 'tale.g.dart';

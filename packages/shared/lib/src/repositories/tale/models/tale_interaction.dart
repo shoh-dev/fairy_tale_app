@@ -1,7 +1,5 @@
-import 'package:fairy_tale_app/manager/repositories/tale/models/tale_interaction_metadata.dart';
-import 'package:fairy_tale_app/manager/repositories/tale/models/tale_interaction_position.dart';
-import 'package:fairy_tale_app/manager/repositories/tale/models/tale_interaction_size.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale_interaction.freezed.dart';
 part 'tale_interaction.g.dart';

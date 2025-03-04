@@ -1,7 +1,8 @@
 import 'dart:async';
-import 'package:fairy_tale_app/manager/redux.dart';
-import 'package:fairy_tale_app/manager/repositories/tale/models/tale.dart';
+
+import 'package:fairy_tale_mobile/manager/redux.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:shared/shared.dart';
 
 class _Action extends DefaultAction {
   final StateResult? taleListResult;
