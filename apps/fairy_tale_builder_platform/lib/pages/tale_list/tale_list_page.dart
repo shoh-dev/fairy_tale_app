@@ -1,7 +1,9 @@
+import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/components/translator_component.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/pages/tale_editor/tale_editor_page.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_list/components/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -29,9 +31,7 @@ class TalesPage extends StatelessWidget {
               return Center(child: Text(e.toString()));
             },
             loading: () {
-              return const Center(
-                child: CircularProgressIndicator.adaptive(),
-              );
+              return const LoadingComponent();
             },
             initial: () {
               return const SizedBox();
@@ -59,10 +59,11 @@ class _Grid extends StatelessWidget {
         final tale = tales[index];
         return InkWell(
           onTap: () {
-            // Navigator.of(context).push(
-            // MaterialPageRoute(
-            // builder: (context) => TaleEditorPage(taleId: tale.id)),//todo:
-            // );
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => TaleEditorPage(taleId: tale.id),
+              ),
+            );
           },
           borderRadius: BorderRadius.circular(8),
           child: Card(
@@ -75,7 +76,7 @@ class _Grid extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8),
                   child: Translator(
                     toTranslate: [tale.title],
                     builder: (translatedValue) => Text(translatedValue[0]),

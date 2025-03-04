@@ -1,3 +1,4 @@
+import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_list/tale_list_page.dart';
@@ -28,9 +29,7 @@ class SplashPage extends StatelessWidget {
                   return Center(child: Text(e.toString()));
                 },
                 loading: () {
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  );
+                  return const LoadingComponent();
                 },
                 initial: () {
                   return const SizedBox();
