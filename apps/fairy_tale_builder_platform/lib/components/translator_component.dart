@@ -25,7 +25,7 @@ class Translator extends StatelessWidget {
             final translatedList = [
               for (final key in toTranslate)
                 vm.translations[key] ??
-                    (showOriginalNotTranslated ? '$key' : '$key: not_found'),
+                    (showOriginalNotTranslated ? '$key' : '$key: NOT_FOUND'),
             ];
             return builder(translatedList);
           },

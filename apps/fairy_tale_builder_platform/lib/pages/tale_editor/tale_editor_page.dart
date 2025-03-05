@@ -3,6 +3,7 @@ import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/left_sidebar.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/page_details_form.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/right_sidebar.dart';
@@ -64,8 +65,7 @@ class _Layout extends StatelessWidget {
       leftSidebar: const TaleEditorLeftSidebarComponent(),
       rigthSidebar: const TaleEditorRightSidebarComponent(),
       body: StateConnector<AppState, bool>(
-        selector: (state) =>
-            state.taleListState.taleState.editorState.isPageSelected,
+        selector: isTalePageSelectedSelector,
         builder: (context, dispatch, isSelected) {
           if (isSelected) {
             //show page editor details

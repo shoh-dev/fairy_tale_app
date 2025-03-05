@@ -1,6 +1,7 @@
 import 'package:fairy_tale_builder_platform/components/translator_component.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -15,10 +16,10 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, List<TalePage>>(
-      selector: (state) => state.taleListState.taleState.selectedTale.talePages,
+      selector: talePagesSelector,
       builder: (context, dispatch, pages) {
         return Container(
-          width: 320,
+          width: Sizes.kLeftSidebarWidth,
           height: context.height,
           decoration: const BoxDecoration(
             border: Border(
@@ -30,8 +31,7 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(Sizes.kLayoutPadding),
             child: StateConnector<AppState, TalePage>(
-              selector: (state) =>
-                  state.taleListState.taleState.editorState.selectedTalePage,
+              selector: selectedTalePageSelector,
               builder: (context, dispatch, model) {
                 return Column(
                   spacing: 16,
@@ -51,9 +51,9 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                     const Divider(height: 0),
                     //pages
                     for (final page in pages)
-                      Builder(
-                        builder: (context) {
-                          final isSelected = page.id == model.id;
+                      StateConnector<AppState, bool>(
+                        selector: isTalePageSelectedSelector,
+                        builder: (context, dispatch, isSelected) {
                           return InkWell(
                             onTap: () {
                               dispatch(SelectEditorTalePageAction(page));
@@ -62,7 +62,7 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 100),
                               width: double.infinity,
-                              height: 340,
+                              height: 350,
                               decoration: BoxDecoration(
                                 color: isSelected
                                     ? context.colorScheme.primaryContainer
@@ -100,7 +100,11 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                                       showOriginalNotTranslated: page.isNew,
                                       toTranslate: [page.text],
                                       builder: (translatedValue) {
-                                        return Text(translatedValue[0]);
+                                        return Text(
+                                          translatedValue[0],
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        );
                                       },
                                     ),
                                   ),

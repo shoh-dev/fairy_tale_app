@@ -1,5 +1,6 @@
 import 'package:fairy_tale_builder_platform/components/translator_component.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
@@ -16,7 +17,7 @@ class TalePreviewDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, Tale>(
-      selector: (state) => state.taleListState.taleState.selectedTale,
+      selector: selectedTaleSelector,
       builder: (context, dispatch, tale) {
         final page =
             tale.talePages.firstWhereOrNull((element) => element.id == id);

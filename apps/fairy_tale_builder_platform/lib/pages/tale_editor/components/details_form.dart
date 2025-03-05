@@ -1,4 +1,5 @@
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -21,7 +22,7 @@ class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
   @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, Tale>(
-      selector: (state) => state.taleListState.taleState.selectedTale,
+      selector: selectedTaleSelector,
       onInitialBuild: (dispatch, tale) {
         safeInitialize(() {
           titleCtrl.text = tale.title;

@@ -1,5 +1,6 @@
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/tale_preview_dialog.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,7 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm>
   @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, TalePage>(
-      selector: (state) =>
-          state.taleListState.taleState.editorState.selectedTalePage,
+      selector: selectedTalePageSelector,
       onInitialBuild: (dispatch, page) {
         safeInitialize(() {
           pageTitleCtrl
