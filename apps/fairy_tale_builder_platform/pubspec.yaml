@@ -12,21 +12,23 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  simple_gesture_detector: ^0.2.1
-  supabase_flutter: ^2.8.3
-
-  shared: 0.0.1
   
-  # Freezed
-  freezed_annotation: ^2.4.4
-  json_annotation: ^4.9.0
-
+  shared: 0.0.1
   # myspace
   myspace_design_system:
     path: /Users/shoh/Documents/github/personal/myspace/packages/myspace_design_system
   myspace_data:
     path: /Users/shoh/Documents/github/personal/myspace/packages/myspace_data
+
+  # Freezed
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+
+  simple_gesture_detector: ^0.2.1
+  supabase_flutter: ^2.8.3
   uuid: ^4.5.1
+  device_preview: ^1.2.0
+  
 
 dev_dependencies:
   flutter_test:
