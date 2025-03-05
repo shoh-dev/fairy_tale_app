@@ -31,21 +31,18 @@ class _TaleAction extends DefaultAction {
 
 class GetTaleAction extends DefaultAction {
   final String taleId;
-  final bool reset;
 
   GetTaleAction({
     /// if taleId is null, selects an empty tale
     this.taleId = '',
-
-    ///resets TaleState
-    this.reset = false,
   });
 
   @override
   Future<AppState?> reduce() async {
-    if (reset) {
-      dispatch(_TaleAction(selectedTaleResult: const StateResult.loading()));
-    }
+    print('GetTaleAction');
+
+    dispatch(_TaleAction(selectedTaleResult: const StateResult.loading()));
+
     if (taleId.isEmpty) {
       dispatch(
         _TaleAction(

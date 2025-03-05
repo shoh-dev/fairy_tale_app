@@ -3,6 +3,7 @@ import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/left_sidebar.dart';
+import 'package:fairy_tale_builder_platform/pages/tale_editor/components/right_sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
@@ -23,7 +24,6 @@ class TaleEditorPage extends StatelessWidget {
         dispatch(GetTaleAction(taleId: taleId));
       },
       onDispose: (dispatch) {
-        dispatch(GetTaleAction(reset: true));
         // dispatch(SelectEditorTalePageAction(null));//todo:
       },
       builder: (context, dispatch, model) {
@@ -62,10 +62,10 @@ class _Layout extends StatelessWidget {
       builder: (context, dispatch, tale) {
         return DefaultLayout(
           title: tale.id.isEmpty
-              ? const Text('Create Tale')
-              : const Text('Update Tale'),
+              ? const Text('Create New Tale')
+              : const Text('Update Existing Tale'),
           leftSidebar: TaleEditorLeftSidebarComponent(pages: tale.talePages),
-          // rigthSidebar: TaleEditorRightSidebarComponent(tale: tale),
+          rigthSidebar: TaleEditorRightSidebarComponent(tale: tale),
           // body: StateConnector<AppState, TalePage>(
           //   selector: (state) => state.taleEditorState.selectedPage,
           //   builder: (context, selectedPage) {
