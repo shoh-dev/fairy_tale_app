@@ -47,7 +47,7 @@ class GetTranslationsAction extends DefaultAction {
         await appDir.when(
           ok: (dirOk) async {
             final localTrFile = File(
-              '${dirOk.path}/${localizationState.locale}/$serverLocaleVersion.json',
+              '${dirOk.path}/$localizationState.locale}_$serverLocaleVersion.json',
             );
             if (localTrFile.existsSync()) {
               log('Loading translations from local');
@@ -82,7 +82,7 @@ class GetTranslationsAction extends DefaultAction {
                   //do: save translations to local db
                   try {
                     final trFile = File(
-                      '${dirOk.path}/${localizationState.locale}/$serverLocaleVersion.json',
+                      '${dirOk.path}/$localizationState.locale}_$serverLocaleVersion.json',
                     );
                     await trFile.writeAsBytes(trOk);
                     final translations = _mapTrFile(trFile);
@@ -107,6 +107,8 @@ class GetTranslationsAction extends DefaultAction {
                       );
                     }
                   } catch (e, st) {
+                    print(e);
+
                     dispatch(
                       _Action(stateStatus: StateResult.fromException(e, st)),
                     );
