@@ -17,34 +17,7 @@ class LocalizationSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const DefaultLayout(
       title: Text('Localization settings'),
-      // rigthSidebar: const LocalizationSettingsRightSidebarComponent(),
       body: _Body(),
-      //  StateConnector<AppState, (StateResult, StateResult)>(
-      //   selector: (state) => (
-      //     state.applicationState.localizationState.status,
-      //     state.applicationState.localizationState2.status,
-      //   ),
-      //   onInitialBuild: (dispatch, model) {},
-      //   builder: (context, dispatch, model) {
-      //     if (model.$1.isOk && model.$2.isOk) {
-      //       return const _Body();
-      //     }
-      //     if (model.$1.isLoading || model.$2.isLoading) {
-      //       return const LoadingComponent();
-      //     }
-      //     if (model.$1.isError) {
-      //       return const Center(
-      //         child: Text('Failed to load localization 1'),
-      //       );
-      //     }
-      //     if (model.$2.isError) {
-      //       return const Center(
-      //         child: Text('Failed to load localization 2'),
-      //       );
-      //     }
-      //     return const SizedBox();
-      //   },
-      // ),
     );
   }
 }
@@ -85,6 +58,8 @@ class _Body extends StatelessWidget {
               locale: state.locale,
               translations: state.translations,
               version: state.localeVersion,
+              isLoading: state.status.isLoading,
+              for2: false,
             );
           },
         ),
@@ -127,14 +102,27 @@ class _Body extends StatelessWidget {
               locale: state.locale,
               translations: state.translations,
               version: state.localeVersion,
+              isLoading: state.status.isLoading,
+              for2: true,
             );
           },
         ),
         onLoaded: (event) => onLoaded(event.stateManager),
         createFooter: PlutoPagination.new,
         rows: [],
+        // rowColorCallback: rowColorCallback,
       ),
     );
+  }
+
+  Color rowColorCallback(PlutoRowColorContext ctx) {
+    if (ctx.row.state.isAdded) {
+      return Colors.green;
+    }
+    if (ctx.row.state.isUpdated) {
+      return Colors.blueAccent;
+    }
+    return const PlutoGridStyleConfig.dark().rowColor;
   }
 
   Widget noRowsWidget() {
@@ -219,41 +207,91 @@ class _Body extends StatelessWidget {
     required String locale,
     required int version,
     required Map<String, String> translations,
+    required bool isLoading,
+    required bool for2,
   }) {
+    // final hasNewRows =
+    //     stateManager.rows.where((element) => element.state.isAdded).isNotEmpty;
+    // final hasUpdatedRow = stateManager.rows
+    //     .where((element) => element.state.isUpdated)
+    //     .isNotEmpty;
+
     return SizedBox(
       height: kToolbarHeight,
-      child: Row(
-        children: [
-          const SizedBox(width: 8),
-          Text('$locale - $version'),
-          const Spacer(),
-          ButtonComponent.iconDesctructive(
-            icon: Icons.restore_rounded,
-            onPressed: () {
-              stateManager
-                ..removeAllRows()
-                ..appendRows([
-                  for (final entry in translations.entries) fromEntry(entry),
-                ]);
-            },
-          ),
-          const SizedBox(width: 8),
-          //Add button
-          ButtonComponent.icon(
-            icon: Icons.add_rounded,
-            onPressed: stateManager.appendNewRows,
-          ),
-          const SizedBox(width: 8),
-          ButtonComponent.icon(
-            icon: Icons.save_rounded,
-            onPressed: () {
-              final rows = stateManager.rows;
-              log(rows.map((e) => e.cells['key']!.value).toString()); //todo:
-            },
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
+      child: isLoading
+          ? const LoadingComponent()
+          : Row(
+              children: [
+                const SizedBox(width: 8),
+                Text(
+                  '$locale - $version',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: 200,
+                  child: DispatchConnector<AppState>(
+                    builder: (context, dispatch) {
+                      return DropdownComponent<String>(
+                        initialValue:
+                            DropdownItem(value: locale, label: locale),
+                        onChanged: (value) {
+                          if (value == null) {
+                            return;
+                          }
+                          dispatch(
+                            GetTranslationsAction(
+                              newLocale: value.value,
+                              for2: for2,
+                            ),
+                          );
+                        },
+                        items: [
+                          for (final locale in ['en', 'ru'])
+                            DropdownItem(
+                              value: locale,
+                              label: locale,
+                            ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 16),
+                ButtonComponent.iconDesctructive(
+                  icon: Icons.restore_rounded,
+                  onPressed: () {
+                    stateManager
+                      ..removeAllRows()
+                      ..appendRows([
+                        for (final entry in translations.entries)
+                          fromEntry(entry),
+                      ]);
+                  },
+                ),
+
+                const SizedBox(width: 8),
+                //Add button
+                ButtonComponent.icon(
+                  icon: Icons.add_rounded,
+                  onPressed: stateManager.appendNewRows,
+                ),
+                const SizedBox(width: 8),
+                ButtonComponent.icon(
+                  icon: Icons.save_rounded,
+                  onPressed: () {
+                    final rows = stateManager.rows;
+                    log(
+                      rows.map((e) => e.cells['key']!.value).toString(),
+                    ); //todo:
+                  },
+                ),
+                const SizedBox(width: 8),
+              ],
+            ),
     );
   }
 }
