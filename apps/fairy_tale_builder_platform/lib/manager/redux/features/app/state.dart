@@ -1,4 +1,5 @@
 import 'package:fairy_tale_builder_platform/manager/redux/features/app/localization/state.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/app/localization/state2.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
@@ -7,11 +8,13 @@ part 'state.freezed.dart';
 class ApplicationState with _$ApplicationState {
   const factory ApplicationState({
     required LocalizationState localizationState,
+    required LocalizationState2 localizationState2,
   }) = _ApplicationState;
 
   factory ApplicationState.initial() {
     return ApplicationState(
       localizationState: LocalizationState.initial(),
+      localizationState2: LocalizationState2.initial(),
     );
   }
 }

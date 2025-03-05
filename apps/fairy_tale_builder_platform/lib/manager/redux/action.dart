@@ -1,4 +1,5 @@
 import 'package:fairy_tale_builder_platform/manager/redux/di/di.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/app/localization/state2.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/app/state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/state.dart';
@@ -16,6 +17,8 @@ abstract class DefaultAction extends ReduxAction<AppState> {
   TaleEditorState get editorState => taleListState.taleState.editorState;
   ApplicationState get applicationState => state.applicationState;
   LocalizationState get localizationState => applicationState.localizationState;
+  LocalizationState2 get localizationState2 =>
+      applicationState.localizationState2;
 
   //Repositories
   LocaleRepository get applicationRepository => env.applicationrepository;

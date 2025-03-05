@@ -32,37 +32,35 @@ class LocalizationSettingsRightSidebarComponent extends StatelessWidget {
           ),
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(Sizes.kLayoutPadding),
-            child: StateConnector<AppState, TalePage>(
-              selector: selectedTalePageSelector,
-              builder: (context, dispatch, model) {
-                return Column(
-                  spacing: 8,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Settings',
-                      style: context.textTheme.titleLarge,
-                    ),
-                    Text(
-                      'Latest version: ${state.localeVersion}',
-                      style: context.textTheme.titleSmall,
-                    ),
-                    const SizedBox(
-                      width: double.infinity,
-                      child: ButtonComponent.outlined(
-                        text: 'Add', //todo:
-                        icon: Icons.add_rounded,
-                      ),
-                    ),
-                    _Locale(
-                      locale: state.locale,
-                      onChanged: (locale) {
-                        dispatch(GetTranslationsAction(newLocale: locale));
-                      },
-                    ),
-                  ],
-                );
-              },
+            child: Column(
+              spacing: 8,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Settings',
+                  style: context.textTheme.titleLarge,
+                ),
+                Text(
+                  'Latest version: ${state.localeVersion}',
+                  style: context.textTheme.titleSmall,
+                ),
+                const SizedBox(
+                  width: double.infinity,
+                  child: ButtonComponent.outlined(
+                    text: 'Add', //todo:
+                    icon: Icons.add_rounded,
+                  ),
+                ),
+                _Locale(
+                  locale: state.locale,
+                  onChanged: (locale) {
+                    if (locale == state.locale) {
+                      return;
+                    }
+                    dispatch(GetTranslationsAction(newLocale: locale));
+                  },
+                ),
+              ],
             ),
           ),
         );

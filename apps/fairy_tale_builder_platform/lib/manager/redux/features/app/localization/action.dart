@@ -13,15 +13,29 @@ class _Action extends DefaultAction {
     //
     // ignore: unused_element
     this.locale,
+    this.for2 = false,
   });
 
   final StateResult? stateStatus;
   final int? localeVersion;
   final Map<String, String>? translations;
   final String? locale;
+  final bool for2;
 
   @override
   AppState reduce() {
+    if (for2) {
+      return state.copyWith(
+        applicationState: applicationState.copyWith(
+          localizationState2: localizationState2.copyWith(
+            status: stateStatus ?? localizationState2.status,
+            localeVersion: localeVersion ?? localizationState2.localeVersion,
+            translations: translations ?? localizationState2.translations,
+            locale: locale ?? localizationState2.locale,
+          ),
+        ),
+      );
+    }
     return state.copyWith(
       applicationState: applicationState.copyWith(
         localizationState: localizationState.copyWith(
@@ -37,25 +51,31 @@ class _Action extends DefaultAction {
 
 class GetTranslationsAction extends DefaultAction {
   final String? newLocale;
+  final bool for2;
 
-  GetTranslationsAction({this.newLocale});
+  GetTranslationsAction({
+    this.newLocale,
+    this.for2 = false,
+  });
 
   @override
   Future<AppState?> reduce() async {
     dispatch(
       _Action(
+        for2: for2,
         locale: newLocale,
         stateStatus: const StateResult.loading(),
       ),
     );
+    final locale = newLocale ?? localizationState.locale;
     final serverLocaleVersion =
-        await applicationRepository.getLocaleVersion(localizationState.locale);
+        await applicationRepository.getLocaleVersion(locale);
     await serverLocaleVersion.when(
       ok: (serverLocaleVersion) async {
         log('Loading translations from server');
         //do: get translations from server db
         final translations = await applicationRepository.getTranslationsFile(
-          localizationState.locale,
+          locale,
           serverLocaleVersion,
         );
         await translations.when(
@@ -69,9 +89,10 @@ class GetTranslationsAction extends DefaultAction {
 
               //
               // ignore: lines_longer_than_80_chars
-              log('Loaded translations. Version:$serverLocaleVersion');
+              log('Loaded translations for $locale. Version:$serverLocaleVersion');
               dispatch(
                 _Action(
+                  for2: for2,
                   stateStatus: const StateResult.ok(),
                   localeVersion: serverLocaleVersion,
                   translations:
@@ -80,17 +101,18 @@ class GetTranslationsAction extends DefaultAction {
               );
             } catch (e, st) {
               dispatch(
-                _Action(stateStatus: StateResult.fromException(e, st)),
+                _Action(
+                    for2: for2, stateStatus: StateResult.fromException(e, st)),
               );
             }
           },
           error: (trE) {
-            dispatch(_Action(stateStatus: StateResult.error(trE)));
+            dispatch(_Action(for2: for2, stateStatus: StateResult.error(trE)));
           },
         );
       },
       error: (ErrorX error) {
-        dispatch(_Action(stateStatus: StateResult.error(error)));
+        dispatch(_Action(for2: for2, stateStatus: StateResult.error(error)));
       },
     );
     return null;
