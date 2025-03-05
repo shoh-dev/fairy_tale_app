@@ -118,3 +118,42 @@ class GetTranslationsAction extends DefaultAction {
     return null;
   }
 }
+
+class SaveNewTranslations extends DefaultAction {
+  final List<String> keys;
+  final List<String> values;
+  final bool for2;
+
+  SaveNewTranslations({
+    required this.keys,
+    required this.values,
+    this.for2 = false,
+  }); //todo: save on db
+
+  @override
+  AppState? reduce() {
+    final json = Map<String, String>.fromIterables(keys, values);
+
+    if (for2) {
+      final newVersion = localizationState2.localeVersion + 1;
+      return state.copyWith(
+        applicationState: applicationState.copyWith(
+          localizationState2: localizationState2.copyWith(
+            localeVersion: newVersion,
+            translations: json,
+          ),
+        ),
+      );
+    }
+
+    final newVersion = localizationState.localeVersion + 1;
+    return state.copyWith(
+      applicationState: applicationState.copyWith(
+        localizationState: localizationState.copyWith(
+          localeVersion: newVersion,
+          translations: json,
+        ),
+      ),
+    );
+  }
+}

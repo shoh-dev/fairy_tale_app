@@ -210,36 +210,30 @@ class _Body extends StatelessWidget {
     required bool isLoading,
     required bool for2,
   }) {
-    // final hasNewRows =
-    //     stateManager.rows.where((element) => element.state.isAdded).isNotEmpty;
-    // final hasUpdatedRow = stateManager.rows
-    //     .where((element) => element.state.isUpdated)
-    //     .isNotEmpty;
-
     return SizedBox(
       height: kToolbarHeight,
       child: isLoading
           ? const LoadingComponent()
-          : Row(
-              children: [
-                const SizedBox(width: 8),
-                Text(
-                  '$locale - $version',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: 200,
-                  child: DispatchConnector<AppState>(
-                    builder: (context, dispatch) {
-                      return DropdownComponent<String>(
+          : DispatchConnector<AppState>(
+              builder: (context, dispatch) {
+                return Row(
+                  children: [
+                    const SizedBox(width: 8),
+                    Text(
+                      'Locale - $locale\nVersion - $version',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const Spacer(),
+                    SizedBox(
+                      width: 200,
+                      child: DropdownComponent<String>(
                         initialValue:
                             DropdownItem(value: locale, label: locale),
                         onChanged: (value) {
-                          if (value == null) {
+                          if (value == null || value.value == locale) {
                             return;
                           }
                           dispatch(
@@ -250,47 +244,56 @@ class _Body extends StatelessWidget {
                           );
                         },
                         items: [
-                          for (final locale in ['en', 'ru'])
+                          for (final l in ['en', 'ru'])
                             DropdownItem(
-                              value: locale,
-                              label: locale,
+                              value: l,
+                              label: l,
+                              // enabled: l != locale,
                             ),
                         ],
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(width: 16),
-                ButtonComponent.iconDesctructive(
-                  icon: Icons.restore_rounded,
-                  onPressed: () {
-                    stateManager
-                      ..removeAllRows()
-                      ..appendRows([
-                        for (final entry in translations.entries)
-                          fromEntry(entry),
-                      ]);
-                  },
-                ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    ButtonComponent.iconDesctructive(
+                      icon: Icons.restore_rounded,
+                      onPressed: () {
+                        stateManager
+                          ..removeAllRows()
+                          ..appendRows([
+                            for (final entry in translations.entries)
+                              fromEntry(entry),
+                          ]);
+                      },
+                    ),
 
-                const SizedBox(width: 8),
-                //Add button
-                ButtonComponent.icon(
-                  icon: Icons.add_rounded,
-                  onPressed: stateManager.appendNewRows,
-                ),
-                const SizedBox(width: 8),
-                ButtonComponent.icon(
-                  icon: Icons.save_rounded,
-                  onPressed: () {
-                    final rows = stateManager.rows;
-                    log(
-                      rows.map((e) => e.cells['key']!.value).toString(),
-                    ); //todo:
-                  },
-                ),
-                const SizedBox(width: 8),
-              ],
+                    const SizedBox(width: 8),
+                    //Add button
+                    ButtonComponent.icon(
+                      icon: Icons.add_rounded,
+                      onPressed: stateManager.appendNewRows,
+                    ),
+                    const SizedBox(width: 8),
+                    ButtonComponent.icon(
+                      icon: Icons.save_rounded,
+                      onPressed: () {
+                        final rows = stateManager.rows;
+                        final keys = rows.map<String>(
+                            (e) => e.cells['key']!.value.toString());
+                        final values = rows.map<String>(
+                            (e) => e.cells['value']!.value.toString());
+                        dispatch(
+                          SaveNewTranslations(
+                            keys: keys.toList(),
+                            values: values.toList(),
+                            for2: for2,
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                );
+              },
             ),
     );
   }
