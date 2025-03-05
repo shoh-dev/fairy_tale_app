@@ -127,8 +127,10 @@ class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
 }
 
 class _OrientationDropdown extends StatelessWidget {
-  const _OrientationDropdown(
-      {required this.orientation, required this.onChanged});
+  const _OrientationDropdown({
+    required this.orientation,
+    required this.onChanged,
+  });
 
   final String orientation;
   final void Function(String?) onChanged;

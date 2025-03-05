@@ -88,8 +88,8 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                                       height: 300,
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: Colors
-                                              .grey, //todo: no image placeholder
+                                          color: Colors.grey,
+                                          //todo: no image placeholder
                                         ),
                                       ),
                                       child: const Placeholder(),

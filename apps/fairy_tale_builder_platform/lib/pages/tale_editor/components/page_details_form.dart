@@ -48,8 +48,10 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm>
               children: [
                 Row(
                   children: [
-                    Text('Page Details',
-                        style: context.textTheme.headlineSmall),
+                    Text(
+                      'Page Details',
+                      style: context.textTheme.headlineSmall,
+                    ),
                     const Spacer(),
                     const ButtonComponent.iconDesctructive(
                       icon: Icons.delete_rounded,
@@ -59,7 +61,7 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm>
                     const SizedBox(width: 8),
                     //Interactions Editor icon button
                     ButtonComponent.icon(
-                      icon: Icons.edit_rounded,
+                      icon: Icons.touch_app_rounded,
                       onPressed: () {
                         // Navigator.of(context).push(
                         // MaterialPageRoute<void>(
@@ -70,7 +72,7 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm>
                     const SizedBox(width: 8),
                     //preview page icon button
                     ButtonComponent.icon(
-                      icon: Icons.remove_red_eye,
+                      icon: Icons.remove_red_eye_rounded,
                       onPressed: () {
                         showDialog<void>(
                           context: context,

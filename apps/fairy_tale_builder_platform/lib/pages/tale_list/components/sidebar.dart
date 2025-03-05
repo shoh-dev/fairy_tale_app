@@ -37,7 +37,7 @@ class TaleListSidebarComponent extends StatelessWidget {
                 },
               ),
             ],
-          )
+          ),
         ],
       ),
     );
