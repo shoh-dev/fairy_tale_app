@@ -255,6 +255,7 @@ class _Body extends StatelessWidget {
                     ),
                     const SizedBox(width: 16),
                     ButtonComponent.iconDesctructive(
+                      tooltip: 'Restore default',
                       icon: Icons.restore_rounded,
                       onPressed: () {
                         stateManager
@@ -269,11 +270,13 @@ class _Body extends StatelessWidget {
                     const SizedBox(width: 8),
                     //Add button
                     ButtonComponent.icon(
+                      tooltip: 'Add',
                       icon: Icons.add_rounded,
                       onPressed: stateManager.appendNewRows,
                     ),
                     const SizedBox(width: 8),
                     ButtonComponent.icon(
+                      tooltip: 'Save',
                       icon: Icons.save_rounded,
                       onPressed: () {
                         final rows = stateManager.rows;
