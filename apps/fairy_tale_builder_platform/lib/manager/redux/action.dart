@@ -15,12 +15,8 @@ abstract class DefaultAction extends ReduxAction<AppState> {
   TaleState get taleState => taleListState.taleState;
   TaleEditorState get editorState => taleListState.taleState.editorState;
   ApplicationState get applicationState => state.applicationState;
-  // LocalizationState get localizationState => applicationState.localizationState;
-  // LocalizationState2 get localizationState2 =>
-  // applicationState.localizationState2;
 
   //Repositories
-  // LocaleRepository get applicationRepository => env.applicationrepository;
   TaleRepository get taleRepository => env.taleRepository;
   AudioPlayerService get mainAudioPlayerService => env.mainAudioPlayerService;
   AudioPlayerService get interactionAudioPlayerService =>

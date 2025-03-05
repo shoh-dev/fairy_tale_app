@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/src/repositories/tale/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

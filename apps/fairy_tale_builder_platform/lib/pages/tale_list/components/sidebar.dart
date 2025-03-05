@@ -1,4 +1,3 @@
-import 'package:fairy_tale_builder_platform/pages/localization_settings/localization_settings_page.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/tale_editor_page.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';

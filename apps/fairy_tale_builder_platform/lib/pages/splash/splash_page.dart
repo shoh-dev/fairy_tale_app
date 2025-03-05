@@ -1,9 +1,5 @@
-import 'package:fairy_tale_builder_platform/components/loading_component.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_list/tale_list_page.dart';
 import 'package:flutter/material.dart';
-import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
 class SplashPage extends StatelessWidget {

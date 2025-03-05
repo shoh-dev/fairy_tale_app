@@ -1,4 +1,3 @@
-export 'app/localization/action.dart';
 export 'app/localization/state.dart';
 export 'tales/action.dart';
 export 'tales/state.dart';

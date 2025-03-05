@@ -55,18 +55,18 @@ class GetTaleAction extends DefaultAction {
 
     await tale.when(
       ok: (tale) async {
-        final pages = tale.talePages.map((page) {
-          final interactions = page.taleInteractions.map((interaction) {
+        final pages = tale.pages.map((page) {
+          final interactions = page.interactions.map((interaction) {
             return interaction.copyWith(
               currentPosition: interaction.initialPosition,
             );
           }).toList();
-          return page.copyWith(taleInteractions: interactions);
+          return page.copyWith(interactions: interactions);
         });
 
         dispatch(
           _TaleAction(
-            tale: tale.copyWith(talePages: pages.toList()),
+            tale: tale.copyWith(pages: pages.toList()),
             selectedTaleResult: const StateResult.ok(),
           ),
         );
@@ -92,7 +92,7 @@ class TaleInteractionHandlerAction extends DefaultAction {
 
     final tale = taleState.selectedTale;
     final talePage =
-        tale.talePages.firstWhereOrNull((e) => e.id == interaction.talePageId);
+        tale.pages.firstWhereOrNull((e) => e.id == interaction.talePageId);
 
     if (talePage == null) {
       return null;

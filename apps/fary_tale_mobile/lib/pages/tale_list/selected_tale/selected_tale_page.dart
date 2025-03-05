@@ -249,11 +249,11 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
             builder: (context, cc) {
               return PageView.builder(
                 controller: widget.pageController,
-                itemCount: widget.tale.talePages.length,
+                itemCount: widget.tale.pages.length,
                 physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  final page = widget.tale.talePages[index];
+                  final page = widget.tale.pages[index];
                   return Stack(
                     children: [
                       //image
@@ -264,7 +264,7 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
                           ),
                         ),
 
-                      for (final interaction in page.taleInteractions)
+                      for (final interaction in page.interactions)
                         //tale object
                         AnimatedPositioned(
                           // curve: Curves.ease, //todo: get curve from db
@@ -288,13 +288,11 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
           bottomNavigationBar: BottomAppBar(
             child: SelectedTalePageNavigatorComponent(
               controller: widget.pageController,
-              totalPages: widget.tale.talePages.length,
+              totalPages: widget.tale.pages.length,
               interactions: widget.pageController.hasClients
-                  ? widget
-                      .tale
-                      .talePages[widget.pageController.page?.toInt() ?? 0]
-                      .taleInteractions
-                  : widget.tale.talePages.first.taleInteractions,
+                  ? widget.tale.pages[widget.pageController.page?.toInt() ?? 0]
+                      .interactions
+                  : widget.tale.pages.first.interactions,
             ),
           ),
         );

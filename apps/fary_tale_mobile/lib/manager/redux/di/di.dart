@@ -5,7 +5,6 @@ import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
 
 class DependencyInjection extends ReduxDependencyInjection {
-  late final LocaleRepository applicationrepository;
   late final SupabaseService supabaseRepository;
   late final TaleRepository taleRepository;
   late final PathProviderService pathProviderService;
@@ -25,8 +24,6 @@ class DependencyInjection extends ReduxDependencyInjection {
       final supabaseClient = await supabaseRepository.initialize();
       return supabaseClient.when(
         ok: (client) {
-          applicationrepository =
-              LocaleRepositoryImpl(client) as LocaleRepository;
           taleRepository = TaleRepositoryImpl(client) as TaleRepository;
           return const Result.ok(null);
         },
