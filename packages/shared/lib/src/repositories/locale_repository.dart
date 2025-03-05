@@ -3,7 +3,7 @@ import 'package:myspace_data/myspace_data.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class LocaleRepository {
-  ResultFuture<int> getLocaleVersion();
+  ResultFuture<int> getLocaleVersion(String locale);
   ResultFuture<Uint8List> getTranslationsFile(String locale, int version);
 }
 
@@ -13,11 +13,14 @@ class LocaleRepositoryImpl implements LocaleRepository {
   const LocaleRepositoryImpl(this._supabase);
 
   @override
-  ResultFuture<int> getLocaleVersion() async {
+  ResultFuture<int> getLocaleVersion(String locale) async {
     try {
-      final response =
-          await _supabase.from('application').select('locale_version').single();
-      return Result.ok(response['locale_version'] as int);
+      final response = await _supabase
+          .from('localization')
+          .select('version')
+          .eq('locale', locale)
+          .single();
+      return Result.ok(response['version'] as int);
     } catch (e) {
       return Result.error(ErrorX(e));
     }
@@ -31,7 +34,7 @@ class LocaleRepositoryImpl implements LocaleRepository {
     try {
       final response = await _supabase.storage
           .from('default')
-          .download('localizations/tr_${locale}_$version.json');
+          .download('localizations/$locale/$version.json');
       return Result.ok(response);
     } catch (e) {
       return Result.error(ErrorX(e));

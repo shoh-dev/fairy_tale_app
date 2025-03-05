@@ -7,7 +7,7 @@ class Translator extends StatelessWidget {
   const Translator({
     required this.toTranslate,
     required this.builder,
-    this.showOriginalNotTranslated = false,
+    this.showOriginalNotTranslated = true,
     super.key,
   });
 

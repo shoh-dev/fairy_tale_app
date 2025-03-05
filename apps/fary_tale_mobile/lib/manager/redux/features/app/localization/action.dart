@@ -39,14 +39,15 @@ class GetTranslationsAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     dispatch(_Action(stateStatus: const StateResult.loading()));
-    final serverLocaleVersion = await applicationRepository.getLocaleVersion();
+    final serverLocaleVersion =
+        await applicationRepository.getLocaleVersion(localizationState.locale);
     await serverLocaleVersion.when(
       ok: (serverLocaleVersion) async {
         final appDir = await pathService.getApplicationDocumentsDirectory();
         await appDir.when(
           ok: (dirOk) async {
             final localTrFile = File(
-              '${dirOk.path}/tr_${localizationState.locale}_$serverLocaleVersion.json',
+              '${dirOk.path}/${localizationState.locale}/$serverLocaleVersion.json',
             );
             if (localTrFile.existsSync()) {
               log('Loading translations from local');
@@ -81,7 +82,7 @@ class GetTranslationsAction extends DefaultAction {
                   //do: save translations to local db
                   try {
                     final trFile = File(
-                      '${dirOk.path}/tr_${localizationState.locale}_$serverLocaleVersion.json',
+                      '${dirOk.path}/${localizationState.locale}/$serverLocaleVersion.json',
                     );
                     await trFile.writeAsBytes(trOk);
                     final translations = _mapTrFile(trFile);

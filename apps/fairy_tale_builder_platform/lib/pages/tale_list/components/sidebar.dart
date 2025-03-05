@@ -1,3 +1,4 @@
+import 'package:fairy_tale_builder_platform/pages/localization_settings/localization_settings_page.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/tale_editor_page.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
@@ -18,23 +19,49 @@ class TaleListSidebarComponent extends StatelessWidget {
         ),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const SizedBox(height: 8),
-          ...ListTile.divideTiles(
-            context: context,
-            tiles: [
-              //create new tale
-              ListTile(
-                leading: const Icon(Icons.add_rounded),
-                title: const Text('Create new tale'),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (context) => const TaleEditorPage(),
-                    ),
-                  );
-                },
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ...ListTile.divideTiles(
+                context: context,
+                tiles: [
+                  //create new tale
+                  ListTile(
+                    leading: const Icon(Icons.add_rounded),
+                    title: const Text('Create new tale'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (context) => const TaleEditorPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.language_rounded),
+                    title: const Text('Localization settings'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (context) =>
+                              const LocalizationSettingsPage(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+          //footer
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ...ListTile.divideTiles(
+                context: context,
+                tiles: [],
               ),
             ],
           ),

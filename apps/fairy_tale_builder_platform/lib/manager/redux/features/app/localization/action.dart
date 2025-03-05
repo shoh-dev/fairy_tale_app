@@ -36,10 +36,20 @@ class _Action extends DefaultAction {
 }
 
 class GetTranslationsAction extends DefaultAction {
+  final String? newLocale;
+
+  GetTranslationsAction({this.newLocale});
+
   @override
   Future<AppState?> reduce() async {
-    dispatch(_Action(stateStatus: const StateResult.loading()));
-    final serverLocaleVersion = await applicationRepository.getLocaleVersion();
+    dispatch(
+      _Action(
+        locale: newLocale,
+        stateStatus: const StateResult.loading(),
+      ),
+    );
+    final serverLocaleVersion =
+        await applicationRepository.getLocaleVersion(localizationState.locale);
     await serverLocaleVersion.when(
       ok: (serverLocaleVersion) async {
         log('Loading translations from server');
@@ -59,7 +69,7 @@ class GetTranslationsAction extends DefaultAction {
 
               //
               // ignore: lines_longer_than_80_chars
-              log('Loaded new version of translations. Version:$serverLocaleVersion');
+              log('Loaded translations. Version:$serverLocaleVersion');
               dispatch(
                 _Action(
                   stateStatus: const StateResult.ok(),
