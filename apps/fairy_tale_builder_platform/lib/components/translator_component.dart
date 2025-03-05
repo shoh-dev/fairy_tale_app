@@ -7,11 +7,13 @@ class Translator extends StatelessWidget {
   const Translator({
     required this.toTranslate,
     required this.builder,
+    this.showOriginalNotTranslated = false,
     super.key,
   });
 
   final List<String?> toTranslate;
   final Widget Function(List<String> translatedValue) builder;
+  final bool showOriginalNotTranslated;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,8 @@ class Translator extends StatelessWidget {
           ok: () {
             final translatedList = [
               for (final key in toTranslate)
-                vm.translations[key] ?? '$key: not_found',
+                vm.translations[key] ??
+                    (showOriginalNotTranslated ? '$key' : '$key: not_found'),
             ];
             return builder(translatedList);
           },

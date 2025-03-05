@@ -18,6 +18,7 @@ _$TalePageImpl _$$TalePageImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => TaleInteraction.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      isNew: json['is_new'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$TalePageImplToJson(_$TalePageImpl instance) =>
@@ -29,4 +30,5 @@ Map<String, dynamic> _$$TalePageImplToJson(_$TalePageImpl instance) =>
       'background_image': instance.backgroundImage,
       'background_audio': instance.backgroundAudio,
       'tale_interactions': instance.taleInteractions,
+      'is_new': instance.isNew,
     };

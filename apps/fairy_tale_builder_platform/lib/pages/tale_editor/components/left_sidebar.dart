@@ -1,4 +1,5 @@
 import 'package:fairy_tale_builder_platform/components/translator_component.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                       text: 'Add page',
                       icon: Icons.add_rounded,
                       onPressed: () {
-                        // context.dispatch(AddEmptyTalePageAction());//todo:
+                        dispatch(AddNewTalePageAction());
                       },
                     ),
                   ),
@@ -54,11 +55,7 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                       final isSelected = page.id == model.id;
                       return InkWell(
                         onTap: () {
-                          if (isSelected) {
-                            // context.dispatch(SelectEditorTalePageAction(null));//todo:
-                            return;
-                          }
-                          // context.dispatch(SelectEditorTalePageAction(page));//todo:
+                          dispatch(SelectEditorTalePageAction(page));
                         },
                         borderRadius: BorderRadius.circular(8),
                         child: AnimatedContainer(
@@ -99,6 +96,7 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Translator(
+                                  showOriginalNotTranslated: page.isNew,
                                   toTranslate: [page.text],
                                   builder: (translatedValue) {
                                     return Text(translatedValue[0]);

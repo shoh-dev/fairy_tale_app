@@ -28,6 +28,7 @@ mixin _$TalePage {
   String get backgroundAudio => throw _privateConstructorUsedError;
   List<TaleInteraction> get taleInteractions =>
       throw _privateConstructorUsedError;
+  bool get isNew => throw _privateConstructorUsedError;
 
   /// Serializes this TalePage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,7 +52,8 @@ abstract class $TalePageCopyWith<$Res> {
       String text,
       String backgroundImage,
       String backgroundAudio,
-      List<TaleInteraction> taleInteractions});
+      List<TaleInteraction> taleInteractions,
+      bool isNew});
 }
 
 /// @nodoc
@@ -76,6 +78,7 @@ class _$TalePageCopyWithImpl<$Res, $Val extends TalePage>
     Object? backgroundImage = null,
     Object? backgroundAudio = null,
     Object? taleInteractions = null,
+    Object? isNew = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -106,6 +109,10 @@ class _$TalePageCopyWithImpl<$Res, $Val extends TalePage>
           ? _value.taleInteractions
           : taleInteractions // ignore: cast_nullable_to_non_nullable
               as List<TaleInteraction>,
+      isNew: null == isNew
+          ? _value.isNew
+          : isNew // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -125,7 +132,8 @@ abstract class _$$TalePageImplCopyWith<$Res>
       String text,
       String backgroundImage,
       String backgroundAudio,
-      List<TaleInteraction> taleInteractions});
+      List<TaleInteraction> taleInteractions,
+      bool isNew});
 }
 
 /// @nodoc
@@ -148,6 +156,7 @@ class __$$TalePageImplCopyWithImpl<$Res>
     Object? backgroundImage = null,
     Object? backgroundAudio = null,
     Object? taleInteractions = null,
+    Object? isNew = null,
   }) {
     return _then(_$TalePageImpl(
       id: null == id
@@ -178,6 +187,10 @@ class __$$TalePageImplCopyWithImpl<$Res>
           ? _value._taleInteractions
           : taleInteractions // ignore: cast_nullable_to_non_nullable
               as List<TaleInteraction>,
+      isNew: null == isNew
+          ? _value.isNew
+          : isNew // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -193,7 +206,8 @@ class _$TalePageImpl extends _TalePage {
       required this.text,
       required this.backgroundImage,
       this.backgroundAudio = '',
-      final List<TaleInteraction> taleInteractions = const []})
+      final List<TaleInteraction> taleInteractions = const [],
+      this.isNew = false})
       : _taleInteractions = taleInteractions,
         super._();
 
@@ -224,8 +238,12 @@ class _$TalePageImpl extends _TalePage {
   }
 
   @override
+  @JsonKey()
+  final bool isNew;
+
+  @override
   String toString() {
-    return 'TalePage(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, backgroundImage: $backgroundImage, backgroundAudio: $backgroundAudio, taleInteractions: $taleInteractions)';
+    return 'TalePage(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, backgroundImage: $backgroundImage, backgroundAudio: $backgroundAudio, taleInteractions: $taleInteractions, isNew: $isNew)';
   }
 
   @override
@@ -243,7 +261,8 @@ class _$TalePageImpl extends _TalePage {
             (identical(other.backgroundAudio, backgroundAudio) ||
                 other.backgroundAudio == backgroundAudio) &&
             const DeepCollectionEquality()
-                .equals(other._taleInteractions, _taleInteractions));
+                .equals(other._taleInteractions, _taleInteractions) &&
+            (identical(other.isNew, isNew) || other.isNew == isNew));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -256,7 +275,8 @@ class _$TalePageImpl extends _TalePage {
       text,
       backgroundImage,
       backgroundAudio,
-      const DeepCollectionEquality().hash(_taleInteractions));
+      const DeepCollectionEquality().hash(_taleInteractions),
+      isNew);
 
   /// Create a copy of TalePage
   /// with the given fields replaced by the non-null parameter values.
@@ -282,7 +302,8 @@ abstract class _TalePage extends TalePage {
       required final String text,
       required final String backgroundImage,
       final String backgroundAudio,
-      final List<TaleInteraction> taleInteractions}) = _$TalePageImpl;
+      final List<TaleInteraction> taleInteractions,
+      final bool isNew}) = _$TalePageImpl;
   const _TalePage._() : super._();
 
   factory _TalePage.fromJson(Map<String, dynamic> json) =
@@ -302,6 +323,8 @@ abstract class _TalePage extends TalePage {
   String get backgroundAudio;
   @override
   List<TaleInteraction> get taleInteractions;
+  @override
+  bool get isNew;
 
   /// Create a copy of TalePage
   /// with the given fields replaced by the non-null parameter values.

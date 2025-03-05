@@ -112,8 +112,8 @@ class __$$TaleEditorStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$TaleEditorStateImpl implements _TaleEditorState {
-  const _$TaleEditorStateImpl({required this.selectedTalePage});
+class _$TaleEditorStateImpl extends _TaleEditorState {
+  const _$TaleEditorStateImpl({required this.selectedTalePage}) : super._();
 
   @override
   final TalePage selectedTalePage;
@@ -145,9 +145,10 @@ class _$TaleEditorStateImpl implements _TaleEditorState {
           this, _$identity);
 }
 
-abstract class _TaleEditorState implements TaleEditorState {
+abstract class _TaleEditorState extends TaleEditorState {
   const factory _TaleEditorState({required final TalePage selectedTalePage}) =
       _$TaleEditorStateImpl;
+  const _TaleEditorState._() : super._();
 
   @override
   TalePage get selectedTalePage;

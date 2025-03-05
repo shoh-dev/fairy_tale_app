@@ -18,6 +18,7 @@ class TalePage with _$TalePage {
     required String backgroundImage,
     @Default('') String backgroundAudio,
     @Default([]) List<TaleInteraction> taleInteractions,
+    @Default(false) bool isNew,
   }) = _TalePage;
 
   static const empty = TalePage(
@@ -26,6 +27,15 @@ class TalePage with _$TalePage {
     pageNumber: 0,
     text: '',
     backgroundImage: '',
+  );
+
+  static const newPage = TalePage(
+    id: '',
+    taleId: '',
+    pageNumber: 0,
+    text: '',
+    backgroundImage: '',
+    isNew: true,
   );
 
   factory TalePage.fromJson(Map<String, dynamic> json) =>

@@ -1,11 +1,14 @@
 import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/left_sidebar.dart';
+import 'package:fairy_tale_builder_platform/pages/tale_editor/components/page_details_form.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/right_sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:shared/shared.dart';
 
 class TaleEditorPage extends StatelessWidget {
@@ -24,7 +27,7 @@ class TaleEditorPage extends StatelessWidget {
         dispatch(GetTaleAction(taleId: taleId));
       },
       onDispose: (dispatch) {
-        // dispatch(SelectEditorTalePageAction(null));//todo:
+        dispatch(SelectEditorTalePageAction(null));
       },
       builder: (context, dispatch, model) {
         return model.when(
@@ -66,23 +69,22 @@ class _Layout extends StatelessWidget {
               : const Text('Update Existing Tale'),
           leftSidebar: TaleEditorLeftSidebarComponent(pages: tale.talePages),
           rigthSidebar: TaleEditorRightSidebarComponent(tale: tale),
-          // body: StateConnector<AppState, TalePage>(
-          //   selector: (state) => state.taleEditorState.selectedPage,
-          //   builder: (context, selectedPage) {
-          //     final bool isSelected = selectedPage.id.isNotEmpty;
-          //     if (isSelected) {
-          //       //show page editor details
-          //       return TalePageDetailsForm(page: selectedPage);
-          //     }
-          //     return Center(
-          //       child: Text(
-          //         'Select a page to edit',
-          //         style: context.textTheme.titleLarge,
-          //       ),
-          //     );
-          //   },
-          // ),
-          body: const Text('Not Implement!'),
+          body: StateConnector<AppState, bool>(
+            selector: (state) =>
+                state.taleListState.taleState.editorState.isPageSelected,
+            builder: (context, dispatch, isSelected) {
+              if (isSelected) {
+                //show page editor details
+                return const TalePageDetailsForm();
+              }
+              return Center(
+                child: Text(
+                  'Select a page to edit',
+                  style: context.textTheme.titleLarge,
+                ),
+              );
+            },
+          ),
         );
       },
     );
