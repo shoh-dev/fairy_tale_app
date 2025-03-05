@@ -50,13 +50,13 @@ class AddNewTalePageAction extends DefaultAction {
   AppState reduce() {
     final newPage = TalePage.newPage.copyWith(
       id: UUID.v4(),
-      text: (taleState.selectedTale.talePages.length + 1).toString(),
+      text: (taleState.selectedTale.pages.length + 1).toString(),
     );
     return state.copyWith(
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
           selectedTale: taleState.selectedTale.copyWith(
-            talePages: [...taleState.selectedTale.talePages, newPage],
+            pages: [...taleState.selectedTale.pages, newPage],
           ),
           editorState: editorState.copyWith(
             selectedTalePage: newPage,
@@ -96,7 +96,7 @@ class SaveTalePageAction extends DefaultAction {
 
   @override
   AppState reduce() {
-    final newTalePages = taleState.selectedTale.talePages.map((e) {
+    final newTalePages = taleState.selectedTale.pages.map((e) {
       if (e.id == page.id) {
         return page;
       }
@@ -106,7 +106,7 @@ class SaveTalePageAction extends DefaultAction {
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
           selectedTale: taleState.selectedTale.copyWith(
-            talePages: newTalePages,
+            pages: newTalePages,
           ),
           editorState: editorState.copyWith(
             selectedTalePage: page,

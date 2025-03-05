@@ -43,12 +43,12 @@ class TaleListSidebarComponent extends StatelessWidget {
                     leading: const Icon(Icons.language_rounded),
                     title: const Text('Localization settings'),
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute<void>(
-                          builder: (context) =>
-                              const LocalizationSettingsPage(),
-                        ),
-                      );
+                      // Navigator.of(context).push(
+                      // MaterialPageRoute<void>(
+                      // builder: (context) =>
+                      // const LocalizationSettingsPage(),
+                      // ),
+                      // );
                     },
                   ),
                 ],

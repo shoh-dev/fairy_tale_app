@@ -11,7 +11,11 @@ _$TaleImpl _$$TaleImplFromJson(Map<String, dynamic> json) => _$TaleImpl(
       title: json['title'] as String,
       description: json['description'] as String,
       coverImage: json['cover_image'] as String,
-      talePages: (json['tale_pages'] as List<dynamic>?)
+      localizations: json['localizations'] == null
+          ? null
+          : TaleLocalization.fromJson(
+              json['localizations'] as Map<String, dynamic>),
+      pages: (json['pages'] as List<dynamic>?)
               ?.map((e) => TalePage.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
@@ -24,6 +28,7 @@ Map<String, dynamic> _$$TaleImplToJson(_$TaleImpl instance) =>
       'title': instance.title,
       'description': instance.description,
       'cover_image': instance.coverImage,
-      'tale_pages': instance.talePages,
+      'localizations': instance.localizations,
+      'pages': instance.pages,
       'orientation': instance.orientation,
     };

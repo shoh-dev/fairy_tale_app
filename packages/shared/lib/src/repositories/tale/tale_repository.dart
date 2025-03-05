@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/src/repositories/tale/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -30,11 +32,9 @@ class TaleRepositoryImpl implements TaleRepository {
     try {
       final response = await _supabase
           .from('tales')
-          .select('*, tale_pages(*, tale_interactions(*))')
+          .select('*, pages(*, interactions(*)), localizations(*)')
           .eq('id', taleId)
-          .maybeSingle();
-
-      if (response == null) return const Result.error(ErrorX('Tale not found'));
+          .single();
 
       return Result.ok(Tale.fromJson(response));
     } catch (e) {

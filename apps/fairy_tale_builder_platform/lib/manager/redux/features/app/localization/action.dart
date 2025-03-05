@@ -1,200 +1,200 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
-import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:flutter/foundation.dart';
-import 'package:myspace_data/myspace_data.dart';
+// import 'dart:async';
+// import 'dart:convert';
+// import 'dart:developer';
+// import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
+// import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+// import 'package:flutter/foundation.dart';
+// import 'package:myspace_data/myspace_data.dart';
 
-class _Action extends DefaultAction {
-  _Action({
-    this.stateStatus,
-    this.localeVersion,
-    this.translations,
-    //
-    // ignore: unused_element
-    this.locale,
-    this.for2 = false,
-  });
+// class _Action extends DefaultAction {
+//   _Action({
+//     this.stateStatus,
+//     this.localeVersion,
+//     this.translations,
+//     //
+//     // ignore: unused_element
+//     this.locale,
+//     this.for2 = false,
+//   });
 
-  final StateResult? stateStatus;
-  final int? localeVersion;
-  final Map<String, String>? translations;
-  final String? locale;
-  final bool for2;
+//   final StateResult? stateStatus;
+//   final int? localeVersion;
+//   final Map<String, String>? translations;
+//   final String? locale;
+//   final bool for2;
 
-  @override
-  AppState reduce() {
-    if (for2) {
-      return state.copyWith(
-        applicationState: applicationState.copyWith(
-          localizationState2: localizationState2.copyWith(
-            status: stateStatus ?? localizationState2.status,
-            localeVersion: localeVersion ?? localizationState2.localeVersion,
-            translations: translations ?? localizationState2.translations,
-            locale: locale ?? localizationState2.locale,
-          ),
-        ),
-      );
-    }
-    return state.copyWith(
-      applicationState: applicationState.copyWith(
-        localizationState: localizationState.copyWith(
-          status: stateStatus ?? localizationState.status,
-          localeVersion: localeVersion ?? localizationState.localeVersion,
-          translations: translations ?? localizationState.translations,
-          locale: locale ?? localizationState.locale,
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   AppState reduce() {
+//     if (for2) {
+//       return state.copyWith(
+//         applicationState: applicationState.copyWith(
+//           localizationState2: localizationState2.copyWith(
+//             status: stateStatus ?? localizationState2.status,
+//             localeVersion: localeVersion ?? localizationState2.localeVersion,
+//             translations: translations ?? localizationState2.translations,
+//             locale: locale ?? localizationState2.locale,
+//           ),
+//         ),
+//       );
+//     }
+//     return state.copyWith(
+//       applicationState: applicationState.copyWith(
+//         localizationState: localizationState.copyWith(
+//           status: stateStatus ?? localizationState.status,
+//           localeVersion: localeVersion ?? localizationState.localeVersion,
+//           translations: translations ?? localizationState.translations,
+//           locale: locale ?? localizationState.locale,
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-class GetTranslationsAction extends DefaultAction {
-  final String? newLocale;
-  final bool for2;
+// class GetTranslationsAction extends DefaultAction {
+//   final String? newLocale;
+//   final bool for2;
 
-  GetTranslationsAction({
-    this.newLocale,
-    this.for2 = false,
-  });
+//   GetTranslationsAction({
+//     this.newLocale,
+//     this.for2 = false,
+//   });
 
-  @override
-  Future<AppState?> reduce() async {
-    dispatch(
-      _Action(
-        for2: for2,
-        locale: newLocale,
-        stateStatus: const StateResult.loading(),
-      ),
-    );
-    final locale = newLocale ?? localizationState.locale;
-    final serverLocaleVersion =
-        await applicationRepository.getLocaleVersion(locale);
-    await serverLocaleVersion.when(
-      ok: (serverLocaleVersion) async {
-        log('Loading translations from server');
-        //do: get translations from server db
-        final translations = await applicationRepository.getTranslationsFile(
-          locale,
-          serverLocaleVersion,
-        );
-        await translations.when(
-          ok: (trOk) async {
-            //do: save translations to local db
-            try {
-              //trOk is a byte array
-              //convert to json without using File
-              final json =
-                  jsonDecode(utf8.decode(trOk)) as Map<String, dynamic>;
+//   @override
+//   Future<AppState?> reduce() async {
+//     dispatch(
+//       _Action(
+//         for2: for2,
+//         locale: newLocale,
+//         stateStatus: const StateResult.loading(),
+//       ),
+//     );
+//     final locale = newLocale ?? localizationState.locale;
+//     final serverLocaleVersion =
+//         await applicationRepository.getLocaleVersion(locale);
+//     await serverLocaleVersion.when(
+//       ok: (serverLocaleVersion) async {
+//         log('Loading translations from server');
+//         //do: get translations from server db
+//         final translations = await applicationRepository.getTranslationsFile(
+//           locale,
+//           serverLocaleVersion,
+//         );
+//         await translations.when(
+//           ok: (trOk) async {
+//             //do: save translations to local db
+//             try {
+//               //trOk is a byte array
+//               //convert to json without using File
+//               final json =
+//                   jsonDecode(utf8.decode(trOk)) as Map<String, dynamic>;
 
-              //
-              // ignore: lines_longer_than_80_chars
-              log('Loaded translations for $locale. Version:$serverLocaleVersion');
-              dispatch(
-                _Action(
-                  for2: for2,
-                  stateStatus: const StateResult.ok(),
-                  localeVersion: serverLocaleVersion,
-                  translations:
-                      json.map((key, value) => MapEntry(key, value.toString())),
-                ),
-              );
-            } catch (e, st) {
-              dispatch(
-                _Action(
-                  for2: for2,
-                  stateStatus: StateResult.fromException(e, st),
-                ),
-              );
-            }
-          },
-          error: (trE) {
-            dispatch(_Action(for2: for2, stateStatus: StateResult.error(trE)));
-          },
-        );
-      },
-      error: (ErrorX error) {
-        dispatch(_Action(for2: for2, stateStatus: StateResult.error(error)));
-      },
-    );
-    return null;
-  }
-}
+//               //
+//               // ignore: lines_longer_than_80_chars
+//               log('Loaded translations for $locale. Version:$serverLocaleVersion');
+//               dispatch(
+//                 _Action(
+//                   for2: for2,
+//                   stateStatus: const StateResult.ok(),
+//                   localeVersion: serverLocaleVersion,
+//                   translations:
+//                       json.map((key, value) => MapEntry(key, value.toString())),
+//                 ),
+//               );
+//             } catch (e, st) {
+//               dispatch(
+//                 _Action(
+//                   for2: for2,
+//                   stateStatus: StateResult.fromException(e, st),
+//                 ),
+//               );
+//             }
+//           },
+//           error: (trE) {
+//             dispatch(_Action(for2: for2, stateStatus: StateResult.error(trE)));
+//           },
+//         );
+//       },
+//       error: (ErrorX error) {
+//         dispatch(_Action(for2: for2, stateStatus: StateResult.error(error)));
+//       },
+//     );
+//     return null;
+//   }
+// }
 
-class SaveNewTranslations extends DefaultAction {
-  final List<String> keys;
-  final List<String> values;
-  final bool for2;
+// class SaveNewTranslations extends DefaultAction {
+//   final List<String> keys;
+//   final List<String> values;
+//   final bool for2;
 
-  SaveNewTranslations({
-    required this.keys,
-    required this.values,
-    this.for2 = false,
-  }); //todo: save on db
+//   SaveNewTranslations({
+//     required this.keys,
+//     required this.values,
+//     this.for2 = false,
+//   }); //todo: save on db
 
-  @override
-  Future<AppState?> reduce() async {
-    final json = Map<String, String>.fromIterables(keys, values);
-    final oldJson =
-        for2 ? localizationState2.translations : localizationState.translations;
-    final newVersion = (for2
-            ? localizationState2.localeVersion
-            : localizationState.localeVersion) +
-        1;
-    final locale = for2 ? localizationState2.locale : localizationState.locale;
+//   @override
+//   Future<AppState?> reduce() async {
+//     final json = Map<String, String>.fromIterables(keys, values);
+//     final oldJson =
+//         for2 ? localizationState2.translations : localizationState.translations;
+//     final newVersion = (for2
+//             ? localizationState2.localeVersion
+//             : localizationState.localeVersion) +
+//         1;
+//     final locale = for2 ? localizationState2.locale : localizationState.locale;
 
-    if (mapEquals(json, oldJson)) {
-      return null;
-    }
+//     if (mapEquals(json, oldJson)) {
+//       return null;
+//     }
 
-    //todo: handle if failed
-    await upload(
-      version: newVersion,
-      locale: locale,
-      json: json,
-    );
+//     //todo: handle if failed
+//     await upload(
+//       version: newVersion,
+//       locale: locale,
+//       json: json,
+//     );
 
-    if (for2) {
-      return state.copyWith(
-        applicationState: applicationState.copyWith(
-          localizationState2: localizationState2.copyWith(
-            localeVersion: newVersion,
-            translations: json,
-          ),
-        ),
-      );
-    }
+//     if (for2) {
+//       return state.copyWith(
+//         applicationState: applicationState.copyWith(
+//           localizationState2: localizationState2.copyWith(
+//             localeVersion: newVersion,
+//             translations: json,
+//           ),
+//         ),
+//       );
+//     }
 
-    return state.copyWith(
-      applicationState: applicationState.copyWith(
-        localizationState: localizationState.copyWith(
-          localeVersion: newVersion,
-          translations: json,
-        ),
-      ),
-    );
-  }
+//     return state.copyWith(
+//       applicationState: applicationState.copyWith(
+//         localizationState: localizationState.copyWith(
+//           localeVersion: newVersion,
+//           translations: json,
+//         ),
+//       ),
+//     );
+//   }
 
-  Future<bool> upload({
-    required int version,
-    required String locale,
-    required Map<String, String> json,
-  }) async {
-    final uploadResult = await Future.wait([
-      applicationRepository.updateLocaleVersion(
-        locale: localizationState2.locale,
-        version: version,
-      ),
-      applicationRepository.uploadNewTranslations(
-        translations: json,
-        version: version,
-        locale: localizationState2.locale,
-      ),
-    ]);
+//   Future<bool> upload({
+//     required int version,
+//     required String locale,
+//     required Map<String, String> json,
+//   }) async {
+//     final uploadResult = await Future.wait([
+//       applicationRepository.updateLocaleVersion(
+//         locale: localizationState2.locale,
+//         version: version,
+//       ),
+//       applicationRepository.uploadNewTranslations(
+//         translations: json,
+//         version: version,
+//         locale: localizationState2.locale,
+//       ),
+//     ]);
 
-    Log().debug(uploadResult.toString());
+//     Log().debug(uploadResult.toString());
 
-    return uploadResult.every((element) => element.isOk);
-  }
-}
+//     return uploadResult.every((element) => element.isOk);
+//   }
+// }

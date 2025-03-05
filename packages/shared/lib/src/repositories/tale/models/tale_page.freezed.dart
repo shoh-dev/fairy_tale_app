@@ -26,8 +26,7 @@ mixin _$TalePage {
   String get text => throw _privateConstructorUsedError;
   String get backgroundImage => throw _privateConstructorUsedError;
   String get backgroundAudio => throw _privateConstructorUsedError;
-  List<TaleInteraction> get taleInteractions =>
-      throw _privateConstructorUsedError;
+  List<TaleInteraction> get interactions => throw _privateConstructorUsedError;
   bool get isNew => throw _privateConstructorUsedError;
 
   /// Serializes this TalePage to a JSON map.
@@ -52,7 +51,7 @@ abstract class $TalePageCopyWith<$Res> {
       String text,
       String backgroundImage,
       String backgroundAudio,
-      List<TaleInteraction> taleInteractions,
+      List<TaleInteraction> interactions,
       bool isNew});
 }
 
@@ -77,7 +76,7 @@ class _$TalePageCopyWithImpl<$Res, $Val extends TalePage>
     Object? text = null,
     Object? backgroundImage = null,
     Object? backgroundAudio = null,
-    Object? taleInteractions = null,
+    Object? interactions = null,
     Object? isNew = null,
   }) {
     return _then(_value.copyWith(
@@ -105,9 +104,9 @@ class _$TalePageCopyWithImpl<$Res, $Val extends TalePage>
           ? _value.backgroundAudio
           : backgroundAudio // ignore: cast_nullable_to_non_nullable
               as String,
-      taleInteractions: null == taleInteractions
-          ? _value.taleInteractions
-          : taleInteractions // ignore: cast_nullable_to_non_nullable
+      interactions: null == interactions
+          ? _value.interactions
+          : interactions // ignore: cast_nullable_to_non_nullable
               as List<TaleInteraction>,
       isNew: null == isNew
           ? _value.isNew
@@ -132,7 +131,7 @@ abstract class _$$TalePageImplCopyWith<$Res>
       String text,
       String backgroundImage,
       String backgroundAudio,
-      List<TaleInteraction> taleInteractions,
+      List<TaleInteraction> interactions,
       bool isNew});
 }
 
@@ -155,7 +154,7 @@ class __$$TalePageImplCopyWithImpl<$Res>
     Object? text = null,
     Object? backgroundImage = null,
     Object? backgroundAudio = null,
-    Object? taleInteractions = null,
+    Object? interactions = null,
     Object? isNew = null,
   }) {
     return _then(_$TalePageImpl(
@@ -183,9 +182,9 @@ class __$$TalePageImplCopyWithImpl<$Res>
           ? _value.backgroundAudio
           : backgroundAudio // ignore: cast_nullable_to_non_nullable
               as String,
-      taleInteractions: null == taleInteractions
-          ? _value._taleInteractions
-          : taleInteractions // ignore: cast_nullable_to_non_nullable
+      interactions: null == interactions
+          ? _value._interactions
+          : interactions // ignore: cast_nullable_to_non_nullable
               as List<TaleInteraction>,
       isNew: null == isNew
           ? _value.isNew
@@ -206,9 +205,9 @@ class _$TalePageImpl extends _TalePage {
       required this.text,
       required this.backgroundImage,
       this.backgroundAudio = '',
-      final List<TaleInteraction> taleInteractions = const [],
+      final List<TaleInteraction> interactions = const [],
       this.isNew = false})
-      : _taleInteractions = taleInteractions,
+      : _interactions = interactions,
         super._();
 
   factory _$TalePageImpl.fromJson(Map<String, dynamic> json) =>
@@ -227,14 +226,13 @@ class _$TalePageImpl extends _TalePage {
   @override
   @JsonKey()
   final String backgroundAudio;
-  final List<TaleInteraction> _taleInteractions;
+  final List<TaleInteraction> _interactions;
   @override
   @JsonKey()
-  List<TaleInteraction> get taleInteractions {
-    if (_taleInteractions is EqualUnmodifiableListView)
-      return _taleInteractions;
+  List<TaleInteraction> get interactions {
+    if (_interactions is EqualUnmodifiableListView) return _interactions;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_taleInteractions);
+    return EqualUnmodifiableListView(_interactions);
   }
 
   @override
@@ -243,7 +241,7 @@ class _$TalePageImpl extends _TalePage {
 
   @override
   String toString() {
-    return 'TalePage(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, backgroundImage: $backgroundImage, backgroundAudio: $backgroundAudio, taleInteractions: $taleInteractions, isNew: $isNew)';
+    return 'TalePage(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, backgroundImage: $backgroundImage, backgroundAudio: $backgroundAudio, interactions: $interactions, isNew: $isNew)';
   }
 
   @override
@@ -261,7 +259,7 @@ class _$TalePageImpl extends _TalePage {
             (identical(other.backgroundAudio, backgroundAudio) ||
                 other.backgroundAudio == backgroundAudio) &&
             const DeepCollectionEquality()
-                .equals(other._taleInteractions, _taleInteractions) &&
+                .equals(other._interactions, _interactions) &&
             (identical(other.isNew, isNew) || other.isNew == isNew));
   }
 
@@ -275,7 +273,7 @@ class _$TalePageImpl extends _TalePage {
       text,
       backgroundImage,
       backgroundAudio,
-      const DeepCollectionEquality().hash(_taleInteractions),
+      const DeepCollectionEquality().hash(_interactions),
       isNew);
 
   /// Create a copy of TalePage
@@ -302,7 +300,7 @@ abstract class _TalePage extends TalePage {
       required final String text,
       required final String backgroundImage,
       final String backgroundAudio,
-      final List<TaleInteraction> taleInteractions,
+      final List<TaleInteraction> interactions,
       final bool isNew}) = _$TalePageImpl;
   const _TalePage._() : super._();
 
@@ -322,7 +320,7 @@ abstract class _TalePage extends TalePage {
   @override
   String get backgroundAudio;
   @override
-  List<TaleInteraction> get taleInteractions;
+  List<TaleInteraction> get interactions;
   @override
   bool get isNew;
 

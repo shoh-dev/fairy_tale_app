@@ -16,10 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$LocalizationState {
-  StateResult get status => throw _privateConstructorUsedError;
   String get locale => throw _privateConstructorUsedError;
-  Map<String, String> get translations => throw _privateConstructorUsedError;
-  int get localeVersion => throw _privateConstructorUsedError;
 
   /// Create a copy of LocalizationState
   /// with the given fields replaced by the non-null parameter values.
@@ -34,13 +31,7 @@ abstract class $LocalizationStateCopyWith<$Res> {
           LocalizationState value, $Res Function(LocalizationState) then) =
       _$LocalizationStateCopyWithImpl<$Res, LocalizationState>;
   @useResult
-  $Res call(
-      {StateResult status,
-      String locale,
-      Map<String, String> translations,
-      int localeVersion});
-
-  $StateResultCopyWith<$Res> get status;
+  $Res call({String locale});
 }
 
 /// @nodoc
@@ -58,39 +49,14 @@ class _$LocalizationStateCopyWithImpl<$Res, $Val extends LocalizationState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
     Object? locale = null,
-    Object? translations = null,
-    Object? localeVersion = null,
   }) {
     return _then(_value.copyWith(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as StateResult,
       locale: null == locale
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
               as String,
-      translations: null == translations
-          ? _value.translations
-          : translations // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-      localeVersion: null == localeVersion
-          ? _value.localeVersion
-          : localeVersion // ignore: cast_nullable_to_non_nullable
-              as int,
     ) as $Val);
-  }
-
-  /// Create a copy of LocalizationState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $StateResultCopyWith<$Res> get status {
-    return $StateResultCopyWith<$Res>(_value.status, (value) {
-      return _then(_value.copyWith(status: value) as $Val);
-    });
   }
 }
 
@@ -102,14 +68,7 @@ abstract class _$$AppLocalizationStateImplCopyWith<$Res>
       __$$AppLocalizationStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {StateResult status,
-      String locale,
-      Map<String, String> translations,
-      int localeVersion});
-
-  @override
-  $StateResultCopyWith<$Res> get status;
+  $Res call({String locale});
 }
 
 /// @nodoc
@@ -125,28 +84,13 @@ class __$$AppLocalizationStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
     Object? locale = null,
-    Object? translations = null,
-    Object? localeVersion = null,
   }) {
     return _then(_$AppLocalizationStateImpl(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as StateResult,
       locale: null == locale
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
               as String,
-      translations: null == translations
-          ? _value._translations
-          : translations // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-      localeVersion: null == localeVersion
-          ? _value.localeVersion
-          : localeVersion // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
@@ -154,31 +98,14 @@ class __$$AppLocalizationStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AppLocalizationStateImpl implements _AppLocalizationState {
-  const _$AppLocalizationStateImpl(
-      {required this.status,
-      required this.locale,
-      required final Map<String, String> translations,
-      required this.localeVersion})
-      : _translations = translations;
+  const _$AppLocalizationStateImpl({required this.locale});
 
-  @override
-  final StateResult status;
   @override
   final String locale;
-  final Map<String, String> _translations;
-  @override
-  Map<String, String> get translations {
-    if (_translations is EqualUnmodifiableMapView) return _translations;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_translations);
-  }
-
-  @override
-  final int localeVersion;
 
   @override
   String toString() {
-    return 'LocalizationState(status: $status, locale: $locale, translations: $translations, localeVersion: $localeVersion)';
+    return 'LocalizationState(locale: $locale)';
   }
 
   @override
@@ -186,17 +113,11 @@ class _$AppLocalizationStateImpl implements _AppLocalizationState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AppLocalizationStateImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.locale, locale) || other.locale == locale) &&
-            const DeepCollectionEquality()
-                .equals(other._translations, _translations) &&
-            (identical(other.localeVersion, localeVersion) ||
-                other.localeVersion == localeVersion));
+            (identical(other.locale, locale) || other.locale == locale));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, locale,
-      const DeepCollectionEquality().hash(_translations), localeVersion);
+  int get hashCode => Object.hash(runtimeType, locale);
 
   /// Create a copy of LocalizationState
   /// with the given fields replaced by the non-null parameter values.
@@ -210,20 +131,11 @@ class _$AppLocalizationStateImpl implements _AppLocalizationState {
 }
 
 abstract class _AppLocalizationState implements LocalizationState {
-  const factory _AppLocalizationState(
-      {required final StateResult status,
-      required final String locale,
-      required final Map<String, String> translations,
-      required final int localeVersion}) = _$AppLocalizationStateImpl;
+  const factory _AppLocalizationState({required final String locale}) =
+      _$AppLocalizationStateImpl;
 
   @override
-  StateResult get status;
-  @override
   String get locale;
-  @override
-  Map<String, String> get translations;
-  @override
-  int get localeVersion;
 
   /// Create a copy of LocalizationState
   /// with the given fields replaced by the non-null parameter values.

@@ -20,8 +20,7 @@ class TalePreviewDialog extends StatelessWidget {
     return StateConnector<AppState, Tale>(
       selector: selectedTaleSelector,
       builder: (context, dispatch, tale) {
-        final page =
-            tale.talePages.firstWhereOrNull((element) => element.id == id);
+        final page = tale.pages.firstWhereOrNull((element) => element.id == id);
 
         return AlertDialog(
           title: Row(
@@ -56,7 +55,7 @@ class TalePreviewDialog extends StatelessWidget {
                             ),
                           ),
 
-                        for (final interaction in page.taleInteractions)
+                        for (final interaction in page.interactions)
                           //tale object
                           AnimatedPositioned(
                             // curve: Curves.easeInOutCubicEmphasized,//todo: get curve from db

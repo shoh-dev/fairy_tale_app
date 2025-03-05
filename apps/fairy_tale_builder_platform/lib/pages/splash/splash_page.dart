@@ -13,29 +13,9 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        return Scaffold(
-          body: StateResultConnector<AppState>(
-            selector: (state) =>
-                state.applicationState.localizationState.status,
-            onInitialBuild: (dispatch, model) {
-              dispatch(GetTranslationsAction());
-            },
-            builder: (context, dispatch, model) {
-              return model.when(
-                ok: () {
-                  return const Center(child: _Loaded());
-                },
-                error: (e) {
-                  return Center(child: Text(e.toString()));
-                },
-                loading: () {
-                  return const LoadingComponent();
-                },
-                initial: () {
-                  return const SizedBox();
-                },
-              );
-            },
+        return const Scaffold(
+          body: Center(
+            child: _Loaded(),
           ),
         );
       },

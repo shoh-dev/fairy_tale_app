@@ -17,7 +17,7 @@ class TalePage with _$TalePage {
     required String text,
     required String backgroundImage,
     @Default('') String backgroundAudio,
-    @Default([]) List<TaleInteraction> taleInteractions,
+    @Default([]) List<TaleInteraction> interactions,
     @Default(false) bool isNew,
   }) = _TalePage;
 
@@ -45,12 +45,12 @@ class TalePage with _$TalePage {
 
   //updateInteractionMethod
   TalePage updateInteraction(TaleInteraction interaction) {
-    final interactions = List<TaleInteraction>.from(taleInteractions);
+    final interactions = List<TaleInteraction>.from(this.interactions);
     final index =
         interactions.indexWhere((element) => element.id == interaction.id);
     if (index != -1) {
       interactions[index] = interaction;
     }
-    return copyWith(taleInteractions: interactions);
+    return copyWith(interactions: interactions);
   }
 }

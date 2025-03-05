@@ -17,8 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ApplicationState {
   LocalizationState get localizationState => throw _privateConstructorUsedError;
-  LocalizationState2 get localizationState2 =>
-      throw _privateConstructorUsedError;
 
   /// Create a copy of ApplicationState
   /// with the given fields replaced by the non-null parameter values.
@@ -33,12 +31,9 @@ abstract class $ApplicationStateCopyWith<$Res> {
           ApplicationState value, $Res Function(ApplicationState) then) =
       _$ApplicationStateCopyWithImpl<$Res, ApplicationState>;
   @useResult
-  $Res call(
-      {LocalizationState localizationState,
-      LocalizationState2 localizationState2});
+  $Res call({LocalizationState localizationState});
 
   $LocalizationStateCopyWith<$Res> get localizationState;
-  $LocalizationState2CopyWith<$Res> get localizationState2;
 }
 
 /// @nodoc
@@ -57,17 +52,12 @@ class _$ApplicationStateCopyWithImpl<$Res, $Val extends ApplicationState>
   @override
   $Res call({
     Object? localizationState = null,
-    Object? localizationState2 = null,
   }) {
     return _then(_value.copyWith(
       localizationState: null == localizationState
           ? _value.localizationState
           : localizationState // ignore: cast_nullable_to_non_nullable
               as LocalizationState,
-      localizationState2: null == localizationState2
-          ? _value.localizationState2
-          : localizationState2 // ignore: cast_nullable_to_non_nullable
-              as LocalizationState2,
     ) as $Val);
   }
 
@@ -80,17 +70,6 @@ class _$ApplicationStateCopyWithImpl<$Res, $Val extends ApplicationState>
       return _then(_value.copyWith(localizationState: value) as $Val);
     });
   }
-
-  /// Create a copy of ApplicationState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $LocalizationState2CopyWith<$Res> get localizationState2 {
-    return $LocalizationState2CopyWith<$Res>(_value.localizationState2,
-        (value) {
-      return _then(_value.copyWith(localizationState2: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -101,14 +80,10 @@ abstract class _$$ApplicationStateImplCopyWith<$Res>
       __$$ApplicationStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {LocalizationState localizationState,
-      LocalizationState2 localizationState2});
+  $Res call({LocalizationState localizationState});
 
   @override
   $LocalizationStateCopyWith<$Res> get localizationState;
-  @override
-  $LocalizationState2CopyWith<$Res> get localizationState2;
 }
 
 /// @nodoc
@@ -125,17 +100,12 @@ class __$$ApplicationStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? localizationState = null,
-    Object? localizationState2 = null,
   }) {
     return _then(_$ApplicationStateImpl(
       localizationState: null == localizationState
           ? _value.localizationState
           : localizationState // ignore: cast_nullable_to_non_nullable
               as LocalizationState,
-      localizationState2: null == localizationState2
-          ? _value.localizationState2
-          : localizationState2 // ignore: cast_nullable_to_non_nullable
-              as LocalizationState2,
     ));
   }
 }
@@ -143,17 +113,14 @@ class __$$ApplicationStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ApplicationStateImpl implements _ApplicationState {
-  const _$ApplicationStateImpl(
-      {required this.localizationState, required this.localizationState2});
+  const _$ApplicationStateImpl({required this.localizationState});
 
   @override
   final LocalizationState localizationState;
-  @override
-  final LocalizationState2 localizationState2;
 
   @override
   String toString() {
-    return 'ApplicationState(localizationState: $localizationState, localizationState2: $localizationState2)';
+    return 'ApplicationState(localizationState: $localizationState)';
   }
 
   @override
@@ -162,14 +129,11 @@ class _$ApplicationStateImpl implements _ApplicationState {
         (other.runtimeType == runtimeType &&
             other is _$ApplicationStateImpl &&
             (identical(other.localizationState, localizationState) ||
-                other.localizationState == localizationState) &&
-            (identical(other.localizationState2, localizationState2) ||
-                other.localizationState2 == localizationState2));
+                other.localizationState == localizationState));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, localizationState, localizationState2);
+  int get hashCode => Object.hash(runtimeType, localizationState);
 
   /// Create a copy of ApplicationState
   /// with the given fields replaced by the non-null parameter values.
@@ -183,14 +147,11 @@ class _$ApplicationStateImpl implements _ApplicationState {
 
 abstract class _ApplicationState implements ApplicationState {
   const factory _ApplicationState(
-          {required final LocalizationState localizationState,
-          required final LocalizationState2 localizationState2}) =
+          {required final LocalizationState localizationState}) =
       _$ApplicationStateImpl;
 
   @override
   LocalizationState get localizationState;
-  @override
-  LocalizationState2 get localizationState2;
 
   /// Create a copy of ApplicationState
   /// with the given fields replaced by the non-null parameter values.
