@@ -23,24 +23,30 @@ class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
     return StateConnector<AppState, Tale>(
       selector: (state) => state.taleListState.taleState.selectedTale,
       onInitialBuild: (dispatch, tale) {
-        titleCtrl.text = tale.title;
-        descriptionCtrl.text = tale.description;
-        titleCtrl.addListener(() {
-          // context.dispatch(UpdateSelectedTaleAction(
-          // widget.tale.copyWith(title: titleCtrl.text)));//todo:
-        });
-        descriptionCtrl.addListener(() {
-          // context.dispatch(UpdateSelectedTaleAction(
-          // widget.tale.copyWith(description: descriptionCtrl.text)));
+        safeInitialize(() {
+          titleCtrl.text = tale.title;
+          descriptionCtrl.text = tale.description;
+          titleCtrl.addListener(() {
+            // context.dispatch(UpdateSelectedTaleAction(
+            // widget.tale.copyWith(title: titleCtrl.text)));//todo:
+          });
+          descriptionCtrl.addListener(() {
+            // context.dispatch(UpdateSelectedTaleAction(
+            // widget.tale.copyWith(description: descriptionCtrl.text)));
+          });
         });
       },
       onDispose: (dispatch) {
-        titleCtrl.dispose();
-        descriptionCtrl.dispose();
+        safeDispose(() {
+          titleCtrl.dispose();
+          descriptionCtrl.dispose();
+        });
       },
       onDidChange: (dispatch, state, tale) {
-        titleCtrl.text = tale.title;
-        descriptionCtrl.text = tale.description;
+        safeDidUpdateWidget(() {
+          titleCtrl.text = tale.title;
+          descriptionCtrl.text = tale.description;
+        });
       },
       builder: (context, dispatch, tale) {
         return Column(

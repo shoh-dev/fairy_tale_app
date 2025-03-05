@@ -1,3 +1,4 @@
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/tale_preview_dialog.dart';
@@ -25,18 +26,22 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm>
       selector: (state) =>
           state.taleListState.taleState.editorState.selectedTalePage,
       onInitialBuild: (dispatch, page) {
-        pageTitleCtrl
-          ..text = page.text
-          ..addListener(() {
-            // dispatch(
-            // UpdateTalePageAction(page.copyWith(text: pageTitleCtrl.text)));
-          });
+        safeInitialize(() {
+          pageTitleCtrl
+            ..text = page.text
+            ..addListener(() {
+              // dispatch(
+              // UpdateTalePageAction(page.copyWith(text: pageTitleCtrl.text)));
+            });
+        });
       },
       onDispose: (dispatch) {
-        pageTitleCtrl.dispose();
+        safeDispose(pageTitleCtrl.dispose);
       },
       onDidChange: (dispatch, state, page) {
-        pageTitleCtrl.text = page.text;
+        safeDidUpdateWidget(() {
+          pageTitleCtrl.text = page.text;
+        });
       },
       builder: (context, dispatch, page) {
         return Column(
@@ -58,6 +63,13 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm>
                   icon: Icons.delete_rounded,
                   // onPressed: () {},
                   //todo: onPressed
+                ),
+                const SizedBox(width: 8),
+                ButtonComponent.iconOutlined(
+                  icon: Icons.close_rounded,
+                  onPressed: () {
+                    dispatch(SelectEditorTalePageAction(null));
+                  },
                 ),
               ],
             ),
