@@ -1,84 +1,80 @@
+import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:shared/shared.dart';
 
 class TaleDetailsForm extends StatefulWidget {
   const TaleDetailsForm({
-    required this.tale,
     super.key,
   });
-
-  final Tale tale;
 
   @override
   State<TaleDetailsForm> createState() => _TaleDetailsFormState();
 }
 
 class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
-  Tale get tale => widget.tale;
-
   final TextEditingController titleCtrl = TextEditingController();
   final TextEditingController descriptionCtrl = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    safeInitialize(() {
-      titleCtrl.text = tale.title;
-      descriptionCtrl.text = tale.description;
-      titleCtrl.addListener(() {
-        // context.dispatch(UpdateSelectedTaleAction(
-        // widget.tale.copyWith(title: titleCtrl.text)));//todo:
-      });
-      descriptionCtrl.addListener(() {
-        // context.dispatch(UpdateSelectedTaleAction(
-        // widget.tale.copyWith(description: descriptionCtrl.text)));
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    safeDispose(() {
-      titleCtrl.dispose();
-      descriptionCtrl.dispose();
-    });
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Tale Details', style: context.textTheme.headlineSmall),
-        if (widget.tale.id.isNotEmpty) ...[
-          space(8),
-          Text('ID: ${widget.tale.id}', style: context.textTheme.titleMedium),
-          //todo: uncomment when date is added to tale
-          // Text("Created Date: ${tale.date}", style: context.textTheme.
-          // titleMedium),
-        ],
-        space(16),
-        TextFieldComponent(
-          label: 'Title',
-          controller: titleCtrl,
-        ),
-        space(),
-        TextFieldComponent(
-          label: 'Description',
-          controller: descriptionCtrl,
-        ),
-        space(),
-        _OrientationDropdown(tale: widget.tale),
-        space(),
-        ImageSelectorComponent(
-          title: 'Cover Image',
-          imagePath: widget.tale.coverImage,
-        ),
-      ],
+    return StateConnector<AppState, Tale>(
+      selector: (state) => state.taleListState.taleState.selectedTale,
+      onInitialBuild: (dispatch, tale) {
+        titleCtrl.text = tale.title;
+        descriptionCtrl.text = tale.description;
+        titleCtrl.addListener(() {
+          // context.dispatch(UpdateSelectedTaleAction(
+          // widget.tale.copyWith(title: titleCtrl.text)));//todo:
+        });
+        descriptionCtrl.addListener(() {
+          // context.dispatch(UpdateSelectedTaleAction(
+          // widget.tale.copyWith(description: descriptionCtrl.text)));
+        });
+      },
+      onDispose: (dispatch) {
+        titleCtrl.dispose();
+        descriptionCtrl.dispose();
+      },
+      onDidChange: (dispatch, state, tale) {
+        titleCtrl.text = tale.title;
+        descriptionCtrl.text = tale.description;
+      },
+      builder: (context, dispatch, tale) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Tale Details', style: context.textTheme.headlineSmall),
+            if (tale.id.isNotEmpty) ...[
+              space(8),
+              Text('ID: ${tale.id}', style: context.textTheme.titleMedium),
+              //todo: uncomment when date is added to tale
+              // Text("Created Date: ${tale.date}", style: context.textTheme.
+              // titleMedium),
+            ],
+            space(16),
+            TextFieldComponent(
+              label: 'Title',
+              controller: titleCtrl,
+            ),
+            space(),
+            TextFieldComponent(
+              label: 'Description',
+              controller: descriptionCtrl,
+            ),
+            space(),
+            _OrientationDropdown(tale: tale),
+            space(),
+            ImageSelectorComponent(
+              title: 'Cover Image',
+              imagePath: tale.coverImage,
+            ),
+          ],
+        );
+      },
     );
   }
 

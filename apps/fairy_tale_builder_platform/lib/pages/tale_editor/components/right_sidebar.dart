@@ -2,15 +2,11 @@ import 'package:fairy_tale_builder_platform/pages/tale_editor/components/details
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
-import 'package:shared/shared.dart';
 
 class TaleEditorRightSidebarComponent extends StatelessWidget {
   const TaleEditorRightSidebarComponent({
-    required this.tale,
     super.key,
   });
-
-  final Tale tale;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +21,7 @@ class TaleEditorRightSidebarComponent extends StatelessWidget {
           ),
         ),
       ),
-      child: TaleDetailsForm(tale: tale),
+      child: const TaleDetailsForm(),
     );
   }
 }

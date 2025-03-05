@@ -60,33 +60,26 @@ class _Layout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StateConnector<AppState, Tale>(
-      selector: (state) => state.taleListState.taleState.selectedTale,
-      builder: (context, dispatch, tale) {
-        return DefaultLayout(
-          title: tale.id.isEmpty
-              ? const Text('Create New Tale')
-              : const Text('Update Existing Tale'),
-          leftSidebar: TaleEditorLeftSidebarComponent(pages: tale.talePages),
-          rigthSidebar: TaleEditorRightSidebarComponent(tale: tale),
-          body: StateConnector<AppState, bool>(
-            selector: (state) =>
-                state.taleListState.taleState.editorState.isPageSelected,
-            builder: (context, dispatch, isSelected) {
-              if (isSelected) {
-                //show page editor details
-                return const TalePageDetailsForm();
-              }
-              return Center(
-                child: Text(
-                  'Select a page to edit',
-                  style: context.textTheme.titleLarge,
-                ),
-              );
-            },
-          ),
-        );
-      },
+    return DefaultLayout(
+      title: const Text('Tale Editor'),
+      leftSidebar: const TaleEditorLeftSidebarComponent(),
+      rigthSidebar: const TaleEditorRightSidebarComponent(),
+      body: StateConnector<AppState, bool>(
+        selector: (state) =>
+            state.taleListState.taleState.editorState.isPageSelected,
+        builder: (context, dispatch, isSelected) {
+          if (isSelected) {
+            //show page editor details
+            return const TalePageDetailsForm();
+          }
+          return Center(
+            child: Text(
+              'Select a page to edit',
+              style: context.textTheme.titleLarge,
+            ),
+          );
+        },
+      ),
     );
   }
 }

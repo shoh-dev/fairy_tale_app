@@ -1,5 +1,6 @@
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
+import 'package:fairy_tale_builder_platform/pages/tale_editor/components/tale_preview_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
@@ -43,14 +44,20 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Page Details', style: context.textTheme.headlineSmall),
-                ButtonComponent.icon(
+                const Spacer(),
+                const ButtonComponent.icon(
                   icon: Icons.save_rounded,
-                  onPressed: () {
-                    //todo:
-                  },
+                  // onPressed: () {
+                  //   //todo:
+                  // },
+                ),
+                const SizedBox(width: 8),
+                const ButtonComponent.iconDesctructive(
+                  icon: Icons.delete_rounded,
+                  // onPressed: () {},
+                  //todo: onPressed
                 ),
               ],
             ),
@@ -62,33 +69,26 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm>
               // titleMedium),
             ],
             space(16),
-            const ButtonComponent.destructive(
-              text: 'Delete Page',
-              icon: Icons.delete_rounded,
-              //todo: onPressed
-            ),
-            space(16),
             ButtonComponent.outlined(
               text: 'Preview Page',
               icon: Icons.remove_red_eye,
               onPressed: () {
-                // showDialog(
-                // context: context,
-                // builder: (context) {
-                // return TalePreviewDialog(id: page.id);
-                // });//todo:
+                showDialog<void>(
+                  context: context,
+                  builder: (context) => TalePreviewDialog(id: page.id),
+                );
               },
             ),
             space(16),
-            ButtonComponent.outlined(
+            const ButtonComponent.outlined(
               text: 'Interactions Editor',
               icon: Icons.edit_rounded,
-              onPressed: () {
-                // Navigator.of(context).push(
-                // MaterialPageRoute<void>(
-                // builder: (context) => const TalePageInteractionsEditor()),//todo:
-                // );
-              },
+              // onPressed: () {
+              //   // Navigator.of(context).push(
+              //   // MaterialPageRoute<void>(
+              //   // builder: (context) => const TalePageInteractionsEditor()),//todo:
+              //   // );
+              // },
             ),
             space(16),
             TextFieldComponent(
