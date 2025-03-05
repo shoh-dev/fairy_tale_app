@@ -7,10 +7,12 @@ part 'state.freezed.dart';
 
 @freezed
 class TaleState with _$TaleState {
+  const TaleState._();
   const factory TaleState({
     required StateResult selectedTaleResult,
     required Tale selectedTale,
     required TaleEditorState editorState,
+    required bool isTaleEdited,
   }) = _TaleState;
 
   factory TaleState.initial() {
@@ -18,6 +20,7 @@ class TaleState with _$TaleState {
       selectedTale: Tale.empty,
       selectedTaleResult: const StateResult.loading(),
       editorState: TaleEditorState.initial(),
+      isTaleEdited: false,
     );
   }
 }

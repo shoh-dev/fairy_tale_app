@@ -3,7 +3,6 @@ import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/left_sidebar.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/page_details_form.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/right_sidebar.dart';
@@ -64,8 +63,41 @@ class _Layout extends StatelessWidget {
       title: const Text('Tale Editor'),
       leftSidebar: const TaleEditorLeftSidebarComponent(),
       rigthSidebar: const TaleEditorRightSidebarComponent(),
+      leading: StateConnector<AppState, (bool, bool)>(
+          selector: (state) => (
+                state.taleListState.taleState.isTaleEdited,
+                state.taleListState.taleState.editorState.isTalePageEdited
+              ),
+          builder: (context, dispatch, isEdited) {
+            print('isEdited: $isEdited');
+            return IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                void close() {
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  }
+                }
+
+                if (isEdited.$1 || isEdited.$2) {
+                  if (isEdited.$1) {
+                    print('Tale is edited');
+                  }
+                  if (isEdited.$2) {
+                    print('Tale page is edited');
+                  }
+                  close();
+                  return;
+                  //prompt user to save changes
+                } else {
+                  close();
+                }
+              },
+            );
+          }),
       body: StateConnector<AppState, bool>(
-        selector: isTalePageSelectedSelector,
+        selector: (state) => state
+            .taleListState.taleState.editorState.selectedTalePage.id.isNotEmpty,
         builder: (context, dispatch, isSelected) {
           if (isSelected) {
             //show page editor details

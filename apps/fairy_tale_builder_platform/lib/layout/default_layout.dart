@@ -9,12 +9,14 @@ class DefaultLayout extends StatelessWidget {
     this.leftSidebar,
     this.rigthSidebar,
     this.title,
+    this.leading,
   });
 
   final Widget body;
   final Widget? leftSidebar;
   final Widget? rigthSidebar;
   final Widget? title;
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class DefaultLayout extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: Sizes.kAppBarHeight,
         title: title,
+        leading: leading,
       ),
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

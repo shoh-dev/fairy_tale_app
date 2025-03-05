@@ -8,5 +8,9 @@ List<TalePage> talePagesSelector(AppState state) =>
     selectedTaleSelector(state).talePages;
 TalePage selectedTalePageSelector(AppState state) =>
     state.taleListState.taleState.editorState.selectedTalePage;
-bool isTalePageSelectedSelector(AppState state) =>
-    state.taleListState.taleState.editorState.isPageSelected;
+bool isTalePageSelectedSelector(AppState state, TalePage page) =>
+    state.taleListState.taleState.editorState.isPageSelected(page);
+bool isTaleEditedSelector(AppState state) =>
+    state.taleListState.taleState.isTaleEdited;
+bool isTalePageEditedSelector(AppState state) =>
+    state.taleListState.taleState.editorState.isTalePageEdited;

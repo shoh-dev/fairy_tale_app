@@ -39,8 +39,6 @@ class GetTaleAction extends DefaultAction {
 
   @override
   Future<AppState?> reduce() async {
-    print('GetTaleAction');
-
     dispatch(_TaleAction(selectedTaleResult: const StateResult.loading()));
 
     if (taleId.isEmpty) {
@@ -50,7 +48,13 @@ class GetTaleAction extends DefaultAction {
           tale: Tale.empty,
         ),
       );
-      return null;
+      return state.copyWith(
+        taleListState: taleListState.copyWith(
+          taleState: taleState.copyWith(
+            isTaleEdited: false,
+          ),
+        ),
+      );
     }
 
     final tale = await taleRepository.getTaleById(taleId);
@@ -84,5 +88,50 @@ class GetTaleAction extends DefaultAction {
       },
     );
     return null;
+  }
+}
+
+class SetIsTaleEditedAction extends DefaultAction {
+  final Tale? newTale;
+
+  SetIsTaleEditedAction({
+    required this.newTale,
+  });
+
+  @override
+  AppState reduce() {
+    return state.copyWith(
+      taleListState: taleListState.copyWith(
+        taleState: taleState.copyWith(
+          isTaleEdited: newTale != taleState.selectedTale,
+        ),
+      ),
+    );
+  }
+}
+
+class SaveTaleAction extends DefaultAction {
+  final Tale tale;
+
+  SaveTaleAction(this.tale);
+  //todo: save on db
+
+  @override
+  AppState reduce() {
+    final newTales = taleListState.taleList.map((e) {
+      if (e.id == tale.id) {
+        return tale;
+      }
+      return e;
+    }).toList();
+    return state.copyWith(
+      taleListState: taleListState.copyWith(
+        taleList: newTales,
+        taleState: taleState.copyWith(
+          selectedTale: tale,
+          isTaleEdited: false,
+        ),
+      ),
+    );
   }
 }

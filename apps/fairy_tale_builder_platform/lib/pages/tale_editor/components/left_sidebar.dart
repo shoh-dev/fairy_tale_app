@@ -52,17 +52,17 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                     //pages
                     for (final page in pages)
                       StateConnector<AppState, bool>(
-                        selector: isTalePageSelectedSelector,
+                        selector: (state) =>
+                            isTalePageSelectedSelector(state, page),
                         builder: (context, dispatch, isSelected) {
                           return InkWell(
                             onTap: () {
                               dispatch(SelectEditorTalePageAction(page));
                             },
-                            borderRadius: BorderRadius.circular(8),
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 100),
                               width: double.infinity,
-                              height: 350,
+                              height: 370,
                               decoration: BoxDecoration(
                                 color: isSelected
                                     ? context.colorScheme.primaryContainer
@@ -100,10 +100,13 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                                       showOriginalNotTranslated: page.isNew,
                                       toTranslate: [page.text],
                                       builder: (translatedValue) {
-                                        return Text(
-                                          translatedValue[0],
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
+                                        return SizedBox(
+                                          width: 330,
+                                          child: Text(
+                                            translatedValue[0],
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         );
                                       },
                                     ),

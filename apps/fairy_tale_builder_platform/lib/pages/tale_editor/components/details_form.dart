@@ -1,3 +1,4 @@
+import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
@@ -16,70 +17,105 @@ class TaleDetailsForm extends StatefulWidget {
 }
 
 class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
-  final TextEditingController titleCtrl = TextEditingController();
-  final TextEditingController descriptionCtrl = TextEditingController();
+  final ValueNotifier<Tale?> taleNotifier = ValueNotifier(null);
+  Tale? get tale => taleNotifier.value;
+  set tale(Tale? value) => taleNotifier.value = value;
 
   @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, Tale>(
       selector: selectedTaleSelector,
       onInitialBuild: (dispatch, tale) {
+        taleNotifier.addListener(() {
+          dispatch(SetIsTaleEditedAction(newTale: taleNotifier.value));
+        });
         safeInitialize(() {
-          titleCtrl.text = tale.title;
-          descriptionCtrl.text = tale.description;
-          titleCtrl.addListener(() {
-            // context.dispatch(UpdateSelectedTaleAction(
-            // widget.tale.copyWith(title: titleCtrl.text)));//todo:
-          });
-          descriptionCtrl.addListener(() {
-            // context.dispatch(UpdateSelectedTaleAction(
-            // widget.tale.copyWith(description: descriptionCtrl.text)));
-          });
+          taleNotifier.value = tale;
         });
       },
-      onDispose: (dispatch) {
-        safeDispose(() {
-          titleCtrl.dispose();
-          descriptionCtrl.dispose();
-        });
-      },
-      onDidChange: (dispatch, state, tale) {
-        safeDidUpdateWidget(() {
-          titleCtrl.text = tale.title;
-          descriptionCtrl.text = tale.description;
-        });
-      },
-      builder: (context, dispatch, tale) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Tale Details', style: context.textTheme.headlineSmall),
-            if (tale.id.isNotEmpty) ...[
-              space(8),
-              Text('ID: ${tale.id}', style: context.textTheme.titleMedium),
-              //todo: uncomment when date is added to tale
-              // Text("Created Date: ${tale.date}", style: context.textTheme.
-              // titleMedium),
-            ],
-            space(16),
-            TextFieldComponent(
-              label: 'Title',
-              controller: titleCtrl,
-            ),
-            space(),
-            TextFieldComponent(
-              label: 'Description',
-              controller: descriptionCtrl,
-            ),
-            space(),
-            _OrientationDropdown(tale: tale),
-            space(),
-            ImageSelectorComponent(
-              title: 'Cover Image',
-              imagePath: tale.coverImage,
-            ),
-          ],
+      // onDispose: (dispatch) {
+      //   safeDispose(taleNotifier.dispose);
+      // },
+      builder: (context, dispatch, model) {
+        return ValueListenableBuilder(
+          valueListenable: taleNotifier,
+          builder: (context, tale, child) {
+            if (tale == null) {
+              return const SizedBox();
+            }
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Tale Details',
+                      style: context.textTheme.headlineSmall,
+                    ),
+                    const Spacer(),
+                    StateConnector<AppState, bool>(
+                      selector: isTaleEditedSelector,
+                      builder: (context, dispatch, isEdited) {
+                        return ButtonComponent.icon(
+                          icon: Icons.save_rounded,
+                          onPressed: isEdited
+                              ? () {
+                                  dispatch(SaveTaleAction(tale));
+                                }
+                              : null,
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                if (tale.id.isNotEmpty) ...[
+                  space(8),
+                  Text(
+                    'ID: ${tale.id}',
+                    style: context.textTheme.titleMedium,
+                  ),
+                ],
+                space(16),
+                TextFieldComponent(
+                  label: 'Title',
+                  initialValue: tale.title,
+                  onChanged: (value) {
+                    if (tale.title == value) {
+                      return;
+                    }
+                    this.tale = tale.copyWith(title: value);
+                  },
+                ),
+                space(),
+                TextFieldComponent(
+                  label: 'Description',
+                  initialValue: tale.description,
+                  onChanged: (value) {
+                    if (tale.description == value) {
+                      return;
+                    }
+                    this.tale = tale.copyWith(description: value);
+                  },
+                ),
+                space(),
+                _OrientationDropdown(
+                  orientation: tale.orientation,
+                  onChanged: (value) {
+                    if (value == null || tale.orientation == value) {
+                      return;
+                    }
+                    this.tale = tale.copyWith(orientation: value);
+                  },
+                ),
+                space(),
+                ImageSelectorComponent(
+                  title: 'Cover Image',
+                  imagePath: tale.coverImage,
+                ),
+              ],
+            );
+          },
         );
       },
     );
@@ -91,22 +127,22 @@ class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
 }
 
 class _OrientationDropdown extends StatelessWidget {
-  const _OrientationDropdown({required this.tale});
+  const _OrientationDropdown(
+      {required this.orientation, required this.onChanged});
 
-  final Tale tale;
+  final String orientation;
+  final void Function(String?) onChanged;
 
   @override
   Widget build(BuildContext context) {
     return DropdownComponent<String>(
       label: 'Orientation',
-      initialValue:
-          DropdownItem(value: tale.orientation, label: tale.orientation),
+      initialValue: DropdownItem(value: orientation, label: orientation),
       onChanged: (value) {
         if (value == null) {
           return;
         }
-        // context.dispatch(
-        // UpdateSelectedTaleAction(tale.copyWith(orientation: value.value)));//todo:
+        onChanged(value.value);
       },
       items: [
         for (final orientation in ['portrait', 'landscape'])

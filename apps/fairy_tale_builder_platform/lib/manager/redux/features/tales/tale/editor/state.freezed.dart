@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TaleEditorState {
   TalePage get selectedTalePage => throw _privateConstructorUsedError;
+  bool get isTalePageEdited => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleEditorState
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +32,7 @@ abstract class $TaleEditorStateCopyWith<$Res> {
           TaleEditorState value, $Res Function(TaleEditorState) then) =
       _$TaleEditorStateCopyWithImpl<$Res, TaleEditorState>;
   @useResult
-  $Res call({TalePage selectedTalePage});
+  $Res call({TalePage selectedTalePage, bool isTalePageEdited});
 
   $TalePageCopyWith<$Res> get selectedTalePage;
 }
@@ -52,12 +53,17 @@ class _$TaleEditorStateCopyWithImpl<$Res, $Val extends TaleEditorState>
   @override
   $Res call({
     Object? selectedTalePage = null,
+    Object? isTalePageEdited = null,
   }) {
     return _then(_value.copyWith(
       selectedTalePage: null == selectedTalePage
           ? _value.selectedTalePage
           : selectedTalePage // ignore: cast_nullable_to_non_nullable
               as TalePage,
+      isTalePageEdited: null == isTalePageEdited
+          ? _value.isTalePageEdited
+          : isTalePageEdited // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -80,7 +86,7 @@ abstract class _$$TaleEditorStateImplCopyWith<$Res>
       __$$TaleEditorStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({TalePage selectedTalePage});
+  $Res call({TalePage selectedTalePage, bool isTalePageEdited});
 
   @override
   $TalePageCopyWith<$Res> get selectedTalePage;
@@ -100,12 +106,17 @@ class __$$TaleEditorStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selectedTalePage = null,
+    Object? isTalePageEdited = null,
   }) {
     return _then(_$TaleEditorStateImpl(
       selectedTalePage: null == selectedTalePage
           ? _value.selectedTalePage
           : selectedTalePage // ignore: cast_nullable_to_non_nullable
               as TalePage,
+      isTalePageEdited: null == isTalePageEdited
+          ? _value.isTalePageEdited
+          : isTalePageEdited // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -113,14 +124,18 @@ class __$$TaleEditorStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TaleEditorStateImpl extends _TaleEditorState {
-  const _$TaleEditorStateImpl({required this.selectedTalePage}) : super._();
+  const _$TaleEditorStateImpl(
+      {required this.selectedTalePage, required this.isTalePageEdited})
+      : super._();
 
   @override
   final TalePage selectedTalePage;
+  @override
+  final bool isTalePageEdited;
 
   @override
   String toString() {
-    return 'TaleEditorState(selectedTalePage: $selectedTalePage)';
+    return 'TaleEditorState(selectedTalePage: $selectedTalePage, isTalePageEdited: $isTalePageEdited)';
   }
 
   @override
@@ -129,11 +144,14 @@ class _$TaleEditorStateImpl extends _TaleEditorState {
         (other.runtimeType == runtimeType &&
             other is _$TaleEditorStateImpl &&
             (identical(other.selectedTalePage, selectedTalePage) ||
-                other.selectedTalePage == selectedTalePage));
+                other.selectedTalePage == selectedTalePage) &&
+            (identical(other.isTalePageEdited, isTalePageEdited) ||
+                other.isTalePageEdited == isTalePageEdited));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, selectedTalePage);
+  int get hashCode =>
+      Object.hash(runtimeType, selectedTalePage, isTalePageEdited);
 
   /// Create a copy of TaleEditorState
   /// with the given fields replaced by the non-null parameter values.
@@ -146,12 +164,15 @@ class _$TaleEditorStateImpl extends _TaleEditorState {
 }
 
 abstract class _TaleEditorState extends TaleEditorState {
-  const factory _TaleEditorState({required final TalePage selectedTalePage}) =
-      _$TaleEditorStateImpl;
+  const factory _TaleEditorState(
+      {required final TalePage selectedTalePage,
+      required final bool isTalePageEdited}) = _$TaleEditorStateImpl;
   const _TaleEditorState._() : super._();
 
   @override
   TalePage get selectedTalePage;
+  @override
+  bool get isTalePageEdited;
 
   /// Create a copy of TaleEditorState
   /// with the given fields replaced by the non-null parameter values.

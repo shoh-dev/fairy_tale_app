@@ -9,13 +9,15 @@ class TaleEditorState with _$TaleEditorState {
 
   const factory TaleEditorState({
     required TalePage selectedTalePage,
+    required bool isTalePageEdited,
   }) = _TaleEditorState;
 
   factory TaleEditorState.initial() {
     return const TaleEditorState(
       selectedTalePage: TalePage.empty,
+      isTalePageEdited: false,
     );
   }
 
-  bool get isPageSelected => selectedTalePage.id.isNotEmpty;
+  bool isPageSelected(TalePage page) => selectedTalePage == page;
 }
