@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:flutter/foundation.dart';
 import 'package:myspace_data/myspace_data.dart';
 
 class _Action extends DefaultAction {
@@ -102,7 +103,9 @@ class GetTranslationsAction extends DefaultAction {
             } catch (e, st) {
               dispatch(
                 _Action(
-                    for2: for2, stateStatus: StateResult.fromException(e, st)),
+                  for2: for2,
+                  stateStatus: StateResult.fromException(e, st),
+                ),
               );
             }
           },
@@ -131,11 +134,28 @@ class SaveNewTranslations extends DefaultAction {
   }); //todo: save on db
 
   @override
-  AppState? reduce() {
+  Future<AppState?> reduce() async {
     final json = Map<String, String>.fromIterables(keys, values);
+    final oldJson =
+        for2 ? localizationState2.translations : localizationState.translations;
+    final newVersion = (for2
+            ? localizationState2.localeVersion
+            : localizationState.localeVersion) +
+        1;
+    final locale = for2 ? localizationState2.locale : localizationState.locale;
+
+    if (mapEquals(json, oldJson)) {
+      return null;
+    }
+
+    //todo: handle if failed
+    await upload(
+      version: newVersion,
+      locale: locale,
+      json: json,
+    );
 
     if (for2) {
-      final newVersion = localizationState2.localeVersion + 1;
       return state.copyWith(
         applicationState: applicationState.copyWith(
           localizationState2: localizationState2.copyWith(
@@ -146,7 +166,6 @@ class SaveNewTranslations extends DefaultAction {
       );
     }
 
-    final newVersion = localizationState.localeVersion + 1;
     return state.copyWith(
       applicationState: applicationState.copyWith(
         localizationState: localizationState.copyWith(
@@ -155,5 +174,27 @@ class SaveNewTranslations extends DefaultAction {
         ),
       ),
     );
+  }
+
+  Future<bool> upload({
+    required int version,
+    required String locale,
+    required Map<String, String> json,
+  }) async {
+    final uploadResult = await Future.wait([
+      applicationRepository.updateLocaleVersion(
+        locale: localizationState2.locale,
+        version: version,
+      ),
+      applicationRepository.uploadNewTranslations(
+        translations: json,
+        version: version,
+        locale: localizationState2.locale,
+      ),
+    ]);
+
+    Log().debug(uploadResult.toString());
+
+    return uploadResult.every((element) => element.isOk);
   }
 }
