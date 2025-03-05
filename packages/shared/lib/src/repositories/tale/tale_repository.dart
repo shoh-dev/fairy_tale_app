@@ -5,6 +5,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 abstract class TaleRepository {
   ResultFuture<List<Tale>> getAllTales();
   ResultFuture<Tale> getTaleById(String taleId);
+  ResultFuture<void> saveTaleLocalization({
+    required String taleId,
+    required Map<String, Map<String, String>> translations,
+    required String defaultLocale,
+  });
 }
 
 class TaleRepositoryImpl implements TaleRepository {
@@ -35,6 +40,25 @@ class TaleRepositoryImpl implements TaleRepository {
           .single();
 
       return Result.ok(Tale.fromJson(response));
+    } catch (e) {
+      return Result.error(ErrorX(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> saveTaleLocalization({
+    required String taleId,
+    required Map<String, Map<String, String>> translations,
+    required String defaultLocale,
+  }) async {
+    try {
+      await _supabase.from('localizations').update({
+        'translations': translations,
+        'default_locale': defaultLocale,
+        'updated_at': DateTime.now().toUtc().toIso8601String(),
+      }).eq('tale_id', taleId);
+
+      return const Result.ok(null);
     } catch (e) {
       return Result.error(ErrorX(e));
     }

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared/shared.dart';
 
 class _SelectPageAction extends DefaultAction {
@@ -111,6 +114,67 @@ class SaveTalePageAction extends DefaultAction {
           editorState: editorState.copyWith(
             selectedTalePage: page,
             isTalePageEdited: false,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SaveTaleLocalizationAction extends DefaultAction {
+  final String locale;
+  final Iterable<String> keys;
+  final Iterable<String> values;
+
+  SaveTaleLocalizationAction({
+    required this.locale,
+    required this.keys,
+    required this.values,
+  });
+
+  @override
+  Future<AppState?> reduce() async {
+    final selectedTale = taleState.selectedTale;
+    if (selectedTale.localizations == null) {
+      return null;
+    }
+
+    final oldTranslation =
+        selectedTale.localizations?.translations[locale] ?? <String, String>{};
+    final newTranslation = Map<String, String>.fromIterables(keys, values);
+
+    if (mapEquals(oldTranslation, newTranslation)) {
+      return null;
+    }
+
+    var newLocalizations = selectedTale.localizations!;
+
+    final newMap = Map.of(newLocalizations.translations);
+
+    newMap[locale] = newTranslation;
+
+    newLocalizations = newLocalizations.copyWith(
+      translations: newMap,
+    );
+
+    final result = await taleRepository.saveTaleLocalization(
+      taleId: newLocalizations.taleId,
+      translations: newLocalizations.translations,
+      defaultLocale: newLocalizations.defaultLocale,
+    );
+
+    //todo: handle error
+
+    return state.copyWith(
+      applicationState: applicationState.copyWith(
+        localizationState: applicationState.localizationState.copyWith(
+          locale: locale,
+        ),
+      ),
+      taleListState: taleListState.copyWith(
+        taleState: taleState.copyWith(
+          selectedTale: selectedTale.copyWith(
+            localizations: newLocalizations,
           ),
         ),
       ),

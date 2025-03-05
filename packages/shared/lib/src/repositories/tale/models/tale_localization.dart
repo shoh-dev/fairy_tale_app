@@ -9,7 +9,6 @@ class TaleLocalization with _$TaleLocalization {
 
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TaleLocalization({
-    required String id,
     required String taleId,
     required Map<String, Map<String, String>> translations,
     required String defaultLocale,

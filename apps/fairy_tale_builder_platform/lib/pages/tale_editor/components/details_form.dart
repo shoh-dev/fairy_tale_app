@@ -1,6 +1,7 @@
 import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
+import 'package:fairy_tale_builder_platform/pages/localization_settings/localization_settings_page.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -54,6 +55,19 @@ class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
                       style: context.textTheme.headlineSmall,
                     ),
                     const Spacer(),
+                    ButtonComponent.iconOutlined(
+                      icon: Icons.language_rounded,
+                      tooltip: 'Localization',
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (context) =>
+                                const LocalizationSettingsPage(),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(width: 8),
                     StateConnector<AppState, bool>(
                       selector: isTaleEditedSelector,
                       builder: (context, dispatch, isEdited) {

@@ -20,7 +20,6 @@ TaleLocalization _$TaleLocalizationFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaleLocalization {
-  String get id => throw _privateConstructorUsedError;
   String get taleId => throw _privateConstructorUsedError;
   Map<String, Map<String, String>> get translations =>
       throw _privateConstructorUsedError;
@@ -43,8 +42,7 @@ abstract class $TaleLocalizationCopyWith<$Res> {
       _$TaleLocalizationCopyWithImpl<$Res, TaleLocalization>;
   @useResult
   $Res call(
-      {String id,
-      String taleId,
+      {String taleId,
       Map<String, Map<String, String>> translations,
       String defaultLocale});
 }
@@ -64,16 +62,11 @@ class _$TaleLocalizationCopyWithImpl<$Res, $Val extends TaleLocalization>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
     Object? taleId = null,
     Object? translations = null,
     Object? defaultLocale = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       taleId: null == taleId
           ? _value.taleId
           : taleId // ignore: cast_nullable_to_non_nullable
@@ -99,8 +92,7 @@ abstract class _$$TaleLocalizationImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
-      String taleId,
+      {String taleId,
       Map<String, Map<String, String>> translations,
       String defaultLocale});
 }
@@ -118,16 +110,11 @@ class __$$TaleLocalizationImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
     Object? taleId = null,
     Object? translations = null,
     Object? defaultLocale = null,
   }) {
     return _then(_$TaleLocalizationImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       taleId: null == taleId
           ? _value.taleId
           : taleId // ignore: cast_nullable_to_non_nullable
@@ -149,8 +136,7 @@ class __$$TaleLocalizationImplCopyWithImpl<$Res>
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$TaleLocalizationImpl extends _TaleLocalization {
   const _$TaleLocalizationImpl(
-      {required this.id,
-      required this.taleId,
+      {required this.taleId,
       required final Map<String, Map<String, String>> translations,
       required this.defaultLocale})
       : _translations = translations,
@@ -159,8 +145,6 @@ class _$TaleLocalizationImpl extends _TaleLocalization {
   factory _$TaleLocalizationImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaleLocalizationImplFromJson(json);
 
-  @override
-  final String id;
   @override
   final String taleId;
   final Map<String, Map<String, String>> _translations;
@@ -176,7 +160,7 @@ class _$TaleLocalizationImpl extends _TaleLocalization {
 
   @override
   String toString() {
-    return 'TaleLocalization(id: $id, taleId: $taleId, translations: $translations, defaultLocale: $defaultLocale)';
+    return 'TaleLocalization(taleId: $taleId, translations: $translations, defaultLocale: $defaultLocale)';
   }
 
   @override
@@ -184,7 +168,6 @@ class _$TaleLocalizationImpl extends _TaleLocalization {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TaleLocalizationImpl &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.taleId, taleId) || other.taleId == taleId) &&
             const DeepCollectionEquality()
                 .equals(other._translations, _translations) &&
@@ -194,7 +177,7 @@ class _$TaleLocalizationImpl extends _TaleLocalization {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, taleId,
+  int get hashCode => Object.hash(runtimeType, taleId,
       const DeepCollectionEquality().hash(_translations), defaultLocale);
 
   /// Create a copy of TaleLocalization
@@ -216,8 +199,7 @@ class _$TaleLocalizationImpl extends _TaleLocalization {
 
 abstract class _TaleLocalization extends TaleLocalization {
   const factory _TaleLocalization(
-      {required final String id,
-      required final String taleId,
+      {required final String taleId,
       required final Map<String, Map<String, String>> translations,
       required final String defaultLocale}) = _$TaleLocalizationImpl;
   const _TaleLocalization._() : super._();
@@ -225,8 +207,6 @@ abstract class _TaleLocalization extends TaleLocalization {
   factory _TaleLocalization.fromJson(Map<String, dynamic> json) =
       _$TaleLocalizationImpl.fromJson;
 
-  @override
-  String get id;
   @override
   String get taleId;
   @override

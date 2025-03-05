@@ -38,18 +38,6 @@ class TaleListSidebarComponent extends StatelessWidget {
                       );
                     },
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.language_rounded),
-                    title: const Text('Localization settings'),
-                    onTap: () {
-                      // Navigator.of(context).push(
-                      // MaterialPageRoute<void>(
-                      // builder: (context) =>
-                      // const LocalizationSettingsPage(),
-                      // ),
-                      // );
-                    },
-                  ),
                 ],
               ),
             ],

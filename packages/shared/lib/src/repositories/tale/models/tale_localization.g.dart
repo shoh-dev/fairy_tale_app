@@ -9,7 +9,6 @@ part of 'tale_localization.dart';
 _$TaleLocalizationImpl _$$TaleLocalizationImplFromJson(
         Map<String, dynamic> json) =>
     _$TaleLocalizationImpl(
-      id: json['id'] as String,
       taleId: json['tale_id'] as String,
       translations: (json['translations'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, Map<String, String>.from(e as Map)),
@@ -20,7 +19,6 @@ _$TaleLocalizationImpl _$$TaleLocalizationImplFromJson(
 Map<String, dynamic> _$$TaleLocalizationImplToJson(
         _$TaleLocalizationImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'tale_id': instance.taleId,
       'translations': instance.translations,
       'default_locale': instance.defaultLocale,
