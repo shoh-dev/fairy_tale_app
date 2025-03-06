@@ -28,6 +28,7 @@ class TranslationSelector extends StatelessWidget {
 
         return DropdownComponent<String>(
           label: label,
+          hintText: '$textKey: NOT_FOUND',
           initialValue: DropdownItem(
             value: textKey,
             label: textKey,

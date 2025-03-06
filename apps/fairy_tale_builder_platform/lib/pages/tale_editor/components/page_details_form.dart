@@ -77,7 +77,7 @@ class TalePageDetailsForm extends StatelessWidget {
             space(),
             ImageSelectorComponent(
               title: 'Background Image',
-              imagePath: page.backgroundImage,
+              imagePath: page.metadata.backgroundImageUrl,
             ),
           ],
         );

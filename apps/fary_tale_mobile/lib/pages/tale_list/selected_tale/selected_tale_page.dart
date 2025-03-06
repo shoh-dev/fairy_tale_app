@@ -257,10 +257,10 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
                   return Stack(
                     children: [
                       //image
-                      if (page.backgroundImage.isNotEmpty)
+                      if (page.metadata.hasBackgroundImage)
                         Positioned.fill(
                           child: SelectedTalePageBackroundComponent(
-                            imageUrl: page.backgroundImage,
+                            imageUrl: page.metadata.backgroundImageUrl,
                           ),
                         ),
 

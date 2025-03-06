@@ -15,8 +15,7 @@ class TalePage with _$TalePage {
     required String taleId,
     required int pageNumber,
     required String text,
-    required String backgroundImage,
-    @Default('') String backgroundAudio,
+    required TalePageMetadata metadata,
     @Default([]) List<TaleInteraction> interactions,
     @Default(false) bool isNew,
   }) = _TalePage;
@@ -26,7 +25,7 @@ class TalePage with _$TalePage {
     taleId: '',
     pageNumber: 0,
     text: '',
-    backgroundImage: '',
+    metadata: TalePageMetadata(),
   );
 
   static const newPage = TalePage(
@@ -34,14 +33,14 @@ class TalePage with _$TalePage {
     taleId: '',
     pageNumber: 0,
     text: '',
-    backgroundImage: '',
+    metadata: TalePageMetadata(),
     isNew: true,
   );
 
   factory TalePage.fromJson(Map<String, dynamic> json) =>
       _$TalePageFromJson(json);
 
-  bool get hasBackgroundAudio => backgroundAudio.isNotEmpty;
+  bool get hasBackgroundAudio => metadata.hasBackgroundAudio;
 
   //updateInteractionMethod
   TalePage updateInteraction(TaleInteraction interaction) {

@@ -24,8 +24,7 @@ mixin _$TalePage {
   String get taleId => throw _privateConstructorUsedError;
   int get pageNumber => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
-  String get backgroundImage => throw _privateConstructorUsedError;
-  String get backgroundAudio => throw _privateConstructorUsedError;
+  TalePageMetadata get metadata => throw _privateConstructorUsedError;
   List<TaleInteraction> get interactions => throw _privateConstructorUsedError;
   bool get isNew => throw _privateConstructorUsedError;
 
@@ -49,10 +48,11 @@ abstract class $TalePageCopyWith<$Res> {
       String taleId,
       int pageNumber,
       String text,
-      String backgroundImage,
-      String backgroundAudio,
+      TalePageMetadata metadata,
       List<TaleInteraction> interactions,
       bool isNew});
+
+  $TalePageMetadataCopyWith<$Res> get metadata;
 }
 
 /// @nodoc
@@ -74,8 +74,7 @@ class _$TalePageCopyWithImpl<$Res, $Val extends TalePage>
     Object? taleId = null,
     Object? pageNumber = null,
     Object? text = null,
-    Object? backgroundImage = null,
-    Object? backgroundAudio = null,
+    Object? metadata = null,
     Object? interactions = null,
     Object? isNew = null,
   }) {
@@ -96,14 +95,10 @@ class _$TalePageCopyWithImpl<$Res, $Val extends TalePage>
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
-      backgroundImage: null == backgroundImage
-          ? _value.backgroundImage
-          : backgroundImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      backgroundAudio: null == backgroundAudio
-          ? _value.backgroundAudio
-          : backgroundAudio // ignore: cast_nullable_to_non_nullable
-              as String,
+      metadata: null == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as TalePageMetadata,
       interactions: null == interactions
           ? _value.interactions
           : interactions // ignore: cast_nullable_to_non_nullable
@@ -113,6 +108,16 @@ class _$TalePageCopyWithImpl<$Res, $Val extends TalePage>
           : isNew // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
+  }
+
+  /// Create a copy of TalePage
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TalePageMetadataCopyWith<$Res> get metadata {
+    return $TalePageMetadataCopyWith<$Res>(_value.metadata, (value) {
+      return _then(_value.copyWith(metadata: value) as $Val);
+    });
   }
 }
 
@@ -129,10 +134,12 @@ abstract class _$$TalePageImplCopyWith<$Res>
       String taleId,
       int pageNumber,
       String text,
-      String backgroundImage,
-      String backgroundAudio,
+      TalePageMetadata metadata,
       List<TaleInteraction> interactions,
       bool isNew});
+
+  @override
+  $TalePageMetadataCopyWith<$Res> get metadata;
 }
 
 /// @nodoc
@@ -152,8 +159,7 @@ class __$$TalePageImplCopyWithImpl<$Res>
     Object? taleId = null,
     Object? pageNumber = null,
     Object? text = null,
-    Object? backgroundImage = null,
-    Object? backgroundAudio = null,
+    Object? metadata = null,
     Object? interactions = null,
     Object? isNew = null,
   }) {
@@ -174,14 +180,10 @@ class __$$TalePageImplCopyWithImpl<$Res>
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
-      backgroundImage: null == backgroundImage
-          ? _value.backgroundImage
-          : backgroundImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      backgroundAudio: null == backgroundAudio
-          ? _value.backgroundAudio
-          : backgroundAudio // ignore: cast_nullable_to_non_nullable
-              as String,
+      metadata: null == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as TalePageMetadata,
       interactions: null == interactions
           ? _value._interactions
           : interactions // ignore: cast_nullable_to_non_nullable
@@ -203,8 +205,7 @@ class _$TalePageImpl extends _TalePage {
       required this.taleId,
       required this.pageNumber,
       required this.text,
-      required this.backgroundImage,
-      this.backgroundAudio = '',
+      required this.metadata,
       final List<TaleInteraction> interactions = const [],
       this.isNew = false})
       : _interactions = interactions,
@@ -222,10 +223,7 @@ class _$TalePageImpl extends _TalePage {
   @override
   final String text;
   @override
-  final String backgroundImage;
-  @override
-  @JsonKey()
-  final String backgroundAudio;
+  final TalePageMetadata metadata;
   final List<TaleInteraction> _interactions;
   @override
   @JsonKey()
@@ -241,7 +239,7 @@ class _$TalePageImpl extends _TalePage {
 
   @override
   String toString() {
-    return 'TalePage(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, backgroundImage: $backgroundImage, backgroundAudio: $backgroundAudio, interactions: $interactions, isNew: $isNew)';
+    return 'TalePage(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, metadata: $metadata, interactions: $interactions, isNew: $isNew)';
   }
 
   @override
@@ -254,10 +252,8 @@ class _$TalePageImpl extends _TalePage {
             (identical(other.pageNumber, pageNumber) ||
                 other.pageNumber == pageNumber) &&
             (identical(other.text, text) || other.text == text) &&
-            (identical(other.backgroundImage, backgroundImage) ||
-                other.backgroundImage == backgroundImage) &&
-            (identical(other.backgroundAudio, backgroundAudio) ||
-                other.backgroundAudio == backgroundAudio) &&
+            (identical(other.metadata, metadata) ||
+                other.metadata == metadata) &&
             const DeepCollectionEquality()
                 .equals(other._interactions, _interactions) &&
             (identical(other.isNew, isNew) || other.isNew == isNew));
@@ -265,16 +261,8 @@ class _$TalePageImpl extends _TalePage {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      taleId,
-      pageNumber,
-      text,
-      backgroundImage,
-      backgroundAudio,
-      const DeepCollectionEquality().hash(_interactions),
-      isNew);
+  int get hashCode => Object.hash(runtimeType, id, taleId, pageNumber, text,
+      metadata, const DeepCollectionEquality().hash(_interactions), isNew);
 
   /// Create a copy of TalePage
   /// with the given fields replaced by the non-null parameter values.
@@ -298,8 +286,7 @@ abstract class _TalePage extends TalePage {
       required final String taleId,
       required final int pageNumber,
       required final String text,
-      required final String backgroundImage,
-      final String backgroundAudio,
+      required final TalePageMetadata metadata,
       final List<TaleInteraction> interactions,
       final bool isNew}) = _$TalePageImpl;
   const _TalePage._() : super._();
@@ -316,9 +303,7 @@ abstract class _TalePage extends TalePage {
   @override
   String get text;
   @override
-  String get backgroundImage;
-  @override
-  String get backgroundAudio;
+  TalePageMetadata get metadata;
   @override
   List<TaleInteraction> get interactions;
   @override

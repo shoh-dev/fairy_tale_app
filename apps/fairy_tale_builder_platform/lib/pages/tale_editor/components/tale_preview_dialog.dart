@@ -47,10 +47,10 @@ class TalePreviewDialog extends StatelessWidget {
                     screen: Stack(
                       children: [
                         //image
-                        if (page.backgroundImage.isNotEmpty)
+                        if (page.metadata.hasBackgroundImage)
                           Positioned.fill(
                             child: Image.network(
-                              page.backgroundImage,
+                              page.metadata.backgroundImageUrl,
                               fit: BoxFit.cover,
                             ),
                           ),

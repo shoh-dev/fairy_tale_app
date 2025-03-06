@@ -78,9 +78,9 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  if (page.backgroundImage.isNotEmpty)
+                                  if (page.metadata.hasBackgroundImage)
                                     Image.network(
-                                      page.backgroundImage,
+                                      page.metadata.backgroundImageUrl,
                                       fit: BoxFit.cover,
                                     )
                                   else
