@@ -91,11 +91,10 @@ class SetIsTalePageEditedAction extends DefaultAction {
   }
 }
 
-class SaveTalePageAction extends DefaultAction {
+class UpdateSelectedTalePageAction extends DefaultAction {
   final TalePage page;
 
-  SaveTalePageAction(this.page);
-  //todo: save on db
+  UpdateSelectedTalePageAction(this.page);
 
   @override
   AppState reduce() {

@@ -9,124 +9,77 @@ import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:shared/shared.dart';
 
-class TalePageDetailsForm extends StatefulWidget {
+class TalePageDetailsForm extends StatelessWidget {
   const TalePageDetailsForm({
     super.key,
   });
 
   @override
-  State<TalePageDetailsForm> createState() => _TalePageDetailsFormState();
-}
-
-class _TalePageDetailsFormState extends State<TalePageDetailsForm>
-    with StateHelpers {
-  final ValueNotifier<TalePage?> pageNotifier = ValueNotifier(null);
-  TalePage? get page => pageNotifier.value;
-  set page(TalePage? value) => pageNotifier.value = value;
-
-  @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, TalePage>(
       selector: selectedTalePageSelector,
-      onInitialBuild: (dispatch, page) {
-        pageNotifier.addListener(() {
-          dispatch(SetIsTalePageEditedAction(newPage: pageNotifier.value));
-        });
-        safeInitialize(() {
-          pageNotifier.value = page;
-        });
-      },
-      onDidChange: (dispatch, state, model) {
-        pageNotifier.value = model;
-      },
       builder: (context, dispatch, page) {
-        return ValueListenableBuilder(
-          valueListenable: pageNotifier,
-          builder: (context, page, child) {
-            if (page == null) {
-              return const SizedBox();
-            }
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    Text(
-                      'Page Details',
-                      style: context.textTheme.headlineSmall,
-                    ),
-                    const Spacer(),
-                    const ButtonComponent.iconDesctructive(
-                      icon: Icons.delete_rounded,
-                      // onPressed: () {},
-                      //todo: onPressed
-                    ),
-                    const SizedBox(width: 8),
-                    //Interactions Editor icon button
-                    ButtonComponent.icon(
-                      icon: Icons.touch_app_rounded,
-                      onPressed: () {
-                        // Navigator.of(context).push(
-                        // MaterialPageRoute<void>(
-                        // builder: (context) => const TalePageInteractionsEditor()),//todo:
-                        // );
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    //preview page icon button
-                    ButtonComponent.icon(
-                      icon: Icons.remove_red_eye_rounded,
-                      onPressed: () {
-                        showDialog<void>(
-                          context: context,
-                          builder: (context) => TalePreviewDialog(id: page.id),
-                        );
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    StateConnector<AppState, bool>(
-                      selector: isTalePageEditedSelector,
-                      builder: (context, dispatch, isEdited) {
-                        return ButtonComponent.icon(
-                          icon: Icons.save_rounded,
-                          onPressed: isEdited
-                              ? () {
-                                  dispatch(SaveTalePageAction(page));
-                                }
-                              : null,
-                        );
-                      },
-                    ),
-                    // const SizedBox(width: 8),
-                    // ButtonComponent.iconOutlined(
-                    //   icon: Icons.close_rounded,
-                    //   onPressed: () {
-                    //     dispatch(SelectEditorTalePageAction(null));
-                    //   },
-                    // ),
-                  ],
+                Text(
+                  'Page Details',
+                  style: context.textTheme.headlineSmall,
                 ),
-                if (page.id.isNotEmpty) ...[
-                  space(8),
-                  Text('ID: ${page.id}', style: context.textTheme.titleMedium),
-                ],
-                space(16),
-                TranslationSelector(
-                  label: 'Page Title',
-                  textKey: page.text,
-                  onChanged: (value) {
-                    this.page = page.copyWith(text: value);
+                const Spacer(),
+                const ButtonComponent.iconDesctructive(
+                  tooltip: 'Delete Page',
+                  icon: Icons.delete_rounded,
+                  // onPressed: () {},
+                  //todo: onPressed
+                ),
+                const SizedBox(width: 8),
+                //Interactions Editor icon button
+                ButtonComponent.iconOutlined(
+                  tooltip: 'Interactions Editor',
+                  icon: Icons.touch_app_rounded,
+                  onPressed: () {
+                    // Navigator.of(context).push(
+                    // MaterialPageRoute<void>(
+                    // builder: (context) => const TalePageInteractionsEditor()),//todo:
+                    // );
                   },
                 ),
-                space(),
-                ImageSelectorComponent(
-                  title: 'Background Image',
-                  imagePath: page.backgroundImage,
+                const SizedBox(width: 8),
+                //preview page icon button
+                ButtonComponent.iconOutlined(
+                  tooltip: 'Preview Page',
+                  icon: Icons.remove_red_eye_rounded,
+                  onPressed: () {
+                    showDialog<void>(
+                      context: context,
+                      builder: (context) => TalePreviewDialog(id: page.id),
+                    );
+                  },
                 ),
               ],
-            );
-          },
+            ),
+            space(8),
+            Text('ID: ${page.id}', style: context.textTheme.titleMedium),
+            space(16),
+            TranslationSelector(
+              label: 'Page Title',
+              textKey: page.text,
+              onChanged: (value) {
+                dispatch(
+                  UpdateSelectedTalePageAction(page.copyWith(text: value)),
+                );
+              },
+            ),
+            space(),
+            ImageSelectorComponent(
+              title: 'Background Image',
+              imagePath: page.backgroundImage,
+            ),
+          ],
         );
       },
     );

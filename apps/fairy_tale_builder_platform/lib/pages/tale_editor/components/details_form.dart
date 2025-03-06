@@ -9,122 +9,94 @@ import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:shared/shared.dart';
 
-class TaleDetailsForm extends StatefulWidget {
+class TaleDetailsForm extends StatelessWidget {
   const TaleDetailsForm({
     super.key,
   });
 
   @override
-  State<TaleDetailsForm> createState() => _TaleDetailsFormState();
-}
-
-class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
-  final ValueNotifier<Tale?> taleNotifier = ValueNotifier(null);
-  Tale? get tale => taleNotifier.value;
-  set tale(Tale? value) => taleNotifier.value = value;
-
-  @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, Tale>(
       selector: selectedTaleSelector,
-      onInitialBuild: (dispatch, tale) {
-        taleNotifier.addListener(() {
-          dispatch(SetIsTaleEditedAction(newTale: taleNotifier.value));
-        });
-        safeInitialize(() {
-          taleNotifier.value = tale;
-        });
-      },
-      onDidChange: (dispatch, state, model) {
-        taleNotifier.value = model;
-      },
-      builder: (context, dispatch, model) {
-        return ValueListenableBuilder(
-          valueListenable: taleNotifier,
-          builder: (context, tale, child) {
-            if (tale == null) {
-              return const SizedBox();
-            }
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+      builder: (context, dispatch, tale) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    Text(
-                      'Tale Details',
-                      style: context.textTheme.headlineSmall,
-                    ),
-                    const Spacer(),
-                    ButtonComponent.iconOutlined(
-                      icon: Icons.language_rounded,
-                      tooltip: 'Localization',
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (context) =>
-                                const LocalizationSettingsPage(),
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    StateConnector<AppState, bool>(
-                      selector: isTaleEditedSelector,
-                      builder: (context, dispatch, isEdited) {
-                        return ButtonComponent.icon(
-                          icon: Icons.save_rounded,
-                          onPressed: isEdited
-                              ? () {
-                                  dispatch(SaveTaleAction(tale));
-                                }
-                              : null,
-                        );
-                      },
-                    ),
-                  ],
+                Text(
+                  'Tale Details',
+                  style: context.textTheme.headlineSmall,
                 ),
-                if (tale.id.isNotEmpty) ...[
-                  space(8),
-                  Text(
-                    'ID: ${tale.id}',
-                    style: context.textTheme.titleMedium,
-                  ),
-                ],
-                space(16),
-                TranslationSelector(
-                  label: 'Title',
-                  textKey: tale.title,
-                  onChanged: (value) {
-                    this.tale = tale.copyWith(title: value);
+                const Spacer(),
+                ButtonComponent.iconOutlined(
+                  icon: Icons.language_rounded,
+                  tooltip: 'Localization Editor',
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (context) => const LocalizationSettingsPage(),
+                      ),
+                    );
                   },
                 ),
-                space(),
-                TranslationSelector(
-                  label: 'Description',
-                  textKey: tale.description,
-                  onChanged: (value) {
-                    this.tale = tale.copyWith(description: value);
-                  },
-                ),
-                space(),
-                _OrientationDropdown(
-                  orientation: tale.orientation,
-                  onChanged: (value) {
-                    if (tale.orientation == value) {
-                      return;
-                    }
-                    this.tale = tale.copyWith(orientation: value);
-                  },
-                ),
-                space(),
-                ImageSelectorComponent(
-                  title: 'Cover Image',
-                  imagePath: tale.coverImage,
-                ),
+                // const SizedBox(width: 8),
+                // StateConnector<AppState, bool>(
+                //   selector: isTaleEditedSelector,
+                //   builder: (context, dispatch, isEdited) {
+                //     return ButtonComponent.icon(
+                //       icon: Icons.save_rounded,
+                //       onPressed: isEdited
+                //           ? () {
+                //               dispatch(SaveTaleAction(tale));
+                //             }
+                //           : null,
+                //     );
+                //   },
+                // ),
               ],
-            );
-          },
+            ),
+            space(8),
+            Text(
+              'ID: ${tale.id}',
+              style: context.textTheme.titleMedium,
+            ),
+            space(16),
+            TranslationSelector(
+              label: 'Title',
+              textKey: tale.title,
+              onChanged: (value) {
+                dispatch(UpdateSelectedTaleAction(tale.copyWith(title: value)));
+              },
+            ),
+            space(),
+            TranslationSelector(
+              label: 'Description',
+              textKey: tale.description,
+              onChanged: (value) {
+                dispatch(
+                  UpdateSelectedTaleAction(
+                    tale.copyWith(description: value),
+                  ),
+                );
+              },
+            ),
+            space(),
+            _OrientationDropdown(
+              orientation: tale.orientation,
+              onChanged: (value) {
+                dispatch(
+                  UpdateSelectedTaleAction(tale.copyWith(orientation: value)),
+                );
+              },
+            ),
+            space(),
+            ImageSelectorComponent(
+              title: 'Cover Image',
+              imagePath: tale.coverImage,
+            ),
+          ],
         );
       },
     );
@@ -150,7 +122,7 @@ class _OrientationDropdown extends StatelessWidget {
       label: 'Orientation',
       initialValue: DropdownItem(value: orientation, label: orientation),
       onChanged: (value) {
-        if (value == null) {
+        if (value == null || value.value == orientation) {
           return;
         }
         onChanged(value.value);

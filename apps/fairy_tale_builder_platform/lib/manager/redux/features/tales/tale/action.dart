@@ -110,11 +110,10 @@ class SetIsTaleEditedAction extends DefaultAction {
   }
 }
 
-class SaveTaleAction extends DefaultAction {
+class UpdateSelectedTaleAction extends DefaultAction {
   final Tale tale;
 
-  SaveTaleAction(this.tale);
-  //todo: save on db
+  UpdateSelectedTaleAction(this.tale);
 
   @override
   AppState reduce() {

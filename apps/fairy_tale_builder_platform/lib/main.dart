@@ -11,10 +11,10 @@ void main() async {
 
   final di = DependencyInjection();
 
-  FlutterError.onError = (details) {
-    log.error(details.exception.toString());
-    FlutterError.presentError(details);
-  };
+  // FlutterError.onError = (details) {
+  // log.error(details.exception.toString());
+  // FlutterError.presentError(details);
+  // };
 
   final diResult = await di.init();
 

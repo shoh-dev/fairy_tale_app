@@ -33,6 +33,50 @@ class _BodyState extends State<_Body> {
 
   @override
   Widget build(BuildContext context) {
+    return PlutoGrid(
+      noRowsWidget: noRowsWidget(),
+      configuration: configurations(),
+      columns: columns(),
+      createHeader: (stateManager) => StateConnector<AppState, Tale>(
+        selector: selectedTaleSelector,
+        onInitialBuild: (dispatch, model) {
+          final translations = <String, String>{
+            if (model.localizations != null)
+              for (final entry in model
+                  .localizations!.translations[leftLocale.value]!.entries)
+                entry.key: entry.value,
+          };
+          stateManager.appendRows([
+            for (final entry in translations.entries) fromEntry(entry),
+          ]);
+        },
+        onDidChange: (dispatch, state, model) {
+          final localization =
+              state.taleListState.taleState.selectedTale.localizations;
+          stateManager
+            ..removeAllRows()
+            ..appendRows([
+              for (final entry
+                  in localization?.translations[leftLocale.value]?.entries ??
+                      <MapEntry<String, String>>[])
+                fromEntry(entry),
+            ]);
+        },
+        builder: (context, dispatch, state) {
+          return header(
+            stateManager,
+            localeNotifier: leftLocale,
+            localization: state.localizations,
+            onLocaleChanged: (value) {
+              leftLocale.value = value;
+            },
+          );
+        },
+      ),
+      onLoaded: (event) => onLoaded(event.stateManager),
+      createFooter: PlutoPagination.new,
+      rows: List.empty(growable: true),
+    );
     return PlutoDualGrid(
       gridPropsA: PlutoDualGridProps(
         noRowsWidget: noRowsWidget(),
