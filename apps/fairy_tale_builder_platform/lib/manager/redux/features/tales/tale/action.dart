@@ -118,15 +118,8 @@ class SaveTaleAction extends DefaultAction {
 
   @override
   AppState reduce() {
-    final newTales = taleListState.taleList.map((e) {
-      if (e.id == tale.id) {
-        return tale;
-      }
-      return e;
-    }).toList();
     return state.copyWith(
       taleListState: taleListState.copyWith(
-        taleList: newTales,
         taleState: taleState.copyWith(
           selectedTale: tale,
           isTaleEdited: false,

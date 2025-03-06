@@ -1,3 +1,4 @@
+import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
@@ -34,9 +35,9 @@ class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
           taleNotifier.value = tale;
         });
       },
-      // onDispose: (dispatch) {
-      //   safeDispose(taleNotifier.dispose);
-      // },
+      onDidChange: (dispatch, state, model) {
+        taleNotifier.value = model;
+      },
       builder: (context, dispatch, model) {
         return ValueListenableBuilder(
           valueListenable: taleNotifier,
@@ -91,24 +92,18 @@ class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
                   ),
                 ],
                 space(16),
-                TextFieldComponent(
+                TranslationSelector(
                   label: 'Title',
-                  initialValue: tale.title,
+                  textKey: tale.title,
                   onChanged: (value) {
-                    if (tale.title == value) {
-                      return;
-                    }
                     this.tale = tale.copyWith(title: value);
                   },
                 ),
                 space(),
-                TextFieldComponent(
+                TranslationSelector(
                   label: 'Description',
-                  initialValue: tale.description,
+                  textKey: tale.description,
                   onChanged: (value) {
-                    if (tale.description == value) {
-                      return;
-                    }
                     this.tale = tale.copyWith(description: value);
                   },
                 ),
@@ -116,7 +111,7 @@ class _TaleDetailsFormState extends State<TaleDetailsForm> with StateHelpers {
                 _OrientationDropdown(
                   orientation: tale.orientation,
                   onChanged: (value) {
-                    if (value == null || tale.orientation == value) {
+                    if (tale.orientation == value) {
                       return;
                     }
                     this.tale = tale.copyWith(orientation: value);
@@ -147,7 +142,7 @@ class _OrientationDropdown extends StatelessWidget {
   });
 
   final String orientation;
-  final void Function(String?) onChanged;
+  final void Function(String) onChanged;
 
   @override
   Widget build(BuildContext context) {

@@ -157,13 +157,12 @@ class SaveTaleLocalizationAction extends DefaultAction {
       translations: newMap,
     );
 
-    final result = await taleRepository.saveTaleLocalization(
-      taleId: newLocalizations.taleId,
-      translations: newLocalizations.translations,
-      defaultLocale: newLocalizations.defaultLocale,
-    );
-
-    //todo: handle error
+    // //todo: handle error
+    // final result = await taleRepository.saveTaleLocalization(
+    //   taleId: newLocalizations.taleId,
+    //   translations: newLocalizations.translations,
+    //   defaultLocale: newLocalizations.defaultLocale,
+    // );
 
     return state.copyWith(
       applicationState: applicationState.copyWith(

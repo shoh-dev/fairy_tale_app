@@ -10,6 +10,7 @@ abstract class TaleRepository {
     required Map<String, Map<String, String>> translations,
     required String defaultLocale,
   });
+  ResultFuture<void> saveTale(Tale tale);
 }
 
 class TaleRepositoryImpl implements TaleRepository {
@@ -58,6 +59,16 @@ class TaleRepositoryImpl implements TaleRepository {
         'updated_at': DateTime.now().toUtc().toIso8601String(),
       }).eq('tale_id', taleId);
 
+      return const Result.ok(null);
+    } catch (e) {
+      return Result.error(ErrorX(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> saveTale(Tale tale) async {
+    try {
+      await _supabase.from('tales').update(tale.toJson()).eq('id', tale.id);
       return const Result.ok(null);
     } catch (e) {
       return Result.error(ErrorX(e));

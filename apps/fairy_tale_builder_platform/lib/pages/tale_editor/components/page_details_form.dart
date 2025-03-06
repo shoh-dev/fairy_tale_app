@@ -1,3 +1,4 @@
+import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
@@ -34,6 +35,9 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm>
         safeInitialize(() {
           pageNotifier.value = page;
         });
+      },
+      onDidChange: (dispatch, state, model) {
+        pageNotifier.value = model;
       },
       builder: (context, dispatch, page) {
         return ValueListenableBuilder(
@@ -108,13 +112,10 @@ class _TalePageDetailsFormState extends State<TalePageDetailsForm>
                   Text('ID: ${page.id}', style: context.textTheme.titleMedium),
                 ],
                 space(16),
-                TextFieldComponent(
+                TranslationSelector(
                   label: 'Page Title',
-                  initialValue: page.text,
+                  textKey: page.text,
                   onChanged: (value) {
-                    if (page.text == value) {
-                      return;
-                    }
                     this.page = page.copyWith(text: value);
                   },
                 ),
