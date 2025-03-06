@@ -14,7 +14,7 @@ class TranslationSelector extends StatelessWidget {
   });
 
   final String label;
-  final String textKey;
+  final String? textKey;
   final ValueChanged<String> onChanged;
 
   @override
@@ -29,10 +29,12 @@ class TranslationSelector extends StatelessWidget {
         return DropdownComponent<String>(
           label: label,
           hintText: '$textKey: NOT_FOUND',
-          initialValue: DropdownItem(
-            value: textKey,
-            label: textKey,
-          ),
+          initialValue: textKey == null
+              ? null
+              : DropdownItem(
+                  value: textKey!,
+                  label: textKey!,
+                ),
           onChanged: (value) {
             if (value == null || value.value == textKey) {
               return;

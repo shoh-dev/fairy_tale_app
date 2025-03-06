@@ -25,16 +25,19 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text('Interactions', style: context.textTheme.titleLarge),
-            SizedBox(
-              width: double.infinity,
-              child: ButtonComponent.outlined(
-                text: 'Add interaction',
-                icon: Icons.add_rounded,
-                onPressed: () {
-                  //todo:
-                  // context.dispatch(AddEmptyTalePageInteractionAction());
-                },
-              ),
+            DispatchConnector<AppState>(
+              builder: (context, dispatch) {
+                return SizedBox(
+                  width: double.infinity,
+                  child: ButtonComponent.outlined(
+                    text: 'Add interaction',
+                    icon: Icons.add_rounded,
+                    onPressed: () {
+                      dispatch(AddEmptyInteractionAction());
+                    },
+                  ),
+                );
+              },
             ),
             const Divider(height: 0),
             StateConnector<AppState, (List<TaleInteraction>, TaleInteraction)>(
@@ -62,7 +65,11 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
                                 context.colorScheme.onSecondaryContainer,
                             selectedTileColor:
                                 context.colorScheme.secondaryContainer,
-                            title: Text(interaction.id),
+                            title: Badge(
+                              isLabelVisible: interaction.isNew,
+                              label: const Text('New'),
+                              child: Text(interaction.id),
+                            ),
                             onTap: () {
                               dispatch(SelectInteractionAction(interaction));
                             },

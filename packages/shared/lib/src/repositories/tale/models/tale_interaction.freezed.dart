@@ -33,6 +33,7 @@ mixin _$TaleInteraction {
   @JsonKey(includeFromJson: false)
   TaleInteractionPosition get currentPosition =>
       throw _privateConstructorUsedError;
+  bool get isNew => throw _privateConstructorUsedError;
 
   /// Serializes this TaleInteraction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -60,8 +61,8 @@ abstract class $TaleInteractionCopyWith<$Res> {
       String action,
       String? hintKey,
       @JsonKey(includeFromJson: false) bool isUsed,
-      @JsonKey(includeFromJson: false)
-      TaleInteractionPosition currentPosition});
+      @JsonKey(includeFromJson: false) TaleInteractionPosition currentPosition,
+      bool isNew});
 
   $TaleInteractionMetadataCopyWith<$Res> get metadata;
   $TaleInteractionPositionCopyWith<$Res> get currentPosition;
@@ -92,6 +93,7 @@ class _$TaleInteractionCopyWithImpl<$Res, $Val extends TaleInteraction>
     Object? hintKey = freezed,
     Object? isUsed = null,
     Object? currentPosition = null,
+    Object? isNew = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -134,6 +136,10 @@ class _$TaleInteractionCopyWithImpl<$Res, $Val extends TaleInteraction>
           ? _value.currentPosition
           : currentPosition // ignore: cast_nullable_to_non_nullable
               as TaleInteractionPosition,
+      isNew: null == isNew
+          ? _value.isNew
+          : isNew // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -177,8 +183,8 @@ abstract class _$$TaleInteractionImplCopyWith<$Res>
       String action,
       String? hintKey,
       @JsonKey(includeFromJson: false) bool isUsed,
-      @JsonKey(includeFromJson: false)
-      TaleInteractionPosition currentPosition});
+      @JsonKey(includeFromJson: false) TaleInteractionPosition currentPosition,
+      bool isNew});
 
   @override
   $TaleInteractionMetadataCopyWith<$Res> get metadata;
@@ -209,6 +215,7 @@ class __$$TaleInteractionImplCopyWithImpl<$Res>
     Object? hintKey = freezed,
     Object? isUsed = null,
     Object? currentPosition = null,
+    Object? isNew = null,
   }) {
     return _then(_$TaleInteractionImpl(
       id: null == id
@@ -251,6 +258,10 @@ class __$$TaleInteractionImplCopyWithImpl<$Res>
           ? _value.currentPosition
           : currentPosition // ignore: cast_nullable_to_non_nullable
               as TaleInteractionPosition,
+      isNew: null == isNew
+          ? _value.isNew
+          : isNew // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -270,7 +281,8 @@ class _$TaleInteractionImpl extends _TaleInteraction {
       this.hintKey,
       @JsonKey(includeFromJson: false) this.isUsed = false,
       @JsonKey(includeFromJson: false)
-      this.currentPosition = TaleInteractionPosition.zero})
+      this.currentPosition = TaleInteractionPosition.zero,
+      this.isNew = false})
       : super._();
 
   factory _$TaleInteractionImpl.fromJson(Map<String, dynamic> json) =>
@@ -298,10 +310,13 @@ class _$TaleInteractionImpl extends _TaleInteraction {
   @override
   @JsonKey(includeFromJson: false)
   final TaleInteractionPosition currentPosition;
+  @override
+  @JsonKey()
+  final bool isNew;
 
   @override
   String toString() {
-    return 'TaleInteraction(id: $id, talePageId: $talePageId, eventType: $eventType, eventSubtype: $eventSubtype, animationDuration: $animationDuration, metadata: $metadata, action: $action, hintKey: $hintKey, isUsed: $isUsed, currentPosition: $currentPosition)';
+    return 'TaleInteraction(id: $id, talePageId: $talePageId, eventType: $eventType, eventSubtype: $eventSubtype, animationDuration: $animationDuration, metadata: $metadata, action: $action, hintKey: $hintKey, isUsed: $isUsed, currentPosition: $currentPosition, isNew: $isNew)';
   }
 
   @override
@@ -324,7 +339,8 @@ class _$TaleInteractionImpl extends _TaleInteraction {
             (identical(other.hintKey, hintKey) || other.hintKey == hintKey) &&
             (identical(other.isUsed, isUsed) || other.isUsed == isUsed) &&
             (identical(other.currentPosition, currentPosition) ||
-                other.currentPosition == currentPosition));
+                other.currentPosition == currentPosition) &&
+            (identical(other.isNew, isNew) || other.isNew == isNew));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -340,7 +356,8 @@ class _$TaleInteractionImpl extends _TaleInteraction {
       action,
       hintKey,
       isUsed,
-      currentPosition);
+      currentPosition,
+      isNew);
 
   /// Create a copy of TaleInteraction
   /// with the given fields replaced by the non-null parameter values.
@@ -371,7 +388,8 @@ abstract class _TaleInteraction extends TaleInteraction {
       final String? hintKey,
       @JsonKey(includeFromJson: false) final bool isUsed,
       @JsonKey(includeFromJson: false)
-      final TaleInteractionPosition currentPosition}) = _$TaleInteractionImpl;
+      final TaleInteractionPosition currentPosition,
+      final bool isNew}) = _$TaleInteractionImpl;
   const _TaleInteraction._() : super._();
 
   factory _TaleInteraction.fromJson(Map<String, dynamic> json) =
@@ -399,6 +417,8 @@ abstract class _TaleInteraction extends TaleInteraction {
   @override
   @JsonKey(includeFromJson: false)
   TaleInteractionPosition get currentPosition;
+  @override
+  bool get isNew;
 
   /// Create a copy of TaleInteraction
   /// with the given fields replaced by the non-null parameter values.

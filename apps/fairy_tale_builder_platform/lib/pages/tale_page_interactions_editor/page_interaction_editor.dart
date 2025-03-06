@@ -22,39 +22,48 @@ class TalePageInteractionsEditor extends StatelessWidget {
       title: const Text('Interactions Editor'),
       leftSidebar: const InteractionLeftSidebarComponent(),
       rigthSidebar: const InteractionRightSidebarComponent(),
+      actions: [
+        StateConnector<AppState, bool>(
+          selector: (state) =>
+              state.taleListState.taleState.editorState.isInteractionEdited,
+          builder: (context, dispatch, model) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 8,
+              children: [
+                const ButtonComponent.iconDesctructive(
+                  icon: Icons.restore_rounded,
+                  tooltip: 'Reset',
+                ),
+                ButtonComponent.icon(
+                  icon: Icons.save_rounded,
+                  tooltip: 'Save',
+                  onPressed: !model
+                      ? null
+                      : () {
+                          dispatch(SaveInteractionsAction());
+                        },
+                ),
+                const SizedBox(width: 1),
+              ],
+            );
+          },
+        ),
+      ],
       leading: StateConnector<AppState, bool>(
         selector: (state) =>
             state.taleListState.taleState.editorState.isInteractionEdited,
         builder: (context, dispatch, model) {
-          return Row(
-            mainAxisSize: MainAxisSize.min,
-            spacing: 8,
-            children: [
-              ButtonComponent.icon(
-                icon: Icons.arrow_back_rounded,
-                onPressed: model
-                    ? null
-                    : () {
-                        //todo: prompt to save before quitting
-                        if (Navigator.canPop(context)) {
-                          Navigator.pop(context);
-                        }
-                      },
-              ),
-              ButtonComponent.icon(
-                icon: Icons.save_rounded,
-                tooltip: 'Save',
-                onPressed: !model
-                    ? null
-                    : () {
-                        dispatch(SaveInteractionsAction());
-                      },
-              ),
-              const ButtonComponent.iconDesctructive(
-                icon: Icons.restore_rounded,
-                tooltip: 'Reset',
-              ),
-            ],
+          return ButtonComponent.icon(
+            icon: Icons.arrow_back_rounded,
+            onPressed: model
+                ? null
+                : () {
+                    //todo: prompt to save before quitting
+                    if (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    }
+                  },
           );
         },
       ),
@@ -78,7 +87,7 @@ class _Body extends StatelessWidget {
           selector: selectedTalePageSelector,
           builder: (context, dispatch, page) {
             return DeviceFrame(
-              device: Devices.ios.iPhone13,
+              device: Devices.ios.iPhoneSE,
               orientation: tale.isPortrait
                   ? Orientation.portrait
                   : Orientation.landscape,
@@ -88,7 +97,7 @@ class _Body extends StatelessWidget {
                   if (page.metadata.hasBackgroundImage)
                     Positioned.fill(
                       child: Opacity(
-                        opacity: .3,
+                        opacity: .2,
                         child: Image.network(
                           page.metadata.backgroundImageUrl,
                           fit: BoxFit.cover,

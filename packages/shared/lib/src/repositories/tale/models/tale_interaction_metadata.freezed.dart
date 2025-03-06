@@ -217,7 +217,7 @@ class __$$TaleInteractionMetadataImplCopyWithImpl<$Res>
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$TaleInteractionMetadataImpl extends _TaleInteractionMetadata {
   const _$TaleInteractionMetadataImpl(
-      {this.size = const TaleInteractionSize(10, 10),
+      {this.size = const TaleInteractionSize(40, 40),
       @JsonKey(name: 'initial_pos')
       this.initialPosition = TaleInteractionPosition.zero,
       this.imageUrl = '',

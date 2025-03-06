@@ -18,6 +18,7 @@ _$TaleInteractionImpl _$$TaleInteractionImplFromJson(
           json['metadata'] as Map<String, dynamic>),
       action: json['action'] as String,
       hintKey: json['hint_key'] as String?,
+      isNew: json['is_new'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$TaleInteractionImplToJson(
@@ -31,4 +32,5 @@ Map<String, dynamic> _$$TaleInteractionImplToJson(
       'metadata': instance.metadata,
       'action': instance.action,
       'hint_key': instance.hintKey,
+      'is_new': instance.isNew,
     };

@@ -88,17 +88,30 @@ class TaleInteraction with _$TaleInteraction {
     @JsonKey(includeFromJson: false)
     @Default(TaleInteractionPosition.zero)
     TaleInteractionPosition currentPosition,
+    @Default(false) bool isNew,
   }) = _TaleInteraction;
 
   static const TaleInteraction empty = TaleInteraction(
     id: '',
     talePageId: '',
-    eventType: '',
-    eventSubtype: '',
+    eventType: 'swipe',
+    eventSubtype: 'swipe_right',
     hintKey: '',
-    animationDuration: 0,
+    animationDuration: 100,
     metadata: TaleInteractionMetadata(),
     action: 'move',
+  );
+
+  static const TaleInteraction newInteraction = TaleInteraction(
+    id: '',
+    talePageId: '',
+    eventType: 'swipe',
+    eventSubtype: 'swipe_right',
+    hintKey: '',
+    animationDuration: 100,
+    metadata: TaleInteractionMetadata(),
+    action: 'move',
+    isNew: true,
   );
 
   factory TaleInteraction.fromJson(Map<String, dynamic> json) =>
@@ -159,5 +172,9 @@ class TaleInteraction with _$TaleInteraction {
 
   TaleInteraction updateAction(TaleInteractionAction action) {
     return copyWith(action: action.name);
+  }
+
+  TaleInteraction updateHintKey(String hintKey) {
+    return copyWith(hintKey: hintKey);
   }
 }

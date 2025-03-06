@@ -10,7 +10,7 @@ _$TaleInteractionMetadataImpl _$$TaleInteractionMetadataImplFromJson(
         Map<String, dynamic> json) =>
     _$TaleInteractionMetadataImpl(
       size: json['size'] == null
-          ? const TaleInteractionSize(10, 10)
+          ? const TaleInteractionSize(40, 40)
           : TaleInteractionSize.fromJson(json['size'] as Map<String, dynamic>),
       initialPosition: json['initial_pos'] == null
           ? TaleInteractionPosition.zero

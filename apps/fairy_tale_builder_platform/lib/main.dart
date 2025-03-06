@@ -49,6 +49,7 @@ class App extends StatelessWidget {
       title: 'Tale Builder',
       theme: appTheme.lightTheme,
       darkTheme: appTheme.darkTheme,
+      debugShowCheckedModeBanner: false,
       home: const SplashPage(),
     );
   }

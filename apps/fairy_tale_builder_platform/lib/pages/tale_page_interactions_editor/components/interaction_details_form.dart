@@ -1,4 +1,5 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
@@ -35,22 +36,22 @@ class InteractionDetailsForm extends StatelessWidget {
                   ),
                   style: context.textTheme.headlineSmall,
                 ),
-                const Spacer(),
-                StateConnector<AppState, bool>(
-                  selector: (state) => state
-                      .taleListState.taleState.editorState.isInteractionEdited,
-                  builder: (context, dispatch, model) {
-                    return ButtonComponent.icon(
-                      tooltip: 'Save',
-                      icon: Icons.save_rounded,
-                      onPressed: !model
-                          ? null
-                          : () {
-                              dispatch(SaveInteractionsAction());
-                            },
-                    );
-                  },
-                ),
+                // const Spacer(),
+                // StateConnector<AppState, bool>(
+                //   selector: (state) => state
+                //       .taleListState.taleState.editorState.isInteractionEdited,
+                //   builder: (context, dispatch, model) {
+                //     return ButtonComponent.icon(
+                //       tooltip: 'Save',
+                //       icon: Icons.save_rounded,
+                //       onPressed: !model
+                //           ? null
+                //           : () {
+                //               dispatch(SaveInteractionsAction());
+                //             },
+                //     );
+                //   },
+                // ),
               ],
             );
           },
@@ -245,6 +246,13 @@ class __FormState extends State<_Form> with StateHelpers {
           spacing: 16,
           children: [
             const Divider(height: 0),
+            TranslationSelector(
+              label: 'Hint',
+              textKey: interaction.hintKey,
+              onChanged: (value) {
+                dispatch(interaction.updateHintKey(value));
+              },
+            ),
             TextFieldComponent(
               label: 'Width',
               maxLines: 1,

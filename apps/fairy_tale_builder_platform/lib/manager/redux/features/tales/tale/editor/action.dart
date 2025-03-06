@@ -35,6 +35,7 @@ class AddNewTalePageAction extends DefaultAction {
     final newPage = TalePage.newPage.copyWith(
       id: UUID.v4(),
       text: (taleState.selectedTale.pages.length + 1).toString(),
+      pageNumber: taleState.selectedTale.pages.length + 1,
     );
     return state.copyWith(
       taleListState: taleListState.copyWith(
@@ -244,6 +245,31 @@ class SaveInteractionsAction extends DefaultAction {
           ),
           selectedTale: taleState.selectedTale.copyWith(
             pages: newPages.toList(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AddEmptyInteractionAction extends DefaultAction {
+  @override
+  AppState? reduce() {
+    final selectedPage = editorState.selectedTalePage;
+    final newPage = selectedPage.copyWith(
+      interactions: [
+        ...selectedPage.interactions,
+        TaleInteraction.newInteraction.copyWith(
+          id: UUID.v4(),
+        ),
+      ],
+    );
+    return state.copyWith(
+      taleListState: taleListState.copyWith(
+        taleState: taleState.copyWith(
+          editorState: editorState.copyWith(
+            selectedTalePage: newPage,
+            isInteractionEdited: true,
           ),
         ),
       ),

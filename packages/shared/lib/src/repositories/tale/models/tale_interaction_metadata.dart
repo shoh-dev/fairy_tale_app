@@ -10,7 +10,7 @@ class TaleInteractionMetadata with _$TaleInteractionMetadata {
 
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TaleInteractionMetadata({
-    @Default(TaleInteractionSize(10, 10)) TaleInteractionSize size,
+    @Default(TaleInteractionSize(40, 40)) TaleInteractionSize size,
     @JsonKey(name: 'initial_pos')
     @Default(TaleInteractionPosition.zero)
     TaleInteractionPosition initialPosition,

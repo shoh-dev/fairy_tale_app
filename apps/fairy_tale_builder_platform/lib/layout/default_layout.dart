@@ -10,6 +10,7 @@ class DefaultLayout extends StatelessWidget {
     this.rigthSidebar,
     this.title,
     this.leading,
+    this.actions = const [],
   });
 
   final Widget body;
@@ -17,6 +18,7 @@ class DefaultLayout extends StatelessWidget {
   final Widget? rigthSidebar;
   final Widget? title;
   final Widget? leading;
+  final List<Widget> actions;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class DefaultLayout extends StatelessWidget {
         toolbarHeight: Sizes.kAppBarHeight,
         title: title,
         leading: leading,
-        leadingWidth: Sizes.kLeftSidebarWidth,
+        actions: actions,
       ),
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
