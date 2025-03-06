@@ -59,59 +59,64 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                             onTap: () {
                               dispatch(SelectEditorTalePageAction(page));
                             },
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 100),
-                              width: double.infinity,
-                              height: 370,
-                              decoration: BoxDecoration(
-                                color: isSelected
-                                    ? context.colorScheme.primaryContainer
-                                    : null,
-                                border: isSelected
-                                    ? Border.all(
-                                        color: context
-                                            .colorScheme.onPrimaryContainer,
-                                        width: 2,
+                            child: Badge(
+                              isLabelVisible: page.isNew,
+                              alignment: Alignment.topLeft,
+                              label: const Text('New'),
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 100),
+                                width: double.infinity,
+                                height: 370,
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? context.colorScheme.primaryContainer
+                                      : null,
+                                  border: isSelected
+                                      ? Border.all(
+                                          color: context
+                                              .colorScheme.onPrimaryContainer,
+                                          width: 2,
+                                        )
+                                      : null,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    if (page.metadata.hasBackgroundImage)
+                                      Image.network(
+                                        page.metadata.backgroundImageUrl,
+                                        fit: BoxFit.cover,
                                       )
-                                    : null,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  if (page.metadata.hasBackgroundImage)
-                                    Image.network(
-                                      page.metadata.backgroundImageUrl,
-                                      fit: BoxFit.cover,
-                                    )
-                                  else
-                                    Container(
-                                      height: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey,
-                                          //todo: no image placeholder
-                                        ),
-                                      ),
-                                      child: const Placeholder(),
-                                    ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Translator(
-                                      showOriginalNotTranslated: page.isNew,
-                                      toTranslate: [page.text],
-                                      builder: (translatedValue) {
-                                        return SizedBox(
-                                          width: 330,
-                                          child: Text(
-                                            translatedValue[0],
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
+                                    else
+                                      Container(
+                                        height: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                            //todo: no image placeholder
                                           ),
-                                        );
-                                      },
+                                        ),
+                                        child: const Placeholder(),
+                                      ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Translator(
+                                        showOriginalNotTranslated: page.isNew,
+                                        toTranslate: [page.text],
+                                        builder: (translatedValue) {
+                                          return SizedBox(
+                                            width: 330,
+                                            child: Text(
+                                              translatedValue[0],
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );

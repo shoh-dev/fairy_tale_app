@@ -11,6 +11,8 @@ abstract class TaleRepository {
     required String defaultLocale,
   });
   ResultFuture<void> saveTale(Tale tale);
+  ResultFuture<void> saveTalePages(List<TalePage> pages);
+  ResultFuture<void> saveTaleInteractions(List<TaleInteraction> ineractions);
 }
 
 class TaleRepositoryImpl implements TaleRepository {
@@ -68,7 +70,35 @@ class TaleRepositoryImpl implements TaleRepository {
   @override
   ResultFuture<void> saveTale(Tale tale) async {
     try {
-      await _supabase.from('tales').update(tale.toJson()).eq('id', tale.id);
+      await _supabase.from('tales').update(tale.saveToJson()).eq('id', tale.id);
+      return const Result.ok(null);
+    } catch (e) {
+      return Result.error(ErrorX(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> saveTalePages(List<TalePage> pages) async {
+    try {
+      await _supabase.from('pages').upsert(
+            pages.map((e) => e.saveToJson()).toList(),
+          );
+
+      return const Result.ok(null);
+    } catch (e) {
+      return Result.error(ErrorX(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> saveTaleInteractions(
+    List<TaleInteraction> ineractions,
+  ) async {
+    try {
+      await _supabase.from('interactions').upsert(
+            ineractions.map((e) => e.saveToJson()).toList(),
+          );
+
       return const Result.ok(null);
     } catch (e) {
       return Result.error(ErrorX(e));

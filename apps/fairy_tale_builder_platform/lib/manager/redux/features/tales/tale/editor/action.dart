@@ -20,7 +20,7 @@ class SelectEditorTalePageAction extends DefaultAction {
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
           editorState: editorState.copyWith(
-            selectedTalePage: page ?? TalePage.empty,
+            selectedTalePage: page ?? TalePage.empty(),
             isTalePageEdited: page != null,
           ),
         ),
@@ -32,10 +32,11 @@ class SelectEditorTalePageAction extends DefaultAction {
 class AddNewTalePageAction extends DefaultAction {
   @override
   AppState reduce() {
-    final newPage = TalePage.newPage.copyWith(
+    final newPage = TalePage.newPage(
       id: UUID.v4(),
       text: (taleState.selectedTale.pages.length + 1).toString(),
       pageNumber: taleState.selectedTale.pages.length + 1,
+      taleId: taleState.selectedTale.id,
     );
     return state.copyWith(
       taleListState: taleListState.copyWith(
@@ -103,12 +104,12 @@ class UpdateSelectedTalePageAction extends DefaultAction {
   }
 }
 
-class SaveTaleLocalizationAction extends DefaultAction {
+class SaveSelectedTaleLocalizationAction extends DefaultAction {
   final String locale;
   final Iterable<String> keys;
   final Iterable<String> values;
 
-  SaveTaleLocalizationAction({
+  SaveSelectedTaleLocalizationAction({
     required this.locale,
     required this.keys,
     required this.values,
@@ -139,12 +140,13 @@ class SaveTaleLocalizationAction extends DefaultAction {
       translations: newMap,
     );
 
-    // //todo: handle error
-    // final result = await taleRepository.saveTaleLocalization(
-    //   taleId: newLocalizations.taleId,
-    //   translations: newLocalizations.translations,
-    //   defaultLocale: newLocalizations.defaultLocale,
-    // );
+    // //todo: handle result
+    // final result =
+    await taleRepository.saveTaleLocalization(
+      taleId: newLocalizations.taleId,
+      translations: newLocalizations.translations,
+      defaultLocale: newLocalizations.defaultLocale,
+    );
 
     return state.copyWith(
       applicationState: applicationState.copyWith(
@@ -178,7 +180,7 @@ class SelectInteractionAction extends DefaultAction {
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
           editorState: editorState.copyWith(
-            selectedInteraction: interaction ?? TaleInteraction.empty,
+            selectedInteraction: interaction ?? TaleInteraction.empty(),
           ),
         ),
       ),
@@ -259,8 +261,9 @@ class AddEmptyInteractionAction extends DefaultAction {
     final newPage = selectedPage.copyWith(
       interactions: [
         ...selectedPage.interactions,
-        TaleInteraction.newInteraction.copyWith(
+        TaleInteraction.newInteraction(
           id: UUID.v4(),
+          talePageId: selectedPage.id,
         ),
       ],
     );
@@ -274,5 +277,25 @@ class AddEmptyInteractionAction extends DefaultAction {
         ),
       ),
     );
+  }
+}
+
+class SaveSelectedTaleAction extends DefaultAction {
+  @override
+  Future<AppState?> reduce() async {
+    final selectedTale = taleState.selectedTale;
+
+    //todo: handle result
+    final taleResult = await taleRepository.saveTale(selectedTale);
+    final pagesResult = await taleRepository.saveTalePages(selectedTale.pages);
+    final interactionsResult = await taleRepository.saveTaleInteractions(
+      selectedTale.pages.expand((e) => e.interactions).toList(),
+    );
+
+    print(taleResult);
+    print(pagesResult);
+    print(interactionsResult);
+
+    return null;
   }
 }

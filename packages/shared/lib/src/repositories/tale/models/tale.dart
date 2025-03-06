@@ -21,6 +21,10 @@ class Tale with _$Tale {
 
   factory Tale.fromJson(Map<String, dynamic> json) => _$TaleFromJson(json);
 
+  Map<dynamic, dynamic> saveToJson() => toJson()
+    ..remove('localizations')
+    ..remove('pages');
+
   static const empty = Tale(
     id: '',
     title: '',

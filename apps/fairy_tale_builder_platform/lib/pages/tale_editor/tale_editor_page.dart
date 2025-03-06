@@ -97,6 +97,19 @@ class _Layout extends StatelessWidget {
           );
         },
       ),
+      actions: [
+        DispatchConnector<AppState>(
+          builder: (context, dispatch) {
+            return ButtonComponent.icon(
+              icon: Icons.save_rounded,
+              onPressed: () {
+                dispatch(SaveSelectedTaleAction());
+              },
+            );
+          },
+        ),
+        const SizedBox(width: 8),
+      ],
       body: StateConnector<AppState, bool>(
         selector: (state) => state
             .taleListState.taleState.editorState.selectedTalePage.id.isNotEmpty,

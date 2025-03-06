@@ -9,7 +9,7 @@ part 'tale_page.g.dart';
 class TalePage with _$TalePage {
   const TalePage._();
 
-  @JsonSerializable(fieldRename: FieldRename.snake)
+  @JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
   const factory TalePage({
     required String id,
     required String taleId,
@@ -20,25 +20,40 @@ class TalePage with _$TalePage {
     @Default(false) bool isNew,
   }) = _TalePage;
 
-  static const empty = TalePage(
-    id: '',
-    taleId: '',
-    pageNumber: 0,
-    text: '',
-    metadata: TalePageMetadata(),
-  );
+  factory TalePage.empty() => const TalePage(
+        id: '',
+        taleId: '',
+        pageNumber: 0,
+        text: '',
+        metadata: TalePageMetadata(),
+      );
 
-  static const newPage = TalePage(
-    id: '',
-    taleId: '',
-    pageNumber: 0,
-    text: '',
-    metadata: TalePageMetadata(),
-    isNew: true,
-  );
+  factory TalePage.newPage({
+    required String id,
+    required String taleId,
+    required String text,
+    required int pageNumber,
+  }) =>
+      TalePage(
+        id: id,
+        taleId: taleId,
+        pageNumber: pageNumber,
+        text: text,
+        metadata: const TalePageMetadata(),
+        isNew: true,
+      );
 
   factory TalePage.fromJson(Map<String, dynamic> json) =>
       _$TalePageFromJson(json);
+
+  Map<dynamic, dynamic> saveToJson() {
+    final json = toJson()
+      ..remove('created_at')
+      ..remove('is_new')
+      ..remove('interactions');
+
+    return json;
+  }
 
   bool get hasBackgroundAudio => metadata.hasBackgroundAudio;
 

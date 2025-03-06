@@ -95,7 +95,10 @@ extension TaleInteractionActionExt on TaleInteractionAction {
 class TaleInteraction with _$TaleInteraction {
   const TaleInteraction._();
 
-  @JsonSerializable(fieldRename: FieldRename.snake)
+  @JsonSerializable(
+    fieldRename: FieldRename.snake,
+    createToJson: false,
+  )
   const factory TaleInteraction({
     required String id,
     required String talePageId,
@@ -109,31 +112,43 @@ class TaleInteraction with _$TaleInteraction {
     @JsonKey(includeFromJson: false) @Default(false) bool isNew,
   }) = _TaleInteraction;
 
-  static const TaleInteraction empty = TaleInteraction(
-    id: '',
-    talePageId: '',
-    eventType: '',
-    eventSubtype: '',
-    hintKey: '',
-    animationDuration: 100,
-    metadata: TaleInteractionMetadata(),
-    action: '',
-  );
+  factory TaleInteraction.empty() => const TaleInteraction(
+        id: '',
+        talePageId: '',
+        eventType: '',
+        eventSubtype: '',
+        hintKey: '',
+        animationDuration: 500,
+        metadata: TaleInteractionMetadata(),
+        action: '',
+      );
 
-  static const TaleInteraction newInteraction = TaleInteraction(
-    id: '',
-    talePageId: '',
-    eventType: '',
-    eventSubtype: '',
-    hintKey: '',
-    animationDuration: 100,
-    metadata: TaleInteractionMetadata(),
-    action: '',
-    isNew: true,
-  );
+  factory TaleInteraction.newInteraction({
+    required String id,
+    required String talePageId,
+  }) =>
+      TaleInteraction(
+        id: id,
+        talePageId: talePageId,
+        eventType: '',
+        eventSubtype: '',
+        hintKey: '',
+        action: '',
+        animationDuration: 500,
+        metadata: const TaleInteractionMetadata(),
+        isNew: true,
+      );
 
   factory TaleInteraction.fromJson(Map<String, dynamic> json) =>
       _$TaleInteractionFromJson(json);
+
+  Map<dynamic, dynamic> saveToJson() {
+    final json = toJson()
+      ..remove('created_at')
+      ..remove('is_new');
+
+    return json;
+  }
 
   TaleInteractionSize get size => metadata.size;
   TaleInteractionPosition get initialPosition => metadata.initialPosition;

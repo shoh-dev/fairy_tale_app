@@ -342,7 +342,7 @@ class _BodyState extends State<_Body> {
                         (e) => e.cells['value']!.value.toString(),
                       );
                       dispatch(
-                        SaveTaleLocalizationAction(
+                        SaveSelectedTaleLocalizationAction(
                           locale: locale,
                           keys: keys,
                           values: values,
