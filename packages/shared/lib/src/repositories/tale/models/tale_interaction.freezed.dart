@@ -25,17 +25,11 @@ mixin _$TaleInteraction {
   String get eventType => throw _privateConstructorUsedError;
   String get eventSubtype => throw _privateConstructorUsedError;
   int get animationDuration => throw _privateConstructorUsedError;
-  TaleInteractionSize get size => throw _privateConstructorUsedError;
-  @JsonKey(name: 'initial_pos')
-  TaleInteractionPosition get initialPosition =>
-      throw _privateConstructorUsedError;
   TaleInteractionMetadata get metadata => throw _privateConstructorUsedError;
+  String get action => throw _privateConstructorUsedError;
   String? get hintKey => throw _privateConstructorUsedError;
   @JsonKey(includeFromJson: false)
   bool get isUsed => throw _privateConstructorUsedError;
-  @JsonKey(name: 'final_pos')
-  TaleInteractionPosition? get finalPosition =>
-      throw _privateConstructorUsedError;
   @JsonKey(includeFromJson: false)
   TaleInteractionPosition get currentPosition =>
       throw _privateConstructorUsedError;
@@ -62,19 +56,14 @@ abstract class $TaleInteractionCopyWith<$Res> {
       String eventType,
       String eventSubtype,
       int animationDuration,
-      TaleInteractionSize size,
-      @JsonKey(name: 'initial_pos') TaleInteractionPosition initialPosition,
       TaleInteractionMetadata metadata,
+      String action,
       String? hintKey,
       @JsonKey(includeFromJson: false) bool isUsed,
-      @JsonKey(name: 'final_pos') TaleInteractionPosition? finalPosition,
       @JsonKey(includeFromJson: false)
       TaleInteractionPosition currentPosition});
 
-  $TaleInteractionSizeCopyWith<$Res> get size;
-  $TaleInteractionPositionCopyWith<$Res> get initialPosition;
   $TaleInteractionMetadataCopyWith<$Res> get metadata;
-  $TaleInteractionPositionCopyWith<$Res>? get finalPosition;
   $TaleInteractionPositionCopyWith<$Res> get currentPosition;
 }
 
@@ -98,12 +87,10 @@ class _$TaleInteractionCopyWithImpl<$Res, $Val extends TaleInteraction>
     Object? eventType = null,
     Object? eventSubtype = null,
     Object? animationDuration = null,
-    Object? size = null,
-    Object? initialPosition = null,
     Object? metadata = null,
+    Object? action = null,
     Object? hintKey = freezed,
     Object? isUsed = null,
-    Object? finalPosition = freezed,
     Object? currentPosition = null,
   }) {
     return _then(_value.copyWith(
@@ -127,18 +114,14 @@ class _$TaleInteractionCopyWithImpl<$Res, $Val extends TaleInteraction>
           ? _value.animationDuration
           : animationDuration // ignore: cast_nullable_to_non_nullable
               as int,
-      size: null == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as TaleInteractionSize,
-      initialPosition: null == initialPosition
-          ? _value.initialPosition
-          : initialPosition // ignore: cast_nullable_to_non_nullable
-              as TaleInteractionPosition,
       metadata: null == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as TaleInteractionMetadata,
+      action: null == action
+          ? _value.action
+          : action // ignore: cast_nullable_to_non_nullable
+              as String,
       hintKey: freezed == hintKey
           ? _value.hintKey
           : hintKey // ignore: cast_nullable_to_non_nullable
@@ -147,10 +130,6 @@ class _$TaleInteractionCopyWithImpl<$Res, $Val extends TaleInteraction>
           ? _value.isUsed
           : isUsed // ignore: cast_nullable_to_non_nullable
               as bool,
-      finalPosition: freezed == finalPosition
-          ? _value.finalPosition
-          : finalPosition // ignore: cast_nullable_to_non_nullable
-              as TaleInteractionPosition?,
       currentPosition: null == currentPosition
           ? _value.currentPosition
           : currentPosition // ignore: cast_nullable_to_non_nullable
@@ -162,45 +141,9 @@ class _$TaleInteractionCopyWithImpl<$Res, $Val extends TaleInteraction>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $TaleInteractionSizeCopyWith<$Res> get size {
-    return $TaleInteractionSizeCopyWith<$Res>(_value.size, (value) {
-      return _then(_value.copyWith(size: value) as $Val);
-    });
-  }
-
-  /// Create a copy of TaleInteraction
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TaleInteractionPositionCopyWith<$Res> get initialPosition {
-    return $TaleInteractionPositionCopyWith<$Res>(_value.initialPosition,
-        (value) {
-      return _then(_value.copyWith(initialPosition: value) as $Val);
-    });
-  }
-
-  /// Create a copy of TaleInteraction
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
   $TaleInteractionMetadataCopyWith<$Res> get metadata {
     return $TaleInteractionMetadataCopyWith<$Res>(_value.metadata, (value) {
       return _then(_value.copyWith(metadata: value) as $Val);
-    });
-  }
-
-  /// Create a copy of TaleInteraction
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TaleInteractionPositionCopyWith<$Res>? get finalPosition {
-    if (_value.finalPosition == null) {
-      return null;
-    }
-
-    return $TaleInteractionPositionCopyWith<$Res>(_value.finalPosition!,
-        (value) {
-      return _then(_value.copyWith(finalPosition: value) as $Val);
     });
   }
 
@@ -230,23 +173,15 @@ abstract class _$$TaleInteractionImplCopyWith<$Res>
       String eventType,
       String eventSubtype,
       int animationDuration,
-      TaleInteractionSize size,
-      @JsonKey(name: 'initial_pos') TaleInteractionPosition initialPosition,
       TaleInteractionMetadata metadata,
+      String action,
       String? hintKey,
       @JsonKey(includeFromJson: false) bool isUsed,
-      @JsonKey(name: 'final_pos') TaleInteractionPosition? finalPosition,
       @JsonKey(includeFromJson: false)
       TaleInteractionPosition currentPosition});
 
   @override
-  $TaleInteractionSizeCopyWith<$Res> get size;
-  @override
-  $TaleInteractionPositionCopyWith<$Res> get initialPosition;
-  @override
   $TaleInteractionMetadataCopyWith<$Res> get metadata;
-  @override
-  $TaleInteractionPositionCopyWith<$Res>? get finalPosition;
   @override
   $TaleInteractionPositionCopyWith<$Res> get currentPosition;
 }
@@ -269,12 +204,10 @@ class __$$TaleInteractionImplCopyWithImpl<$Res>
     Object? eventType = null,
     Object? eventSubtype = null,
     Object? animationDuration = null,
-    Object? size = null,
-    Object? initialPosition = null,
     Object? metadata = null,
+    Object? action = null,
     Object? hintKey = freezed,
     Object? isUsed = null,
-    Object? finalPosition = freezed,
     Object? currentPosition = null,
   }) {
     return _then(_$TaleInteractionImpl(
@@ -298,18 +231,14 @@ class __$$TaleInteractionImplCopyWithImpl<$Res>
           ? _value.animationDuration
           : animationDuration // ignore: cast_nullable_to_non_nullable
               as int,
-      size: null == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as TaleInteractionSize,
-      initialPosition: null == initialPosition
-          ? _value.initialPosition
-          : initialPosition // ignore: cast_nullable_to_non_nullable
-              as TaleInteractionPosition,
       metadata: null == metadata
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as TaleInteractionMetadata,
+      action: null == action
+          ? _value.action
+          : action // ignore: cast_nullable_to_non_nullable
+              as String,
       hintKey: freezed == hintKey
           ? _value.hintKey
           : hintKey // ignore: cast_nullable_to_non_nullable
@@ -318,10 +247,6 @@ class __$$TaleInteractionImplCopyWithImpl<$Res>
           ? _value.isUsed
           : isUsed // ignore: cast_nullable_to_non_nullable
               as bool,
-      finalPosition: freezed == finalPosition
-          ? _value.finalPosition
-          : finalPosition // ignore: cast_nullable_to_non_nullable
-              as TaleInteractionPosition?,
       currentPosition: null == currentPosition
           ? _value.currentPosition
           : currentPosition // ignore: cast_nullable_to_non_nullable
@@ -340,12 +265,10 @@ class _$TaleInteractionImpl extends _TaleInteraction {
       required this.eventType,
       required this.eventSubtype,
       required this.animationDuration,
-      required this.size,
-      @JsonKey(name: 'initial_pos') required this.initialPosition,
       required this.metadata,
+      required this.action,
       this.hintKey,
       @JsonKey(includeFromJson: false) this.isUsed = false,
-      @JsonKey(name: 'final_pos') this.finalPosition,
       @JsonKey(includeFromJson: false)
       this.currentPosition = TaleInteractionPosition.zero})
       : super._();
@@ -364,27 +287,21 @@ class _$TaleInteractionImpl extends _TaleInteraction {
   @override
   final int animationDuration;
   @override
-  final TaleInteractionSize size;
-  @override
-  @JsonKey(name: 'initial_pos')
-  final TaleInteractionPosition initialPosition;
-  @override
   final TaleInteractionMetadata metadata;
+  @override
+  final String action;
   @override
   final String? hintKey;
   @override
   @JsonKey(includeFromJson: false)
   final bool isUsed;
   @override
-  @JsonKey(name: 'final_pos')
-  final TaleInteractionPosition? finalPosition;
-  @override
   @JsonKey(includeFromJson: false)
   final TaleInteractionPosition currentPosition;
 
   @override
   String toString() {
-    return 'TaleInteraction(id: $id, talePageId: $talePageId, eventType: $eventType, eventSubtype: $eventSubtype, animationDuration: $animationDuration, size: $size, initialPosition: $initialPosition, metadata: $metadata, hintKey: $hintKey, isUsed: $isUsed, finalPosition: $finalPosition, currentPosition: $currentPosition)';
+    return 'TaleInteraction(id: $id, talePageId: $talePageId, eventType: $eventType, eventSubtype: $eventSubtype, animationDuration: $animationDuration, metadata: $metadata, action: $action, hintKey: $hintKey, isUsed: $isUsed, currentPosition: $currentPosition)';
   }
 
   @override
@@ -401,15 +318,11 @@ class _$TaleInteractionImpl extends _TaleInteraction {
                 other.eventSubtype == eventSubtype) &&
             (identical(other.animationDuration, animationDuration) ||
                 other.animationDuration == animationDuration) &&
-            (identical(other.size, size) || other.size == size) &&
-            (identical(other.initialPosition, initialPosition) ||
-                other.initialPosition == initialPosition) &&
             (identical(other.metadata, metadata) ||
                 other.metadata == metadata) &&
+            (identical(other.action, action) || other.action == action) &&
             (identical(other.hintKey, hintKey) || other.hintKey == hintKey) &&
             (identical(other.isUsed, isUsed) || other.isUsed == isUsed) &&
-            (identical(other.finalPosition, finalPosition) ||
-                other.finalPosition == finalPosition) &&
             (identical(other.currentPosition, currentPosition) ||
                 other.currentPosition == currentPosition));
   }
@@ -423,12 +336,10 @@ class _$TaleInteractionImpl extends _TaleInteraction {
       eventType,
       eventSubtype,
       animationDuration,
-      size,
-      initialPosition,
       metadata,
+      action,
       hintKey,
       isUsed,
-      finalPosition,
       currentPosition);
 
   /// Create a copy of TaleInteraction
@@ -455,13 +366,10 @@ abstract class _TaleInteraction extends TaleInteraction {
       required final String eventType,
       required final String eventSubtype,
       required final int animationDuration,
-      required final TaleInteractionSize size,
-      @JsonKey(name: 'initial_pos')
-      required final TaleInteractionPosition initialPosition,
       required final TaleInteractionMetadata metadata,
+      required final String action,
       final String? hintKey,
       @JsonKey(includeFromJson: false) final bool isUsed,
-      @JsonKey(name: 'final_pos') final TaleInteractionPosition? finalPosition,
       @JsonKey(includeFromJson: false)
       final TaleInteractionPosition currentPosition}) = _$TaleInteractionImpl;
   const _TaleInteraction._() : super._();
@@ -480,20 +388,14 @@ abstract class _TaleInteraction extends TaleInteraction {
   @override
   int get animationDuration;
   @override
-  TaleInteractionSize get size;
-  @override
-  @JsonKey(name: 'initial_pos')
-  TaleInteractionPosition get initialPosition;
-  @override
   TaleInteractionMetadata get metadata;
+  @override
+  String get action;
   @override
   String? get hintKey;
   @override
   @JsonKey(includeFromJson: false)
   bool get isUsed;
-  @override
-  @JsonKey(name: 'final_pos')
-  TaleInteractionPosition? get finalPosition;
   @override
   @JsonKey(includeFromJson: false)
   TaleInteractionPosition get currentPosition;

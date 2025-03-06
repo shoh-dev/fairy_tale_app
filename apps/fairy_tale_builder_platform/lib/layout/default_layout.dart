@@ -25,6 +25,7 @@ class DefaultLayout extends StatelessWidget {
         toolbarHeight: Sizes.kAppBarHeight,
         title: title,
         leading: leading,
+        leadingWidth: Sizes.kLeftSidebarWidth,
       ),
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

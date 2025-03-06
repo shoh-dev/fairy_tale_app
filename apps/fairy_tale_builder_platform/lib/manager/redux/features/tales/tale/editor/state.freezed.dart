@@ -19,6 +19,7 @@ mixin _$TaleEditorState {
   TalePage get selectedTalePage => throw _privateConstructorUsedError;
   TaleInteraction get selectedInteraction => throw _privateConstructorUsedError;
   bool get isTalePageEdited => throw _privateConstructorUsedError;
+  bool get isInteractionEdited => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleEditorState
   /// with the given fields replaced by the non-null parameter values.
@@ -36,7 +37,8 @@ abstract class $TaleEditorStateCopyWith<$Res> {
   $Res call(
       {TalePage selectedTalePage,
       TaleInteraction selectedInteraction,
-      bool isTalePageEdited});
+      bool isTalePageEdited,
+      bool isInteractionEdited});
 
   $TalePageCopyWith<$Res> get selectedTalePage;
   $TaleInteractionCopyWith<$Res> get selectedInteraction;
@@ -60,6 +62,7 @@ class _$TaleEditorStateCopyWithImpl<$Res, $Val extends TaleEditorState>
     Object? selectedTalePage = null,
     Object? selectedInteraction = null,
     Object? isTalePageEdited = null,
+    Object? isInteractionEdited = null,
   }) {
     return _then(_value.copyWith(
       selectedTalePage: null == selectedTalePage
@@ -73,6 +76,10 @@ class _$TaleEditorStateCopyWithImpl<$Res, $Val extends TaleEditorState>
       isTalePageEdited: null == isTalePageEdited
           ? _value.isTalePageEdited
           : isTalePageEdited // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isInteractionEdited: null == isInteractionEdited
+          ? _value.isInteractionEdited
+          : isInteractionEdited // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -109,7 +116,8 @@ abstract class _$$TaleEditorStateImplCopyWith<$Res>
   $Res call(
       {TalePage selectedTalePage,
       TaleInteraction selectedInteraction,
-      bool isTalePageEdited});
+      bool isTalePageEdited,
+      bool isInteractionEdited});
 
   @override
   $TalePageCopyWith<$Res> get selectedTalePage;
@@ -133,6 +141,7 @@ class __$$TaleEditorStateImplCopyWithImpl<$Res>
     Object? selectedTalePage = null,
     Object? selectedInteraction = null,
     Object? isTalePageEdited = null,
+    Object? isInteractionEdited = null,
   }) {
     return _then(_$TaleEditorStateImpl(
       selectedTalePage: null == selectedTalePage
@@ -147,6 +156,10 @@ class __$$TaleEditorStateImplCopyWithImpl<$Res>
           ? _value.isTalePageEdited
           : isTalePageEdited // ignore: cast_nullable_to_non_nullable
               as bool,
+      isInteractionEdited: null == isInteractionEdited
+          ? _value.isInteractionEdited
+          : isInteractionEdited // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -157,7 +170,8 @@ class _$TaleEditorStateImpl extends _TaleEditorState {
   const _$TaleEditorStateImpl(
       {required this.selectedTalePage,
       required this.selectedInteraction,
-      required this.isTalePageEdited})
+      required this.isTalePageEdited,
+      required this.isInteractionEdited})
       : super._();
 
   @override
@@ -166,10 +180,12 @@ class _$TaleEditorStateImpl extends _TaleEditorState {
   final TaleInteraction selectedInteraction;
   @override
   final bool isTalePageEdited;
+  @override
+  final bool isInteractionEdited;
 
   @override
   String toString() {
-    return 'TaleEditorState(selectedTalePage: $selectedTalePage, selectedInteraction: $selectedInteraction, isTalePageEdited: $isTalePageEdited)';
+    return 'TaleEditorState(selectedTalePage: $selectedTalePage, selectedInteraction: $selectedInteraction, isTalePageEdited: $isTalePageEdited, isInteractionEdited: $isInteractionEdited)';
   }
 
   @override
@@ -182,12 +198,14 @@ class _$TaleEditorStateImpl extends _TaleEditorState {
             (identical(other.selectedInteraction, selectedInteraction) ||
                 other.selectedInteraction == selectedInteraction) &&
             (identical(other.isTalePageEdited, isTalePageEdited) ||
-                other.isTalePageEdited == isTalePageEdited));
+                other.isTalePageEdited == isTalePageEdited) &&
+            (identical(other.isInteractionEdited, isInteractionEdited) ||
+                other.isInteractionEdited == isInteractionEdited));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, selectedTalePage, selectedInteraction, isTalePageEdited);
+  int get hashCode => Object.hash(runtimeType, selectedTalePage,
+      selectedInteraction, isTalePageEdited, isInteractionEdited);
 
   /// Create a copy of TaleEditorState
   /// with the given fields replaced by the non-null parameter values.
@@ -203,7 +221,8 @@ abstract class _TaleEditorState extends TaleEditorState {
   const factory _TaleEditorState(
       {required final TalePage selectedTalePage,
       required final TaleInteraction selectedInteraction,
-      required final bool isTalePageEdited}) = _$TaleEditorStateImpl;
+      required final bool isTalePageEdited,
+      required final bool isInteractionEdited}) = _$TaleEditorStateImpl;
   const _TaleEditorState._() : super._();
 
   @override
@@ -212,6 +231,8 @@ abstract class _TaleEditorState extends TaleEditorState {
   TaleInteraction get selectedInteraction;
   @override
   bool get isTalePageEdited;
+  @override
+  bool get isInteractionEdited;
 
   /// Create a copy of TaleEditorState
   /// with the given fields replaced by the non-null parameter values.

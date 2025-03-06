@@ -13,7 +13,11 @@ enum TaleInteractionEventSubType {
   swipeLeft,
   swipeUp,
   swipeDown,
+}
+
+enum TaleInteractionAction {
   playSound,
+  move,
 }
 
 extension TaleInteractionEventTypeExt on TaleInteractionEventType {
@@ -40,8 +44,6 @@ extension TaleInteractionEventSubTypeExt on TaleInteractionEventSubType {
         return 'swipe_up';
       case TaleInteractionEventSubType.swipeDown:
         return 'swipe_down';
-      case TaleInteractionEventSubType.playSound:
-        return 'play_sound';
     }
   }
 
@@ -53,10 +55,17 @@ extension TaleInteractionEventSubTypeExt on TaleInteractionEventSubType {
       case TaleInteractionEventSubType.swipeUp:
       case TaleInteractionEventSubType.swipeDown:
         return true;
-      //
-      // ignore: no_default_cases
-      default:
-        return false;
+    }
+  }
+}
+
+extension TaleInteractionActionExt on TaleInteractionAction {
+  String get name {
+    switch (this) {
+      case TaleInteractionAction.playSound:
+        return 'play_sound';
+      case TaleInteractionAction.move:
+        return 'move';
     }
   }
 }
@@ -72,13 +81,10 @@ class TaleInteraction with _$TaleInteraction {
     required String eventType,
     required String eventSubtype,
     required int animationDuration,
-    required TaleInteractionSize size,
-    @JsonKey(name: 'initial_pos')
-    required TaleInteractionPosition initialPosition,
     required TaleInteractionMetadata metadata,
+    required String action,
     String? hintKey,
     @JsonKey(includeFromJson: false) @Default(false) bool isUsed,
-    @JsonKey(name: 'final_pos') TaleInteractionPosition? finalPosition,
     @JsonKey(includeFromJson: false)
     @Default(TaleInteractionPosition.zero)
     TaleInteractionPosition currentPosition,
@@ -91,41 +97,29 @@ class TaleInteraction with _$TaleInteraction {
     eventSubtype: '',
     hintKey: '',
     animationDuration: 0,
-    size: TaleInteractionSize.zero,
-    initialPosition: TaleInteractionPosition.zero,
-    finalPosition: TaleInteractionPosition.zero,
     metadata: TaleInteractionMetadata(),
+    action: 'move',
   );
 
   factory TaleInteraction.fromJson(Map<String, dynamic> json) =>
       _$TaleInteractionFromJson(json);
 
+  TaleInteractionSize get size => metadata.size;
+  TaleInteractionPosition get initialPosition => metadata.initialPosition;
+  TaleInteractionPosition? get finalPosition => metadata.finalPosition;
+
   TaleInteractionEventType get eventTypeEnum {
-    switch (eventType) {
-      case 'swipe':
-        return TaleInteractionEventType.swipe;
-      case 'tap':
-        return TaleInteractionEventType.tap;
-      default:
-        throw UnimplementedError('Unknown event type: $eventType');
-    }
+    return TaleInteractionEventType.values
+        .firstWhere((e) => e.name == eventType);
   }
 
   TaleInteractionEventSubType get eventSubTypeEnum {
-    switch (eventSubtype) {
-      case 'swipe_right':
-        return TaleInteractionEventSubType.swipeRight;
-      case 'swipe_left':
-        return TaleInteractionEventSubType.swipeLeft;
-      case 'swipe_up':
-        return TaleInteractionEventSubType.swipeUp;
-      case 'swipe_down':
-        return TaleInteractionEventSubType.swipeDown;
-      case 'play_sound':
-        return TaleInteractionEventSubType.playSound;
-      default:
-        throw UnimplementedError('Unknown event subtype: $eventSubtype');
-    }
+    return TaleInteractionEventSubType.values
+        .firstWhere((e) => e.name == eventSubtype);
+  }
+
+  TaleInteractionAction get actionEnum {
+    return TaleInteractionAction.values.firstWhere((e) => e.name == action);
   }
 
   //updateCurrentPosition method
@@ -149,16 +143,21 @@ class TaleInteraction with _$TaleInteraction {
   }
 
   TaleInteraction updateSize(TaleInteractionSize size) {
-    return copyWith(size: size);
+    return copyWith(metadata: metadata.copyWith(size: size));
   }
 
   TaleInteraction updateInitialPosition(
     TaleInteractionPosition initialPosition,
   ) {
-    return copyWith(initialPosition: initialPosition);
+    return copyWith(
+        metadata: metadata.copyWith(initialPosition: initialPosition));
   }
 
   TaleInteraction updateFinalPosition(TaleInteractionPosition finalPosition) {
-    return copyWith(finalPosition: finalPosition);
+    return copyWith(metadata: metadata.copyWith(finalPosition: finalPosition));
+  }
+
+  TaleInteraction updateAction(TaleInteractionAction action) {
+    return copyWith(action: action.name);
   }
 }

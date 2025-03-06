@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale_interaction_metadata.freezed.dart';
 part 'tale_interaction_metadata.g.dart';
@@ -9,8 +10,13 @@ class TaleInteractionMetadata with _$TaleInteractionMetadata {
 
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TaleInteractionMetadata({
+    @Default(TaleInteractionSize(10, 10)) TaleInteractionSize size,
+    @JsonKey(name: 'initial_pos')
+    @Default(TaleInteractionPosition.zero)
+    TaleInteractionPosition initialPosition,
     @Default('') String imageUrl,
     @Default('') String audioUrl,
+    @JsonKey(name: 'final_pos') TaleInteractionPosition? finalPosition,
   }) = _TaleInteractionMetadata;
 
   factory TaleInteractionMetadata.fromJson(Map<String, dynamic> json) =>

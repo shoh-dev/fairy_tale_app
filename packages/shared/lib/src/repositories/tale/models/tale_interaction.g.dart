@@ -14,16 +14,10 @@ _$TaleInteractionImpl _$$TaleInteractionImplFromJson(
       eventType: json['event_type'] as String,
       eventSubtype: json['event_subtype'] as String,
       animationDuration: (json['animation_duration'] as num).toInt(),
-      size: TaleInteractionSize.fromJson(json['size'] as Map<String, dynamic>),
-      initialPosition: TaleInteractionPosition.fromJson(
-          json['initial_pos'] as Map<String, dynamic>),
       metadata: TaleInteractionMetadata.fromJson(
           json['metadata'] as Map<String, dynamic>),
+      action: json['action'] as String,
       hintKey: json['hint_key'] as String?,
-      finalPosition: json['final_pos'] == null
-          ? null
-          : TaleInteractionPosition.fromJson(
-              json['final_pos'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$TaleInteractionImplToJson(
@@ -34,9 +28,7 @@ Map<String, dynamic> _$$TaleInteractionImplToJson(
       'event_type': instance.eventType,
       'event_subtype': instance.eventSubtype,
       'animation_duration': instance.animationDuration,
-      'size': instance.size,
-      'initial_pos': instance.initialPosition,
       'metadata': instance.metadata,
+      'action': instance.action,
       'hint_key': instance.hintKey,
-      'final_pos': instance.finalPosition,
     };

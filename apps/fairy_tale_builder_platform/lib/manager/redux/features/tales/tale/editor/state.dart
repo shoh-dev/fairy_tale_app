@@ -11,6 +11,7 @@ class TaleEditorState with _$TaleEditorState {
     required TalePage selectedTalePage,
     required TaleInteraction selectedInteraction,
     required bool isTalePageEdited,
+    required bool isInteractionEdited,
   }) = _TaleEditorState;
 
   factory TaleEditorState.initial() {
@@ -18,6 +19,7 @@ class TaleEditorState with _$TaleEditorState {
       selectedTalePage: TalePage.empty,
       selectedInteraction: TaleInteraction.empty,
       isTalePageEdited: false,
+      isInteractionEdited: false,
     );
   }
 

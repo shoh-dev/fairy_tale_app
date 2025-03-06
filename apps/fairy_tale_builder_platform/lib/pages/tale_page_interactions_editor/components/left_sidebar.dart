@@ -1,3 +1,4 @@
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
@@ -57,18 +58,13 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
 
                           return ListTile(
                             selected: isSelected,
+                            selectedColor:
+                                context.colorScheme.onSecondaryContainer,
+                            selectedTileColor:
+                                context.colorScheme.secondaryContainer,
                             title: Text(interaction.id),
                             onTap: () {
-                              //todo:
-                              // if (isSelected) {
-                              //   context.dispatch(
-                              //       SelectEditorTalePageInteractionAction([]),
-                              // );
-                              //   return;
-                              // }
-                              // context.dispatch(
-                              //     SelectEditorTalePageInteractionAction(
-                              //         [interaction]));
+                              dispatch(SelectInteractionAction(interaction));
                             },
                           );
                         },

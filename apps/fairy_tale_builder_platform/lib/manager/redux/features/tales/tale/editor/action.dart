@@ -6,10 +6,10 @@ import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared/shared.dart';
 
-class _SelectPageAction extends DefaultAction {
+class SelectEditorTalePageAction extends DefaultAction {
   final TalePage? page;
 
-  _SelectPageAction(this.page);
+  SelectEditorTalePageAction(this.page);
 
   @override
   AppState? reduce() {
@@ -26,25 +26,6 @@ class _SelectPageAction extends DefaultAction {
         ),
       ),
     );
-  }
-}
-
-class SelectEditorTalePageAction extends DefaultAction {
-  final TalePage? page;
-
-  SelectEditorTalePageAction(this.page);
-
-  @override
-  AppState? reduce() {
-    if (editorState.selectedTalePage != page) {
-      dispatch(_SelectPageAction(null));
-      Future.delayed(const Duration(milliseconds: 100), () {
-        dispatch(_SelectPageAction(page));
-      });
-    } else {
-      dispatch(_SelectPageAction(page));
-    }
-    return null;
   }
 }
 
@@ -104,6 +85,7 @@ class UpdateSelectedTalePageAction extends DefaultAction {
       }
       return e;
     }).toList();
+
     return state.copyWith(
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
@@ -173,6 +155,95 @@ class SaveTaleLocalizationAction extends DefaultAction {
         taleState: taleState.copyWith(
           selectedTale: selectedTale.copyWith(
             localizations: newLocalizations,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SelectInteractionAction extends DefaultAction {
+  final TaleInteraction? interaction;
+
+  SelectInteractionAction(this.interaction);
+
+  @override
+  AppState? reduce() {
+    if (editorState.selectedInteraction == interaction) {
+      return null;
+    }
+
+    return state.copyWith(
+      taleListState: taleListState.copyWith(
+        taleState: taleState.copyWith(
+          editorState: editorState.copyWith(
+            selectedInteraction: interaction ?? TaleInteraction.empty,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class UpdateSelectedInteractionAction extends DefaultAction {
+  final TaleInteraction interaction;
+
+  UpdateSelectedInteractionAction(this.interaction);
+
+  @override
+  AppState? reduce() {
+    if (editorState.selectedInteraction == interaction) {
+      return null;
+    }
+
+    final selectedPage = editorState.selectedTalePage;
+    final interactions = selectedPage.interactions.map((e) {
+      if (e.id == interaction.id) {
+        return interaction;
+      }
+      return e;
+    });
+
+    final newPage = selectedPage.copyWith(interactions: interactions.toList());
+
+    final oldPages = taleListState.taleState.selectedTale.pages;
+    final oldPage = oldPages.firstWhere((element) => element.id == newPage.id);
+
+    return state.copyWith(
+      taleListState: taleListState.copyWith(
+        taleState: taleState.copyWith(
+          editorState: editorState.copyWith(
+            isInteractionEdited:
+                !listEquals(oldPage.interactions, newPage.interactions),
+            selectedInteraction: interaction,
+            selectedTalePage: newPage,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SaveInteractionsAction extends DefaultAction {
+  @override
+  AppState? reduce() {
+    final selectedPage = editorState.selectedTalePage;
+    //replace page with selectedPage from list of selectedTale pages
+    final newPages = taleListState.taleState.selectedTale.pages.map((e) {
+      if (e.id == selectedPage.id) {
+        return selectedPage;
+      }
+      return e;
+    });
+
+    return state.copyWith(
+      taleListState: taleListState.copyWith(
+        taleState: taleState.copyWith(
+          editorState: editorState.copyWith(
+            isInteractionEdited: false,
+          ),
+          selectedTale: taleState.selectedTale.copyWith(
+            pages: newPages.toList(),
           ),
         ),
       ),

@@ -112,24 +112,24 @@ class TaleInteractionHandlerAction extends DefaultAction {
           _invalidType();
         }
       case TaleInteractionEventType.tap:
-        if (subType case TaleInteractionEventSubType.playSound) {
-          if (!interaction.metadata.hasAudio) {
-            _missingAudio();
-            return null;
-          }
-          final result = await interactionAudioPlayerService
-              .playFromUrl(interaction.metadata.audioUrl);
-          return result.when(
-            ok: (success) {
-              return handleTap(tale, talePage);
-            },
-            error: (error) {
-              return null;
-            },
-          );
-        } else {
-          _invalidType();
-        }
+        // if (subType case TaleInteractionEventSubType.playSound) {//todo:
+        //   if (!interaction.metadata.hasAudio) {
+        //     _missingAudio();
+        //     return null;
+        //   }
+        //   final result = await interactionAudioPlayerService
+        //       .playFromUrl(interaction.metadata.audioUrl);
+        //   return result.when(
+        //     ok: (success) {
+        //       return handleTap(tale, talePage);
+        //     },
+        //     error: (error) {
+        //       return null;
+        //     },
+        //   );
+        // } else {
+        _invalidType();
+      // }
     }
     return null;
   }
