@@ -76,11 +76,12 @@ class _Loaded extends StatelessWidget {
                 ],
                 builder: (translatedValue) {
                   return ListTile(
-                    leading: Image.network(
-                      tale.coverImage,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const SizedBox(),
-                    ),
+                    leading: tale.coverImage.isEmpty
+                        ? const SizedBox(width: 60, child: Placeholder())
+                        : Image.network(
+                            tale.coverImage,
+                            fit: BoxFit.cover,
+                          ),
                     title: TextComponent.any(translatedValue[0]),
                     onTap: () {
                       Navigator.of(context).push(

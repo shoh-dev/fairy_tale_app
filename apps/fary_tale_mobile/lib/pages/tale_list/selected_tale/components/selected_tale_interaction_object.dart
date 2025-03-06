@@ -26,18 +26,69 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
           dispatch(TaleInteractionHandlerAction(interaction));
         }
 
+        VoidCallback? onTap() {
+          if (interaction.eventTypeEnum == TaleInteractionEventType.tap) {
+            if (interaction.eventSubTypeEnum == TapType.shortPress) {
+              return handleInteraction;
+            }
+          }
+          return null;
+        }
+
+        VoidCallback? onDoubleTap() {
+          if (interaction.eventTypeEnum == TaleInteractionEventType.tap) {
+            if (interaction.eventSubTypeEnum == TapType.doubleTap) {
+              return handleInteraction;
+            }
+          }
+          return null;
+        }
+
+        VoidCallback? onLongPress() {
+          if (interaction.eventTypeEnum == TaleInteractionEventType.tap) {
+            if (interaction.eventSubTypeEnum == TapType.longPress) {
+              return handleInteraction;
+            }
+          }
+          return null;
+        }
+
+        ValueChanged<SwipeDirection>? onVerticalSwipe(
+          SwipeDirection direction,
+        ) {
+          if (interaction.eventTypeEnum == TaleInteractionEventType.swipe) {
+            if (interaction.eventSubTypeEnum?.isSwipe() ?? false) {
+              if ((interaction.eventSubTypeEnum! as SwipeType).isVertical) {
+                return (direction) => handleInteraction();
+              }
+            }
+          }
+          return null;
+        }
+
+        ValueChanged<SwipeDirection>? onHorizontalSwipe(
+          SwipeDirection direction,
+        ) {
+          if (interaction.eventTypeEnum == TaleInteractionEventType.swipe) {
+            if (interaction.eventSubTypeEnum?.isSwipe() ?? false) {
+              if ((interaction.eventSubTypeEnum! as SwipeType).isHorizontal) {
+                return (direction) => handleInteraction();
+              }
+            }
+          }
+          return null;
+        }
+
         return SimpleGestureDetector(
-          onTap: interaction.eventTypeEnum == TaleInteractionEventType.tap
-              ? handleInteraction
+          onTap: onTap(),
+          onDoubleTap: onDoubleTap(),
+          onLongPress: onLongPress(),
+          onHorizontalSwipe: (direction) => onHorizontalSwipe(direction) != null
+              ? onHorizontalSwipe(direction)!(direction)
               : null,
-          onVerticalSwipe:
-              interaction.eventTypeEnum == TaleInteractionEventType.swipe
-                  ? (direction) => handleInteraction()
-                  : null,
-          onHorizontalSwipe:
-              interaction.eventTypeEnum == TaleInteractionEventType.swipe
-                  ? (direction) => handleInteraction()
-                  : null,
+          onVerticalSwipe: (direction) => onVerticalSwipe(direction) != null
+              ? onVerticalSwipe(direction)!(direction)
+              : null,
           swipeConfig: const SimpleSwipeConfig(
             horizontalThreshold: 40,
             verticalThreshold: 40,

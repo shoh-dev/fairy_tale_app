@@ -43,6 +43,10 @@ enum SwipeType implements TaleInteractionSubType {
 
   @override
   String name() => toString().split('.').last;
+
+  bool get isVertical => this == SwipeType.up || this == SwipeType.down;
+
+  bool get isHorizontal => this == SwipeType.right || this == SwipeType.left;
 }
 
 enum TapType implements TaleInteractionSubType {

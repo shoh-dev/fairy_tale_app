@@ -42,7 +42,7 @@ class _InteractionObjectComponentState
       },
       builder: (context, dispatch, selectedInteraction) {
         final isSelected = selectedInteraction.id == interaction.id;
-        final device = Devices.ios.iPhone13;
+        final device = Devices.ios.iPhoneSE;
         final deviceSize = device.screenSize;
         return AnimatedPositioned(
           duration: const Duration(milliseconds: 100),
