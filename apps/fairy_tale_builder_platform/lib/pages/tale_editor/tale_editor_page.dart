@@ -71,7 +71,6 @@ class _Layout extends StatelessWidget {
           state.taleListState.taleState.editorState.isTalePageEdited
         ),
         builder: (context, dispatch, isEdited) {
-          log('isEdited: $isEdited');
           return IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {

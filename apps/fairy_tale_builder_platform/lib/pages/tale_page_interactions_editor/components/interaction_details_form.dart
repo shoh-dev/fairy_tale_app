@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
@@ -39,7 +38,8 @@ class InteractionDetailsForm extends StatelessWidget {
                 // const Spacer(),
                 // StateConnector<AppState, bool>(
                 //   selector: (state) => state
-                //       .taleListState.taleState.editorState.isInteractionEdited,
+                //       .taleListState.taleState.editorState.isInteractionEdite
+                // d,
                 //   builder: (context, dispatch, model) {
                 //     return ButtonComponent.icon(
                 //       tooltip: 'Save',
@@ -321,7 +321,8 @@ class __FormState extends State<_Form> with StateHelpers {
                   icon: Icons.save,
                   // onPressed: isValid(_finaldxCtrl)
                   //     ? () => dispatch(interaction.updateFinalPosition(
-                  //         TaleInteractionPosition(num.parse(_finaldxCtrl.text),
+                  //         TaleInteractionPosition(num.parse(_finaldxCtrl.text
+                  // ),
                   //             interaction.finalPosition?.dy ?? 0)))
                   //     : null,
                 ),
@@ -377,11 +378,11 @@ class _TypeDropdown extends StatelessWidget {
       builder: (context, dispatch) {
         return DropdownComponent<TaleInteractionEventType>(
           label: 'Event Type',
-          initialValue: interaction.eventType.isEmpty
+          initialValue: interaction.eventTypeEnum == null
               ? null
               : DropdownItem(
-                  value: interaction.eventTypeEnum,
-                  label: interaction.eventTypeEnum.name,
+                  value: interaction.eventTypeEnum!,
+                  label: interaction.eventTypeEnum!.name,
                 ),
           items: [
             for (final type in TaleInteractionEventType.values)
@@ -410,19 +411,22 @@ class _SubTypeDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (interaction.availableSubTypes.isEmpty) {
+      return const SizedBox.shrink();
+    }
     return DispatchConnector<AppState>(
       builder: (context, dispatch) {
-        return DropdownComponent<TaleInteractionEventSubType>(
+        return DropdownComponent<TaleInteractionSubType>(
           label: 'Event Sub Type',
-          initialValue: interaction.eventSubtype.isEmpty
+          initialValue: interaction.eventSubTypeEnum == null
               ? null
               : DropdownItem(
-                  value: interaction.eventSubTypeEnum,
-                  label: interaction.eventSubTypeEnum.name,
+                  value: interaction.eventSubTypeEnum!,
+                  label: interaction.eventSubTypeEnum!.name(),
                 ),
           items: [
-            for (final type in TaleInteractionEventSubType.values)
-              DropdownItem(value: type, label: type.name),
+            for (final type in interaction.availableSubTypes)
+              DropdownItem(value: type, label: type.name()),
           ],
           onChanged: (value) {
             if (value == null) {
@@ -450,12 +454,12 @@ class _ActionDropdown extends StatelessWidget {
     return DispatchConnector<AppState>(
       builder: (context, dispatch) {
         return DropdownComponent<TaleInteractionAction>(
-          label: 'Event Type',
-          initialValue: interaction.action.isEmpty
+          label: 'Action',
+          initialValue: interaction.actionEnum == null
               ? null
               : DropdownItem(
-                  value: interaction.actionEnum,
-                  label: interaction.actionEnum.name,
+                  value: interaction.actionEnum!,
+                  label: interaction.actionEnum!.name,
                 ),
           items: [
             for (final type in TaleInteractionAction.values)

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale_interaction.freezed.dart';
@@ -6,19 +7,6 @@ part 'tale_interaction.g.dart';
 
 /// Enum for the different types of interaction events
 enum TaleInteractionEventType { swipe, tap }
-
-/// Enum for the different types of interaction events
-enum TaleInteractionEventSubType {
-  swipeRight,
-  swipeLeft,
-  swipeUp,
-  swipeDown,
-}
-
-enum TaleInteractionAction {
-  playSound,
-  move,
-}
 
 extension TaleInteractionEventTypeExt on TaleInteractionEventType {
   /// Returns the name of the event type
@@ -32,31 +20,64 @@ extension TaleInteractionEventTypeExt on TaleInteractionEventType {
   }
 }
 
-extension TaleInteractionEventSubTypeExt on TaleInteractionEventSubType {
-  /// Returns the name of the event subtype
-  String get name {
-    switch (this) {
-      case TaleInteractionEventSubType.swipeRight:
-        return 'swipe_right';
-      case TaleInteractionEventSubType.swipeLeft:
-        return 'swipe_left';
-      case TaleInteractionEventSubType.swipeUp:
-        return 'swipe_up';
-      case TaleInteractionEventSubType.swipeDown:
-        return 'swipe_down';
-    }
-  }
+/// Enum for the different types of interaction events
 
-  /// Returns true if the event subtype is a swipe event
-  bool get isSwipe {
+sealed class TaleInteractionSubType {
+  String name();
+  bool isSwipe();
+  bool isTap();
+}
+
+enum SwipeType implements TaleInteractionSubType {
+  right,
+  left,
+  up,
+  down,
+  any;
+
+  @override
+  bool isSwipe() => true;
+
+  @override
+  bool isTap() => false;
+
+  @override
+  String name() => toString().split('.').last;
+}
+
+enum TapType implements TaleInteractionSubType {
+  shortPress,
+  longPress,
+  doubleTap;
+
+  @override
+  bool isSwipe() => false;
+
+  @override
+  bool isTap() => true;
+
+  @override
+  String name() {
     switch (this) {
-      case TaleInteractionEventSubType.swipeRight:
-      case TaleInteractionEventSubType.swipeLeft:
-      case TaleInteractionEventSubType.swipeUp:
-      case TaleInteractionEventSubType.swipeDown:
-        return true;
+      case TapType.shortPress:
+        return 'short_press';
+      case TapType.longPress:
+        return 'long_press';
+      case TapType.doubleTap:
+        return 'double_tap';
     }
   }
+}
+
+final Map<TaleInteractionEventType, List<TaleInteractionSubType>>
+    _eventSubTypesMap = {
+  TaleInteractionEventType.swipe: SwipeType.values,
+  TaleInteractionEventType.tap: TapType.values,
+};
+
+enum TaleInteractionAction {
+  playSound,
+  move,
 }
 
 extension TaleInteractionActionExt on TaleInteractionAction {
@@ -94,23 +115,23 @@ class TaleInteraction with _$TaleInteraction {
   static const TaleInteraction empty = TaleInteraction(
     id: '',
     talePageId: '',
-    eventType: 'swipe',
-    eventSubtype: 'swipe_right',
+    eventType: '',
+    eventSubtype: '',
     hintKey: '',
     animationDuration: 100,
     metadata: TaleInteractionMetadata(),
-    action: 'move',
+    action: '',
   );
 
   static const TaleInteraction newInteraction = TaleInteraction(
     id: '',
     talePageId: '',
-    eventType: 'swipe',
-    eventSubtype: 'swipe_right',
+    eventType: '',
+    eventSubtype: '',
     hintKey: '',
     animationDuration: 100,
     metadata: TaleInteractionMetadata(),
-    action: 'move',
+    action: '',
     isNew: true,
   );
 
@@ -121,18 +142,22 @@ class TaleInteraction with _$TaleInteraction {
   TaleInteractionPosition get initialPosition => metadata.initialPosition;
   TaleInteractionPosition? get finalPosition => metadata.finalPosition;
 
-  TaleInteractionEventType get eventTypeEnum {
+  TaleInteractionEventType? get eventTypeEnum {
     return TaleInteractionEventType.values
-        .firstWhere((e) => e.name == eventType);
+        .firstWhereOrNull((e) => e.name == eventType);
   }
 
-  TaleInteractionEventSubType get eventSubTypeEnum {
-    return TaleInteractionEventSubType.values
-        .firstWhere((e) => e.name == eventSubtype);
+  List<TaleInteractionSubType> get availableSubTypes {
+    return _eventSubTypesMap[eventTypeEnum] ?? [];
   }
 
-  TaleInteractionAction get actionEnum {
-    return TaleInteractionAction.values.firstWhere((e) => e.name == action);
+  TaleInteractionSubType? get eventSubTypeEnum {
+    return availableSubTypes.firstWhereOrNull((e) => e.name() == eventSubtype);
+  }
+
+  TaleInteractionAction? get actionEnum {
+    return TaleInteractionAction.values
+        .firstWhereOrNull((e) => e.name == action);
   }
 
   //updateCurrentPosition method
@@ -148,11 +173,16 @@ class TaleInteraction with _$TaleInteraction {
   }
 
   TaleInteraction updateEventType(TaleInteractionEventType eventType) {
-    return copyWith(eventType: eventType.name);
+    return copyWith(
+      eventType: eventType.name,
+      eventSubtype: '',
+    );
   }
 
-  TaleInteraction updateEventSubType(TaleInteractionEventSubType eventSubType) {
-    return copyWith(eventSubtype: eventSubType.name);
+  TaleInteraction updateEventSubType(TaleInteractionSubType eventSubType) {
+    return copyWith(
+      eventSubtype: eventSubType.name(),
+    );
   }
 
   TaleInteraction updateSize(TaleInteractionSize size) {
@@ -163,7 +193,8 @@ class TaleInteraction with _$TaleInteraction {
     TaleInteractionPosition initialPosition,
   ) {
     return copyWith(
-        metadata: metadata.copyWith(initialPosition: initialPosition));
+      metadata: metadata.copyWith(initialPosition: initialPosition),
+    );
   }
 
   TaleInteraction updateFinalPosition(TaleInteractionPosition finalPosition) {

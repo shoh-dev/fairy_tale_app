@@ -100,36 +100,38 @@ class TaleInteractionHandlerAction extends DefaultAction {
 
     final subType = interaction.eventSubTypeEnum;
 
-    switch (interaction.eventTypeEnum) {
+    if (interaction.eventTypeEnum == null) {
+      return null;
+    }
+
+    switch (interaction.eventTypeEnum!) {
       case TaleInteractionEventType.swipe:
-        if (subType
-            case TaleInteractionEventSubType.swipeRight ||
-                TaleInteractionEventSubType.swipeLeft ||
-                TaleInteractionEventSubType.swipeUp ||
-                TaleInteractionEventSubType.swipeDown) {
+        if (subType != null && subType.isSwipe()) {
           return handleSwipe(tale, talePage);
         } else {
           _invalidType();
         }
       case TaleInteractionEventType.tap:
-        // if (subType case TaleInteractionEventSubType.playSound) {//todo:
-        //   if (!interaction.metadata.hasAudio) {
-        //     _missingAudio();
-        //     return null;
-        //   }
-        //   final result = await interactionAudioPlayerService
-        //       .playFromUrl(interaction.metadata.audioUrl);
-        //   return result.when(
-        //     ok: (success) {
-        //       return handleTap(tale, talePage);
-        //     },
-        //     error: (error) {
-        //       return null;
-        //     },
-        //   );
-        // } else {
-        _invalidType();
-      // }
+        if (subType != null && subType.isTap()) {
+          if (interaction.actionEnum == TaleInteractionAction.playSound) {
+            if (!interaction.metadata.hasAudio) {
+              _missingAudio();
+              return null;
+            }
+            final result = await interactionAudioPlayerService
+                .playFromUrl(interaction.metadata.audioUrl);
+            return result.when(
+              ok: (success) {
+                return handleTap(tale, talePage);
+              },
+              error: (error) {
+                return null;
+              },
+            );
+          }
+        } else {
+          _invalidType();
+        }
     }
     return null;
   }

@@ -77,97 +77,98 @@ class _BodyState extends State<_Body> {
       createFooter: PlutoPagination.new,
       rows: List.empty(growable: true),
     );
-    return PlutoDualGrid(
-      gridPropsA: PlutoDualGridProps(
-        noRowsWidget: noRowsWidget(),
-        configuration: configurations(),
-        columns: columns(),
-        createHeader: (stateManager) => StateConnector<AppState, Tale>(
-          selector: selectedTaleSelector,
-          onInitialBuild: (dispatch, model) {
-            final translations = <String, String>{
-              if (model.localizations != null)
-                for (final entry in model
-                    .localizations!.translations[leftLocale.value]!.entries)
-                  entry.key: entry.value,
-            };
-            stateManager.appendRows([
-              for (final entry in translations.entries) fromEntry(entry),
-            ]);
-          },
-          onDidChange: (dispatch, state, model) {
-            final localization =
-                state.taleListState.taleState.selectedTale.localizations;
-            stateManager
-              ..removeAllRows()
-              ..appendRows([
-                for (final entry
-                    in localization?.translations[leftLocale.value]?.entries ??
-                        <MapEntry<String, String>>[])
-                  fromEntry(entry),
-              ]);
-          },
-          builder: (context, dispatch, state) {
-            return header(
-              stateManager,
-              localeNotifier: leftLocale,
-              localization: state.localizations,
-              onLocaleChanged: (value) {
-                leftLocale.value = value;
-              },
-            );
-          },
-        ),
-        onLoaded: (event) => onLoaded(event.stateManager),
-        createFooter: PlutoPagination.new,
-        rows: [],
-      ),
-      gridPropsB: PlutoDualGridProps(
-        noRowsWidget: noRowsWidget(),
-        configuration: configurations(),
-        columns: columns(),
-        createHeader: (stateManager) => StateConnector<AppState, Tale>(
-          selector: selectedTaleSelector,
-          onDidChange: (dispatch, state, model) {
-            stateManager
-              ..removeAllRows()
-              ..appendRows([
-                // for (final entry in model.translations.entries)
-                // fromEntry(entry),
-              ]);
-          },
-          onInitialBuild: (dispatch, model) {
-            // stateManager.appendRows([
-            //   for (final entry in model.translations.entries) fromEntry(entry),
-            // ]);
-            // if (model.status.isOk) {
-            //   return;
-            // }
-            // dispatch(
-            //   GetTranslationsAction(
-            //     for2: true,
-            //     newLocale: 'ru',
-            //   ),
-            // );
-          },
-          builder: (context, dispatch, state) {
-            return const SizedBox();
-            // return header(
-            //   stateManager,
-            //   locale: state.locale,
-            //   translations: state.translations,
-            //   version: state.localeVersion,
-            //   isLoading: state.status.isLoading,
-            //   for2: true,
-            // );
-          },
-        ),
-        onLoaded: (event) => onLoaded(event.stateManager),
-        createFooter: PlutoPagination.new,
-        rows: [],
-        // rowColorCallback: rowColorCallback,
-      ),
-    );
+    // return PlutoDualGrid(
+    //   gridPropsA: PlutoDualGridProps(
+    //     noRowsWidget: noRowsWidget(),
+    //     configuration: configurations(),
+    //     columns: columns(),
+    //     createHeader: (stateManager) => StateConnector<AppState, Tale>(
+    //       selector: selectedTaleSelector,
+    //       onInitialBuild: (dispatch, model) {
+    //         final translations = <String, String>{
+    //           if (model.localizations != null)
+    //             for (final entry in model
+    //                 .localizations!.translations[leftLocale.value]!.entries)
+    //               entry.key: entry.value,
+    //         };
+    //         stateManager.appendRows([
+    //           for (final entry in translations.entries) fromEntry(entry),
+    //         ]);
+    //       },
+    //       onDidChange: (dispatch, state, model) {
+    //         final localization =
+    //             state.taleListState.taleState.selectedTale.localizations;
+    //         stateManager
+    //           ..removeAllRows()
+    //           ..appendRows([
+    //             for (final entry
+    //                 in localization?.translations[leftLocale.value]?.entries
+    // ??
+    //                     <MapEntry<String, String>>[])
+    //               fromEntry(entry),
+    //           ]);
+    //       },
+    //       builder: (context, dispatch, state) {
+    //         return header(
+    //           stateManager,
+    //           localeNotifier: leftLocale,
+    //           localization: state.localizations,
+    //           onLocaleChanged: (value) {
+    //             leftLocale.value = value;
+    //           },
+    //         );
+    //       },
+    //     ),
+    //     onLoaded: (event) => onLoaded(event.stateManager),
+    //     createFooter: PlutoPagination.new,
+    //     rows: [],
+    //   ),
+    //   gridPropsB: PlutoDualGridProps(
+    //     noRowsWidget: noRowsWidget(),
+    //     configuration: configurations(),
+    //     columns: columns(),
+    //     createHeader: (stateManager) => StateConnector<AppState, Tale>(
+    //       selector: selectedTaleSelector,
+    //       onDidChange: (dispatch, state, model) {
+    //         stateManager
+    //           ..removeAllRows()
+    //           ..appendRows([
+    //             // for (final entry in model.translations.entries)
+    //             // fromEntry(entry),
+    //           ]);
+    //       },
+    //       onInitialBuild: (dispatch, model) {
+    //         // stateManager.appendRows([
+    //         //   for (final entry in model.translations.entries) fromEntry(entry),
+    //         // ]);
+    //         // if (model.status.isOk) {
+    //         //   return;
+    //         // }
+    //         // dispatch(
+    //         //   GetTranslationsAction(
+    //         //     for2: true,
+    //         //     newLocale: 'ru',
+    //         //   ),
+    //         // );
+    //       },
+    //       builder: (context, dispatch, state) {
+    //         return const SizedBox();
+    //         // return header(
+    //         //   stateManager,
+    //         //   locale: state.locale,
+    //         //   translations: state.translations,
+    //         //   version: state.localeVersion,
+    //         //   isLoading: state.status.isLoading,
+    //         //   for2: true,
+    //         // );
+    //       },
+    //     ),
+    //     onLoaded: (event) => onLoaded(event.stateManager),
+    //     createFooter: PlutoPagination.new,
+    //     rows: [],
+    //     // rowColorCallback: rowColorCallback,
+    //   ),
+    // );
   }
 
   Color rowColorCallback(PlutoRowColorContext ctx) {
@@ -338,7 +339,8 @@ class _BodyState extends State<_Body> {
                       final keys = rows
                           .map<String>((e) => e.cells['key']!.value.toString());
                       final values = rows.map<String>(
-                          (e) => e.cells['value']!.value.toString());
+                        (e) => e.cells['value']!.value.toString(),
+                      );
                       dispatch(
                         SaveTaleLocalizationAction(
                           locale: locale,
