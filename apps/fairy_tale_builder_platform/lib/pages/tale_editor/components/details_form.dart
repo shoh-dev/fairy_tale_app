@@ -1,3 +1,4 @@
+import 'package:fairy_tale_builder_platform/components/orientation_selector.dart';
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
@@ -83,11 +84,11 @@ class TaleDetailsForm extends StatelessWidget {
               },
             ),
             space(),
-            _OrientationDropdown(
+            OrientationSelector(
               orientation: tale.orientation,
               onChanged: (value) {
                 dispatch(
-                  UpdateSelectedTaleAction(tale.copyWith(orientation: value)),
+                  UpdateSelectedTaleAction(tale.updateOrientation(value)),
                 );
               },
             ),
@@ -109,36 +110,5 @@ class TaleDetailsForm extends StatelessWidget {
 
   SizedBox space([num? space]) {
     return SizedBox(height: space?.toDouble() ?? 24);
-  }
-}
-
-class _OrientationDropdown extends StatelessWidget {
-  const _OrientationDropdown({
-    required this.orientation,
-    required this.onChanged,
-  });
-
-  final String orientation;
-  final void Function(String) onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownComponent<String>(
-      label: 'Orientation',
-      initialValue: DropdownItem(value: orientation, label: orientation),
-      onChanged: (value) {
-        if (value == null || value.value == orientation) {
-          return;
-        }
-        onChanged(value.value);
-      },
-      items: [
-        for (final orientation in ['portrait', 'landscape'])
-          DropdownItem(
-            value: orientation,
-            label: orientation,
-          ),
-      ],
-    );
   }
 }

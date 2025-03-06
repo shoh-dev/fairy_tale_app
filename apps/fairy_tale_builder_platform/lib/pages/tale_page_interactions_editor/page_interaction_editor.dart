@@ -1,8 +1,11 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:fairy_tale_builder_platform/components/orientation_selector.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
+import 'package:fairy_tale_builder_platform/pages/tale_editor/components/tale_preview_dialog.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_page_interactions_editor/components/interaction_object.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_page_interactions_editor/components/left_sidebar.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_page_interactions_editor/components/right_sidebar.dart';
@@ -31,9 +34,40 @@ class TalePageInteractionsEditor extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               spacing: 8,
               children: [
+                StateConnector<AppState, Tale>(
+                  selector: selectedTaleSelector,
+                  builder: (context, dispatch, model) => SizedBox(
+                    width: 200,
+                    child: OrientationSelector(
+                      hasLabel: false,
+                      orientation: model.orientation,
+                      onChanged: (value) {
+                        dispatch(
+                          UpdateSelectedTaleAction(
+                            model.updateOrientation(value),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
                 const ButtonComponent.iconDesctructive(
                   icon: Icons.restore_rounded,
                   tooltip: 'Reset',
+                ),
+                ButtonComponent.iconOutlined(
+                  tooltip: 'Preview Page',
+                  icon: Icons.remove_red_eye_rounded,
+                  onPressed: () {
+                    showDialog<void>(
+                      context: context,
+                      builder: (context) => StateConnector<AppState, TalePage>(
+                        selector: selectedTalePageSelector,
+                        builder: (context, dispatch, model) =>
+                            TalePreviewDialog(id: model.id),
+                      ),
+                    );
+                  },
                 ),
                 ButtonComponent.icon(
                   icon: Icons.save_rounded,

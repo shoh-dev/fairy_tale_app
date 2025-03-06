@@ -22,36 +22,10 @@ class InteractionDetailsForm extends StatelessWidget {
           builder: (context, dispatch) {
             return Row(
               children: [
-                Text.rich(
-                  const TextSpan(
-                    text: 'Interaction Details',
-                    // children: [
-                    // const TextSpan(text: '\n'),
-                    // TextSpan(
-                    //   text: interaction.id,
-                    //   style: context.textTheme.labelMedium,
-                    // ),
-                    // ],
-                  ),
+                Text(
+                  'Interaction Details',
                   style: context.textTheme.headlineSmall,
                 ),
-                // const Spacer(),
-                // StateConnector<AppState, bool>(
-                //   selector: (state) => state
-                //       .taleListState.taleState.editorState.isInteractionEdite
-                // d,
-                //   builder: (context, dispatch, model) {
-                //     return ButtonComponent.icon(
-                //       tooltip: 'Save',
-                //       icon: Icons.save_rounded,
-                //       onPressed: !model
-                //           ? null
-                //           : () {
-                //               dispatch(SaveInteractionsAction());
-                //             },
-                //     );
-                //   },
-                // ),
               ],
             );
           },
@@ -306,11 +280,12 @@ class __FormState extends State<_Form> with StateHelpers {
             _TypeDropdown(interaction: interaction),
             _SubTypeDropdown(interaction: interaction),
             _ActionDropdown(interaction: interaction),
-            Text(
-              //
-              // ignore: lines_longer_than_80_chars
-              'When user ${interaction.eventType} -> ${interaction.eventSubtype} -> ${interaction.action}',
-            ),
+            if (interaction.availableSubTypes.isNotEmpty)
+              Text(
+                //
+                // ignore: lines_longer_than_80_chars
+                'When user ${interaction.eventType} -> ${interaction.eventSubtype} -> ${interaction.action}',
+              ),
             TextFieldComponent(
               label: 'Final Position X',
               maxLines: 1,
@@ -451,6 +426,9 @@ class _ActionDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (interaction.availableSubTypes.isEmpty) {
+      return const SizedBox.shrink();
+    }
     return DispatchConnector<AppState>(
       builder: (context, dispatch) {
         return DropdownComponent<TaleInteractionAction>(

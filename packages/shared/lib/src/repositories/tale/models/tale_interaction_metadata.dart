@@ -17,6 +17,9 @@ class TaleInteractionMetadata with _$TaleInteractionMetadata {
     @Default('') String imageUrl,
     @Default('') String audioUrl,
     @JsonKey(name: 'final_pos') TaleInteractionPosition? finalPosition,
+    @JsonKey(includeFromJson: false)
+    @Default(TaleInteractionPosition.zero)
+    TaleInteractionPosition currentPosition,
   }) = _TaleInteractionMetadata;
 
   factory TaleInteractionMetadata.fromJson(Map<String, dynamic> json) =>

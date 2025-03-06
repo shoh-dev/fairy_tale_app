@@ -30,6 +30,9 @@ mixin _$TaleInteractionMetadata {
   @JsonKey(name: 'final_pos')
   TaleInteractionPosition? get finalPosition =>
       throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false)
+  TaleInteractionPosition get currentPosition =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this TaleInteractionMetadata to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -52,11 +55,14 @@ abstract class $TaleInteractionMetadataCopyWith<$Res> {
       @JsonKey(name: 'initial_pos') TaleInteractionPosition initialPosition,
       String imageUrl,
       String audioUrl,
-      @JsonKey(name: 'final_pos') TaleInteractionPosition? finalPosition});
+      @JsonKey(name: 'final_pos') TaleInteractionPosition? finalPosition,
+      @JsonKey(includeFromJson: false)
+      TaleInteractionPosition currentPosition});
 
   $TaleInteractionSizeCopyWith<$Res> get size;
   $TaleInteractionPositionCopyWith<$Res> get initialPosition;
   $TaleInteractionPositionCopyWith<$Res>? get finalPosition;
+  $TaleInteractionPositionCopyWith<$Res> get currentPosition;
 }
 
 /// @nodoc
@@ -80,6 +86,7 @@ class _$TaleInteractionMetadataCopyWithImpl<$Res,
     Object? imageUrl = null,
     Object? audioUrl = null,
     Object? finalPosition = freezed,
+    Object? currentPosition = null,
   }) {
     return _then(_value.copyWith(
       size: null == size
@@ -102,6 +109,10 @@ class _$TaleInteractionMetadataCopyWithImpl<$Res,
           ? _value.finalPosition
           : finalPosition // ignore: cast_nullable_to_non_nullable
               as TaleInteractionPosition?,
+      currentPosition: null == currentPosition
+          ? _value.currentPosition
+          : currentPosition // ignore: cast_nullable_to_non_nullable
+              as TaleInteractionPosition,
     ) as $Val);
   }
 
@@ -140,6 +151,17 @@ class _$TaleInteractionMetadataCopyWithImpl<$Res,
       return _then(_value.copyWith(finalPosition: value) as $Val);
     });
   }
+
+  /// Create a copy of TaleInteractionMetadata
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TaleInteractionPositionCopyWith<$Res> get currentPosition {
+    return $TaleInteractionPositionCopyWith<$Res>(_value.currentPosition,
+        (value) {
+      return _then(_value.copyWith(currentPosition: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -156,7 +178,9 @@ abstract class _$$TaleInteractionMetadataImplCopyWith<$Res>
       @JsonKey(name: 'initial_pos') TaleInteractionPosition initialPosition,
       String imageUrl,
       String audioUrl,
-      @JsonKey(name: 'final_pos') TaleInteractionPosition? finalPosition});
+      @JsonKey(name: 'final_pos') TaleInteractionPosition? finalPosition,
+      @JsonKey(includeFromJson: false)
+      TaleInteractionPosition currentPosition});
 
   @override
   $TaleInteractionSizeCopyWith<$Res> get size;
@@ -164,6 +188,8 @@ abstract class _$$TaleInteractionMetadataImplCopyWith<$Res>
   $TaleInteractionPositionCopyWith<$Res> get initialPosition;
   @override
   $TaleInteractionPositionCopyWith<$Res>? get finalPosition;
+  @override
+  $TaleInteractionPositionCopyWith<$Res> get currentPosition;
 }
 
 /// @nodoc
@@ -186,6 +212,7 @@ class __$$TaleInteractionMetadataImplCopyWithImpl<$Res>
     Object? imageUrl = null,
     Object? audioUrl = null,
     Object? finalPosition = freezed,
+    Object? currentPosition = null,
   }) {
     return _then(_$TaleInteractionMetadataImpl(
       size: null == size
@@ -208,6 +235,10 @@ class __$$TaleInteractionMetadataImplCopyWithImpl<$Res>
           ? _value.finalPosition
           : finalPosition // ignore: cast_nullable_to_non_nullable
               as TaleInteractionPosition?,
+      currentPosition: null == currentPosition
+          ? _value.currentPosition
+          : currentPosition // ignore: cast_nullable_to_non_nullable
+              as TaleInteractionPosition,
     ));
   }
 }
@@ -222,7 +253,9 @@ class _$TaleInteractionMetadataImpl extends _TaleInteractionMetadata {
       this.initialPosition = TaleInteractionPosition.zero,
       this.imageUrl = '',
       this.audioUrl = '',
-      @JsonKey(name: 'final_pos') this.finalPosition})
+      @JsonKey(name: 'final_pos') this.finalPosition,
+      @JsonKey(includeFromJson: false)
+      this.currentPosition = TaleInteractionPosition.zero})
       : super._();
 
   factory _$TaleInteractionMetadataImpl.fromJson(Map<String, dynamic> json) =>
@@ -243,10 +276,13 @@ class _$TaleInteractionMetadataImpl extends _TaleInteractionMetadata {
   @override
   @JsonKey(name: 'final_pos')
   final TaleInteractionPosition? finalPosition;
+  @override
+  @JsonKey(includeFromJson: false)
+  final TaleInteractionPosition currentPosition;
 
   @override
   String toString() {
-    return 'TaleInteractionMetadata(size: $size, initialPosition: $initialPosition, imageUrl: $imageUrl, audioUrl: $audioUrl, finalPosition: $finalPosition)';
+    return 'TaleInteractionMetadata(size: $size, initialPosition: $initialPosition, imageUrl: $imageUrl, audioUrl: $audioUrl, finalPosition: $finalPosition, currentPosition: $currentPosition)';
   }
 
   @override
@@ -262,13 +298,15 @@ class _$TaleInteractionMetadataImpl extends _TaleInteractionMetadata {
             (identical(other.audioUrl, audioUrl) ||
                 other.audioUrl == audioUrl) &&
             (identical(other.finalPosition, finalPosition) ||
-                other.finalPosition == finalPosition));
+                other.finalPosition == finalPosition) &&
+            (identical(other.currentPosition, currentPosition) ||
+                other.currentPosition == currentPosition));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, size, initialPosition, imageUrl, audioUrl, finalPosition);
+  int get hashCode => Object.hash(runtimeType, size, initialPosition, imageUrl,
+      audioUrl, finalPosition, currentPosition);
 
   /// Create a copy of TaleInteractionMetadata
   /// with the given fields replaced by the non-null parameter values.
@@ -289,14 +327,15 @@ class _$TaleInteractionMetadataImpl extends _TaleInteractionMetadata {
 
 abstract class _TaleInteractionMetadata extends TaleInteractionMetadata {
   const factory _TaleInteractionMetadata(
-          {final TaleInteractionSize size,
-          @JsonKey(name: 'initial_pos')
-          final TaleInteractionPosition initialPosition,
-          final String imageUrl,
-          final String audioUrl,
-          @JsonKey(name: 'final_pos')
-          final TaleInteractionPosition? finalPosition}) =
-      _$TaleInteractionMetadataImpl;
+      {final TaleInteractionSize size,
+      @JsonKey(name: 'initial_pos')
+      final TaleInteractionPosition initialPosition,
+      final String imageUrl,
+      final String audioUrl,
+      @JsonKey(name: 'final_pos') final TaleInteractionPosition? finalPosition,
+      @JsonKey(includeFromJson: false)
+      final TaleInteractionPosition
+          currentPosition}) = _$TaleInteractionMetadataImpl;
   const _TaleInteractionMetadata._() : super._();
 
   factory _TaleInteractionMetadata.fromJson(Map<String, dynamic> json) =
@@ -314,6 +353,9 @@ abstract class _TaleInteractionMetadata extends TaleInteractionMetadata {
   @override
   @JsonKey(name: 'final_pos')
   TaleInteractionPosition? get finalPosition;
+  @override
+  @JsonKey(includeFromJson: false)
+  TaleInteractionPosition get currentPosition;
 
   /// Create a copy of TaleInteractionMetadata
   /// with the given fields replaced by the non-null parameter values.

@@ -39,4 +39,8 @@ class Tale with _$Tale {
     }
     return copyWith(pages: pages);
   }
+
+  Tale updateOrientation(String orientation) {
+    return copyWith(orientation: orientation);
+  }
 }

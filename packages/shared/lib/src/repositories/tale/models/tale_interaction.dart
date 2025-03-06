@@ -106,10 +106,7 @@ class TaleInteraction with _$TaleInteraction {
     required String action,
     String? hintKey,
     @JsonKey(includeFromJson: false) @Default(false) bool isUsed,
-    @JsonKey(includeFromJson: false)
-    @Default(TaleInteractionPosition.zero)
-    TaleInteractionPosition currentPosition,
-    @Default(false) bool isNew,
+    @JsonKey(includeFromJson: false) @Default(false) bool isNew,
   }) = _TaleInteraction;
 
   static const TaleInteraction empty = TaleInteraction(
@@ -141,6 +138,7 @@ class TaleInteraction with _$TaleInteraction {
   TaleInteractionSize get size => metadata.size;
   TaleInteractionPosition get initialPosition => metadata.initialPosition;
   TaleInteractionPosition? get finalPosition => metadata.finalPosition;
+  TaleInteractionPosition get currentPosition => metadata.currentPosition;
 
   TaleInteractionEventType? get eventTypeEnum {
     return TaleInteractionEventType.values
@@ -164,7 +162,11 @@ class TaleInteraction with _$TaleInteraction {
   TaleInteraction updateCurrentPosition(
     TaleInteractionPosition currentPosition,
   ) {
-    return copyWith(currentPosition: currentPosition);
+    return copyWith(
+      metadata: metadata.copyWith(
+        currentPosition: currentPosition,
+      ),
+    );
   }
 
   /// toggleIsUsed method
@@ -193,7 +195,10 @@ class TaleInteraction with _$TaleInteraction {
     TaleInteractionPosition initialPosition,
   ) {
     return copyWith(
-      metadata: metadata.copyWith(initialPosition: initialPosition),
+      metadata: metadata.copyWith(
+        initialPosition: initialPosition,
+        currentPosition: initialPosition,
+      ),
     );
   }
 

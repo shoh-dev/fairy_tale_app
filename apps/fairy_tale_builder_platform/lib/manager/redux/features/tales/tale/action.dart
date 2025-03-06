@@ -69,9 +69,8 @@ class GetTaleAction extends DefaultAction {
       ok: (tale) async {
         final pages = tale.pages.map((page) {
           final interactions = page.interactions.map((interaction) {
-            return interaction.copyWith(
-              currentPosition: interaction.initialPosition,
-            );
+            return interaction
+                .updateCurrentPosition(interaction.initialPosition);
           }).toList();
           return page.copyWith(interactions: interactions);
         });

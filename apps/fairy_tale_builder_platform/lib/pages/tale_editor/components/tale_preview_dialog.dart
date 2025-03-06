@@ -40,7 +40,7 @@ class TalePreviewDialog extends StatelessWidget {
             height: tale.isPortrait ? 720 : 480,
             child: page != null
                 ? DeviceFrame(
-                    device: Devices.ios.iPhone13,
+                    device: Devices.ios.iPhoneSE,
                     orientation: tale.isPortrait
                         ? Orientation.portrait
                         : Orientation.landscape,
@@ -57,51 +57,56 @@ class TalePreviewDialog extends StatelessWidget {
 
                         for (final interaction in page.interactions)
                           //tale object
-                          AnimatedPositioned(
-                            // curve: Curves.easeInOutCubicEmphasized,//todo: get curve from db
-                            duration: Duration(
-                              milliseconds: interaction.animationDuration,
-                            ),
-                            width: interaction.size.width,
-                            height: interaction.size.height,
-                            left: interaction.currentPosition.dx,
-                            top: interaction.currentPosition.dy,
-                            child: MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: Translator(
-                                toTranslate: [
-                                  interaction.hintKey,
-                                ],
-                                builder: (translatedValue) => Tooltip(
-                                  message: translatedValue[0],
-                                  showDuration: const Duration(seconds: 5),
-                                  child: Container(
-                                    width: interaction.size.width,
-                                    height: interaction.size.height,
-                                    decoration: !interaction.metadata.hasImage
-                                        ? BoxDecoration(
-                                            border: Border.all(),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color:
-                                                    Colors.black.withAlpha(100),
-                                                blurRadius: 10,
-                                                spreadRadius: 2,
-                                              ),
-                                            ],
-                                          )
-                                        : null,
-                                    child: interaction.metadata.hasImage
-                                        ? Image.network(
-                                            interaction.metadata.imageUrl,
-                                          )
-                                        : null,
+                          Builder(
+                            builder: (context) {
+                              return AnimatedPositioned(
+                                // curve: Curves.easeInOutCubicEmphasized,//todo: get curve from db
+                                duration: Duration(
+                                  milliseconds: interaction.animationDuration,
+                                ),
+                                width: interaction.size.width,
+                                height: interaction.size.height,
+                                left: interaction.currentPosition.dx,
+                                top: interaction.currentPosition.dy,
+                                child: MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: Translator(
+                                    toTranslate: [
+                                      interaction.hintKey,
+                                    ],
+                                    builder: (translatedValue) => Tooltip(
+                                      message: translatedValue[0],
+                                      showDuration: const Duration(seconds: 5),
+                                      child: Container(
+                                        width: interaction.size.width,
+                                        height: interaction.size.height,
+                                        decoration: !interaction
+                                                .metadata.hasImage
+                                            ? BoxDecoration(
+                                                border: Border.all(),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black
+                                                        .withAlpha(100),
+                                                    blurRadius: 10,
+                                                    spreadRadius: 2,
+                                                  ),
+                                                ],
+                                              )
+                                            : null,
+                                        child: interaction.metadata.hasImage
+                                            ? Image.network(
+                                                interaction.metadata.imageUrl,
+                                              )
+                                            : null,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
+                              );
+                            },
                           ),
                       ],
                     ),
