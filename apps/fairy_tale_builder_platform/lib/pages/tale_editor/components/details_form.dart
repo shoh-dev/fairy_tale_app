@@ -92,6 +92,11 @@ class TaleDetailsForm extends StatelessWidget {
               },
             ),
             space(),
+            // Text(
+            //   'Metadata',
+            //   style: context.textTheme.headlineSmall,
+            // ),
+            // space(8),
             ImageSelectorComponent(
               title: 'Cover Image',
               imagePath: tale.coverImage,

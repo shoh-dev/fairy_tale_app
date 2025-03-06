@@ -4,6 +4,7 @@ import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/tale_preview_dialog.dart';
+import 'package:fairy_tale_builder_platform/pages/tale_page_interactions_editor/page_interaction_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
@@ -42,10 +43,12 @@ class TalePageDetailsForm extends StatelessWidget {
                   tooltip: 'Interactions Editor',
                   icon: Icons.touch_app_rounded,
                   onPressed: () {
-                    // Navigator.of(context).push(
-                    // MaterialPageRoute<void>(
-                    // builder: (context) => const TalePageInteractionsEditor()),//todo:
-                    // );
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (context) =>
+                            const TalePageInteractionsEditor(),
+                      ),
+                    );
                   },
                 ),
                 const SizedBox(width: 8),
@@ -75,6 +78,11 @@ class TalePageDetailsForm extends StatelessWidget {
               },
             ),
             space(),
+            Text(
+              'Metadata',
+              style: context.textTheme.headlineSmall,
+            ),
+            space(8),
             ImageSelectorComponent(
               title: 'Background Image',
               imagePath: page.metadata.backgroundImageUrl,
