@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:flutter/foundation.dart';
+import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
 
 class SelectEditorTalePageAction extends DefaultAction {
@@ -118,19 +120,16 @@ class SaveSelectedTaleLocalizationAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     final selectedTale = taleState.selectedTale;
-    if (selectedTale.localizations == null) {
-      return null;
-    }
 
     final oldTranslation =
-        selectedTale.localizations?.translations[locale] ?? <String, String>{};
+        selectedTale.localizations.translations[locale] ?? <String, String>{};
     final newTranslation = Map<String, String>.fromIterables(keys, values);
 
     if (mapEquals(oldTranslation, newTranslation)) {
       return null;
     }
 
-    var newLocalizations = selectedTale.localizations!;
+    var newLocalizations = selectedTale.localizations;
 
     final newMap = Map.of(newLocalizations.translations);
 
@@ -140,13 +139,13 @@ class SaveSelectedTaleLocalizationAction extends DefaultAction {
       translations: newMap,
     );
 
-    // //todo: handle result
-    // final result =
-    await taleRepository.saveTaleLocalization(
-      taleId: newLocalizations.taleId,
-      translations: newLocalizations.translations,
-      defaultLocale: newLocalizations.defaultLocale,
-    );
+    // // //todo: handle result
+    // // final result =
+    // await taleRepository.saveTaleLocalization(
+    //   taleId: newLocalizations.taleId,
+    //   translations: newLocalizations.translations,
+    //   defaultLocale: newLocalizations.defaultLocale,
+    // );
 
     return state.copyWith(
       applicationState: applicationState.copyWith(
@@ -285,16 +284,21 @@ class SaveSelectedTaleAction extends DefaultAction {
   Future<AppState?> reduce() async {
     final selectedTale = taleState.selectedTale;
 
+    dispatch(TaleAction(selectedTaleResult: const StateResult.loading()));
+
     //todo: handle result
     final taleResult = await taleRepository.saveTale(selectedTale);
+    final localizationResult = await taleRepository.saveTaleLocalization(
+      defaultLocale: selectedTale.localizations.defaultLocale,
+      translations: selectedTale.localizations.translations,
+      taleId: selectedTale.id,
+    );
     final pagesResult = await taleRepository.saveTalePages(selectedTale.pages);
     final interactionsResult = await taleRepository.saveTaleInteractions(
       selectedTale.pages.expand((e) => e.interactions).toList(),
     );
 
-    print(taleResult);
-    print(pagesResult);
-    print(interactionsResult);
+    dispatch(GetTaleAction(taleId: selectedTale.id));
 
     return null;
   }

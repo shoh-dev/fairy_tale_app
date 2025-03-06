@@ -9,7 +9,7 @@ part 'tale_page.g.dart';
 class TalePage with _$TalePage {
   const TalePage._();
 
-  @JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TalePage({
     required String id,
     required String taleId,

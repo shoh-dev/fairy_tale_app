@@ -24,7 +24,7 @@ mixin _$Tale {
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get coverImage => throw _privateConstructorUsedError;
-  TaleLocalization? get localizations => throw _privateConstructorUsedError;
+  TaleLocalization get localizations => throw _privateConstructorUsedError;
   List<TalePage> get pages => throw _privateConstructorUsedError;
   String get orientation => throw _privateConstructorUsedError;
 
@@ -47,11 +47,11 @@ abstract class $TaleCopyWith<$Res> {
       String title,
       String description,
       String coverImage,
-      TaleLocalization? localizations,
+      TaleLocalization localizations,
       List<TalePage> pages,
       String orientation});
 
-  $TaleLocalizationCopyWith<$Res>? get localizations;
+  $TaleLocalizationCopyWith<$Res> get localizations;
 }
 
 /// @nodoc
@@ -73,7 +73,7 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
     Object? title = null,
     Object? description = null,
     Object? coverImage = null,
-    Object? localizations = freezed,
+    Object? localizations = null,
     Object? pages = null,
     Object? orientation = null,
   }) {
@@ -94,10 +94,10 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
           ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
               as String,
-      localizations: freezed == localizations
+      localizations: null == localizations
           ? _value.localizations
           : localizations // ignore: cast_nullable_to_non_nullable
-              as TaleLocalization?,
+              as TaleLocalization,
       pages: null == pages
           ? _value.pages
           : pages // ignore: cast_nullable_to_non_nullable
@@ -113,12 +113,8 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $TaleLocalizationCopyWith<$Res>? get localizations {
-    if (_value.localizations == null) {
-      return null;
-    }
-
-    return $TaleLocalizationCopyWith<$Res>(_value.localizations!, (value) {
+  $TaleLocalizationCopyWith<$Res> get localizations {
+    return $TaleLocalizationCopyWith<$Res>(_value.localizations, (value) {
       return _then(_value.copyWith(localizations: value) as $Val);
     });
   }
@@ -136,12 +132,12 @@ abstract class _$$TaleImplCopyWith<$Res> implements $TaleCopyWith<$Res> {
       String title,
       String description,
       String coverImage,
-      TaleLocalization? localizations,
+      TaleLocalization localizations,
       List<TalePage> pages,
       String orientation});
 
   @override
-  $TaleLocalizationCopyWith<$Res>? get localizations;
+  $TaleLocalizationCopyWith<$Res> get localizations;
 }
 
 /// @nodoc
@@ -160,7 +156,7 @@ class __$$TaleImplCopyWithImpl<$Res>
     Object? title = null,
     Object? description = null,
     Object? coverImage = null,
-    Object? localizations = freezed,
+    Object? localizations = null,
     Object? pages = null,
     Object? orientation = null,
   }) {
@@ -181,10 +177,10 @@ class __$$TaleImplCopyWithImpl<$Res>
           ? _value.coverImage
           : coverImage // ignore: cast_nullable_to_non_nullable
               as String,
-      localizations: freezed == localizations
+      localizations: null == localizations
           ? _value.localizations
           : localizations // ignore: cast_nullable_to_non_nullable
-              as TaleLocalization?,
+              as TaleLocalization,
       pages: null == pages
           ? _value._pages
           : pages // ignore: cast_nullable_to_non_nullable
@@ -206,7 +202,7 @@ class _$TaleImpl extends _Tale {
       required this.title,
       required this.description,
       required this.coverImage,
-      this.localizations,
+      this.localizations = TaleLocalization.empty,
       final List<TalePage> pages = const [],
       this.orientation = 'portrait'})
       : _pages = pages,
@@ -224,7 +220,8 @@ class _$TaleImpl extends _Tale {
   @override
   final String coverImage;
   @override
-  final TaleLocalization? localizations;
+  @JsonKey()
+  final TaleLocalization localizations;
   final List<TalePage> _pages;
   @override
   @JsonKey()
@@ -295,7 +292,7 @@ abstract class _Tale extends Tale {
       required final String title,
       required final String description,
       required final String coverImage,
-      final TaleLocalization? localizations,
+      final TaleLocalization localizations,
       final List<TalePage> pages,
       final String orientation}) = _$TaleImpl;
   const _Tale._() : super._();
@@ -311,7 +308,7 @@ abstract class _Tale extends Tale {
   @override
   String get coverImage;
   @override
-  TaleLocalization? get localizations;
+  TaleLocalization get localizations;
   @override
   List<TalePage> get pages;
   @override

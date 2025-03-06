@@ -26,6 +26,10 @@ class TranslationSelector extends StatelessWidget {
         final translations =
             model?.translations[defaultLocale] ?? <String, String>{};
 
+        if (translations.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
         return DropdownComponent<String>(
           label: label,
           hintText: '$textKey: NOT_FOUND',

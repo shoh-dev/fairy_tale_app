@@ -17,7 +17,7 @@ class TaleState with _$TaleState {
 
   factory TaleState.initial() {
     return TaleState(
-      selectedTale: Tale.empty,
+      selectedTale: Tale.empty(''),
       selectedTaleResult: const StateResult.loading(),
       editorState: TaleEditorState.initial(),
       isTaleEdited: false,

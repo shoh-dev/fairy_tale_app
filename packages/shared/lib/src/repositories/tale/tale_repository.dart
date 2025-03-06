@@ -25,7 +25,10 @@ class TaleRepositoryImpl implements TaleRepository {
     try {
       final response = await _supabase
           .from('tales')
-          .select('id, title, description, cover_image');
+          .select('id, title, description, cover_image')
+          .order('created_at');
+
+      print(response);
 
       return Result.ok(response.map(Tale.fromJson).toList());
     } catch (e) {
@@ -55,11 +58,12 @@ class TaleRepositoryImpl implements TaleRepository {
     required String defaultLocale,
   }) async {
     try {
-      await _supabase.from('localizations').update({
+      await _supabase.from('localizations').upsert({
+        'tale_id': taleId,
         'translations': translations,
         'default_locale': defaultLocale,
         'updated_at': DateTime.now().toUtc().toIso8601String(),
-      }).eq('tale_id', taleId);
+      });
 
       return const Result.ok(null);
     } catch (e) {
@@ -70,7 +74,7 @@ class TaleRepositoryImpl implements TaleRepository {
   @override
   ResultFuture<void> saveTale(Tale tale) async {
     try {
-      await _supabase.from('tales').update(tale.saveToJson()).eq('id', tale.id);
+      await _supabase.from('tales').upsert(tale.saveToJson());
       return const Result.ok(null);
     } catch (e) {
       return Result.error(ErrorX(e));

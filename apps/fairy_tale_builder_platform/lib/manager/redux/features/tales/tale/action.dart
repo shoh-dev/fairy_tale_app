@@ -2,15 +2,16 @@ import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:flutter/foundation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
 
-class _TaleAction extends DefaultAction {
+class TaleAction extends DefaultAction {
   final StateResult? selectedTaleResult;
   final Tale? tale;
 
-  _TaleAction({
+  TaleAction({
     this.tale,
     this.selectedTaleResult,
   });
@@ -39,13 +40,15 @@ class GetTaleAction extends DefaultAction {
 
   @override
   Future<AppState?> reduce() async {
-    dispatch(_TaleAction(selectedTaleResult: const StateResult.loading()));
+    dispatch(TaleAction(selectedTaleResult: const StateResult.loading()));
 
     if (taleId.isEmpty) {
       dispatch(
-        _TaleAction(
+        TaleAction(
           selectedTaleResult: const StateResult.ok(),
-          tale: Tale.empty,
+          tale: Tale.newTale(
+            id: UUID.v4(),
+          ),
         ),
       );
       return state.copyWith(
@@ -76,14 +79,14 @@ class GetTaleAction extends DefaultAction {
         });
 
         dispatch(
-          _TaleAction(
+          TaleAction(
             tale: tale.copyWith(pages: pages.toList()),
             selectedTaleResult: const StateResult.ok(),
           ),
         );
       },
       error: (error) {
-        dispatch(_TaleAction(selectedTaleResult: StateResult.error(error)));
+        dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
       },
     );
     return null;

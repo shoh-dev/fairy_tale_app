@@ -14,7 +14,7 @@ class Tale with _$Tale {
     required String title,
     required String description,
     required String coverImage,
-    TaleLocalization? localizations,
+    @Default(TaleLocalization.empty) TaleLocalization localizations,
     @Default([]) List<TalePage> pages,
     @Default('portrait') String orientation,
   }) = _Tale;
@@ -25,12 +25,27 @@ class Tale with _$Tale {
     ..remove('localizations')
     ..remove('pages');
 
-  static const empty = Tale(
-    id: '',
-    title: '',
-    description: '',
-    coverImage: '',
-  );
+  factory Tale.empty(String id) => Tale(
+        id: id,
+        title: '',
+        description: '',
+        coverImage: '',
+        localizations: TaleLocalization.empty.copyWith(taleId: id),
+      );
+
+  factory Tale.newTale({
+    required String id,
+    String title = '',
+    String description = '',
+  }) {
+    return Tale(
+      id: id,
+      title: title,
+      description: description,
+      coverImage: '',
+      localizations: TaleLocalization.empty.copyWith(taleId: id),
+    );
+  }
 
   bool get isPortrait => orientation == 'portrait';
 

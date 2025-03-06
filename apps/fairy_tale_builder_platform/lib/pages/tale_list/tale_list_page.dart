@@ -70,10 +70,12 @@ class _Grid extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                  child: Image.network(
-                    tale.coverImage,
-                    fit: BoxFit.cover,
-                  ),
+                  child: tale.coverImage.isEmpty
+                      ? const Placeholder()
+                      : Image.network(
+                          tale.coverImage,
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8),

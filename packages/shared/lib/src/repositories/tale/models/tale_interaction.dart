@@ -95,10 +95,7 @@ extension TaleInteractionActionExt on TaleInteractionAction {
 class TaleInteraction with _$TaleInteraction {
   const TaleInteraction._();
 
-  @JsonSerializable(
-    fieldRename: FieldRename.snake,
-    createToJson: false,
-  )
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TaleInteraction({
     required String id,
     required String talePageId,

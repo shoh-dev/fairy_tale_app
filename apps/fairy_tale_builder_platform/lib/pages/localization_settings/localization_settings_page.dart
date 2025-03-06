@@ -41,10 +41,9 @@ class _BodyState extends State<_Body> {
         selector: selectedTaleSelector,
         onInitialBuild: (dispatch, model) {
           final translations = <String, String>{
-            if (model.localizations != null)
-              for (final entry in model
-                  .localizations!.translations[leftLocale.value]!.entries)
-                entry.key: entry.value,
+            for (final entry
+                in model.localizations.translations[leftLocale.value]!.entries)
+              entry.key: entry.value,
           };
           stateManager.appendRows([
             for (final entry in translations.entries) fromEntry(entry),
@@ -57,7 +56,7 @@ class _BodyState extends State<_Body> {
             ..removeAllRows()
             ..appendRows([
               for (final entry
-                  in localization?.translations[leftLocale.value]?.entries ??
+                  in localization.translations[leftLocale.value]?.entries ??
                       <MapEntry<String, String>>[])
                 fromEntry(entry),
             ]);
@@ -271,6 +270,10 @@ class _BodyState extends State<_Body> {
           return ValueListenableBuilder(
             valueListenable: localeNotifier,
             builder: (context, locale, _) {
+              final locales = localization?.translations.keys;
+              if (locales?.isEmpty ?? true) {
+                return const SizedBox.shrink();
+              }
               return Row(
                 children: [
                   const SizedBox(width: 8),
@@ -294,9 +297,7 @@ class _BodyState extends State<_Body> {
                         onLocaleChanged(value.value);
                       },
                       items: [
-                        for (final l
-                            in localization?.translations.keys.toList() ??
-                                <String>[])
+                        for (final l in locales ?? <String>[])
                           DropdownItem(
                             value: l,
                             label: l,

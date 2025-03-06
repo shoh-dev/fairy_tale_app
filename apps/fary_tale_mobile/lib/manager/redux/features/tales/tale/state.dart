@@ -12,9 +12,9 @@ class TaleState with _$TaleState {
   }) = _TaleState;
 
   factory TaleState.initial() {
-    return const TaleState(
-      selectedTale: Tale.empty,
-      selectedTaleResult: StateResult.loading(),
+    return TaleState(
+      selectedTale: Tale.empty(''),
+      selectedTaleResult: const StateResult.loading(),
     );
   }
 }

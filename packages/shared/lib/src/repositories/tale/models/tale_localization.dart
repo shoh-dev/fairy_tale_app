@@ -16,4 +16,12 @@ class TaleLocalization with _$TaleLocalization {
 
   factory TaleLocalization.fromJson(Map<String, dynamic> json) =>
       _$TaleLocalizationFromJson(json);
+
+  static const empty = TaleLocalization(
+    taleId: '',
+    translations: {
+      'en': {},
+    },
+    defaultLocale: 'en',
+  );
 }

@@ -12,7 +12,7 @@ _$TaleImpl _$$TaleImplFromJson(Map<String, dynamic> json) => _$TaleImpl(
       description: json['description'] as String,
       coverImage: json['cover_image'] as String,
       localizations: json['localizations'] == null
-          ? null
+          ? TaleLocalization.empty
           : TaleLocalization.fromJson(
               json['localizations'] as Map<String, dynamic>),
       pages: (json['pages'] as List<dynamic>?)
