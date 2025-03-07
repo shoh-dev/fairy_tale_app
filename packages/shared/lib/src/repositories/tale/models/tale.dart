@@ -17,6 +17,7 @@ class Tale with _$Tale {
     @Default([]) List<TalePage> pages,
     @Default('portrait') String orientation,
     @Default(0) int toReRender,
+    @Default(false) bool isNew,
   }) = _Tale;
 
   factory Tale.fromJson(Map<String, dynamic> json) {
@@ -84,6 +85,8 @@ class Tale with _$Tale {
         id: id,
         localizations: TaleLocalization.empty(id),
       );
+
+  factory Tale.newTale(String id) => Tale.empty(id).copyWith(isNew: true);
 
   bool get isPortrait => orientation == 'portrait';
 

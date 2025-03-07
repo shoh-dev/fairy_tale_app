@@ -1,29 +1,32 @@
 import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/list_action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
 
-class SelectEditorTalePageAction extends DefaultAction {
+class SelectPageAction extends DefaultAction {
   final TalePage? page;
 
-  SelectEditorTalePageAction(this.page);
+  SelectPageAction({this.page});
 
   @override
   AppState? reduce() {
-    if (page == editorState.selectedTalePage) {
+    if (page == editorState.selectedPage) {
       return null;
     }
+
     return state.copyWith(
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
           editorState: editorState.copyWith(
-            selectedTalePage: page ?? TalePage.empty(id: '', taleId: ''),
-            isTalePageEdited: page != null,
+            selectedPage: page ?? TalePage.empty(id: '', taleId: ''),
+            isTalePageEdited: false, //todo:
           ),
         ),
       ),
@@ -31,23 +34,30 @@ class SelectEditorTalePageAction extends DefaultAction {
   }
 }
 
-class AddNewTalePageAction extends DefaultAction {
+class AddPageAction extends DefaultAction {
   @override
   AppState reduce() {
+    final newPageNumber = taleState.selectedTale.pages.length + 1;
+
     final newPage = TalePage.newPage(
       id: UUID.v4(),
-      text: (taleState.selectedTale.pages.length + 1).toString(),
-      pageNumber: taleState.selectedTale.pages.length + 1,
       taleId: taleState.selectedTale.id,
+      text: 'Page $newPageNumber',
+      pageNumber: newPageNumber,
     );
+
+    final tale = taleState.selectedTale;
+
+    final newTale = tale.copyWith(
+      pages: [...tale.pages, newPage],
+    );
+
     return state.copyWith(
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
-          selectedTale: taleState.selectedTale.copyWith(
-            pages: [...taleState.selectedTale.pages, newPage],
-          ),
+          selectedTale: newTale,
           editorState: editorState.copyWith(
-            selectedTalePage: newPage,
+            selectedPage: newPage, //once created select it
           ),
         ),
       ),
@@ -55,56 +65,100 @@ class AddNewTalePageAction extends DefaultAction {
   }
 }
 
-class SetIsTalePageEditedAction extends DefaultAction {
-  final TalePage? newPage;
+class UpdatePageAction extends DefaultAction {
+  final bool reRender;
 
-  SetIsTalePageEditedAction({
-    required this.newPage,
+  final String? text;
+  final PlatformFile? backgroundImageFile;
+  final String? backgroundImageUrl;
+
+  UpdatePageAction({
+    /// when passed as true, re renders all StoreConnectors using selectedTale
+    this.reRender = false,
+    this.text,
+    this.backgroundImageFile,
+    this.backgroundImageUrl,
   });
 
   @override
-  AppState reduce() {
-    return state.copyWith(
-      taleListState: taleListState.copyWith(
-        taleState: taleState.copyWith(
-          editorState: editorState.copyWith(
-            isTalePageEdited: newPage != editorState.selectedTalePage,
-          ),
-        ),
+  Future<AppState?> reduce() async {
+    if (backgroundImageFile != null) {
+      dispatch(_UpdatePageBackgroundImageActionV2(backgroundImageFile!));
+      return null;
+    }
+
+    final page = editorState.selectedPage;
+    final tale = taleState.selectedTale;
+
+    //steps:
+    //1. update selected page
+    final newPage = page.copyWith(
+      text: text ?? page.text,
+      metadata: page.metadata.copyWith(
+        backgroundImageUrl:
+            backgroundImageUrl ?? page.metadata.backgroundImageUrl,
       ),
     );
-  }
-}
-
-class UpdateSelectedTalePageAction extends DefaultAction {
-  final TalePage page;
-
-  UpdateSelectedTalePageAction(this.page);
-
-  @override
-  AppState reduce() {
-    final newTalePages = taleState.selectedTale.pages.map((e) {
+    //2. update tale pages
+    final newTalePages = tale.pages.map((e) {
       if (e.id == page.id) {
-        return page;
+        return newPage;
       }
       return e;
-    }).toList();
+    });
+    final newTale = tale.copyWith(pages: newTalePages.toList());
 
     return state.copyWith(
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
-          selectedTale: taleState.selectedTale.copyWith(
-            pages: newTalePages,
+          selectedTale: newTale.copyWith(
+            toReRender: reRender ? tale.toReRender + 1 : tale.toReRender,
           ),
           editorState: editorState.copyWith(
-            selectedTalePage: page,
-            isTalePageEdited: false,
+            selectedPage: newPage.copyWith(
+              toReRender: reRender ? tale.toReRender + 1 : tale.toReRender,
+            ),
+            isTalePageEdited: false, //todo:
           ),
+          isTaleEdited: false, //todo:
         ),
       ),
     );
   }
 }
+
+class _UpdatePageBackgroundImageActionV2 extends DefaultAction {
+  final PlatformFile file;
+
+  _UpdatePageBackgroundImageActionV2(this.file);
+
+  @override
+  Future<AppState?> reduce() async {
+    if (file.bytes == null && file.extension == null) {
+      return null;
+    }
+
+    final page = taleState.editorState.selectedPage;
+
+    final uploadedResult = await taleRepository.uploadImage(
+      bytes: await file.xFile.readAsBytes(),
+      path:
+          'page_images/background/${page.id}.${file.extension!.toLowerCase()}',
+    );
+
+    uploadedResult.when(
+      ok: (url) {
+        dispatch(UpdatePageAction(backgroundImageUrl: url, reRender: true));
+      },
+      error: (error) {
+        dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
+      },
+    );
+    return null;
+  }
+}
+
+/// TEST DONE UP TO HERE
 
 class SaveSelectedTaleLocalizationAction extends DefaultAction {
   final String locale;
@@ -199,7 +253,7 @@ class UpdateSelectedInteractionAction extends DefaultAction {
       return null;
     }
 
-    final selectedPage = editorState.selectedTalePage;
+    final selectedPage = editorState.selectedPage;
     final interactions = selectedPage.interactions.map((e) {
       if (e.id == interaction.id) {
         return interaction;
@@ -219,7 +273,7 @@ class UpdateSelectedInteractionAction extends DefaultAction {
             isInteractionEdited:
                 !listEquals(oldPage.interactions, newPage.interactions),
             selectedInteraction: interaction,
-            selectedTalePage: newPage,
+            selectedPage: newPage,
           ),
         ),
       ),
@@ -230,7 +284,7 @@ class UpdateSelectedInteractionAction extends DefaultAction {
 class SaveInteractionsAction extends DefaultAction {
   @override
   AppState? reduce() {
-    final selectedPage = editorState.selectedTalePage;
+    final selectedPage = editorState.selectedPage;
     //replace page with selectedPage from list of selectedTale pages
     final newPages = taleListState.taleState.selectedTale.pages.map((e) {
       if (e.id == selectedPage.id) {
@@ -257,7 +311,7 @@ class SaveInteractionsAction extends DefaultAction {
 class AddEmptyInteractionAction extends DefaultAction {
   @override
   AppState? reduce() {
-    final selectedPage = editorState.selectedTalePage;
+    final selectedPage = editorState.selectedPage;
     final newPage = selectedPage.copyWith(
       interactions: [
         ...selectedPage.interactions,
@@ -271,7 +325,7 @@ class AddEmptyInteractionAction extends DefaultAction {
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
           editorState: editorState.copyWith(
-            selectedTalePage: newPage,
+            selectedPage: newPage,
             isInteractionEdited: true,
           ),
         ),
@@ -280,7 +334,7 @@ class AddEmptyInteractionAction extends DefaultAction {
   }
 }
 
-class SaveSelectedTaleAction extends DefaultAction {
+class SaveTaleAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     final selectedTale = taleState.selectedTale;
@@ -288,22 +342,27 @@ class SaveSelectedTaleAction extends DefaultAction {
     dispatch(TaleAction(selectedTaleResult: const StateResult.loading()));
 
     //todo: handle result
-    // final taleResult =
-    await taleRepository.saveTale(selectedTale);
-    // final localizationResult =
-    await taleRepository.saveTaleLocalization(
+    final taleResult = await taleRepository.saveTale(selectedTale);
+    final localizationResult = await taleRepository.saveTaleLocalization(
       defaultLocale: selectedTale.localizations.defaultLocale,
       translations: selectedTale.localizations.translations,
       taleId: selectedTale.id,
     );
-    // final pagesResult =
-    await taleRepository.saveTalePages(selectedTale.pages);
-    // final interactionsResult =
-    await taleRepository.saveTaleInteractions(
+
+    final pagesResult = await taleRepository.saveTalePages(selectedTale.pages);
+    final interactionsResult = await taleRepository.saveTaleInteractions(
       selectedTale.pages.expand((e) => e.interactions).toList(),
     );
 
-    dispatch(GetTaleAction(taleId: selectedTale.id));
+    Log().debug('tale $taleResult');
+    Log().debug('pages $pagesResult');
+    // Log().debug('locale $localizationResult');
+    // Log().debug('interactions $interactionsResult');
+
+    dispatchAll([
+      GetTaleListAction(),
+      GetTaleAction(taleId: selectedTale.id),
+    ]);
 
     return null;
   }

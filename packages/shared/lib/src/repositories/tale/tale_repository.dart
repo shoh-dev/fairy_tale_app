@@ -90,7 +90,7 @@ class TaleRepositoryImpl implements TaleRepository {
     try {
       await _supabase
           .from('pages')
-          .upsert(pages.map((e) => e.saveToJson()).toList());
+          .upsert(pages.map((e) => e.toJson()).toList());
 
       return const Result.ok(null);
     } catch (e) {

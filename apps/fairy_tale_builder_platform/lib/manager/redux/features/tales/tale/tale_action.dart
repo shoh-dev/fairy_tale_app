@@ -1,14 +1,24 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/editor_action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
+
+class ResetTaleStateAction extends DefaultAction {
+  @override
+  AppState? reduce() {
+    dispatchAll([
+      GetTaleAction(),
+      SelectPageAction(),
+    ]);
+
+    return null;
+  }
+}
 
 class TaleAction extends DefaultAction {
   final StateResult? selectedTaleResult;
@@ -37,7 +47,7 @@ class GetTaleAction extends DefaultAction {
   final String taleId;
 
   GetTaleAction({
-    /// if taleId is null, selects an empty tale
+    /// if taleId is empty, selects an empty tale
     this.taleId = '',
   });
 
@@ -49,33 +59,19 @@ class GetTaleAction extends DefaultAction {
       dispatch(
         TaleAction(
           selectedTaleResult: const StateResult.ok(),
-          tale: Tale.empty(UUID.v4()),
+          tale: Tale.newTale(UUID.v4()),
         ),
       );
-      return state.copyWith(
-        taleListState: taleListState.copyWith(
-          taleState: taleState.copyWith(
-            isTaleEdited: false,
-          ),
-        ),
-      );
+      return null;
     }
 
     final tale = await taleRepository.getTaleById(taleId);
 
     await tale.when(
       ok: (tale) async {
-        final pages = tale.pages.map((page) {
-          final interactions = page.interactions.map((interaction) {
-            return interaction
-                .updateCurrentPosition(interaction.initialPosition);
-          }).toList();
-          return page.copyWith(interactions: interactions);
-        });
-
         dispatch(
           TaleAction(
-            tale: tale.copyWith(pages: pages.toList()),
+            tale: tale.copyWith(pages: tale.pages),
             selectedTaleResult: const StateResult.ok(),
           ),
         );
@@ -110,13 +106,6 @@ class UpdateTaleAction extends DefaultAction {
   @override
   AppState? reduce() {
     final tale = taleState.selectedTale;
-    final originalTale =
-        taleListState.taleList.firstWhereOrNull((e) => e.id == tale.id);
-
-    if (originalTale == null) {
-      //todo: handle error
-      return null;
-    }
 
     if (coverImageFile != null) {
       dispatch(_UpdateTaleCoverImageActionV2(coverImageFile!));
@@ -131,13 +120,14 @@ class UpdateTaleAction extends DefaultAction {
         coverImageUrl: coverImageUrl ?? tale.metadata.coverImageUrl,
       ),
     );
+
     return state.copyWith(
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
           selectedTale: newTale.copyWith(
             toReRender: reRender ? tale.toReRender + 1 : tale.toReRender,
           ),
-          isTaleEdited: originalTale != newTale,
+          isTaleEdited: false, //todo:
         ),
       ),
     );
@@ -174,79 +164,7 @@ class _UpdateTaleCoverImageActionV2 extends DefaultAction {
   }
 }
 
-//   AddSelectedTaleCoverImageAction(this.file);
-
-//   @override
-//   Future<AppState?> reduce() async {
-//     if (file.bytes == null && file.extension == null) {
-//       return null;
-//     }
-
-//     final tale = taleState.selectedTale;
-
-//     final uploadedResult = await taleRepository.uploadImage(
-//       bytes: await file.xFile.readAsBytes(),
-//       path: 'covers/${tale.id}.${file.extension!.toLowerCase()}',
-//     );
-
-//     uploadedResult.when(
-//       ok: (url) {
-//         dispatch(
-//           UpdateSelectedTaleAction(
-//             tale.copyWith(
-//               metadata: tale.metadata.copyWith(
-//                 coverImageUrl: url,
-//               ),
-//               toReRender: tale.toReRender + 1,
-//             ),
-//           ),
-//         );
-//       },
-//       error: (error) {
-//         dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
-//       },
-//     );
-//     return null;
-//   }
-// }
-
-class AddSelectedTalePageBackgroundImageAction extends DefaultAction {
-  final PlatformFile file;
-
-  AddSelectedTalePageBackgroundImageAction(this.file);
-
-  @override
-  Future<AppState?> reduce() async {
-    if (file.bytes == null && file.extension == null) {
-      return null;
-    }
-
-    final page = taleState.editorState.selectedTalePage;
-
-    final uploadedResult = await taleRepository.uploadImage(
-      bytes: await file.xFile.readAsBytes(),
-      path:
-          'page_images/background/${page.id}.${file.extension!.toLowerCase()}',
-    );
-
-    uploadedResult.when(
-      ok: (url) {
-        dispatch(
-          UpdateSelectedTalePageAction(
-            page.copyWith(
-              metadata: page.metadata.copyWith(backgroundImageUrl: url),
-              toReRender: page.toReRender + 1,
-            ),
-          ),
-        );
-      },
-      error: (error) {
-        dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
-      },
-    );
-    return null;
-  }
-}
+/// TEST DONE UP TO HERE
 
 class AddSelectedInteractionImageAction extends DefaultAction {
   final PlatformFile file;

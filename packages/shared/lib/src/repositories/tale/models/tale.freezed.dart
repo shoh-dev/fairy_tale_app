@@ -24,6 +24,7 @@ mixin _$Tale {
   List<TalePage> get pages => throw _privateConstructorUsedError;
   String get orientation => throw _privateConstructorUsedError;
   int get toReRender => throw _privateConstructorUsedError;
+  bool get isNew => throw _privateConstructorUsedError;
 
   /// Create a copy of Tale
   /// with the given fields replaced by the non-null parameter values.
@@ -44,7 +45,8 @@ abstract class $TaleCopyWith<$Res> {
       TaleMetadata metadata,
       List<TalePage> pages,
       String orientation,
-      int toReRender});
+      int toReRender,
+      bool isNew});
 
   $TaleLocalizationCopyWith<$Res> get localizations;
   $TaleMetadataCopyWith<$Res> get metadata;
@@ -73,6 +75,7 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
     Object? pages = null,
     Object? orientation = null,
     Object? toReRender = null,
+    Object? isNew = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -107,6 +110,10 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
           ? _value.toReRender
           : toReRender // ignore: cast_nullable_to_non_nullable
               as int,
+      isNew: null == isNew
+          ? _value.isNew
+          : isNew // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -146,7 +153,8 @@ abstract class _$$TaleImplCopyWith<$Res> implements $TaleCopyWith<$Res> {
       TaleMetadata metadata,
       List<TalePage> pages,
       String orientation,
-      int toReRender});
+      int toReRender,
+      bool isNew});
 
   @override
   $TaleLocalizationCopyWith<$Res> get localizations;
@@ -174,6 +182,7 @@ class __$$TaleImplCopyWithImpl<$Res>
     Object? pages = null,
     Object? orientation = null,
     Object? toReRender = null,
+    Object? isNew = null,
   }) {
     return _then(_$TaleImpl(
       id: null == id
@@ -208,6 +217,10 @@ class __$$TaleImplCopyWithImpl<$Res>
           ? _value.toReRender
           : toReRender // ignore: cast_nullable_to_non_nullable
               as int,
+      isNew: null == isNew
+          ? _value.isNew
+          : isNew // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -223,7 +236,8 @@ class _$TaleImpl extends _Tale {
       this.metadata = TaleMetadata.empty,
       final List<TalePage> pages = const [],
       this.orientation = 'portrait',
-      this.toReRender = 0})
+      this.toReRender = 0,
+      this.isNew = false})
       : _pages = pages,
         super._();
 
@@ -255,10 +269,13 @@ class _$TaleImpl extends _Tale {
   @override
   @JsonKey()
   final int toReRender;
+  @override
+  @JsonKey()
+  final bool isNew;
 
   @override
   String toString() {
-    return 'Tale(id: $id, localizations: $localizations, title: $title, description: $description, metadata: $metadata, pages: $pages, orientation: $orientation, toReRender: $toReRender)';
+    return 'Tale(id: $id, localizations: $localizations, title: $title, description: $description, metadata: $metadata, pages: $pages, orientation: $orientation, toReRender: $toReRender, isNew: $isNew)';
   }
 
   @override
@@ -278,7 +295,8 @@ class _$TaleImpl extends _Tale {
             (identical(other.orientation, orientation) ||
                 other.orientation == orientation) &&
             (identical(other.toReRender, toReRender) ||
-                other.toReRender == toReRender));
+                other.toReRender == toReRender) &&
+            (identical(other.isNew, isNew) || other.isNew == isNew));
   }
 
   @override
@@ -291,7 +309,8 @@ class _$TaleImpl extends _Tale {
       metadata,
       const DeepCollectionEquality().hash(_pages),
       orientation,
-      toReRender);
+      toReRender,
+      isNew);
 
   /// Create a copy of Tale
   /// with the given fields replaced by the non-null parameter values.
@@ -311,7 +330,8 @@ abstract class _Tale extends Tale {
       final TaleMetadata metadata,
       final List<TalePage> pages,
       final String orientation,
-      final int toReRender}) = _$TaleImpl;
+      final int toReRender,
+      final bool isNew}) = _$TaleImpl;
   const _Tale._() : super._();
 
   @override
@@ -330,6 +350,8 @@ abstract class _Tale extends Tale {
   String get orientation;
   @override
   int get toReRender;
+  @override
+  bool get isNew;
 
   /// Create a copy of Tale
   /// with the given fields replaced by the non-null parameter values.

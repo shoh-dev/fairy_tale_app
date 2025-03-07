@@ -7,7 +7,7 @@ Tale selectedTaleSelector(AppState state) =>
 List<TalePage> talePagesSelector(AppState state) =>
     selectedTaleSelector(state).pages;
 TalePage selectedTalePageSelector(AppState state) =>
-    state.taleListState.taleState.editorState.selectedTalePage;
+    state.taleListState.taleState.editorState.selectedPage;
 TaleInteraction selectedInteractionSelector(AppState state) =>
     state.taleListState.taleState.editorState.selectedInteraction;
 bool isTalePageSelectedSelector(AppState state, TalePage page) =>

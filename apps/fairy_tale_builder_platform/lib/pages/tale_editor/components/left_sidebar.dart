@@ -44,7 +44,7 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                         text: 'Add page',
                         icon: Icons.add_rounded,
                         onPressed: () {
-                          dispatch(AddNewTalePageAction());
+                          dispatch(AddPageAction());
                         },
                       ),
                     ),
@@ -57,7 +57,7 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                         builder: (context, dispatch, isSelected) {
                           return InkWell(
                             onTap: () {
-                              dispatch(SelectEditorTalePageAction(page));
+                              dispatch(SelectPageAction(page: page));
                             },
                             child: Badge(
                               isLabelVisible: page.isNew,

@@ -54,7 +54,9 @@ class TaleInteractionMetadata with _$TaleInteractionMetadata {
           audioUrl: json['audio_url'] as String,
         );
       }
-      return model;
+      return model.copyWith(
+        currentPosition: model.initialPosition,
+      );
     } catch (e, st) {
       Log().error('TaleInteractionMetadata.fromJson', e, st);
       rethrow;

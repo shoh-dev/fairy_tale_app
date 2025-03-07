@@ -43,7 +43,7 @@ class ImageSelectorComponent extends StatelessWidget {
                       .getDependency<DependencyInjection>()
                       .filePickerService;
 
-                  final result = await picker.pickFile(FileType.image);
+                  final result = await picker.pickPNGFile();
 
                   result.when(
                     ok: (file) {

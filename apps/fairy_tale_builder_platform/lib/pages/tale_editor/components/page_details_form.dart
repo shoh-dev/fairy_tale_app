@@ -23,7 +23,6 @@ class TalePageDetailsForm extends StatelessWidget {
     return StateConnector<AppState, TalePage>(
       selector: selectedTalePageSelector,
       builder: (context, dispatch, page) {
-        log(page.metadata.backgroundImageUrl);
         return Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,9 +75,7 @@ class TalePageDetailsForm extends StatelessWidget {
               label: 'Page Title',
               textKey: page.text,
               onChanged: (value) {
-                dispatch(
-                  UpdateSelectedTalePageAction(page.copyWith(text: value)),
-                );
+                dispatch(UpdatePageAction(text: value));
               },
             ),
             space(),
@@ -94,7 +91,7 @@ class TalePageDetailsForm extends StatelessWidget {
                   title: 'Background Image',
                   imagePath: page.metadata.backgroundImageUrl,
                   onImageSelected: (value) {
-                    dispatch(AddSelectedTalePageBackgroundImageAction(value));
+                    dispatch(UpdatePageAction(backgroundImageFile: value));
                   },
                 );
               },

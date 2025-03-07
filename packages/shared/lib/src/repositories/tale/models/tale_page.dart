@@ -74,16 +74,14 @@ class TalePage with _$TalePage {
     }
   }
 
-  Map<dynamic, dynamic> saveToJson() {
+  Map<dynamic, dynamic> toJson() {
     final json = {
       'id': id,
       'tale_id': taleId,
       'page_number': pageNumber,
       'text': text,
       'metadata': metadata.toJson(),
-      'interactions': interactions.map((e) => e.toJson()).toList(),
     }..removeWhere((key, value) => value.toString().isEmpty);
-
     return json;
   }
 
@@ -98,5 +96,9 @@ class TalePage with _$TalePage {
       interactions[index] = interaction;
     }
     return copyWith(interactions: interactions);
+  }
+
+  TalePage updateText(String text) {
+    return copyWith(text: text);
   }
 }
