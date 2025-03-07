@@ -20,7 +20,6 @@ class ImageSelectorComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('imagePath: $imagePath');
     return Column(
       spacing: 8,
       crossAxisAlignment: CrossAxisAlignment.start,

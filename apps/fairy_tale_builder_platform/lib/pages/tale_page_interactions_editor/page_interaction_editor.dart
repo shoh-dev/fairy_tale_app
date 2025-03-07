@@ -1,8 +1,8 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:fairy_tale_builder_platform/components/orientation_selector.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/editor_action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/tale_preview_dialog.dart';

@@ -23,7 +23,6 @@ class Tale with _$Tale {
   factory Tale.fromJson(Map<String, dynamic> json) => _$TaleFromJson(json);
 
   Map<dynamic, dynamic> saveToJson() {
-    print('metadata: ${metadata.toJson()}');
     return toJson()
       ..remove('localizations')
       ..remove('to_re_render')

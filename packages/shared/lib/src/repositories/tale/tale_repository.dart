@@ -78,7 +78,6 @@ class TaleRepositoryImpl implements TaleRepository {
   @override
   ResultFuture<void> saveTale(Tale tale) async {
     try {
-      print('tale.saveToJson(): ${tale.saveToJson()}');
       await _supabase.from('tales').upsert(tale.saveToJson());
       return const Result.ok(null);
     } catch (e) {
