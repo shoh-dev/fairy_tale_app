@@ -158,8 +158,6 @@ class _UpdatePageBackgroundImageActionV2 extends DefaultAction {
   }
 }
 
-/// TEST DONE UP TO HERE
-
 class UpdateTaleLocalizationAction extends DefaultAction {
   final String locale;
   final Iterable<String> keys;
@@ -174,55 +172,22 @@ class UpdateTaleLocalizationAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     final selectedTale = taleState.selectedTale;
-    final translations = Map.of(selectedTale.localizations.translations);
+    // final oldTranslations = Map.of(selectedTale.localizations.translations);
+    final newTranslations = Map.of(selectedTale.localizations.translations);
 
-    translations[locale] = Map<String, String>.fromIterables(keys, values);
+    newTranslations[locale] = Map<String, String>.fromIterables(keys, values);
 
-    dispatch(UpdateTaleAction(translations: translations));
-    return null;
-    // final oldTranslation =
-    //     selectedTale.localizations.translations[locale] ?? <String, String>{};
-
-    // final newTranslation = Map<String, String>.fromIterables(keys, values);
-
-    // if (mapEquals(oldTranslation, newTranslation)) {
-    // return null;
+    //todo: check why this is not working
+    // if (mapEquals(oldTranslations, newTranslations)) {
+    //   return null;
     // }
 
-    // var newLocalizations = selectedTale.localizations;
-//
-    // final newMap = Map.of(newLocalizations.translations);
-//
-    // newMap[locale] = newTranslation;
-//
-    // newLocalizations = newLocalizations.copyWith(
-    // translations: newMap,
-    // );
-
-    // // //todo: handle result
-    // // final result =
-    // await taleRepository.saveTaleLocalization(
-    //   taleId: newLocalizations.taleId,
-    //   translations: newLocalizations.translations,
-    //   defaultLocale: newLocalizations.defaultLocale,
-    // );
-
-    // return state.copyWith(
-    //   // applicationState: applicationState.copyWith(
-    //   //   localizationState: applicationState.localizationState.copyWith(
-    //   //     locale: locale,
-    //   //   ),
-    //   // ),//todo: need to check why need this
-    //   taleListState: taleListState.copyWith(
-    //     taleState: taleState.copyWith(
-    //       selectedTale: selectedTale.copyWith(
-    //         localizations: newLocalizations,
-    //       ),
-    //     ),
-    //   ),
-    // );
+    dispatch(UpdateTaleAction(translations: newTranslations));
+    return null;
   }
 }
+
+/// TEST DONE UP TO HERE
 
 class SelectInteractionAction extends DefaultAction {
   final TaleInteraction? interaction;
