@@ -1,4 +1,5 @@
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
@@ -327,6 +328,9 @@ class __FormState extends State<_Form> with StateHelpers {
             ImageSelectorComponent(
               title: 'Object Image',
               imagePath: interaction.metadata.imageUrl,
+              onImageSelected: (value) {
+                dp(AddSelectedInteractionImageAction(value));
+              },
             ),
           ],
         );

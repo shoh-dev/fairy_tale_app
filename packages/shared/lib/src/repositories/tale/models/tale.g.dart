@@ -20,6 +20,7 @@ _$TaleImpl _$$TaleImplFromJson(Map<String, dynamic> json) => _$TaleImpl(
               .toList() ??
           const [],
       orientation: json['orientation'] as String? ?? 'portrait',
+      toReRender: (json['to_re_render'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$TaleImplToJson(_$TaleImpl instance) =>
@@ -31,4 +32,5 @@ Map<String, dynamic> _$$TaleImplToJson(_$TaleImpl instance) =>
       'localizations': instance.localizations,
       'pages': instance.pages,
       'orientation': instance.orientation,
+      'to_re_render': instance.toReRender,
     };

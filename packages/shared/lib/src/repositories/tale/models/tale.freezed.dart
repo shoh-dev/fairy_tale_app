@@ -27,6 +27,7 @@ mixin _$Tale {
   TaleLocalization get localizations => throw _privateConstructorUsedError;
   List<TalePage> get pages => throw _privateConstructorUsedError;
   String get orientation => throw _privateConstructorUsedError;
+  int get toReRender => throw _privateConstructorUsedError;
 
   /// Serializes this Tale to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,7 +50,8 @@ abstract class $TaleCopyWith<$Res> {
       String coverImage,
       TaleLocalization localizations,
       List<TalePage> pages,
-      String orientation});
+      String orientation,
+      int toReRender});
 
   $TaleLocalizationCopyWith<$Res> get localizations;
 }
@@ -76,6 +78,7 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
     Object? localizations = null,
     Object? pages = null,
     Object? orientation = null,
+    Object? toReRender = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -106,6 +109,10 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
           ? _value.orientation
           : orientation // ignore: cast_nullable_to_non_nullable
               as String,
+      toReRender: null == toReRender
+          ? _value.toReRender
+          : toReRender // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 
@@ -134,7 +141,8 @@ abstract class _$$TaleImplCopyWith<$Res> implements $TaleCopyWith<$Res> {
       String coverImage,
       TaleLocalization localizations,
       List<TalePage> pages,
-      String orientation});
+      String orientation,
+      int toReRender});
 
   @override
   $TaleLocalizationCopyWith<$Res> get localizations;
@@ -159,6 +167,7 @@ class __$$TaleImplCopyWithImpl<$Res>
     Object? localizations = null,
     Object? pages = null,
     Object? orientation = null,
+    Object? toReRender = null,
   }) {
     return _then(_$TaleImpl(
       id: null == id
@@ -189,6 +198,10 @@ class __$$TaleImplCopyWithImpl<$Res>
           ? _value.orientation
           : orientation // ignore: cast_nullable_to_non_nullable
               as String,
+      toReRender: null == toReRender
+          ? _value.toReRender
+          : toReRender // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -204,7 +217,8 @@ class _$TaleImpl extends _Tale {
       required this.coverImage,
       this.localizations = TaleLocalization.empty,
       final List<TalePage> pages = const [],
-      this.orientation = 'portrait'})
+      this.orientation = 'portrait',
+      this.toReRender = 0})
       : _pages = pages,
         super._();
 
@@ -234,10 +248,13 @@ class _$TaleImpl extends _Tale {
   @override
   @JsonKey()
   final String orientation;
+  @override
+  @JsonKey()
+  final int toReRender;
 
   @override
   String toString() {
-    return 'Tale(id: $id, title: $title, description: $description, coverImage: $coverImage, localizations: $localizations, pages: $pages, orientation: $orientation)';
+    return 'Tale(id: $id, title: $title, description: $description, coverImage: $coverImage, localizations: $localizations, pages: $pages, orientation: $orientation, toReRender: $toReRender)';
   }
 
   @override
@@ -255,7 +272,9 @@ class _$TaleImpl extends _Tale {
                 other.localizations == localizations) &&
             const DeepCollectionEquality().equals(other._pages, _pages) &&
             (identical(other.orientation, orientation) ||
-                other.orientation == orientation));
+                other.orientation == orientation) &&
+            (identical(other.toReRender, toReRender) ||
+                other.toReRender == toReRender));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -268,7 +287,8 @@ class _$TaleImpl extends _Tale {
       coverImage,
       localizations,
       const DeepCollectionEquality().hash(_pages),
-      orientation);
+      orientation,
+      toReRender);
 
   /// Create a copy of Tale
   /// with the given fields replaced by the non-null parameter values.
@@ -294,7 +314,8 @@ abstract class _Tale extends Tale {
       required final String coverImage,
       final TaleLocalization localizations,
       final List<TalePage> pages,
-      final String orientation}) = _$TaleImpl;
+      final String orientation,
+      final int toReRender}) = _$TaleImpl;
   const _Tale._() : super._();
 
   factory _Tale.fromJson(Map<String, dynamic> json) = _$TaleImpl.fromJson;
@@ -313,6 +334,8 @@ abstract class _Tale extends Tale {
   List<TalePage> get pages;
   @override
   String get orientation;
+  @override
+  int get toReRender;
 
   /// Create a copy of Tale
   /// with the given fields replaced by the non-null parameter values.

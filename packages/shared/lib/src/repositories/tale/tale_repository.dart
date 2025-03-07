@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/src/repositories/tale/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -13,6 +15,10 @@ abstract class TaleRepository {
   ResultFuture<void> saveTale(Tale tale);
   ResultFuture<void> saveTalePages(List<TalePage> pages);
   ResultFuture<void> saveTaleInteractions(List<TaleInteraction> ineractions);
+  ResultFuture<String> uploadImage({
+    required Uint8List bytes,
+    required String path,
+  });
 }
 
 class TaleRepositoryImpl implements TaleRepository {
@@ -27,8 +33,6 @@ class TaleRepositoryImpl implements TaleRepository {
           .from('tales')
           .select('id, title, description, cover_image')
           .order('created_at');
-
-      print(response);
 
       return Result.ok(response.map(Tale.fromJson).toList());
     } catch (e) {
@@ -84,12 +88,15 @@ class TaleRepositoryImpl implements TaleRepository {
   @override
   ResultFuture<void> saveTalePages(List<TalePage> pages) async {
     try {
-      await _supabase.from('pages').upsert(
-            pages.map((e) => e.saveToJson()).toList(),
-          );
+      await _supabase
+          .from('pages')
+          .upsert(pages.map((e) => e.saveToJson()).toList());
+
+      print(pages.map((e) => e.saveToJson()));
 
       return const Result.ok(null);
     } catch (e) {
+      print(e);
       return Result.error(ErrorX(e));
     }
   }
@@ -104,6 +111,26 @@ class TaleRepositoryImpl implements TaleRepository {
           );
 
       return const Result.ok(null);
+    } catch (e) {
+      return Result.error(ErrorX(e));
+    }
+  }
+
+  @override
+  ResultFuture<String> uploadImage({
+    required Uint8List bytes,
+    required String path,
+  }) async {
+    try {
+      await _supabase.storage.from('default').uploadBinary(
+            path,
+            bytes,
+            fileOptions: const FileOptions(upsert: true),
+          );
+
+      final publicUrl = _supabase.storage.from('default').getPublicUrl(path);
+
+      return Result.ok(publicUrl);
     } catch (e) {
       return Result.error(ErrorX(e));
     }

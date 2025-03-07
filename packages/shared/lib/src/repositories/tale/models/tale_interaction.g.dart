@@ -18,6 +18,7 @@ _$TaleInteractionImpl _$$TaleInteractionImplFromJson(
           json['metadata'] as Map<String, dynamic>),
       action: json['action'] as String,
       hintKey: json['hint_key'] as String?,
+      toReRender: (json['to_re_render'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$TaleInteractionImplToJson(
@@ -31,4 +32,5 @@ Map<String, dynamic> _$$TaleInteractionImplToJson(
       'metadata': instance.metadata,
       'action': instance.action,
       'hint_key': instance.hintKey,
+      'to_re_render': instance.toReRender,
     };

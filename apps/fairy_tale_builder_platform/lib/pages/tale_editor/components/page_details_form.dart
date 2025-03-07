@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
@@ -20,6 +23,7 @@ class TalePageDetailsForm extends StatelessWidget {
     return StateConnector<AppState, TalePage>(
       selector: selectedTalePageSelector,
       builder: (context, dispatch, page) {
+        log(page.metadata.backgroundImageUrl);
         return Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,9 +87,17 @@ class TalePageDetailsForm extends StatelessWidget {
               style: context.textTheme.headlineSmall,
             ),
             space(8),
-            ImageSelectorComponent(
-              title: 'Background Image',
-              imagePath: page.metadata.backgroundImageUrl,
+            StateConnector<AppState, bool>(
+              selector: (state) => isTalePageSelectedSelector(state, page),
+              builder: (context, dispatch, isSelected) {
+                return ImageSelectorComponent(
+                  title: 'Background Image',
+                  imagePath: page.metadata.backgroundImageUrl,
+                  onImageSelected: (value) {
+                    dispatch(AddSelectedTalePageBackgroundImageAction(value));
+                  },
+                );
+              },
             ),
           ],
         );

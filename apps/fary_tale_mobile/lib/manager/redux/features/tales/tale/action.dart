@@ -97,8 +97,6 @@ class TaleInteractionHandlerAction extends DefaultAction {
       return null;
     }
 
-    final subType = interaction.eventSubTypeEnum;
-
     if (interaction.eventTypeEnum == null) {
       return null;
     }
@@ -110,8 +108,7 @@ class TaleInteractionHandlerAction extends DefaultAction {
     switch (interaction.actionEnum!) {
       case TaleInteractionAction.playSound:
         if (!interaction.metadata.hasAudio) {
-          _missingAudio();
-          return null;
+          return _missingAudio();
         }
         final result = await interactionAudioPlayerService
             .playFromUrl(interaction.metadata.audioUrl);
@@ -120,6 +117,9 @@ class TaleInteractionHandlerAction extends DefaultAction {
           error: (error) => null,
         );
       case TaleInteractionAction.move:
+        if (interaction.metadata.finalPosition == null) {
+          return _missingFinalPosition();
+        }
         return handleSwipe(tale, talePage);
     }
 
@@ -155,26 +155,42 @@ class TaleInteractionHandlerAction extends DefaultAction {
     // return null;
   }
 
-  void _invalidType() {
-    dispatch(
-      _TaleAction(
-        selectedTaleResult: StateResult.error(
-          ErrorX(
-            //
-            // ignore: lines_longer_than_80_chars
-            '[${interaction.id}]:\nInvalid [${interaction.eventType}] event type for [${interaction.eventSubtype}] subtype',
+  // void _invalidType() {
+  //   dispatch(
+  //     _TaleAction(
+  //       selectedTaleResult: StateResult.error(
+  //         ErrorX(
+  //           //
+  //           // ignore: lines_longer_than_80_chars
+  //           '[${interaction.id}]:\nInvalid [${interaction.eventType}] event type for [${interaction.eventSubtype}] subtype',
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  AppState _missingAudio() {
+    return state.copyWith(
+      taleListState: taleListState.copyWith(
+        taleState: taleState.copyWith(
+          selectedTaleResult: StateResult.error(
+            ErrorX(
+              '[${interaction.id}]:\nMissing audio',
+            ),
           ),
         ),
       ),
     );
   }
 
-  void _missingAudio() {
-    dispatch(
-      _TaleAction(
-        selectedTaleResult: StateResult.error(
-          ErrorX(
-            '[${interaction.id}]:\nMissing audio',
+  AppState _missingFinalPosition() {
+    return state.copyWith(
+      taleListState: taleListState.copyWith(
+        taleState: taleState.copyWith(
+          selectedTaleResult: StateResult.error(
+            ErrorX(
+              '[${interaction.id}]:\nMissing final_pos',
+            ),
           ),
         ),
       ),

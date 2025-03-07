@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
@@ -127,5 +129,121 @@ class UpdateSelectedTaleAction extends DefaultAction {
         ),
       ),
     );
+  }
+}
+
+class AddSelectedTaleCoverImageAction extends DefaultAction {
+  final PlatformFile file;
+
+  AddSelectedTaleCoverImageAction(this.file);
+
+  @override
+  Future<AppState?> reduce() async {
+    if (file.bytes == null && file.extension == null) {
+      return null;
+    }
+
+    final tale = taleState.selectedTale;
+
+    final uploadedResult = await taleRepository.uploadImage(
+      bytes: await file.xFile.readAsBytes(),
+      path: 'covers/${tale.id}.${file.extension!.toLowerCase()}',
+    );
+
+    uploadedResult.when(
+      ok: (url) {
+        dispatch(
+          UpdateSelectedTaleAction(
+            tale.copyWith(
+              coverImage: url,
+              toReRender: tale.toReRender + 1,
+            ),
+          ),
+        );
+      },
+      error: (error) {
+        dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
+      },
+    );
+    return null;
+  }
+}
+
+class AddSelectedTalePageBackgroundImageAction extends DefaultAction {
+  final PlatformFile file;
+
+  AddSelectedTalePageBackgroundImageAction(this.file);
+
+  @override
+  Future<AppState?> reduce() async {
+    if (file.bytes == null && file.extension == null) {
+      return null;
+    }
+
+    final page = taleState.editorState.selectedTalePage;
+
+    final uploadedResult = await taleRepository.uploadImage(
+      bytes: await file.xFile.readAsBytes(),
+      path:
+          'page_images/background/${page.id}.${file.extension!.toLowerCase()}',
+    );
+
+    uploadedResult.when(
+      ok: (url) {
+        dispatch(
+          UpdateSelectedTalePageAction(
+            page.copyWith(
+              metadata: page.metadata.copyWith(backgroundImageUrl: url),
+              toReRender: page.toReRender + 1,
+            ),
+          ),
+        );
+      },
+      error: (error) {
+        dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
+      },
+    );
+    return null;
+  }
+}
+
+class AddSelectedInteractionImageAction extends DefaultAction {
+  final PlatformFile file;
+
+  AddSelectedInteractionImageAction(this.file);
+
+  @override
+  Future<AppState?> reduce() async {
+    if (file.bytes == null && file.extension == null) {
+      return null;
+    }
+
+    final ineraction = taleState.editorState.selectedInteraction;
+
+    final uploadedResult = await taleRepository.uploadImage(
+      bytes: await file.xFile.readAsBytes(),
+      path:
+          'interaction_objects/${ineraction.id}.${file.extension!.toLowerCase()}',
+    );
+
+    uploadedResult.when(
+      ok: (url) {
+        dispatch(
+          UpdateSelectedInteractionAction(
+            ineraction.copyWith(
+              metadata: ineraction.metadata.copyWith(imageUrl: url),
+              toReRender: ineraction.toReRender + 1,
+            ),
+          ),
+        );
+
+        dispatch(SaveInteractionsAction());
+      },
+      error: (error) {
+        // dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
+        //todo:
+      },
+    );
+    return null;
   }
 }

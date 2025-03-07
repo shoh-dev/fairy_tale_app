@@ -17,12 +17,14 @@ class Tale with _$Tale {
     @Default(TaleLocalization.empty) TaleLocalization localizations,
     @Default([]) List<TalePage> pages,
     @Default('portrait') String orientation,
+    @Default(0) int toReRender,
   }) = _Tale;
 
   factory Tale.fromJson(Map<String, dynamic> json) => _$TaleFromJson(json);
 
   Map<dynamic, dynamic> saveToJson() => toJson()
     ..remove('localizations')
+    ..remove('to_re_render')
     ..remove('pages');
 
   factory Tale.empty(String id) => Tale(

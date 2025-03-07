@@ -111,6 +111,7 @@ class TaleInteraction with _$TaleInteraction {
     String? hintKey,
     @JsonKey(includeFromJson: false) @Default(false) bool isUsed,
     @JsonKey(includeFromJson: false) @Default(false) bool isNew,
+    @Default(0) int toReRender,
   }) = _TaleInteraction;
 
   factory TaleInteraction.empty() => const TaleInteraction(
@@ -146,6 +147,7 @@ class TaleInteraction with _$TaleInteraction {
   Map<dynamic, dynamic> saveToJson() {
     final json = toJson()
       ..remove('created_at')
+      ..remove('to_re_render')
       ..remove('is_new');
 
     return json;

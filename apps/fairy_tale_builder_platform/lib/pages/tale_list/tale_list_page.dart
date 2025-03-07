@@ -73,7 +73,9 @@ class _Grid extends StatelessWidget {
                   child: tale.coverImage.isEmpty
                       ? const Placeholder()
                       : Image.network(
-                          tale.coverImage,
+                          //
+                          // ignore: lines_longer_than_80_chars
+                          '${tale.coverImage}?${DateTime.now().millisecondsSinceEpoch}',
                           fit: BoxFit.cover,
                         ),
                 ),

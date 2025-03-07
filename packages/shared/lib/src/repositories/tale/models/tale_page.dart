@@ -18,6 +18,7 @@ class TalePage with _$TalePage {
     required TalePageMetadata metadata,
     @Default([]) List<TaleInteraction> interactions,
     @Default(false) bool isNew,
+    @Default(0) int toReRender,
   }) = _TalePage;
 
   factory TalePage.empty() => const TalePage(
@@ -50,6 +51,7 @@ class TalePage with _$TalePage {
     final json = toJson()
       ..remove('created_at')
       ..remove('is_new')
+      ..remove('to_re_render')
       ..remove('interactions');
 
     return json;

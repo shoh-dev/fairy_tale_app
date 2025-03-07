@@ -19,6 +19,7 @@ _$TalePageImpl _$$TalePageImplFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       isNew: json['is_new'] as bool? ?? false,
+      toReRender: (json['to_re_render'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$TalePageImplToJson(_$TalePageImpl instance) =>
@@ -30,4 +31,5 @@ Map<String, dynamic> _$$TalePageImplToJson(_$TalePageImpl instance) =>
       'metadata': instance.metadata,
       'interactions': instance.interactions,
       'is_new': instance.isNew,
+      'to_re_render': instance.toReRender,
     };

@@ -1,4 +1,9 @@
+import 'dart:developer';
+
+import 'package:fairy_tale_builder_platform/manager/redux.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
 class ImageSelectorComponent extends StatelessWidget {
@@ -10,7 +15,7 @@ class ImageSelectorComponent extends StatelessWidget {
   });
 
   final String imagePath;
-  final ValueChanged<void>? onImageSelected;
+  final ValueChanged<PlatformFile>? onImageSelected;
   final String title;
 
   @override
@@ -22,16 +27,38 @@ class ImageSelectorComponent extends StatelessWidget {
         Text(title, style: context.textTheme.bodyMedium),
         if (imagePath.isNotEmpty)
           Image.network(
-            imagePath,
+            '$imagePath?${DateTime.now().millisecondsSinceEpoch}',
             width: 200,
             height: 200,
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
           ),
         ButtonComponent.primary(
           onPressed: onImageSelected == null
               ? null
               : () async {
-                  //todo: implement image selection
+                  final picker = context
+                      .getDependency<DependencyInjection>()
+                      .filePickerService;
+
+                  final result = await picker.pickFile(FileType.image);
+
+                  result.when(
+                    ok: (file) {
+                      if (file == null) {
+                        return;
+                      }
+
+                      if (file.files.isEmpty) {
+                        return;
+                      }
+
+                      onImageSelected!(file.files.first);
+                    },
+                    error: (e) {
+                      //todo: show error
+                      log(e.toString());
+                    },
+                  );
                 },
           icon: Icons.image_rounded,
           text: imagePath.isEmpty ? 'Select Image' : 'Replace Image',

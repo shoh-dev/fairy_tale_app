@@ -84,8 +84,9 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                                   children: [
                                     if (page.metadata.hasBackgroundImage)
                                       Image.network(
-                                        page.metadata.backgroundImageUrl,
+                                        '${page.metadata.backgroundImageUrl}?${DateTime.now().millisecondsSinceEpoch}',
                                         fit: BoxFit.cover,
+                                        height: 300,
                                       )
                                     else
                                       Container(

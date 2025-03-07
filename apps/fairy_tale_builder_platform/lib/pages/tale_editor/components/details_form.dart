@@ -101,6 +101,11 @@ class TaleDetailsForm extends StatelessWidget {
             ImageSelectorComponent(
               title: 'Cover Image',
               imagePath: tale.coverImage,
+              onImageSelected: (value) {
+                dispatch(
+                  AddSelectedTaleCoverImageAction(value),
+                );
+              },
             ),
           ],
         );

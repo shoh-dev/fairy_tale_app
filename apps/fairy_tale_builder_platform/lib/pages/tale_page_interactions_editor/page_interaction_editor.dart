@@ -133,7 +133,7 @@ class _Body extends StatelessWidget {
                       child: Opacity(
                         opacity: .2,
                         child: Image.network(
-                          page.metadata.backgroundImageUrl,
+                          '${page.metadata.backgroundImageUrl}?${DateTime.now().millisecondsSinceEpoch}',
                           fit: BoxFit.cover,
                         ),
                       ),

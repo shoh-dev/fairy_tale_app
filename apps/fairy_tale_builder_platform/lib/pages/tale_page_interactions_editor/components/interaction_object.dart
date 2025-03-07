@@ -113,7 +113,9 @@ class _InteractionObjectComponentState
                   ],
                 ),
                 child: interaction.metadata.hasImage
-                    ? Image.network(interaction.metadata.imageUrl)
+                    ? Image.network(
+                        '${interaction.metadata.imageUrl}?${DateTime.now().millisecondsSinceEpoch}',
+                      )
                     : null,
               ),
             ),

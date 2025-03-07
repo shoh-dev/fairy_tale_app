@@ -12,6 +12,7 @@ abstract class AudioPlayerService {
 
   ResultFuture<void> playFromUrl(String url) async {
     try {
+      await stop();
       //returns the duration of the audio
       await _player.setUrl(url);
       final result = play();

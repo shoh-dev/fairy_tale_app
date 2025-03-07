@@ -287,14 +287,18 @@ class SaveSelectedTaleAction extends DefaultAction {
     dispatch(TaleAction(selectedTaleResult: const StateResult.loading()));
 
     //todo: handle result
-    final taleResult = await taleRepository.saveTale(selectedTale);
-    final localizationResult = await taleRepository.saveTaleLocalization(
+    // final taleResult =
+    await taleRepository.saveTale(selectedTale);
+    // final localizationResult =
+    await taleRepository.saveTaleLocalization(
       defaultLocale: selectedTale.localizations.defaultLocale,
       translations: selectedTale.localizations.translations,
       taleId: selectedTale.id,
     );
-    final pagesResult = await taleRepository.saveTalePages(selectedTale.pages);
-    final interactionsResult = await taleRepository.saveTaleInteractions(
+    // final pagesResult =
+    await taleRepository.saveTalePages(selectedTale.pages);
+    // final interactionsResult =
+    await taleRepository.saveTaleInteractions(
       selectedTale.pages.expand((e) => e.interactions).toList(),
     );
 

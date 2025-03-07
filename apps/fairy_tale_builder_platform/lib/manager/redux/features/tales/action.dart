@@ -27,9 +27,6 @@ class GetTaleListAction extends DefaultAction {
   Future<AppState?> reduce() async {
     dispatch(_Action(taleListResult: const StateResult.loading()));
     final tales = await taleRepository.getAllTales();
-    // ignored for now while development
-    // ignore: inference_failure_on_instance_creation
-    await Future.delayed(const Duration(seconds: 1));
     tales.when(
       ok: (data) => dispatch(
         _Action(taleListResult: const StateResult.ok(), taleList: data),
