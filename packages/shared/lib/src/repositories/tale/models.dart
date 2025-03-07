@@ -6,3 +6,4 @@ export 'models/tale_interaction_size.dart';
 export 'models/tale_localization.dart';
 export 'models/tale_page.dart';
 export 'models/tale_page_metadata.dart';
+export 'models/tale_metadata.dart';

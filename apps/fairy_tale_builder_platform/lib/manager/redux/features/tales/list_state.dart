@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
 
-part 'state.freezed.dart';
+part 'list_state.freezed.dart';
 
 @freezed
 class TaleListState with _$TaleListState {

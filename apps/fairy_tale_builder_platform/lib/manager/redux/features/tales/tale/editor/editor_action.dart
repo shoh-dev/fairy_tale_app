@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:flutter/foundation.dart';

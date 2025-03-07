@@ -13,7 +13,7 @@ class Tale with _$Tale {
     required String id,
     required String title,
     required String description,
-    required String coverImage,
+    @Default(TaleMetadata()) TaleMetadata metadata,
     @Default(TaleLocalization.empty) TaleLocalization localizations,
     @Default([]) List<TalePage> pages,
     @Default('portrait') String orientation,
@@ -22,16 +22,18 @@ class Tale with _$Tale {
 
   factory Tale.fromJson(Map<String, dynamic> json) => _$TaleFromJson(json);
 
-  Map<dynamic, dynamic> saveToJson() => toJson()
-    ..remove('localizations')
-    ..remove('to_re_render')
-    ..remove('pages');
+  Map<dynamic, dynamic> saveToJson() {
+    print('metadata: ${metadata.toJson()}');
+    return toJson()
+      ..remove('localizations')
+      ..remove('to_re_render')
+      ..remove('pages');
+  }
 
   factory Tale.empty(String id) => Tale(
         id: id,
         title: '',
         description: '',
-        coverImage: '',
         localizations: TaleLocalization.empty.copyWith(taleId: id),
       );
 
@@ -44,12 +46,13 @@ class Tale with _$Tale {
       id: id,
       title: title,
       description: description,
-      coverImage: '',
       localizations: TaleLocalization.empty.copyWith(taleId: id),
     );
   }
 
   bool get isPortrait => orientation == 'portrait';
+
+  String get coverImage => metadata.coverImageUrl;
 
   //updatePageMethod
   Tale updatePage(TalePage page) {

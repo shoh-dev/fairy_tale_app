@@ -31,7 +31,7 @@ class TaleRepositoryImpl implements TaleRepository {
     try {
       final response = await _supabase
           .from('tales')
-          .select('id, title, description, cover_image')
+          .select('id, title, description, metadata')
           .order('created_at');
 
       return Result.ok(response.map(Tale.fromJson).toList());
@@ -78,6 +78,7 @@ class TaleRepositoryImpl implements TaleRepository {
   @override
   ResultFuture<void> saveTale(Tale tale) async {
     try {
+      print('tale.saveToJson(): ${tale.saveToJson()}');
       await _supabase.from('tales').upsert(tale.saveToJson());
       return const Result.ok(null);
     } catch (e) {
@@ -92,11 +93,8 @@ class TaleRepositoryImpl implements TaleRepository {
           .from('pages')
           .upsert(pages.map((e) => e.saveToJson()).toList());
 
-      print(pages.map((e) => e.saveToJson()));
-
       return const Result.ok(null);
     } catch (e) {
-      print(e);
       return Result.error(ErrorX(e));
     }
   }

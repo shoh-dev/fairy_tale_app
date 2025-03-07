@@ -20,6 +20,7 @@ class ImageSelectorComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('imagePath: $imagePath');
     return Column(
       spacing: 8,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,6 +32,9 @@ class ImageSelectorComponent extends StatelessWidget {
             width: 200,
             height: 200,
             fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return const Placeholder();
+            },
           ),
         ButtonComponent.primary(
           onPressed: onImageSelected == null

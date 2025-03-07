@@ -1,5 +1,5 @@
-export 'app/localization/state.dart';
-export 'tales/action.dart';
-export 'tales/state.dart';
-export 'tales/tale/action.dart';
-export 'tales/tale/state.dart';
+export 'app/localization/localization_state.dart';
+export 'tales/list_action.dart';
+export 'tales/list_state.dart';
+export 'tales/tale/tale_action.dart';
+export 'tales/tale/tale_state.dart';

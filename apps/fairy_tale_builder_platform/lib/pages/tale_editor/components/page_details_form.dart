@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/editor_action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';

@@ -10,7 +10,9 @@ _$TaleImpl _$$TaleImplFromJson(Map<String, dynamic> json) => _$TaleImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
-      coverImage: json['cover_image'] as String,
+      metadata: json['metadata'] == null
+          ? const TaleMetadata()
+          : TaleMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
       localizations: json['localizations'] == null
           ? TaleLocalization.empty
           : TaleLocalization.fromJson(
@@ -28,7 +30,7 @@ Map<String, dynamic> _$$TaleImplToJson(_$TaleImpl instance) =>
       'id': instance.id,
       'title': instance.title,
       'description': instance.description,
-      'cover_image': instance.coverImage,
+      'metadata': instance.metadata,
       'localizations': instance.localizations,
       'pages': instance.pages,
       'orientation': instance.orientation,

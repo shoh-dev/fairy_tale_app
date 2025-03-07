@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/editor_action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:file_picker/file_picker.dart';
@@ -155,7 +155,9 @@ class AddSelectedTaleCoverImageAction extends DefaultAction {
         dispatch(
           UpdateSelectedTaleAction(
             tale.copyWith(
-              coverImage: url,
+              metadata: tale.metadata.copyWith(
+                coverImageUrl: url,
+              ),
               toReRender: tale.toReRender + 1,
             ),
           ),

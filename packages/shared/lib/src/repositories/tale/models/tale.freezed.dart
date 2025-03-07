@@ -23,7 +23,7 @@ mixin _$Tale {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  String get coverImage => throw _privateConstructorUsedError;
+  TaleMetadata get metadata => throw _privateConstructorUsedError;
   TaleLocalization get localizations => throw _privateConstructorUsedError;
   List<TalePage> get pages => throw _privateConstructorUsedError;
   String get orientation => throw _privateConstructorUsedError;
@@ -47,12 +47,13 @@ abstract class $TaleCopyWith<$Res> {
       {String id,
       String title,
       String description,
-      String coverImage,
+      TaleMetadata metadata,
       TaleLocalization localizations,
       List<TalePage> pages,
       String orientation,
       int toReRender});
 
+  $TaleMetadataCopyWith<$Res> get metadata;
   $TaleLocalizationCopyWith<$Res> get localizations;
 }
 
@@ -74,7 +75,7 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
     Object? id = null,
     Object? title = null,
     Object? description = null,
-    Object? coverImage = null,
+    Object? metadata = null,
     Object? localizations = null,
     Object? pages = null,
     Object? orientation = null,
@@ -93,10 +94,10 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      coverImage: null == coverImage
-          ? _value.coverImage
-          : coverImage // ignore: cast_nullable_to_non_nullable
-              as String,
+      metadata: null == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as TaleMetadata,
       localizations: null == localizations
           ? _value.localizations
           : localizations // ignore: cast_nullable_to_non_nullable
@@ -114,6 +115,16 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
           : toReRender // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
+  }
+
+  /// Create a copy of Tale
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TaleMetadataCopyWith<$Res> get metadata {
+    return $TaleMetadataCopyWith<$Res>(_value.metadata, (value) {
+      return _then(_value.copyWith(metadata: value) as $Val);
+    });
   }
 
   /// Create a copy of Tale
@@ -138,12 +149,14 @@ abstract class _$$TaleImplCopyWith<$Res> implements $TaleCopyWith<$Res> {
       {String id,
       String title,
       String description,
-      String coverImage,
+      TaleMetadata metadata,
       TaleLocalization localizations,
       List<TalePage> pages,
       String orientation,
       int toReRender});
 
+  @override
+  $TaleMetadataCopyWith<$Res> get metadata;
   @override
   $TaleLocalizationCopyWith<$Res> get localizations;
 }
@@ -163,7 +176,7 @@ class __$$TaleImplCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? description = null,
-    Object? coverImage = null,
+    Object? metadata = null,
     Object? localizations = null,
     Object? pages = null,
     Object? orientation = null,
@@ -182,10 +195,10 @@ class __$$TaleImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      coverImage: null == coverImage
-          ? _value.coverImage
-          : coverImage // ignore: cast_nullable_to_non_nullable
-              as String,
+      metadata: null == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as TaleMetadata,
       localizations: null == localizations
           ? _value.localizations
           : localizations // ignore: cast_nullable_to_non_nullable
@@ -214,7 +227,7 @@ class _$TaleImpl extends _Tale {
       {required this.id,
       required this.title,
       required this.description,
-      required this.coverImage,
+      this.metadata = const TaleMetadata(),
       this.localizations = TaleLocalization.empty,
       final List<TalePage> pages = const [],
       this.orientation = 'portrait',
@@ -232,7 +245,8 @@ class _$TaleImpl extends _Tale {
   @override
   final String description;
   @override
-  final String coverImage;
+  @JsonKey()
+  final TaleMetadata metadata;
   @override
   @JsonKey()
   final TaleLocalization localizations;
@@ -254,7 +268,7 @@ class _$TaleImpl extends _Tale {
 
   @override
   String toString() {
-    return 'Tale(id: $id, title: $title, description: $description, coverImage: $coverImage, localizations: $localizations, pages: $pages, orientation: $orientation, toReRender: $toReRender)';
+    return 'Tale(id: $id, title: $title, description: $description, metadata: $metadata, localizations: $localizations, pages: $pages, orientation: $orientation, toReRender: $toReRender)';
   }
 
   @override
@@ -266,8 +280,8 @@ class _$TaleImpl extends _Tale {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.coverImage, coverImage) ||
-                other.coverImage == coverImage) &&
+            (identical(other.metadata, metadata) ||
+                other.metadata == metadata) &&
             (identical(other.localizations, localizations) ||
                 other.localizations == localizations) &&
             const DeepCollectionEquality().equals(other._pages, _pages) &&
@@ -284,7 +298,7 @@ class _$TaleImpl extends _Tale {
       id,
       title,
       description,
-      coverImage,
+      metadata,
       localizations,
       const DeepCollectionEquality().hash(_pages),
       orientation,
@@ -311,7 +325,7 @@ abstract class _Tale extends Tale {
       {required final String id,
       required final String title,
       required final String description,
-      required final String coverImage,
+      final TaleMetadata metadata,
       final TaleLocalization localizations,
       final List<TalePage> pages,
       final String orientation,
@@ -327,7 +341,7 @@ abstract class _Tale extends Tale {
   @override
   String get description;
   @override
-  String get coverImage;
+  TaleMetadata get metadata;
   @override
   TaleLocalization get localizations;
   @override

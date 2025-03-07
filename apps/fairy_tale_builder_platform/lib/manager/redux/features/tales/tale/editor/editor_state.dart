@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:shared/shared.dart';
 
-part 'state.freezed.dart';
+part 'editor_state.freezed.dart';
 
 @freezed
 class TaleEditorState with _$TaleEditorState {
