@@ -14,23 +14,18 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-TalePage _$TalePageFromJson(Map<String, dynamic> json) {
-  return _TalePage.fromJson(json);
-}
-
 /// @nodoc
 mixin _$TalePage {
   String get id => throw _privateConstructorUsedError;
   String get taleId => throw _privateConstructorUsedError;
+
+  ///for now not using this property
   int get pageNumber => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   TalePageMetadata get metadata => throw _privateConstructorUsedError;
   List<TaleInteraction> get interactions => throw _privateConstructorUsedError;
   bool get isNew => throw _privateConstructorUsedError;
   int get toReRender => throw _privateConstructorUsedError;
-
-  /// Serializes this TalePage to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of TalePage
   /// with the given fields replaced by the non-null parameter values.
@@ -211,32 +206,33 @@ class __$$TalePageImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(fieldRename: FieldRename.snake)
 class _$TalePageImpl extends _TalePage {
   const _$TalePageImpl(
       {required this.id,
       required this.taleId,
-      required this.pageNumber,
-      required this.text,
-      required this.metadata,
+      this.pageNumber = -1,
+      this.text = '',
+      this.metadata = TalePageMetadata.empty,
       final List<TaleInteraction> interactions = const [],
       this.isNew = false,
       this.toReRender = 0})
       : _interactions = interactions,
         super._();
 
-  factory _$TalePageImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TalePageImplFromJson(json);
-
   @override
   final String id;
   @override
   final String taleId;
+
+  ///for now not using this property
   @override
+  @JsonKey()
   final int pageNumber;
   @override
+  @JsonKey()
   final String text;
   @override
+  @JsonKey()
   final TalePageMetadata metadata;
   final List<TaleInteraction> _interactions;
   @override
@@ -278,7 +274,6 @@ class _$TalePageImpl extends _TalePage {
                 other.toReRender == toReRender));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -298,34 +293,26 @@ class _$TalePageImpl extends _TalePage {
   @pragma('vm:prefer-inline')
   _$$TalePageImplCopyWith<_$TalePageImpl> get copyWith =>
       __$$TalePageImplCopyWithImpl<_$TalePageImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TalePageImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _TalePage extends TalePage {
   const factory _TalePage(
       {required final String id,
       required final String taleId,
-      required final int pageNumber,
-      required final String text,
-      required final TalePageMetadata metadata,
+      final int pageNumber,
+      final String text,
+      final TalePageMetadata metadata,
       final List<TaleInteraction> interactions,
       final bool isNew,
       final int toReRender}) = _$TalePageImpl;
   const _TalePage._() : super._();
 
-  factory _TalePage.fromJson(Map<String, dynamic> json) =
-      _$TalePageImpl.fromJson;
-
   @override
   String get id;
   @override
   String get taleId;
+
+  ///for now not using this property
   @override
   int get pageNumber;
   @override

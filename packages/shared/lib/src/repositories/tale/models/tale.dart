@@ -53,6 +53,13 @@ class Tale with _$Tale {
           description: json['description'] as String,
         );
       }
+      if (json['pages'] != null) {
+        model = model.copyWith(
+          pages: (json['pages'] as List)
+              .map((e) => TalePage.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        );
+      }
 
       return model;
     } catch (e, st) {

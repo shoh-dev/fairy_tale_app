@@ -22,7 +22,7 @@ class SelectEditorTalePageAction extends DefaultAction {
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
           editorState: editorState.copyWith(
-            selectedTalePage: page ?? TalePage.empty(),
+            selectedTalePage: page ?? TalePage.empty(id: '', taleId: ''),
             isTalePageEdited: page != null,
           ),
         ),
@@ -179,7 +179,8 @@ class SelectInteractionAction extends DefaultAction {
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
           editorState: editorState.copyWith(
-            selectedInteraction: interaction ?? TaleInteraction.empty(),
+            selectedInteraction:
+                interaction ?? TaleInteraction.empty(id: '', talePageId: ''),
           ),
         ),
       ),

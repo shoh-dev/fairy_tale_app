@@ -16,8 +16,9 @@ class TaleEditorState with _$TaleEditorState {
 
   factory TaleEditorState.initial() {
     return TaleEditorState(
-      selectedTalePage: TalePage.empty(),
-      selectedInteraction: TaleInteraction.empty(),
+      selectedTalePage: TalePage.empty(id: '', taleId: ''),
+      selectedInteraction:
+          TaleInteraction.empty(id: '', talePageId: ''), //todo: handle
       isTalePageEdited: false,
       isInteractionEdited: false,
     );
