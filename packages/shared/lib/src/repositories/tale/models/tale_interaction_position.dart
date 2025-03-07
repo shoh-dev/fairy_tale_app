@@ -1,14 +1,13 @@
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:myspace_data/myspace_data.dart';
 
 part 'tale_interaction_position.freezed.dart';
-part 'tale_interaction_position.g.dart';
 
 @freezed
 class TaleInteractionPosition with _$TaleInteractionPosition {
   const TaleInteractionPosition._();
 
-  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TaleInteractionPosition(
     num x,
     num y,
@@ -18,8 +17,33 @@ class TaleInteractionPosition with _$TaleInteractionPosition {
   static const TaleInteractionPosition zero = TaleInteractionPosition(0, 0);
 
   // factory methods
-  factory TaleInteractionPosition.fromJson(Map<String, dynamic> json) =>
-      _$TaleInteractionPositionFromJson(json);
+  factory TaleInteractionPosition.fromJson(Map<String, dynamic> json) {
+    try {
+      var model = zero;
+
+      if (json['x'] != null) {
+        model = model.copyWith(
+          x: json['x'] as num,
+        );
+      }
+      if (json['y'] != null) {
+        model = model.copyWith(
+          y: json['y'] as num,
+        );
+      }
+
+      return model;
+    } catch (e, st) {
+      Log().error('TaleInteractionPosition.fromJson', e, st);
+      rethrow;
+    }
+  }
+
+  Map<String, dynamic> toJson() => {
+        'x': x,
+        'y': y,
+      };
+
   factory TaleInteractionPosition.fromOffset(Offset offset) =>
       TaleInteractionPosition(offset.dx, offset.dy);
 

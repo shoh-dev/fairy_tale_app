@@ -16,6 +16,8 @@ class TaleMetadata with _$TaleMetadata {
   factory TaleMetadata.fromJson(Map<String, dynamic> json) =>
       _$TaleMetadataFromJson(json);
 
+  static const TaleMetadata empty = TaleMetadata();
+
   bool get hasBackgroundAudio => backgroundAudioUrl.isNotEmpty;
   bool get hasCoverImage => coverImageUrl.isNotEmpty;
 }

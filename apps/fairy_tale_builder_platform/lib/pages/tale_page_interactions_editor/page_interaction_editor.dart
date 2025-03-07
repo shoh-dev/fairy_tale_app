@@ -42,11 +42,7 @@ class TalePageInteractionsEditor extends StatelessWidget {
                       hasLabel: false,
                       orientation: model.orientation,
                       onChanged: (value) {
-                        dispatch(
-                          UpdateSelectedTaleAction(
-                            model.updateOrientation(value),
-                          ),
-                        );
+                        dispatch(UpdateTaleAction(orientation: value));
                       },
                     ),
                   ),

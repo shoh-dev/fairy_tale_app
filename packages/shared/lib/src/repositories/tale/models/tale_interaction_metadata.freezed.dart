@@ -14,28 +14,17 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-TaleInteractionMetadata _$TaleInteractionMetadataFromJson(
-    Map<String, dynamic> json) {
-  return _TaleInteractionMetadata.fromJson(json);
-}
-
 /// @nodoc
 mixin _$TaleInteractionMetadata {
   TaleInteractionSize get size => throw _privateConstructorUsedError;
-  @JsonKey(name: 'initial_pos')
   TaleInteractionPosition get initialPosition =>
       throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   String get audioUrl => throw _privateConstructorUsedError;
-  @JsonKey(name: 'final_pos')
   TaleInteractionPosition? get finalPosition =>
       throw _privateConstructorUsedError;
-  @JsonKey(includeFromJson: false)
   TaleInteractionPosition get currentPosition =>
       throw _privateConstructorUsedError;
-
-  /// Serializes this TaleInteractionMetadata to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleInteractionMetadata
   /// with the given fields replaced by the non-null parameter values.
@@ -52,11 +41,10 @@ abstract class $TaleInteractionMetadataCopyWith<$Res> {
   @useResult
   $Res call(
       {TaleInteractionSize size,
-      @JsonKey(name: 'initial_pos') TaleInteractionPosition initialPosition,
+      TaleInteractionPosition initialPosition,
       String imageUrl,
       String audioUrl,
-      @JsonKey(name: 'final_pos') TaleInteractionPosition? finalPosition,
-      @JsonKey(includeFromJson: false)
+      TaleInteractionPosition? finalPosition,
       TaleInteractionPosition currentPosition});
 
   $TaleInteractionSizeCopyWith<$Res> get size;
@@ -175,11 +163,10 @@ abstract class _$$TaleInteractionMetadataImplCopyWith<$Res>
   @useResult
   $Res call(
       {TaleInteractionSize size,
-      @JsonKey(name: 'initial_pos') TaleInteractionPosition initialPosition,
+      TaleInteractionPosition initialPosition,
       String imageUrl,
       String audioUrl,
-      @JsonKey(name: 'final_pos') TaleInteractionPosition? finalPosition,
-      @JsonKey(includeFromJson: false)
+      TaleInteractionPosition? finalPosition,
       TaleInteractionPosition currentPosition});
 
   @override
@@ -245,27 +232,21 @@ class __$$TaleInteractionMetadataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(fieldRename: FieldRename.snake)
 class _$TaleInteractionMetadataImpl extends _TaleInteractionMetadata {
   const _$TaleInteractionMetadataImpl(
       {this.size = const TaleInteractionSize(40, 40),
-      @JsonKey(name: 'initial_pos')
       this.initialPosition = TaleInteractionPosition.zero,
       this.imageUrl = '',
       this.audioUrl = '',
-      @JsonKey(name: 'final_pos') this.finalPosition,
-      @JsonKey(includeFromJson: false)
+      this.finalPosition,
       this.currentPosition = TaleInteractionPosition.zero})
       : super._();
-
-  factory _$TaleInteractionMetadataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TaleInteractionMetadataImplFromJson(json);
 
   @override
   @JsonKey()
   final TaleInteractionSize size;
   @override
-  @JsonKey(name: 'initial_pos')
+  @JsonKey()
   final TaleInteractionPosition initialPosition;
   @override
   @JsonKey()
@@ -274,10 +255,9 @@ class _$TaleInteractionMetadataImpl extends _TaleInteractionMetadata {
   @JsonKey()
   final String audioUrl;
   @override
-  @JsonKey(name: 'final_pos')
   final TaleInteractionPosition? finalPosition;
   @override
-  @JsonKey(includeFromJson: false)
+  @JsonKey()
   final TaleInteractionPosition currentPosition;
 
   @override
@@ -303,7 +283,6 @@ class _$TaleInteractionMetadataImpl extends _TaleInteractionMetadata {
                 other.currentPosition == currentPosition));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, size, initialPosition, imageUrl,
       audioUrl, finalPosition, currentPosition);
@@ -316,45 +295,30 @@ class _$TaleInteractionMetadataImpl extends _TaleInteractionMetadata {
   _$$TaleInteractionMetadataImplCopyWith<_$TaleInteractionMetadataImpl>
       get copyWith => __$$TaleInteractionMetadataImplCopyWithImpl<
           _$TaleInteractionMetadataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TaleInteractionMetadataImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _TaleInteractionMetadata extends TaleInteractionMetadata {
   const factory _TaleInteractionMetadata(
-      {final TaleInteractionSize size,
-      @JsonKey(name: 'initial_pos')
-      final TaleInteractionPosition initialPosition,
-      final String imageUrl,
-      final String audioUrl,
-      @JsonKey(name: 'final_pos') final TaleInteractionPosition? finalPosition,
-      @JsonKey(includeFromJson: false)
-      final TaleInteractionPosition
-          currentPosition}) = _$TaleInteractionMetadataImpl;
+          {final TaleInteractionSize size,
+          final TaleInteractionPosition initialPosition,
+          final String imageUrl,
+          final String audioUrl,
+          final TaleInteractionPosition? finalPosition,
+          final TaleInteractionPosition currentPosition}) =
+      _$TaleInteractionMetadataImpl;
   const _TaleInteractionMetadata._() : super._();
-
-  factory _TaleInteractionMetadata.fromJson(Map<String, dynamic> json) =
-      _$TaleInteractionMetadataImpl.fromJson;
 
   @override
   TaleInteractionSize get size;
   @override
-  @JsonKey(name: 'initial_pos')
   TaleInteractionPosition get initialPosition;
   @override
   String get imageUrl;
   @override
   String get audioUrl;
   @override
-  @JsonKey(name: 'final_pos')
   TaleInteractionPosition? get finalPosition;
   @override
-  @JsonKey(includeFromJson: false)
   TaleInteractionPosition get currentPosition;
 
   /// Create a copy of TaleInteractionMetadata

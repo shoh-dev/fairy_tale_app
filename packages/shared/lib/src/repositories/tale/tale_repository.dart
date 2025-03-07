@@ -78,7 +78,7 @@ class TaleRepositoryImpl implements TaleRepository {
   @override
   ResultFuture<void> saveTale(Tale tale) async {
     try {
-      await _supabase.from('tales').upsert(tale.saveToJson());
+      await _supabase.from('tales').upsert(tale.toJson());
       return const Result.ok(null);
     } catch (e) {
       return Result.error(ErrorX(e));
@@ -104,7 +104,7 @@ class TaleRepositoryImpl implements TaleRepository {
   ) async {
     try {
       await _supabase.from('interactions').upsert(
-            ineractions.map((e) => e.saveToJson()).toList(),
+            ineractions.map((e) => e.toJson()).toList(),
           );
 
       return const Result.ok(null);

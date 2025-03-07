@@ -14,28 +14,19 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-TaleInteraction _$TaleInteractionFromJson(Map<String, dynamic> json) {
-  return _TaleInteraction.fromJson(json);
-}
-
 /// @nodoc
 mixin _$TaleInteraction {
   String get id => throw _privateConstructorUsedError;
   String get talePageId => throw _privateConstructorUsedError;
+  TaleInteractionMetadata get metadata => throw _privateConstructorUsedError;
+  String get action => throw _privateConstructorUsedError;
   String get eventType => throw _privateConstructorUsedError;
   String get eventSubtype => throw _privateConstructorUsedError;
   int get animationDuration => throw _privateConstructorUsedError;
-  TaleInteractionMetadata get metadata => throw _privateConstructorUsedError;
-  String get action => throw _privateConstructorUsedError;
-  String? get hintKey => throw _privateConstructorUsedError;
-  @JsonKey(includeFromJson: false)
+  String get hintKey => throw _privateConstructorUsedError;
   bool get isUsed => throw _privateConstructorUsedError;
-  @JsonKey(includeFromJson: false)
   bool get isNew => throw _privateConstructorUsedError;
   int get toReRender => throw _privateConstructorUsedError;
-
-  /// Serializes this TaleInteraction to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleInteraction
   /// with the given fields replaced by the non-null parameter values.
@@ -53,14 +44,14 @@ abstract class $TaleInteractionCopyWith<$Res> {
   $Res call(
       {String id,
       String talePageId,
+      TaleInteractionMetadata metadata,
+      String action,
       String eventType,
       String eventSubtype,
       int animationDuration,
-      TaleInteractionMetadata metadata,
-      String action,
-      String? hintKey,
-      @JsonKey(includeFromJson: false) bool isUsed,
-      @JsonKey(includeFromJson: false) bool isNew,
+      String hintKey,
+      bool isUsed,
+      bool isNew,
       int toReRender});
 
   $TaleInteractionMetadataCopyWith<$Res> get metadata;
@@ -83,12 +74,12 @@ class _$TaleInteractionCopyWithImpl<$Res, $Val extends TaleInteraction>
   $Res call({
     Object? id = null,
     Object? talePageId = null,
+    Object? metadata = null,
+    Object? action = null,
     Object? eventType = null,
     Object? eventSubtype = null,
     Object? animationDuration = null,
-    Object? metadata = null,
-    Object? action = null,
-    Object? hintKey = freezed,
+    Object? hintKey = null,
     Object? isUsed = null,
     Object? isNew = null,
     Object? toReRender = null,
@@ -102,6 +93,14 @@ class _$TaleInteractionCopyWithImpl<$Res, $Val extends TaleInteraction>
           ? _value.talePageId
           : talePageId // ignore: cast_nullable_to_non_nullable
               as String,
+      metadata: null == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as TaleInteractionMetadata,
+      action: null == action
+          ? _value.action
+          : action // ignore: cast_nullable_to_non_nullable
+              as String,
       eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
@@ -114,18 +113,10 @@ class _$TaleInteractionCopyWithImpl<$Res, $Val extends TaleInteraction>
           ? _value.animationDuration
           : animationDuration // ignore: cast_nullable_to_non_nullable
               as int,
-      metadata: null == metadata
-          ? _value.metadata
-          : metadata // ignore: cast_nullable_to_non_nullable
-              as TaleInteractionMetadata,
-      action: null == action
-          ? _value.action
-          : action // ignore: cast_nullable_to_non_nullable
-              as String,
-      hintKey: freezed == hintKey
+      hintKey: null == hintKey
           ? _value.hintKey
           : hintKey // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       isUsed: null == isUsed
           ? _value.isUsed
           : isUsed // ignore: cast_nullable_to_non_nullable
@@ -163,14 +154,14 @@ abstract class _$$TaleInteractionImplCopyWith<$Res>
   $Res call(
       {String id,
       String talePageId,
+      TaleInteractionMetadata metadata,
+      String action,
       String eventType,
       String eventSubtype,
       int animationDuration,
-      TaleInteractionMetadata metadata,
-      String action,
-      String? hintKey,
-      @JsonKey(includeFromJson: false) bool isUsed,
-      @JsonKey(includeFromJson: false) bool isNew,
+      String hintKey,
+      bool isUsed,
+      bool isNew,
       int toReRender});
 
   @override
@@ -192,12 +183,12 @@ class __$$TaleInteractionImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? talePageId = null,
+    Object? metadata = null,
+    Object? action = null,
     Object? eventType = null,
     Object? eventSubtype = null,
     Object? animationDuration = null,
-    Object? metadata = null,
-    Object? action = null,
-    Object? hintKey = freezed,
+    Object? hintKey = null,
     Object? isUsed = null,
     Object? isNew = null,
     Object? toReRender = null,
@@ -211,6 +202,14 @@ class __$$TaleInteractionImplCopyWithImpl<$Res>
           ? _value.talePageId
           : talePageId // ignore: cast_nullable_to_non_nullable
               as String,
+      metadata: null == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as TaleInteractionMetadata,
+      action: null == action
+          ? _value.action
+          : action // ignore: cast_nullable_to_non_nullable
+              as String,
       eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
@@ -223,18 +222,10 @@ class __$$TaleInteractionImplCopyWithImpl<$Res>
           ? _value.animationDuration
           : animationDuration // ignore: cast_nullable_to_non_nullable
               as int,
-      metadata: null == metadata
-          ? _value.metadata
-          : metadata // ignore: cast_nullable_to_non_nullable
-              as TaleInteractionMetadata,
-      action: null == action
-          ? _value.action
-          : action // ignore: cast_nullable_to_non_nullable
-              as String,
-      hintKey: freezed == hintKey
+      hintKey: null == hintKey
           ? _value.hintKey
           : hintKey // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       isUsed: null == isUsed
           ? _value.isUsed
           : isUsed // ignore: cast_nullable_to_non_nullable
@@ -253,46 +244,47 @@ class __$$TaleInteractionImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(fieldRename: FieldRename.snake)
 class _$TaleInteractionImpl extends _TaleInteraction {
   const _$TaleInteractionImpl(
       {required this.id,
       required this.talePageId,
-      required this.eventType,
-      required this.eventSubtype,
-      required this.animationDuration,
       required this.metadata,
-      required this.action,
-      this.hintKey,
-      @JsonKey(includeFromJson: false) this.isUsed = false,
-      @JsonKey(includeFromJson: false) this.isNew = false,
+      this.action = '',
+      this.eventType = '',
+      this.eventSubtype = '',
+      this.animationDuration = 500,
+      this.hintKey = '',
+      this.isUsed = false,
+      this.isNew = false,
       this.toReRender = 0})
       : super._();
-
-  factory _$TaleInteractionImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TaleInteractionImplFromJson(json);
 
   @override
   final String id;
   @override
   final String talePageId;
   @override
-  final String eventType;
-  @override
-  final String eventSubtype;
-  @override
-  final int animationDuration;
-  @override
   final TaleInteractionMetadata metadata;
   @override
+  @JsonKey()
   final String action;
   @override
-  final String? hintKey;
+  @JsonKey()
+  final String eventType;
   @override
-  @JsonKey(includeFromJson: false)
+  @JsonKey()
+  final String eventSubtype;
+  @override
+  @JsonKey()
+  final int animationDuration;
+  @override
+  @JsonKey()
+  final String hintKey;
+  @override
+  @JsonKey()
   final bool isUsed;
   @override
-  @JsonKey(includeFromJson: false)
+  @JsonKey()
   final bool isNew;
   @override
   @JsonKey()
@@ -300,7 +292,7 @@ class _$TaleInteractionImpl extends _TaleInteraction {
 
   @override
   String toString() {
-    return 'TaleInteraction(id: $id, talePageId: $talePageId, eventType: $eventType, eventSubtype: $eventSubtype, animationDuration: $animationDuration, metadata: $metadata, action: $action, hintKey: $hintKey, isUsed: $isUsed, isNew: $isNew, toReRender: $toReRender)';
+    return 'TaleInteraction(id: $id, talePageId: $talePageId, metadata: $metadata, action: $action, eventType: $eventType, eventSubtype: $eventSubtype, animationDuration: $animationDuration, hintKey: $hintKey, isUsed: $isUsed, isNew: $isNew, toReRender: $toReRender)';
   }
 
   @override
@@ -311,15 +303,15 @@ class _$TaleInteractionImpl extends _TaleInteraction {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.talePageId, talePageId) ||
                 other.talePageId == talePageId) &&
+            (identical(other.metadata, metadata) ||
+                other.metadata == metadata) &&
+            (identical(other.action, action) || other.action == action) &&
             (identical(other.eventType, eventType) ||
                 other.eventType == eventType) &&
             (identical(other.eventSubtype, eventSubtype) ||
                 other.eventSubtype == eventSubtype) &&
             (identical(other.animationDuration, animationDuration) ||
                 other.animationDuration == animationDuration) &&
-            (identical(other.metadata, metadata) ||
-                other.metadata == metadata) &&
-            (identical(other.action, action) || other.action == action) &&
             (identical(other.hintKey, hintKey) || other.hintKey == hintKey) &&
             (identical(other.isUsed, isUsed) || other.isUsed == isUsed) &&
             (identical(other.isNew, isNew) || other.isNew == isNew) &&
@@ -327,17 +319,16 @@ class _$TaleInteractionImpl extends _TaleInteraction {
                 other.toReRender == toReRender));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       id,
       talePageId,
+      metadata,
+      action,
       eventType,
       eventSubtype,
       animationDuration,
-      metadata,
-      action,
       hintKey,
       isUsed,
       isNew,
@@ -351,37 +342,31 @@ class _$TaleInteractionImpl extends _TaleInteraction {
   _$$TaleInteractionImplCopyWith<_$TaleInteractionImpl> get copyWith =>
       __$$TaleInteractionImplCopyWithImpl<_$TaleInteractionImpl>(
           this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TaleInteractionImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _TaleInteraction extends TaleInteraction {
   const factory _TaleInteraction(
       {required final String id,
       required final String talePageId,
-      required final String eventType,
-      required final String eventSubtype,
-      required final int animationDuration,
       required final TaleInteractionMetadata metadata,
-      required final String action,
-      final String? hintKey,
-      @JsonKey(includeFromJson: false) final bool isUsed,
-      @JsonKey(includeFromJson: false) final bool isNew,
+      final String action,
+      final String eventType,
+      final String eventSubtype,
+      final int animationDuration,
+      final String hintKey,
+      final bool isUsed,
+      final bool isNew,
       final int toReRender}) = _$TaleInteractionImpl;
   const _TaleInteraction._() : super._();
-
-  factory _TaleInteraction.fromJson(Map<String, dynamic> json) =
-      _$TaleInteractionImpl.fromJson;
 
   @override
   String get id;
   @override
   String get talePageId;
+  @override
+  TaleInteractionMetadata get metadata;
+  @override
+  String get action;
   @override
   String get eventType;
   @override
@@ -389,16 +374,10 @@ abstract class _TaleInteraction extends TaleInteraction {
   @override
   int get animationDuration;
   @override
-  TaleInteractionMetadata get metadata;
+  String get hintKey;
   @override
-  String get action;
-  @override
-  String? get hintKey;
-  @override
-  @JsonKey(includeFromJson: false)
   bool get isUsed;
   @override
-  @JsonKey(includeFromJson: false)
   bool get isNew;
   @override
   int get toReRender;
