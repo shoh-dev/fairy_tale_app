@@ -50,16 +50,16 @@ class _BodyState extends State<_Body> {
           ]);
         },
         onDidChange: (dispatch, state, model) {
-          // final localization =
-          //     state.taleListState.taleState.selectedTale.localizations;
-          // stateManager
-          // ..removeAllRows()
-          // ..appendRows([
-          //   for (final entry
-          //       in localization.translations[leftLocale.value]?.entries ??
-          //           <MapEntry<String, String>>[])
-          //     fromEntry(entry),
-          // ]);
+          final localization =
+              state.taleListState.taleState.selectedTale.localizations;
+          stateManager
+            ..removeAllRows()
+            ..appendRows([
+              for (final entry
+                  in localization.translations[leftLocale.value]?.entries ??
+                      <MapEntry<String, String>>[])
+                fromEntry(entry),
+            ]);
         },
         builder: (context, dispatch, state) {
           return header(
@@ -282,9 +282,28 @@ class _BodyState extends State<_Body> {
                     child: DropdownComponent<String>(
                       // hintText: locale,
                       initialValue: DropdownItem(value: locale, label: locale),
-                      onChanged: (value) {
+                      onChanged: (value) async {
                         if (value?.value == 'add') {
-                          //todo:
+                          final newLocale = await _showAddLocaleDialog(context);
+                          if (newLocale != null) {
+                            final rows = stateManager.rows;
+                            final keys = rows.map<String>(
+                              (e) =>
+                                  "${newLocale.toUpperCase()}_${e.cells['key']!.value}",
+                            );
+                            final values = rows.map<String>(
+                              (e) =>
+                                  '${newLocale.toUpperCase()} ${e.cells['value']!.value}',
+                            );
+                            onLocaleChanged(newLocale);
+                            dispatch(
+                              UpdateTaleTranslationsAction(
+                                locale: newLocale,
+                                keys: keys,
+                                values: values,
+                              ),
+                            );
+                          }
                           return;
                         }
                         if (value == null || value.value == locale) {
@@ -356,7 +375,7 @@ class _BodyState extends State<_Body> {
                         (e) => e.cells['value']!.value.toString(),
                       );
                       dispatch(
-                        UpdateTaleLocalizationAction(
+                        UpdateTaleTranslationsAction(
                           locale: locale,
                           keys: keys,
                           values: values,
@@ -371,6 +390,61 @@ class _BodyState extends State<_Body> {
           );
         },
       ),
+    );
+  }
+
+  Future<String?> _showAddLocaleDialog(BuildContext context) {
+    return showDialog<String>(
+      context: context,
+      builder: (context) => const _AddLocaleDialog(),
+    );
+  }
+}
+
+class _AddLocaleDialog extends StatefulWidget {
+  const _AddLocaleDialog();
+
+  @override
+  State<_AddLocaleDialog> createState() => __AddLocaleDialogState();
+}
+
+class __AddLocaleDialogState extends State<_AddLocaleDialog> {
+  final controller = TextEditingController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Add locale'),
+      titleTextStyle: context.textTheme.titleMedium,
+      content: TextFieldComponent(
+        autoFocus: true,
+        controller: controller,
+        hintText: 'en, ru, uz, etc.',
+      ),
+      actionsAlignment: MainAxisAlignment.spaceBetween,
+      actions: [
+        ButtonComponent.outlined(
+          text: 'Cancel',
+          icon: Icons.cancel_rounded,
+          onPressed: () => Navigator.pop(context),
+        ),
+        ButtonComponent.primary(
+          text: 'Save',
+          icon: Icons.save_rounded,
+          onPressed: () {
+            if (controller.text.isEmpty) {
+              return;
+            }
+            Navigator.pop(context, controller.text.toLowerCase().trim());
+          },
+        ),
+      ],
     );
   }
 }

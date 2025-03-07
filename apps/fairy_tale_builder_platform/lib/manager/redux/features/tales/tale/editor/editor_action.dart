@@ -158,12 +158,12 @@ class _UpdatePageBackgroundImageActionV2 extends DefaultAction {
   }
 }
 
-class UpdateTaleLocalizationAction extends DefaultAction {
+class UpdateTaleTranslationsAction extends DefaultAction {
   final String locale;
   final Iterable<String> keys;
   final Iterable<String> values;
 
-  UpdateTaleLocalizationAction({
+  UpdateTaleTranslationsAction({
     required this.locale,
     required this.keys,
     required this.values,
