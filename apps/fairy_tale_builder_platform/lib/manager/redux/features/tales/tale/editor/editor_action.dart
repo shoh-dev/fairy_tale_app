@@ -160,12 +160,12 @@ class _UpdatePageBackgroundImageActionV2 extends DefaultAction {
 
 /// TEST DONE UP TO HERE
 
-class SaveSelectedTaleLocalizationAction extends DefaultAction {
+class UpdateTaleLocalizationAction extends DefaultAction {
   final String locale;
   final Iterable<String> keys;
   final Iterable<String> values;
 
-  SaveSelectedTaleLocalizationAction({
+  UpdateTaleLocalizationAction({
     required this.locale,
     required this.keys,
     required this.values,
@@ -174,24 +174,30 @@ class SaveSelectedTaleLocalizationAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     final selectedTale = taleState.selectedTale;
+    final translations = Map.of(selectedTale.localizations.translations);
 
-    final oldTranslation =
-        selectedTale.localizations.translations[locale] ?? <String, String>{};
-    final newTranslation = Map<String, String>.fromIterables(keys, values);
+    translations[locale] = Map<String, String>.fromIterables(keys, values);
 
-    if (mapEquals(oldTranslation, newTranslation)) {
-      return null;
-    }
+    dispatch(UpdateTaleAction(translations: translations));
+    return null;
+    // final oldTranslation =
+    //     selectedTale.localizations.translations[locale] ?? <String, String>{};
 
-    var newLocalizations = selectedTale.localizations;
+    // final newTranslation = Map<String, String>.fromIterables(keys, values);
 
-    final newMap = Map.of(newLocalizations.translations);
+    // if (mapEquals(oldTranslation, newTranslation)) {
+    // return null;
+    // }
 
-    newMap[locale] = newTranslation;
-
-    newLocalizations = newLocalizations.copyWith(
-      translations: newMap,
-    );
+    // var newLocalizations = selectedTale.localizations;
+//
+    // final newMap = Map.of(newLocalizations.translations);
+//
+    // newMap[locale] = newTranslation;
+//
+    // newLocalizations = newLocalizations.copyWith(
+    // translations: newMap,
+    // );
 
     // // //todo: handle result
     // // final result =
@@ -201,20 +207,20 @@ class SaveSelectedTaleLocalizationAction extends DefaultAction {
     //   defaultLocale: newLocalizations.defaultLocale,
     // );
 
-    return state.copyWith(
-      applicationState: applicationState.copyWith(
-        localizationState: applicationState.localizationState.copyWith(
-          locale: locale,
-        ),
-      ),
-      taleListState: taleListState.copyWith(
-        taleState: taleState.copyWith(
-          selectedTale: selectedTale.copyWith(
-            localizations: newLocalizations,
-          ),
-        ),
-      ),
-    );
+    // return state.copyWith(
+    //   // applicationState: applicationState.copyWith(
+    //   //   localizationState: applicationState.localizationState.copyWith(
+    //   //     locale: locale,
+    //   //   ),
+    //   // ),//todo: need to check why need this
+    //   taleListState: taleListState.copyWith(
+    //     taleState: taleState.copyWith(
+    //       selectedTale: selectedTale.copyWith(
+    //         localizations: newLocalizations,
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
 
@@ -356,7 +362,7 @@ class SaveTaleAction extends DefaultAction {
 
     Log().debug('tale $taleResult');
     Log().debug('pages $pagesResult');
-    // Log().debug('locale $localizationResult');
+    Log().debug('locale $localizationResult');
     // Log().debug('interactions $interactionsResult');
 
     dispatchAll([

@@ -50,16 +50,16 @@ class _BodyState extends State<_Body> {
           ]);
         },
         onDidChange: (dispatch, state, model) {
-          final localization =
-              state.taleListState.taleState.selectedTale.localizations;
-          stateManager
-            ..removeAllRows()
-            ..appendRows([
-              for (final entry
-                  in localization.translations[leftLocale.value]?.entries ??
-                      <MapEntry<String, String>>[])
-                fromEntry(entry),
-            ]);
+          // final localization =
+          //     state.taleListState.taleState.selectedTale.localizations;
+          // stateManager
+          // ..removeAllRows()
+          // ..appendRows([
+          //   for (final entry
+          //       in localization.translations[leftLocale.value]?.entries ??
+          //           <MapEntry<String, String>>[])
+          //     fromEntry(entry),
+          // ]);
         },
         builder: (context, dispatch, state) {
           return header(
@@ -182,7 +182,7 @@ class _BodyState extends State<_Body> {
 
   Widget noRowsWidget() {
     return const Center(
-      child: Text('No Rows'),
+      child: Text('No translations'),
     );
   }
 
@@ -283,6 +283,10 @@ class _BodyState extends State<_Body> {
                       // hintText: locale,
                       initialValue: DropdownItem(value: locale, label: locale),
                       onChanged: (value) {
+                        if (value?.value == 'add') {
+                          //todo:
+                          return;
+                        }
                         if (value == null || value.value == locale) {
                           return;
                         }
@@ -297,6 +301,11 @@ class _BodyState extends State<_Body> {
                         onLocaleChanged(value.value);
                       },
                       items: [
+                        DropdownItem(
+                          value: 'add',
+                          label: 'Add locale',
+                          icon: Icons.add_rounded,
+                        ),
                         for (final l in locales ?? <String>[])
                           DropdownItem(
                             value: l,
@@ -328,7 +337,11 @@ class _BodyState extends State<_Body> {
                     tooltip: 'Add',
                     icon: Icons.add_rounded,
                     onPressed: () {
-                      stateManager.insertRows(0, stateManager.getNewRows());
+                      stateManager.insertRows(0, [
+                        fromEntry(
+                          MapEntry('key_${stateManager.rows.length}', 'value'),
+                        ),
+                      ]);
                     },
                   ),
                   const SizedBox(width: 8),
@@ -343,7 +356,7 @@ class _BodyState extends State<_Body> {
                         (e) => e.cells['value']!.value.toString(),
                       );
                       dispatch(
-                        SaveSelectedTaleLocalizationAction(
+                        UpdateTaleLocalizationAction(
                           locale: locale,
                           keys: keys,
                           values: values,

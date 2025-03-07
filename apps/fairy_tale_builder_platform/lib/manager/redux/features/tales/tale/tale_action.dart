@@ -92,6 +92,7 @@ class UpdateTaleAction extends DefaultAction {
   final String? orientation;
   final PlatformFile? coverImageFile;
   final String? coverImageUrl;
+  final Map<String, Map<String, String>>? translations;
 
   UpdateTaleAction({
     /// when passed as true, re renders all StoreConnectors using selectedTale
@@ -101,6 +102,7 @@ class UpdateTaleAction extends DefaultAction {
     this.orientation,
     this.coverImageFile,
     this.coverImageUrl,
+    this.translations,
   });
 
   @override
@@ -108,7 +110,7 @@ class UpdateTaleAction extends DefaultAction {
     final tale = taleState.selectedTale;
 
     if (coverImageFile != null) {
-      dispatch(_UpdateTaleCoverImageActionV2(coverImageFile!));
+      dispatch(_UpdateTaleCoverImageAction(coverImageFile!));
       return null;
     }
 
@@ -116,6 +118,9 @@ class UpdateTaleAction extends DefaultAction {
       title: title ?? tale.title,
       description: description ?? tale.description,
       orientation: orientation ?? tale.orientation,
+      localizations: tale.localizations.copyWith(
+        translations: translations ?? tale.localizations.translations,
+      ),
       metadata: tale.metadata.copyWith(
         coverImageUrl: coverImageUrl ?? tale.metadata.coverImageUrl,
       ),
@@ -134,10 +139,10 @@ class UpdateTaleAction extends DefaultAction {
   }
 }
 
-class _UpdateTaleCoverImageActionV2 extends DefaultAction {
+class _UpdateTaleCoverImageAction extends DefaultAction {
   final PlatformFile file;
 
-  _UpdateTaleCoverImageActionV2(this.file);
+  _UpdateTaleCoverImageAction(this.file);
 
   @override
   Future<AppState?> reduce() async {
