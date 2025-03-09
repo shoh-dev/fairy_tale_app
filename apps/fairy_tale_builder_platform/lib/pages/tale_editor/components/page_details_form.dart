@@ -38,6 +38,7 @@ class TalePageDetailsForm extends StatelessWidget {
                   tooltip: 'Delete Page',
                   icon: Icons.delete_rounded,
                   onPressed: () {
+                    //todo: add prompt dialog
                     dispatch(DeletePageAction());
                   },
                 ),
@@ -86,9 +87,9 @@ class TalePageDetailsForm extends StatelessWidget {
               style: context.textTheme.headlineSmall,
             ),
             space(8),
-            StateConnector<AppState, bool>(
-              selector: (state) => isTalePageSelectedSelector(state, page),
-              builder: (context, dispatch, isSelected) {
+            StateConnector<AppState, Tale>(
+              selector: selectedTaleSelector,
+              builder: (context, dispatch, _) {
                 return ImageSelectorComponent(
                   title: 'Background Image',
                   imagePath: page.metadata.backgroundImageUrl,

@@ -25,25 +25,9 @@ class TaleDetailsForm extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  'Tale Details',
-                  style: context.textTheme.headlineSmall,
-                ),
-                const Spacer(),
-                ButtonComponent.iconOutlined(
-                  icon: Icons.language_rounded,
-                  tooltip: 'Localization Editor',
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (context) => const LocalizationSettingsPage(),
-                      ),
-                    );
-                  },
-                ),
-              ],
+            Text(
+              'Tale Details',
+              style: context.textTheme.headlineSmall,
             ),
             space(8),
             Text(

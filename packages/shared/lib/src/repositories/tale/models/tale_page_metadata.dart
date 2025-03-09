@@ -42,7 +42,7 @@ Instead use [TalePageMetadata.backgroundAudioUrl]
     final json = {
       'background_image_url': backgroundImageUrl,
       'background_audio_url': backgroundAudioUrl,
-    }..removeWhere((key, value) => value.isEmpty);
+    };
 
     return json;
   }

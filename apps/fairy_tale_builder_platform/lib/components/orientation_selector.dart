@@ -18,7 +18,7 @@ class OrientationSelector extends StatelessWidget {
     return DropdownComponent<String>(
       label: hasLabel ? 'Orientation' : null,
       initialValue: DropdownItem(value: orientation, label: orientation),
-      onChanged: (value) {
+      onChanged: (value, controller) {
         if (value == null || value.value == orientation) {
           return;
         }

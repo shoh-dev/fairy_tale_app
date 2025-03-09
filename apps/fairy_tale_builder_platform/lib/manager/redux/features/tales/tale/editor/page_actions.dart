@@ -84,15 +84,12 @@ class AddPageAction extends DefaultAction {
 }
 
 class UpdatePageAction extends DefaultAction {
-  final bool reRender;
-
   final String? text;
   final PlatformFile? backgroundImageFile;
   final String? backgroundImageUrl;
 
   UpdatePageAction({
     /// when passed as true, re renders all StoreConnectors using selectedTale
-    this.reRender = false,
     this.text,
     this.backgroundImageFile,
     this.backgroundImageUrl,
@@ -133,18 +130,10 @@ class UpdatePageAction extends DefaultAction {
       return e;
     });
 
-    final newTale = tale.copyWith(pages: newTalePages.toList());
-
-    return state.copyWith(
-      taleListState: taleListState.copyWith(
-        taleState: taleState.copyWith(
-          tale: newTale.copyWith(
-            toReRender: reRender ? tale.toReRender + 1 : tale.toReRender,
-          ),
-          editorState: editorState.copyWith(
-            selectedPageId: newPage.id,
-          ),
-        ),
+    dispatch(
+      UpdateTaleAction(
+        reRender: backgroundImageUrl != null,
+        pages: newTalePages.toList(),
       ),
     );
   }
@@ -174,7 +163,7 @@ class _UpdatePageBackgroundImageAction extends DefaultAction {
 
     uploadedResult.when(
       ok: (url) {
-        dispatch(UpdatePageAction(backgroundImageUrl: url, reRender: true));
+        dispatch(UpdatePageAction(backgroundImageUrl: url));
       },
       error: (error) {
         dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));

@@ -29,20 +29,6 @@ class TranslationSelector extends StatelessWidget {
         final translations =
             model?.translations[defaultLocale] ?? <String, String>{};
 
-        // if (translations.isEmpty) {
-        //   return ButtonComponent.outlined(
-        //     text: 'Add translations',
-        //     icon: Icons.translate_rounded,
-        //     onPressed: () {
-        //       Navigator.of(context).push(
-        //         MaterialPageRoute<void>(
-        //           builder: (context) => const LocalizationSettingsPage(),
-        //         ),
-        //       );
-        //     },
-        //   );
-        // }
-
         return DropdownComponent<String>(
           label: label,
           // hintText: '$textKey: NOT_FOUND',
@@ -59,22 +45,29 @@ class TranslationSelector extends StatelessWidget {
               if (translations.isEmpty) {
                 return 'No translations found! Please add some.';
               }
-              // if (value?.value == null || value?.value == 'add') {
-              //   return "Translation can't be empty";
-              // }
               if (translations[value?.value] == null) {
+                return 'Translation not found!';
+              }
+            }
+            if (value != null && value.value.isNotEmpty) {
+              if (translations[value.value] == null) {
                 return 'Translation not found!';
               }
             }
             return null;
           },
-          onChanged: (value) {
+          onChanged: (value, controller) {
             if (value?.value == 'add') {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (context) => const LocalizationSettingsPage(),
                 ),
               );
+              return;
+            }
+            if (value?.value == 'empty') {
+              onChanged('');
+              controller.clear();
               return;
             }
             if (value == null || value.value == textKey) {
@@ -88,6 +81,12 @@ class TranslationSelector extends StatelessWidget {
               label: 'Add translations',
               icon: Icons.add_rounded,
             ),
+            if (!isRequiredToSelect)
+              DropdownItem(
+                value: 'empty',
+                label: 'None',
+                icon: Icons.clear_rounded,
+              ),
             for (final value in translations.entries)
               DropdownItem(
                 value: value.key,

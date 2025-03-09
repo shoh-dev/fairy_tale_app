@@ -4,6 +4,8 @@ import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/manager/selector.dart';
+import 'package:fairy_tale_builder_platform/pages/localization_settings/localization_settings_page.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/left_sidebar.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/page_details_form.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/right_sidebar.dart';
@@ -26,41 +28,60 @@ class TaleEditorPage extends StatelessWidget {
       title: const Text('Tale Editor'),
       leftSidebar: const TaleEditorLeftSidebarComponent(),
       rigthSidebar: const TaleEditorRightSidebarComponent(),
-      leading: StateConnector<AppState, (bool, bool)>(
-        selector: (state) => (
-          false,
-          false, //todo:
-          // state.taleListState.taleState.isTaleEdited,
-          // state.taleListState.taleState.editorState.isTalePageEdited
-        ),
-        builder: (context, dispatch, isEdited) {
-          return IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              void close() {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-              }
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          void close() {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
+          }
 
-              if (isEdited.$1 || isEdited.$2) {
-                if (isEdited.$1) {
-                  log('Tale is edited');
-                }
-                if (isEdited.$2) {
-                  log('Tale page is edited');
-                }
-                close();
-                return;
-                //prompt user to save changes
-              } else {
-                close();
-              }
-            },
-          );
+          // if (isEdited.$1 || isEdited.$2) {
+          //   if (isEdited.$1) {
+          //     log('Tale is edited');
+          //   }
+          //   if (isEdited.$2) {
+          //     log('Tale page is edited');
+          //   }
+          //   close();
+          //   return;
+          //   //prompt user to save changes
+          // } else {
+          //   close();
+          // }
+          close();
         },
       ),
       actions: [
+        StateConnector<AppState, Tale>(
+          selector: selectedTaleSelector,
+          builder: (context, dispatch, tale) {
+            return ButtonComponent.iconDesctructive(
+              tooltip: 'Delete Tale',
+              icon: Icons.delete_rounded,
+              onPressed: tale.isNew
+                  ? null
+                  : () {
+                      //todo: add prompt dialog
+                      dispatch(DeleteTaleAction());
+                    },
+            );
+          },
+        ),
+        const SizedBox(width: 8),
+        ButtonComponent.iconOutlined(
+          icon: Icons.language_rounded,
+          tooltip: 'Localization Editor',
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => const LocalizationSettingsPage(),
+              ),
+            );
+          },
+        ),
+        const SizedBox(width: 8),
         StateConnector<AppState, ModelValidation>(
           selector: (state) => state.taleListState.taleState.isTaleValidToSave,
           builder: (context, dispatch, model) {

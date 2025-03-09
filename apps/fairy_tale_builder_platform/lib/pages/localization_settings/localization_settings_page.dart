@@ -301,7 +301,7 @@ class _BodyState extends State<_Body> {
                     child: DropdownComponent<String>(
                       // hintText: locale,
                       initialValue: DropdownItem(value: locale, label: locale),
-                      onChanged: (value) async {
+                      onChanged: (value, controller) async {
                         if (value?.value == 'add') {
                           final newLocale = await _showAddLocaleDialog(context);
                           if (newLocale != null) {

@@ -82,7 +82,7 @@ class TalePage with _$TalePage {
       'page_number': pageNumber,
       'text': text,
       'metadata': metadata.toJson(),
-    }..removeWhere((key, value) => value.toString().isEmpty);
+    };
     return json;
   }
 

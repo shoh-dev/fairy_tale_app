@@ -21,6 +21,7 @@ abstract class TaleRepository {
     required String path,
   });
   ResultFuture<void> deleteTalePage(String id);
+  ResultFuture<void> deleteTale(String id);
 }
 
 class TaleRepositoryImpl implements TaleRepository {
@@ -141,6 +142,17 @@ class TaleRepositoryImpl implements TaleRepository {
   ResultFuture<void> deleteTalePage(String id) async {
     try {
       await _supabase.from('pages').delete().eq('id', id);
+
+      return const Result.ok(null);
+    } catch (e) {
+      return Result.error(ErrorX(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> deleteTale(String id) async {
+    try {
+      await _supabase.from('tales').delete().eq('id', id);
 
       return const Result.ok(null);
     } catch (e) {

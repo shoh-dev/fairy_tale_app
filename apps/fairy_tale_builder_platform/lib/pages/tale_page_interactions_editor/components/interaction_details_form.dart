@@ -439,7 +439,7 @@ class _TypeDropdown extends StatelessWidget {
             for (final type in TaleInteractionEventType.values)
               DropdownItem(value: type, label: type.name),
           ],
-          onChanged: (value) {
+          onChanged: (value, controller) {
             if (value == null) {
               return;
             }
@@ -486,7 +486,7 @@ class _SubTypeDropdown extends StatelessWidget {
             for (final type in interaction.availableSubTypes)
               DropdownItem(value: type, label: type.name()),
           ],
-          onChanged: (value) {
+          onChanged: (value, controller) {
             if (value == null) {
               return;
             }
@@ -533,7 +533,7 @@ class _ActionDropdown extends StatelessWidget {
             for (final type in TaleInteractionAction.values)
               DropdownItem(value: type, label: type.name),
           ],
-          onChanged: (value) {
+          onChanged: (value, controller) {
             if (value == null) {
               return;
             }

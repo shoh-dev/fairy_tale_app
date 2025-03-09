@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:shared/shared.dart';
 
 part 'tale_metadata.freezed.dart';
 
@@ -38,9 +39,18 @@ class TaleMetadata with _$TaleMetadata {
     final json = {
       'cover_image_url': coverImageUrl,
       'background_audio_url': backgroundAudioUrl,
-    }..removeWhere((key, value) => value.isEmpty);
+    };
 
     return json;
+  }
+
+  ModelValidation get isValidToSave {
+    final error = ModelValidation();
+    if (!hasCoverImage) {
+      error['tale.metadata.cover_image_url'] = ['Cover image url is empty'];
+    }
+
+    return error;
   }
 
   static const TaleMetadata empty = TaleMetadata();

@@ -79,7 +79,7 @@ class Tale with _$Tale {
       'description': description,
       'metadata': metadata.toJson(),
       'orientation': orientation,
-    }..removeWhere((key, value) => value.toString().isEmpty);
+    };
 
     return json;
   }
@@ -107,18 +107,12 @@ class Tale with _$Tale {
   }
 
   ModelValidation get _isMetadataValid {
-    return {};
+    return metadata.isValidToSave;
   }
 
   /// if returns empty string means tale is valid to save
   /// otherwise returns error with which field is invalid
   ModelValidation get isValidToSave {
-    //id not empty
-    //localization is valid
-    //title is not empty
-    //orientation is not empty and is valid
-    //title and description are contained in localizationsTranslations
-
     final error = ModelValidation();
 
     if (id.isEmpty) {
@@ -126,7 +120,7 @@ class Tale with _$Tale {
     }
 
     if (localizations.isValid.isNotEmpty) {
-      return localizations.isValid;
+      error.addAll(localizations.isValid);
     }
 
     if (title.isEmpty) {
@@ -148,15 +142,15 @@ class Tale with _$Tale {
     if (isOrientationValid == false) {
       error['tale.orientation'] = ['Orientation is not valid'];
     }
+
     if (_isMetadataValid.isNotEmpty) {
-      return _isMetadataValid;
+      error.addAll(_isMetadataValid);
     }
 
-    //todo: validate pages
     for (final page in pages) {
       final pageError = isPageValid(page);
       if (pageError.isNotEmpty) {
-        return pageError;
+        error.addAll(pageError);
       }
     }
 

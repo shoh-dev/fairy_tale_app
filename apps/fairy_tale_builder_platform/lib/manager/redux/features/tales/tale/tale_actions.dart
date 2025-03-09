@@ -220,6 +220,41 @@ class _UpdateTaleBackgroundAudioAction extends DefaultAction {
   }
 }
 
+class DeleteTaleAction extends DefaultAction {
+  DeleteTaleAction();
+
+  @override
+  Future<AppState?> reduce() async {
+    final tale = taleState.tale;
+
+    if (tale.isNew) {
+      //todo: handle on UI part
+
+      dispatch(
+        ResetTaleStateAction(),
+      );
+
+      return null;
+    }
+
+    final deleteResult = await taleRepository.deleteTale(tale.id);
+
+    deleteResult.when(
+      ok: (_) {
+        dispatchAll([
+          ResetTaleStateAction(),
+          GetTaleListAction(),
+        ]);
+      },
+      error: (error) {
+        dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
+      },
+    );
+
+    return null;
+  }
+}
+
 //! TEST DONE UP TO HERE
 
 class SaveTaleAction extends DefaultAction {
@@ -242,13 +277,13 @@ class SaveTaleAction extends DefaultAction {
       taleId: selectedTale.id,
     );
 
-    // final pagesResult = await taleRepository.saveTalePages(selectedTale.pages);
+    final pagesResult = await taleRepository.saveTalePages(selectedTale.pages);
     // final interactionsResult = await taleRepository.saveTaleInteractions(
     // selectedTale.pages.expand((e) => e.interactions).toList(),
     // );
 
     Log().debug('tale $taleResult');
-    // Log().debug('pages $pagesResult');
+    Log().debug('pages $pagesResult');
     Log().debug('locale $localizationResult');
     // Log().debug('interactions $interactionsResult');
 
