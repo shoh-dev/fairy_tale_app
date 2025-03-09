@@ -92,16 +92,24 @@ class TalePage with _$TalePage {
     final error = ModelValidation();
 
     if (id.isEmpty) {
-      error['tale.page$pageNumber.id'] = ['ID is required'];
+      error['tale.page.id'] = ['ID is required'];
     }
 
     if (taleId.isEmpty) {
-      error['tale.page$pageNumber.tale_id'] = ['Tale ID is required'];
+      error['tale.page_$id.tale_id'] = ['Tale ID is required'];
     }
 
     if (text.isEmpty) {
-      error['tale.page$pageNumber.text'] = ['Text is required'];
+      error['tale.page_$id.text'] = ['Text is required'];
     }
+
+    if (!metadata.hasBackgroundImage) {
+      error['tale.page_$id.background_image'] = [
+        'Background image is required',
+      ];
+    }
+
+    //todo: validate interactions
 
     return error;
   }

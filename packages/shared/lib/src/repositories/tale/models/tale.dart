@@ -171,7 +171,7 @@ class Tale with _$Tale {
     }
     //check if page.text contains in localizations
     if (localizations.defaultTranslation[page.text] == null) {
-      error['tale.page${page.pageNumber}'] = [
+      error['tale.page_${page.id}'] = [
         'Page text [${page.text}] is not contained in localizations',
       ];
     }

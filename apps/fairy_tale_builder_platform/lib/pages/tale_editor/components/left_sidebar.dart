@@ -64,7 +64,7 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 100),
                             width: double.infinity,
-                            height: 370,
+                            height: 390,
                             decoration: BoxDecoration(
                               color: !isPageValid
                                   ? context.error.withAlpha(50)
@@ -110,12 +110,24 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                                     showOriginalNotTranslated: page.isNew,
                                     toTranslate: [page.text],
                                     builder: (translatedValue) {
+                                      return ListTile(
+                                        contentPadding: EdgeInsets.zero,
+                                        title: Text(
+                                          translatedValue[0],
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        subtitle: Text(
+                                          page.id,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      );
                                       return SizedBox(
                                         width: 330,
                                         child: Text(
                                           translatedValue[0],
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
                                         ),
                                       );
                                     },
