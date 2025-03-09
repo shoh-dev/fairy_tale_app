@@ -3,9 +3,6 @@ import 'dart:developer';
 import 'package:fairy_tale_mobile/components/lifecycle_component.dart';
 import 'package:fairy_tale_mobile/components/translator_component.dart';
 import 'package:fairy_tale_mobile/manager/redux.dart';
-import 'package:fairy_tale_mobile/pages/tale_list/selected_tale/components/selected_tale_interaction_object.dart';
-import 'package:fairy_tale_mobile/pages/tale_list/selected_tale/components/selected_tale_page_background.dart';
-import 'package:fairy_tale_mobile/pages/tale_list/selected_tale/components/selected_tale_page_navigator.dart';
 import 'package:fairy_tale_mobile/pages/tale_list/selected_tale/components/tale_page_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,18 +26,6 @@ class _SelectedTalePageState extends State<SelectedTalePage> with StateHelpers {
   final pageController = PageController();
 
   @override
-  void dispose() {
-    safeDispose(pageController.dispose);
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    safeInitialize(() {});
-  }
-
-  @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, TaleState>(
       selector: (state) => state.taleListState.taleState,
@@ -48,6 +33,7 @@ class _SelectedTalePageState extends State<SelectedTalePage> with StateHelpers {
         dispatch(GetTaleAction(widget.taleId));
       },
       onDispose: (dispatch) {
+        safeDispose(pageController.dispose);
         dispatch(GetTaleAction(widget.taleId, reset: true));
       },
       builder: (context, dispatch, vm) {
@@ -127,15 +113,9 @@ class _TaleViewState extends State<_TaleView>
           if (tale.metadata.hasBackgroundAudio) tale.playAudio(),
         ]); //todo: handle error
       },
-      onAppBackground: () {
-        backgroundAudioPlayer.pause();
-      },
-      onAppClosed: () {
-        backgroundAudioPlayer.stop();
-      },
-      onAppResumed: () {
-        backgroundAudioPlayer.play();
-      },
+      onAppBackground: backgroundAudioPlayer.pause,
+      onAppClosed: backgroundAudioPlayer.stop,
+      onAppResumed: backgroundAudioPlayer.play,
       child: Scaffold(
         appBar: AppBar(
           title: Translator(
@@ -147,33 +127,6 @@ class _TaleViewState extends State<_TaleView>
             },
           ),
           actions: [
-            // StreamBuilder(
-            //   stream: interactionAudioPlayer.playerStateStream,
-            //   builder: (context, snapshot) {
-            //     log('Interaction: ${snapshot.data?.playing}');
-            //     log('Interaction: ${snapshot.data?.processingState}');
-            //     if (snapshot.data != null) {
-            //       final isPlaying = snapshot.data!.processingState ==
-            //               ProcessingState.ready &&
-            //           snapshot.data!.playing == true;
-            //       final isBuffering = snapshot.data!.processingState ==
-            //           ProcessingState.buffering;
-            //       if (isBuffering) {
-            //         return const Center(
-            //           child: CircularProgressIndicator.adaptive(),
-            //         );
-            //       }
-            //       if (isPlaying) {
-            //         return const Tooltip(
-            //           triggerMode: TooltipTriggerMode.tap,
-            //           message: 'Interaction audio is playing',
-            //           child: Icon(Icons.audiotrack),
-            //         );
-            //       }
-            //     }
-            //     return const SizedBox();
-            //   },
-            // ),
             StreamBuilder(
               stream: backgroundAudioPlayer.playerStateStream,
               builder: (context, snapshot) {

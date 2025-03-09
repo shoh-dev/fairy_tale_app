@@ -9,7 +9,11 @@ class TalePageMetadata with _$TalePageMetadata {
 
   const factory TalePageMetadata({
     @Default('') String backgroundImageUrl,
-    @Default('') String backgroundAudioUrl,
+    @Deprecated('''
+Not using this for now, because Tale already has
+background audio which is shared between all pages
+Instead use [TalePageMetadata.backgroundAudioUrl]
+''') @Default('') String backgroundAudioUrl,
   }) = _TalePageMetadata;
 
   factory TalePageMetadata.fromJson(Map<String, dynamic> json) {

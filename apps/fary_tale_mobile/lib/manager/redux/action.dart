@@ -15,7 +15,6 @@ abstract class DefaultAction extends ReduxAction<AppState> {
 
   //Repositories
   TaleRepository get taleRepository => env.taleRepository;
-  AudioPlayerService get mainAudioPlayerService => env.mainAudioPlayerService;
 
   //Services
   PathProviderService get pathService => env.pathProviderService;

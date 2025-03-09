@@ -17,6 +17,11 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TalePageMetadata {
   String get backgroundImageUrl => throw _privateConstructorUsedError;
+  @Deprecated('''
+Not using this for now, because Tale already has
+background audio which is shared between all pages
+Instead use [TalePageMetadata.backgroundAudioUrl]
+''')
   String get backgroundAudioUrl => throw _privateConstructorUsedError;
 
   /// Create a copy of TalePageMetadata
@@ -32,7 +37,11 @@ abstract class $TalePageMetadataCopyWith<$Res> {
           TalePageMetadata value, $Res Function(TalePageMetadata) then) =
       _$TalePageMetadataCopyWithImpl<$Res, TalePageMetadata>;
   @useResult
-  $Res call({String backgroundImageUrl, String backgroundAudioUrl});
+  $Res call({String backgroundImageUrl, @Deprecated('''
+Not using this for now, because Tale already has
+background audio which is shared between all pages
+Instead use [TalePageMetadata.backgroundAudioUrl]
+''') String backgroundAudioUrl});
 }
 
 /// @nodoc
@@ -74,7 +83,11 @@ abstract class _$$TalePageMetadataImplCopyWith<$Res>
       __$$TalePageMetadataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String backgroundImageUrl, String backgroundAudioUrl});
+  $Res call({String backgroundImageUrl, @Deprecated('''
+Not using this for now, because Tale already has
+background audio which is shared between all pages
+Instead use [TalePageMetadata.backgroundAudioUrl]
+''') String backgroundAudioUrl});
 }
 
 /// @nodoc
@@ -109,15 +122,22 @@ class __$$TalePageMetadataImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TalePageMetadataImpl extends _TalePageMetadata {
-  const _$TalePageMetadataImpl(
-      {this.backgroundImageUrl = '', this.backgroundAudioUrl = ''})
-      : super._();
+  const _$TalePageMetadataImpl({this.backgroundImageUrl = '', @Deprecated('''
+Not using this for now, because Tale already has
+background audio which is shared between all pages
+Instead use [TalePageMetadata.backgroundAudioUrl]
+''') this.backgroundAudioUrl = ''}) : super._();
 
   @override
   @JsonKey()
   final String backgroundImageUrl;
   @override
   @JsonKey()
+  @Deprecated('''
+Not using this for now, because Tale already has
+background audio which is shared between all pages
+Instead use [TalePageMetadata.backgroundAudioUrl]
+''')
   final String backgroundAudioUrl;
 
   @override
@@ -152,13 +172,21 @@ class _$TalePageMetadataImpl extends _TalePageMetadata {
 
 abstract class _TalePageMetadata extends TalePageMetadata {
   const factory _TalePageMetadata(
-      {final String backgroundImageUrl,
-      final String backgroundAudioUrl}) = _$TalePageMetadataImpl;
+      {final String backgroundImageUrl, @Deprecated('''
+Not using this for now, because Tale already has
+background audio which is shared between all pages
+Instead use [TalePageMetadata.backgroundAudioUrl]
+''') final String backgroundAudioUrl}) = _$TalePageMetadataImpl;
   const _TalePageMetadata._() : super._();
 
   @override
   String get backgroundImageUrl;
   @override
+  @Deprecated('''
+Not using this for now, because Tale already has
+background audio which is shared between all pages
+Instead use [TalePageMetadata.backgroundAudioUrl]
+''')
   String get backgroundAudioUrl;
 
   /// Create a copy of TalePageMetadata

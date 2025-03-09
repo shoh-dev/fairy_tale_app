@@ -8,7 +8,6 @@ class DependencyInjection extends ReduxDependencyInjection {
   late final SupabaseService supabaseRepository;
   late final TaleRepository taleRepository;
   late final PathProviderService pathProviderService;
-  late final AudioPlayerService mainAudioPlayerService;
   late final DeviceService deviceService;
 
   @override
@@ -17,7 +16,6 @@ class DependencyInjection extends ReduxDependencyInjection {
       deviceService = const DeviceService();
       pathProviderService = PathProviderService();
       InteractionAudioPlayerService() as AudioPlayerService;
-      mainAudioPlayerService = MainAudioPlayerService() as AudioPlayerService;
       supabaseRepository = SupabaseService(EnvironmentKeyService());
       final supabaseClient = await supabaseRepository.initialize();
       return supabaseClient.when(
@@ -30,11 +28,5 @@ class DependencyInjection extends ReduxDependencyInjection {
     } catch (e) {
       return Result.error(ErrorX(e));
     }
-  }
-
-  @override
-  void dispose() {
-    mainAudioPlayerService.dispose();
-    super.dispose();
   }
 }

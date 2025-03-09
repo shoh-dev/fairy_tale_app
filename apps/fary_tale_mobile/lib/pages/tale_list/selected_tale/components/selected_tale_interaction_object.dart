@@ -114,18 +114,9 @@ class _Child extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LifecycleComponent(
-      onAppBackground: () {
-        print('background ${interaction.id}');
-        interaction.audioPlayerService.pause();
-      },
-      onAppClosed: () {
-        print('closed ${interaction.id}');
-        interaction.audioPlayerService.stop();
-      },
-      onAppResumed: () {
-        print('resumed ${interaction.id}');
-        interaction.audioPlayerService.play();
-      },
+      onAppBackground: interaction.audioPlayerService.pause,
+      onAppClosed: interaction.audioPlayerService.stop,
+      onAppResumed: interaction.audioPlayerService.play,
       child: Translator(
         toTranslate: [interaction.hintKey],
         builder: (translatedValue) {
