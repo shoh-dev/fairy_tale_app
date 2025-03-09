@@ -208,11 +208,9 @@ class _UpdateTaleBackgroundAudioAction extends DefaultAction {
           'tale/background_audios/${tale.id}.${file.extension!.toLowerCase()}',
     );
 
-    print(uploadedResult);
-
     uploadedResult.when(
       ok: (url) {
-        dispatch(UpdateTaleAction(backgroundAudioUrl: url, reRender: true));
+        dispatch(UpdateTaleAction(backgroundAudioUrl: url));
       },
       error: (error) {
         dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));

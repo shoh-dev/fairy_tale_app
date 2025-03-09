@@ -72,6 +72,8 @@ class UpdateInteractionAction extends DefaultAction {
   final int? animationDuration;
   final PlatformFile? imageFile;
   final String? imageUrl;
+  final PlatformFile? audioFile;
+  final String? audioUrl;
 
   UpdateInteractionAction({
     /// when passed as true, re renders all StoreConnectors using selectedTale
@@ -89,6 +91,8 @@ class UpdateInteractionAction extends DefaultAction {
     this.animationDuration, //todo:
     this.imageFile,
     this.imageUrl,
+    this.audioFile,
+    this.audioUrl,
   });
 
   @override
@@ -105,6 +109,11 @@ class UpdateInteractionAction extends DefaultAction {
       return null;
     }
 
+    if (audioFile != null) {
+      dispatch(_UpdateInteractionAudioAction(audioFile!));
+      return null;
+    }
+
     //steps:
     //1. update selected interaction
     final newInteraction = interaction.copyWith(
@@ -117,6 +126,7 @@ class UpdateInteractionAction extends DefaultAction {
       action: action ?? interaction.action,
       metadata: interaction.metadata.copyWith(
         imageUrl: imageUrl ?? interaction.metadata.imageUrl,
+        audioUrl: audioUrl ?? interaction.metadata.audioUrl,
         size: interaction.metadata.size.copyWith(
           w: width ?? interaction.metadata.size.width,
           h: height ?? interaction.metadata.size.height,
@@ -201,6 +211,38 @@ class _UpdateInteractionImageAction extends DefaultAction {
     uploadedResult.when(
       ok: (url) {
         dispatch(UpdateInteractionAction(imageUrl: url, reRender: true));
+      },
+      error: (error) {
+        // dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
+        //todo:
+      },
+    );
+    return null;
+  }
+}
+
+class _UpdateInteractionAudioAction extends DefaultAction {
+  final PlatformFile file;
+
+  _UpdateInteractionAudioAction(this.file);
+
+  @override
+  Future<AppState?> reduce() async {
+    if (file.bytes == null && file.extension == null) {
+      return null;
+    }
+
+    final ineraction = taleState.editorState.selectedInteraction;
+
+    final uploadedResult = await taleRepository.uploadFile(
+      bytes: await file.xFile.readAsBytes(),
+      path:
+          'interaction/audios/${ineraction.id}.${file.extension!.toLowerCase()}',
+    );
+
+    uploadedResult.when(
+      ok: (url) {
+        dispatch(UpdateInteractionAction(audioUrl: url));
       },
       error: (error) {
         // dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));

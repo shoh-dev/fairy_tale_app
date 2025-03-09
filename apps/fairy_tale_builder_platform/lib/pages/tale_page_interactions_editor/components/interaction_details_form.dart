@@ -1,6 +1,8 @@
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/interaction_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/pages/tale_editor/components/audio_selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -150,7 +152,7 @@ class __FormState extends State<_Form> with StateHelpers {
   @override
   Widget build(BuildContext context) {
     return DispatchConnector<AppState>(
-      builder: (context, dp) {
+      builder: (context, dispatch) {
         // final deviceSize = Devices.ios.iPhone13.screenSize;
 
         Widget saveButton(
@@ -159,7 +161,7 @@ class __FormState extends State<_Form> with StateHelpers {
         ) {
           return ButtonComponent.iconOutlined(
             icon: Icons.save,
-            onPressed: isValid(controller) ? () => dp(action) : null,
+            onPressed: isValid(controller) ? () => dispatch(action) : null,
           );
         }
 
@@ -170,7 +172,7 @@ class __FormState extends State<_Form> with StateHelpers {
             onPressed:
                 //function to make with and height equal to width
                 isValid(isWidth ? _widthCtrl : _heightCtrl)
-                    ? () => dp(
+                    ? () => dispatch(
                           UpdateInteractionAction(
                             width: num.parse(
                               isWidth ? _widthCtrl.text : _heightCtrl.text,
@@ -191,7 +193,7 @@ class __FormState extends State<_Form> with StateHelpers {
             onPressed:
                 //function to make with and height equal to width
                 isValid(isX ? _initialdxCtrl : _initialdyCtrl)
-                    ? () => dp(
+                    ? () => dispatch(
                           UpdateInteractionAction(
                             initialdx: num.parse(
                               isX ? _initialdxCtrl.text : _initialdyCtrl.text,
@@ -212,7 +214,7 @@ class __FormState extends State<_Form> with StateHelpers {
             onPressed:
                 //function to make with and height equal to width
                 isValid(isX ? _finaldxCtrl : _finaldyCtrl)
-                    ? () => dp(
+                    ? () => dispatch(
                           UpdateInteractionAction(
                             initialdx: num.parse(
                               isX ? _finaldxCtrl.text : _finaldyCtrl.text,
@@ -235,7 +237,7 @@ class __FormState extends State<_Form> with StateHelpers {
               label: 'Hint',
               textKey: interaction.hintKey,
               onChanged: (value) {
-                dp(UpdateInteractionAction(hintKey: value));
+                dispatch(UpdateInteractionAction(hintKey: value));
               },
             ),
             TextFieldComponent(
@@ -345,9 +347,18 @@ class __FormState extends State<_Form> with StateHelpers {
               title: 'Object Image',
               imagePath: interaction.metadata.imageUrl,
               onImageSelected: (value) {
-                dp(UpdateInteractionAction(imageFile: value));
+                dispatch(UpdateInteractionAction(imageFile: value));
               },
             ),
+            if (interaction.actionEnum == TaleInteractionAction.playSound)
+              AudioSelectorComponent(
+                title: 'Audio',
+                audioPath: interaction.metadata.audioUrl,
+                audioPlayer: interaction.audioPlayerService,
+                onAudioSelected: (value) {
+                  dispatch(UpdateInteractionAction(audioFile: value));
+                },
+              ),
           ],
         );
       },

@@ -92,6 +92,7 @@ class TaleDetailsForm extends StatelessWidget {
             AudioSelectorComponent(
               title: 'Background Audio',
               audioPath: tale.metadata.backgroundAudioUrl,
+              audioPlayer: tale.audioPlayerService,
               onAudioSelected: (value) {
                 dispatch(
                   UpdateTaleAction(backgroundAudioFile: value),
