@@ -272,7 +272,7 @@ class TaleInteraction with _$TaleInteraction {
     return copyWith(hintKey: hintKey);
   }
 
-  ResultFuture<void> playAudio() async {
+  ResultFuture<void> playAudio() {
     return audioPlayerService.playFromUrl(metadata.audioUrl);
   }
 }

@@ -55,17 +55,9 @@ class GetTaleAction extends DefaultAction {
 
     await tale.when(
       ok: (tale) async {
-        final pages = tale.pages.map((page) {
-          final interactions = page.interactions.map((interaction) {
-            return interaction
-                .updateCurrentPosition(interaction.initialPosition);
-          }).toList();
-          return page.copyWith(interactions: interactions);
-        });
-
         dispatch(
           _TaleAction(
-            tale: tale.copyWith(pages: pages.toList()),
+            tale: tale,
             selectedTaleResult: const StateResult.ok(),
           ),
         );

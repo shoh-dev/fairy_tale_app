@@ -109,7 +109,14 @@ class Tale with _$Tale {
     return copyWith(orientation: orientation);
   }
 
-  ResultFuture<void> playAudio() async {
+  ResultFuture<void> playAudio() {
     return audioPlayerService.playFromUrl(metadata.backgroundAudioUrl);
+  }
+
+  void disposeAudioPlayers() {
+    for (final interaction in pages.expand((element) => element.interactions)) {
+      interaction.audioPlayerService.dispose();
+    }
+    audioPlayerService.dispose();
   }
 }

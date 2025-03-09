@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:just_audio/just_audio.dart';
 import 'package:myspace_data/myspace_data.dart';
 
@@ -6,9 +8,12 @@ export 'package:just_audio/just_audio.dart' show ProcessingState;
 abstract class AudioPlayerService {
   final AudioPlayer _player;
 
-  const AudioPlayerService(this._player);
+  AudioPlayerService(this._player) {
+    log('Initializing $this');
+  }
 
   void dispose() {
+    log('Disposing $this');
     _player.dispose();
   }
 
@@ -17,8 +22,7 @@ abstract class AudioPlayerService {
       await stop();
       //returns the duration of the audio
       await _player.setUrl(url);
-      final result = play();
-      return result;
+      return play();
     } catch (e) {
       return Result.error(ErrorX(e));
     }
@@ -26,9 +30,6 @@ abstract class AudioPlayerService {
 
   ResultFuture<void> pause() async {
     try {
-      if (!isPlaying()) {
-        return const Result.ok(null);
-      }
       await _player.pause();
       return const Result.ok(null);
     } catch (e) {
@@ -38,9 +39,6 @@ abstract class AudioPlayerService {
 
   ResultFuture<void> stop() async {
     try {
-      if (!isPlaying()) {
-        return const Result.ok(null);
-      }
       await _player.stop();
       return const Result.ok(null);
     } catch (e) {
@@ -50,9 +48,7 @@ abstract class AudioPlayerService {
 
   ResultFuture<void> play() async {
     try {
-      if (_player.audioSource != null) {
-        await _player.play();
-      }
+      await _player.play();
       return const Result.ok(null);
     } catch (e) {
       return Result.error(ErrorX(e));
