@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$Tale {
   String get id => throw _privateConstructorUsedError;
   TaleLocalization get localizations => throw _privateConstructorUsedError;
+  AudioPlayerService get audioPlayerService =>
+      throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   TaleMetadata get metadata => throw _privateConstructorUsedError;
@@ -40,6 +42,7 @@ abstract class $TaleCopyWith<$Res> {
   $Res call(
       {String id,
       TaleLocalization localizations,
+      AudioPlayerService audioPlayerService,
       String title,
       String description,
       TaleMetadata metadata,
@@ -69,6 +72,7 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
   $Res call({
     Object? id = null,
     Object? localizations = null,
+    Object? audioPlayerService = null,
     Object? title = null,
     Object? description = null,
     Object? metadata = null,
@@ -86,6 +90,10 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
           ? _value.localizations
           : localizations // ignore: cast_nullable_to_non_nullable
               as TaleLocalization,
+      audioPlayerService: null == audioPlayerService
+          ? _value.audioPlayerService
+          : audioPlayerService // ignore: cast_nullable_to_non_nullable
+              as AudioPlayerService,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -148,6 +156,7 @@ abstract class _$$TaleImplCopyWith<$Res> implements $TaleCopyWith<$Res> {
   $Res call(
       {String id,
       TaleLocalization localizations,
+      AudioPlayerService audioPlayerService,
       String title,
       String description,
       TaleMetadata metadata,
@@ -176,6 +185,7 @@ class __$$TaleImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? localizations = null,
+    Object? audioPlayerService = null,
     Object? title = null,
     Object? description = null,
     Object? metadata = null,
@@ -193,6 +203,10 @@ class __$$TaleImplCopyWithImpl<$Res>
           ? _value.localizations
           : localizations // ignore: cast_nullable_to_non_nullable
               as TaleLocalization,
+      audioPlayerService: null == audioPlayerService
+          ? _value.audioPlayerService
+          : audioPlayerService // ignore: cast_nullable_to_non_nullable
+              as AudioPlayerService,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -231,6 +245,7 @@ class _$TaleImpl extends _Tale {
   const _$TaleImpl(
       {required this.id,
       required this.localizations,
+      required this.audioPlayerService,
       this.title = '',
       this.description = '',
       this.metadata = TaleMetadata.empty,
@@ -245,6 +260,8 @@ class _$TaleImpl extends _Tale {
   final String id;
   @override
   final TaleLocalization localizations;
+  @override
+  final AudioPlayerService audioPlayerService;
   @override
   @JsonKey()
   final String title;
@@ -275,7 +292,7 @@ class _$TaleImpl extends _Tale {
 
   @override
   String toString() {
-    return 'Tale(id: $id, localizations: $localizations, title: $title, description: $description, metadata: $metadata, pages: $pages, orientation: $orientation, toReRender: $toReRender, isNew: $isNew)';
+    return 'Tale(id: $id, localizations: $localizations, audioPlayerService: $audioPlayerService, title: $title, description: $description, metadata: $metadata, pages: $pages, orientation: $orientation, toReRender: $toReRender, isNew: $isNew)';
   }
 
   @override
@@ -286,6 +303,8 @@ class _$TaleImpl extends _Tale {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.localizations, localizations) ||
                 other.localizations == localizations) &&
+            (identical(other.audioPlayerService, audioPlayerService) ||
+                other.audioPlayerService == audioPlayerService) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -304,6 +323,7 @@ class _$TaleImpl extends _Tale {
       runtimeType,
       id,
       localizations,
+      audioPlayerService,
       title,
       description,
       metadata,
@@ -325,6 +345,7 @@ abstract class _Tale extends Tale {
   const factory _Tale(
       {required final String id,
       required final TaleLocalization localizations,
+      required final AudioPlayerService audioPlayerService,
       final String title,
       final String description,
       final TaleMetadata metadata,
@@ -338,6 +359,8 @@ abstract class _Tale extends Tale {
   String get id;
   @override
   TaleLocalization get localizations;
+  @override
+  AudioPlayerService get audioPlayerService;
   @override
   String get title;
   @override

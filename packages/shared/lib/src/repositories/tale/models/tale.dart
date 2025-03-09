@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/src/repositories/tale/models.dart';
+import 'package:shared/src/services/audio_player_service.dart';
 
 part 'tale.freezed.dart';
 
@@ -11,6 +12,7 @@ class Tale with _$Tale {
   const factory Tale({
     required String id,
     required TaleLocalization localizations,
+    required AudioPlayerService audioPlayerService,
     @Default('') String title,
     @Default('') String description,
     @Default(TaleMetadata.empty) TaleMetadata metadata,
@@ -84,6 +86,7 @@ class Tale with _$Tale {
   factory Tale.empty(String id) => Tale(
         id: id,
         localizations: TaleLocalization.empty(id),
+        audioPlayerService: BackgroundAudioService(),
       );
 
   factory Tale.newTale(String id) => Tale.empty(id).copyWith(isNew: true);
@@ -104,5 +107,9 @@ class Tale with _$Tale {
 
   Tale updateOrientation(String orientation) {
     return copyWith(orientation: orientation);
+  }
+
+  ResultFuture<void> playAudio() async {
+    return audioPlayerService.playFromUrl(metadata.backgroundAudioUrl);
   }
 }

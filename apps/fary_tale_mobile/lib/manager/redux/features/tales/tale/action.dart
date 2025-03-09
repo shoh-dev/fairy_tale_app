@@ -110,8 +110,8 @@ class TaleInteractionHandlerAction extends DefaultAction {
         if (!interaction.metadata.hasAudio) {
           return _missingAudio();
         }
-        final result = await interactionAudioPlayerService
-            .playFromUrl(interaction.metadata.audioUrl);
+        final result = await interaction.playAudio();
+        // .playFromUrl(interaction.metadata.audioUrl);
         return result.when(
           ok: (success) => makeUsed(tale, talePage),
           error: (error) => null,

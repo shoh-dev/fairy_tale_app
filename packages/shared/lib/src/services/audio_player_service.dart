@@ -26,6 +26,9 @@ abstract class AudioPlayerService {
 
   ResultFuture<void> pause() async {
     try {
+      if (!isPlaying()) {
+        return const Result.ok(null);
+      }
       await _player.pause();
       return const Result.ok(null);
     } catch (e) {
@@ -35,6 +38,9 @@ abstract class AudioPlayerService {
 
   ResultFuture<void> stop() async {
     try {
+      if (!isPlaying()) {
+        return const Result.ok(null);
+      }
       await _player.stop();
       return const Result.ok(null);
     } catch (e) {
@@ -44,7 +50,9 @@ abstract class AudioPlayerService {
 
   ResultFuture<void> play() async {
     try {
-      await _player.play();
+      if (_player.audioSource != null) {
+        await _player.play();
+      }
       return const Result.ok(null);
     } catch (e) {
       return Result.error(ErrorX(e));
@@ -53,7 +61,8 @@ abstract class AudioPlayerService {
 
   bool isPlaying() {
     try {
-      return _player.playing;
+      return _player.playerState.processingState == ProcessingState.ready &&
+          _player.playerState.playing;
     } catch (e) {
       return false;
     }

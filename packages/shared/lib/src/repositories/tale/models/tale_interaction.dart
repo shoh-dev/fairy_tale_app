@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:shared/shared.dart';
 import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale_interaction.freezed.dart';
@@ -102,6 +103,7 @@ class TaleInteraction with _$TaleInteraction {
     required String id,
     required String talePageId,
     required TaleInteractionMetadata metadata,
+    required AudioPlayerService audioPlayerService,
     @Default('') String action,
     @Default('') String eventType,
     @Default('') String eventSubtype,
@@ -120,6 +122,7 @@ class TaleInteraction with _$TaleInteraction {
         id: id,
         talePageId: talePageId,
         metadata: TaleInteractionMetadata.empty,
+        audioPlayerService: InteractionAudioPlayerService(),
       );
 
   factory TaleInteraction.newInteraction({
@@ -267,5 +270,9 @@ class TaleInteraction with _$TaleInteraction {
 
   TaleInteraction updateHintKey(String hintKey) {
     return copyWith(hintKey: hintKey);
+  }
+
+  ResultFuture<void> playAudio() async {
+    return audioPlayerService.playFromUrl(metadata.audioUrl);
   }
 }

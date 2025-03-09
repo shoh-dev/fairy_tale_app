@@ -19,6 +19,8 @@ mixin _$TaleInteraction {
   String get id => throw _privateConstructorUsedError;
   String get talePageId => throw _privateConstructorUsedError;
   TaleInteractionMetadata get metadata => throw _privateConstructorUsedError;
+  AudioPlayerService get audioPlayerService =>
+      throw _privateConstructorUsedError;
   String get action => throw _privateConstructorUsedError;
   String get eventType => throw _privateConstructorUsedError;
   String get eventSubtype => throw _privateConstructorUsedError;
@@ -45,6 +47,7 @@ abstract class $TaleInteractionCopyWith<$Res> {
       {String id,
       String talePageId,
       TaleInteractionMetadata metadata,
+      AudioPlayerService audioPlayerService,
       String action,
       String eventType,
       String eventSubtype,
@@ -75,6 +78,7 @@ class _$TaleInteractionCopyWithImpl<$Res, $Val extends TaleInteraction>
     Object? id = null,
     Object? talePageId = null,
     Object? metadata = null,
+    Object? audioPlayerService = null,
     Object? action = null,
     Object? eventType = null,
     Object? eventSubtype = null,
@@ -97,6 +101,10 @@ class _$TaleInteractionCopyWithImpl<$Res, $Val extends TaleInteraction>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as TaleInteractionMetadata,
+      audioPlayerService: null == audioPlayerService
+          ? _value.audioPlayerService
+          : audioPlayerService // ignore: cast_nullable_to_non_nullable
+              as AudioPlayerService,
       action: null == action
           ? _value.action
           : action // ignore: cast_nullable_to_non_nullable
@@ -155,6 +163,7 @@ abstract class _$$TaleInteractionImplCopyWith<$Res>
       {String id,
       String talePageId,
       TaleInteractionMetadata metadata,
+      AudioPlayerService audioPlayerService,
       String action,
       String eventType,
       String eventSubtype,
@@ -184,6 +193,7 @@ class __$$TaleInteractionImplCopyWithImpl<$Res>
     Object? id = null,
     Object? talePageId = null,
     Object? metadata = null,
+    Object? audioPlayerService = null,
     Object? action = null,
     Object? eventType = null,
     Object? eventSubtype = null,
@@ -206,6 +216,10 @@ class __$$TaleInteractionImplCopyWithImpl<$Res>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as TaleInteractionMetadata,
+      audioPlayerService: null == audioPlayerService
+          ? _value.audioPlayerService
+          : audioPlayerService // ignore: cast_nullable_to_non_nullable
+              as AudioPlayerService,
       action: null == action
           ? _value.action
           : action // ignore: cast_nullable_to_non_nullable
@@ -249,6 +263,7 @@ class _$TaleInteractionImpl extends _TaleInteraction {
       {required this.id,
       required this.talePageId,
       required this.metadata,
+      required this.audioPlayerService,
       this.action = '',
       this.eventType = '',
       this.eventSubtype = '',
@@ -265,6 +280,8 @@ class _$TaleInteractionImpl extends _TaleInteraction {
   final String talePageId;
   @override
   final TaleInteractionMetadata metadata;
+  @override
+  final AudioPlayerService audioPlayerService;
   @override
   @JsonKey()
   final String action;
@@ -292,7 +309,7 @@ class _$TaleInteractionImpl extends _TaleInteraction {
 
   @override
   String toString() {
-    return 'TaleInteraction(id: $id, talePageId: $talePageId, metadata: $metadata, action: $action, eventType: $eventType, eventSubtype: $eventSubtype, animationDuration: $animationDuration, hintKey: $hintKey, isUsed: $isUsed, isNew: $isNew, toReRender: $toReRender)';
+    return 'TaleInteraction(id: $id, talePageId: $talePageId, metadata: $metadata, audioPlayerService: $audioPlayerService, action: $action, eventType: $eventType, eventSubtype: $eventSubtype, animationDuration: $animationDuration, hintKey: $hintKey, isUsed: $isUsed, isNew: $isNew, toReRender: $toReRender)';
   }
 
   @override
@@ -305,6 +322,8 @@ class _$TaleInteractionImpl extends _TaleInteraction {
                 other.talePageId == talePageId) &&
             (identical(other.metadata, metadata) ||
                 other.metadata == metadata) &&
+            (identical(other.audioPlayerService, audioPlayerService) ||
+                other.audioPlayerService == audioPlayerService) &&
             (identical(other.action, action) || other.action == action) &&
             (identical(other.eventType, eventType) ||
                 other.eventType == eventType) &&
@@ -325,6 +344,7 @@ class _$TaleInteractionImpl extends _TaleInteraction {
       id,
       talePageId,
       metadata,
+      audioPlayerService,
       action,
       eventType,
       eventSubtype,
@@ -349,6 +369,7 @@ abstract class _TaleInteraction extends TaleInteraction {
       {required final String id,
       required final String talePageId,
       required final TaleInteractionMetadata metadata,
+      required final AudioPlayerService audioPlayerService,
       final String action,
       final String eventType,
       final String eventSubtype,
@@ -365,6 +386,8 @@ abstract class _TaleInteraction extends TaleInteraction {
   String get talePageId;
   @override
   TaleInteractionMetadata get metadata;
+  @override
+  AudioPlayerService get audioPlayerService;
   @override
   String get action;
   @override

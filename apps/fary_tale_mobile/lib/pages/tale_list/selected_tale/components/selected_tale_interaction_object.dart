@@ -21,6 +21,9 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
     }
 
     return DispatchConnector<AppState>(
+      onDispose: (dispatch) {
+        interaction.audioPlayerService.dispose();
+      },
       builder: (context, dispatch) {
         void handleInteraction() {
           dispatch(TaleInteractionHandlerAction(interaction));
