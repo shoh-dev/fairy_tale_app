@@ -65,15 +65,15 @@ class TalePageInteractionsEditor extends StatelessWidget {
                     );
                   },
                 ),
-                ButtonComponent.icon(
-                  icon: Icons.save_rounded,
-                  tooltip: 'Save',
-                  onPressed: !model
-                      ? null
-                      : () {
-                          dispatch(SaveInteractionsAction());
-                        },
-                ),
+                // ButtonComponent.icon(
+                //   icon: Icons.save_rounded,
+                //   tooltip: 'Save',
+                //   onPressed: !model
+                //       ? null
+                //       : () {
+                //           dispatch(SaveInteractionsAction());
+                //         },
+                // ),
                 const SizedBox(width: 1),
               ],
             );
@@ -110,7 +110,7 @@ class _Body extends StatelessWidget {
     return StateConnector<AppState, Tale>(
       selector: selectedTaleSelector,
       onDispose: (dispatch) {
-        dispatch(SelectInteractionAction(null));
+        dispatch(SelectInteractionAction());
       },
       builder: (context, dispatch, tale) {
         return StateConnector<AppState, TalePage>(
@@ -138,7 +138,7 @@ class _Body extends StatelessWidget {
                   Positioned.fill(
                     child: GestureDetector(
                       onTap: () {
-                        dispatch(SelectInteractionAction(null));
+                        dispatch(SelectInteractionAction());
                       },
                     ),
                   ),

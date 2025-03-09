@@ -33,7 +33,7 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
                     text: 'Add interaction',
                     icon: Icons.add_rounded,
                     onPressed: () {
-                      dispatch(AddEmptyInteractionAction());
+                      dispatch(AddInteractionAction());
                     },
                   ),
                 );
@@ -71,7 +71,8 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
                               child: Text(interaction.id),
                             ),
                             onTap: () {
-                              dispatch(SelectInteractionAction(interaction));
+                              dispatch(SelectInteractionAction(
+                                  interaction: interaction));
                             },
                           );
                         },

@@ -28,11 +28,11 @@ sealed class TaleInteractionSubType {
 }
 
 enum SwipeType implements TaleInteractionSubType {
+  any,
   right,
   left,
   up,
-  down,
-  any;
+  down;
 
   @override
   bool isSwipe() => true;

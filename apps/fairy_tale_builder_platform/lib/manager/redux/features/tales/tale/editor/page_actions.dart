@@ -82,12 +82,16 @@ class UpdatePageAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     if (backgroundImageFile != null) {
-      dispatch(_UpdatePageBackgroundImageActionV2(backgroundImageFile!));
+      dispatch(_UpdatePageBackgroundImageAction(backgroundImageFile!));
       return null;
     }
 
     final page = editorState.selectedPage;
     final tale = taleState.selectedTale;
+
+    if (page.id.isEmpty || tale.id.isEmpty) {
+      return null;
+    }
 
     //steps:
     //1. update selected page
@@ -127,10 +131,10 @@ class UpdatePageAction extends DefaultAction {
   }
 }
 
-class _UpdatePageBackgroundImageActionV2 extends DefaultAction {
+class _UpdatePageBackgroundImageAction extends DefaultAction {
   final PlatformFile file;
 
-  _UpdatePageBackgroundImageActionV2(this.file);
+  _UpdatePageBackgroundImageAction(this.file);
 
   @override
   Future<AppState?> reduce() async {
@@ -218,15 +222,14 @@ class SaveTaleAction extends DefaultAction {
     );
 
     final pagesResult = await taleRepository.saveTalePages(selectedTale.pages);
-    // final interactionsResult =
-    await taleRepository.saveTaleInteractions(
+    final interactionsResult = await taleRepository.saveTaleInteractions(
       selectedTale.pages.expand((e) => e.interactions).toList(),
     );
 
     Log().debug('tale $taleResult');
     Log().debug('pages $pagesResult');
     Log().debug('locale $localizationResult');
-    // Log().debug('interactions $interactionsResult');
+    Log().debug('interactions $interactionsResult');
 
     dispatchAll([
       GetTaleListAction(),

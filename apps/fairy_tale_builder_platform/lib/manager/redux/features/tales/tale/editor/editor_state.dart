@@ -17,14 +17,13 @@ class TaleEditorState with _$TaleEditorState {
   factory TaleEditorState.initial() {
     return TaleEditorState(
       selectedPage: TalePage.empty(id: '', taleId: ''),
-      selectedInteraction:
-          TaleInteraction.empty(id: '', talePageId: ''), //todo: handle
+      selectedInteraction: TaleInteraction.empty(id: '', talePageId: ''),
       isTalePageEdited: false,
       isInteractionEdited: false,
     );
   }
 
-  bool isPageSelected(TalePage page) => selectedPage == page;
+  bool isPageSelected(TalePage page) => selectedPage.id == page.id;
   bool isInteractionSelected(TaleInteraction interaction) =>
-      selectedInteraction == interaction;
+      selectedInteraction.id == interaction.id;
 }

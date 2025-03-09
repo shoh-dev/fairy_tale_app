@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/interaction_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/page_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
@@ -14,6 +15,7 @@ class ResetTaleStateAction extends DefaultAction {
     dispatchAll([
       GetTaleAction(),
       SelectPageAction(),
+      SelectInteractionAction(),
     ]);
 
     return null;
@@ -110,6 +112,10 @@ class UpdateTaleAction extends DefaultAction {
   @override
   AppState? reduce() {
     final tale = taleState.selectedTale;
+
+    if (tale.id.isEmpty) {
+      return null;
+    }
 
     if (coverImageFile != null) {
       dispatch(_UpdateTaleCoverImageAction(coverImageFile!));
