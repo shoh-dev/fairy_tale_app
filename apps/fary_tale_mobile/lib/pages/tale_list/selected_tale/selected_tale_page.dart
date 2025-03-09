@@ -98,48 +98,6 @@ class _TaleViewState extends State<_TaleView>
 
   AudioPlayerService get backgroundAudioPlayer => tale.audioPlayerService;
 
-  bool isAnyAudioPlaying(BuildContext context) {
-    return
-        // interactionAudioPlayer.isPlaying() ||
-        backgroundAudioPlayer.isPlaying();
-  }
-
-  Future<void> pauseAudio(AudioPlayerService audioService) async {
-    final paused = await audioService.pause();
-    paused.when(
-      ok: (ok) {
-        log('audio paused');
-      },
-      error: (error) {
-        log(error.toString());
-      },
-    );
-  }
-
-  Future<void> stopAudio(AudioPlayerService audioService) async {
-    final stopped = await audioService.stop();
-    stopped.when(
-      ok: (ok) {
-        log('audio stopped');
-      },
-      error: (error) {
-        log(error.toString());
-      },
-    );
-  }
-
-  Future<void> resumeAudio(AudioPlayerService audioService) async {
-    final resumed = await audioService.play();
-    resumed.when(
-      ok: (ok) {
-        log('audio resumed');
-      },
-      error: (error) {
-        log(error.toString());
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return LifecycleComponent(
@@ -152,8 +110,7 @@ class _TaleViewState extends State<_TaleView>
             DeviceOrientation.portraitDown,
             DeviceOrientation.portraitUp,
           ]),
-          if (backgroundAudioPlayer.isPlaying())
-            stopAudio(backgroundAudioPlayer),
+          if (backgroundAudioPlayer.isPlaying()) backgroundAudioPlayer.stop(),
         ]); //todo: handle error
         tale.disposeAudioPlayers();
       },
@@ -171,17 +128,13 @@ class _TaleViewState extends State<_TaleView>
         ]); //todo: handle error
       },
       onAppBackground: () {
-        if (backgroundAudioPlayer.isPlaying()) {
-          pauseAudio(backgroundAudioPlayer);
-        }
+        backgroundAudioPlayer.pause();
       },
       onAppClosed: () {
-        if (backgroundAudioPlayer.isPlaying()) {
-          stopAudio(backgroundAudioPlayer);
-        }
+        backgroundAudioPlayer.stop();
       },
       onAppResumed: () {
-        resumeAudio(backgroundAudioPlayer);
+        backgroundAudioPlayer.play();
       },
       child: Scaffold(
         appBar: AppBar(

@@ -19,7 +19,7 @@ abstract class AudioPlayerService {
 
   ResultFuture<void> playFromUrl(String url) async {
     try {
-      await stop();
+      // await stop();//not sure why
       //returns the duration of the audio
       await _player.setUrl(url);
       return play();
@@ -28,8 +28,11 @@ abstract class AudioPlayerService {
     }
   }
 
-  ResultFuture<void> pause() async {
+  ResultFuture<void> pause({bool ifPlaying = true}) async {
     try {
+      if (ifPlaying && !isPlaying()) {
+        return const Result.ok(null);
+      }
       await _player.pause();
       return const Result.ok(null);
     } catch (e) {
@@ -37,8 +40,11 @@ abstract class AudioPlayerService {
     }
   }
 
-  ResultFuture<void> stop() async {
+  ResultFuture<void> stop({bool ifPlaying = true}) async {
     try {
+      if (ifPlaying && !isPlaying()) {
+        return const Result.ok(null);
+      }
       await _player.stop();
       return const Result.ok(null);
     } catch (e) {

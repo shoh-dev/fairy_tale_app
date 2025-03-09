@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:fairy_tale_mobile/components/lifecycle_component.dart';
 import 'package:fairy_tale_mobile/components/translator_component.dart';
 import 'package:fairy_tale_mobile/manager/redux.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +24,6 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
     }
 
     return DispatchConnector<AppState>(
-      onDispose: (dispatch) {
-        interaction.audioPlayerService.dispose();
-      },
       builder: (context, dispatch) {
         void handleInteraction() {
           dispatch(TaleInteractionHandlerAction(interaction));
@@ -113,35 +113,76 @@ class _Child extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Translator(
-      toTranslate: [interaction.hintKey],
-      builder: (translatedValue) {
-        return Tooltip(
-          triggerMode: TooltipTriggerMode.longPress,
-          message: translatedValue[0],
-          showDuration: const Duration(seconds: 5),
-          child: Container(
-            width: interaction.size.width,
-            height: interaction.size.height,
-            decoration: !interaction.metadata.hasImage
-                ? BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withAlpha(100),
-                        blurRadius: 10,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                  )
-                : null,
-            child: interaction.metadata.hasImage
-                ? Image.network(interaction.metadata.imageUrl)
-                : null,
-          ),
-        );
+    return LifecycleComponent(
+      onAppBackground: () {
+        print('background ${interaction.id}');
+        interaction.audioPlayerService.pause();
       },
+      onAppClosed: () {
+        print('closed ${interaction.id}');
+        interaction.audioPlayerService.stop();
+      },
+      onAppResumed: () {
+        print('resumed ${interaction.id}');
+        interaction.audioPlayerService.play();
+      },
+      child: Translator(
+        toTranslate: [interaction.hintKey],
+        builder: (translatedValue) {
+          return Tooltip(
+            triggerMode: TooltipTriggerMode.longPress,
+            message: translatedValue[0],
+            showDuration: const Duration(seconds: 5),
+            child: Container(
+              width: interaction.size.width,
+              height: interaction.size.height,
+              decoration: !interaction.metadata.hasImage
+                  ? BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(100),
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    )
+                  : null,
+              child: interaction.metadata.hasImage
+                  ? Image.network(interaction.metadata.imageUrl)
+                  : StreamBuilder(
+                      stream: interaction.audioPlayerService.playerStateStream,
+                      builder: (context, snapshot) {
+                        log('Interaction ${interaction.id}: ${snapshot.data?.playing}');
+                        log('Interaction ${interaction.id}: ${snapshot.data?.processingState}');
+                        if (snapshot.data != null) {
+                          final isPlaying = snapshot.data!.processingState ==
+                                  ProcessingState.ready &&
+                              snapshot.data!.playing == true;
+                          final isBuffering = snapshot.data!.processingState ==
+                              ProcessingState.buffering;
+                          if (isBuffering) {
+                            return const Center(
+                              child: CircularProgressIndicator.adaptive(),
+                            );
+                          }
+                          if (isPlaying) {
+                            return const Tooltip(
+                              triggerMode: TooltipTriggerMode.tap,
+                              message: 'Background audio is playing',
+                              child:
+                                  Icon(Icons.audiotrack, color: Colors.white),
+                            );
+                          }
+                        }
+                        return const SizedBox();
+                      },
+                    ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

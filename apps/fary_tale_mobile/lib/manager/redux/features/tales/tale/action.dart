@@ -102,49 +102,14 @@ class TaleInteractionHandlerAction extends DefaultAction {
         if (!interaction.metadata.hasAudio) {
           return _missingAudio();
         }
-        final result = await interaction.playAudio();
-        // .playFromUrl(interaction.metadata.audioUrl);
-        return result.when(
-          ok: (success) => makeUsed(tale, talePage),
-          error: (error) => null,
-        );
+        unawaited(interaction.playAudio());
+        return makeUsed(tale, talePage);
       case TaleInteractionAction.move:
         if (interaction.metadata.finalPosition == null) {
           return _missingFinalPosition();
         }
         return handleSwipe(tale, talePage);
     }
-
-    // switch (interaction.eventTypeEnum!) {
-    //   case TaleInteractionEventType.swipe:
-    //     if (subType != null && subType.isSwipe()) {
-    //       return handleSwipe(tale, talePage);
-    //     } else {
-    //       _invalidType();
-    //     }
-    //   case TaleInteractionEventType.tap:
-    //     if (subType != null && subType.isTap()) {
-    //       if (interaction.actionEnum == TaleInteractionAction.playSound) {
-    //         if (!interaction.metadata.hasAudio) {
-    //           _missingAudio();
-    //           return null;
-    //         }
-    //         final result = await interactionAudioPlayerService
-    //             .playFromUrl(interaction.metadata.audioUrl);
-    //         return result.when(
-    //           ok: (success) {
-    //             return handleTap(tale, talePage);
-    //           },
-    //           error: (error) {
-    //             return null;
-    //           },
-    //         );
-    //       }
-    //     } else {
-    //       _invalidType();
-    //     }
-    // }
-    // return null;
   }
 
   // void _invalidType() {
