@@ -14,17 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-TalePageMetadata _$TalePageMetadataFromJson(Map<String, dynamic> json) {
-  return _TalePageMetadata.fromJson(json);
-}
-
 /// @nodoc
 mixin _$TalePageMetadata {
   String get backgroundImageUrl => throw _privateConstructorUsedError;
   String get backgroundAudioUrl => throw _privateConstructorUsedError;
-
-  /// Serializes this TalePageMetadata to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of TalePageMetadata
   /// with the given fields replaced by the non-null parameter values.
@@ -115,14 +108,10 @@ class __$$TalePageMetadataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(fieldRename: FieldRename.snake)
 class _$TalePageMetadataImpl extends _TalePageMetadata {
   const _$TalePageMetadataImpl(
       {this.backgroundImageUrl = '', this.backgroundAudioUrl = ''})
       : super._();
-
-  factory _$TalePageMetadataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TalePageMetadataImplFromJson(json);
 
   @override
   @JsonKey()
@@ -147,7 +136,6 @@ class _$TalePageMetadataImpl extends _TalePageMetadata {
                 other.backgroundAudioUrl == backgroundAudioUrl));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, backgroundImageUrl, backgroundAudioUrl);
@@ -160,13 +148,6 @@ class _$TalePageMetadataImpl extends _TalePageMetadata {
   _$$TalePageMetadataImplCopyWith<_$TalePageMetadataImpl> get copyWith =>
       __$$TalePageMetadataImplCopyWithImpl<_$TalePageMetadataImpl>(
           this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TalePageMetadataImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _TalePageMetadata extends TalePageMetadata {
@@ -174,9 +155,6 @@ abstract class _TalePageMetadata extends TalePageMetadata {
       {final String backgroundImageUrl,
       final String backgroundAudioUrl}) = _$TalePageMetadataImpl;
   const _TalePageMetadata._() : super._();
-
-  factory _TalePageMetadata.fromJson(Map<String, dynamic> json) =
-      _$TalePageMetadataImpl.fromJson;
 
   @override
   String get backgroundImageUrl;

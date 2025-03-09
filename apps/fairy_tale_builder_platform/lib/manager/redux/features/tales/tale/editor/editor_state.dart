@@ -8,7 +8,7 @@ class TaleEditorState with _$TaleEditorState {
   const TaleEditorState._();
 
   const factory TaleEditorState({
-    required TalePage selectedTalePage,
+    required TalePage selectedPage,
     required TaleInteraction selectedInteraction,
     required bool isTalePageEdited,
     required bool isInteractionEdited,
@@ -16,14 +16,14 @@ class TaleEditorState with _$TaleEditorState {
 
   factory TaleEditorState.initial() {
     return TaleEditorState(
-      selectedTalePage: TalePage.empty(),
-      selectedInteraction: TaleInteraction.empty(),
+      selectedPage: TalePage.empty(id: '', taleId: ''),
+      selectedInteraction: TaleInteraction.empty(id: '', talePageId: ''),
       isTalePageEdited: false,
       isInteractionEdited: false,
     );
   }
 
-  bool isPageSelected(TalePage page) => selectedTalePage == page;
+  bool isPageSelected(TalePage page) => selectedPage.id == page.id;
   bool isInteractionSelected(TaleInteraction interaction) =>
-      selectedInteraction == interaction;
+      selectedInteraction.id == interaction.id;
 }

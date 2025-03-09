@@ -5,6 +5,7 @@ analyzer:
     avoid_positional_boolean_parameters: ignore
     flutter_style_todos: ignore
     invalid_annotation_target: ignore
+    lines_longer_than_80_chars: ignore
     only_throw_errors: ignore
     public_member_api_docs: ignore
     sort_constructors_first: ignore

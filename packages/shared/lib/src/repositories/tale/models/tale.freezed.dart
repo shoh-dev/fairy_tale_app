@@ -14,23 +14,17 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Tale _$TaleFromJson(Map<String, dynamic> json) {
-  return _Tale.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Tale {
   String get id => throw _privateConstructorUsedError;
+  TaleLocalization get localizations => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   TaleMetadata get metadata => throw _privateConstructorUsedError;
-  TaleLocalization get localizations => throw _privateConstructorUsedError;
   List<TalePage> get pages => throw _privateConstructorUsedError;
   String get orientation => throw _privateConstructorUsedError;
   int get toReRender => throw _privateConstructorUsedError;
-
-  /// Serializes this Tale to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  bool get isNew => throw _privateConstructorUsedError;
 
   /// Create a copy of Tale
   /// with the given fields replaced by the non-null parameter values.
@@ -45,16 +39,17 @@ abstract class $TaleCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      TaleLocalization localizations,
       String title,
       String description,
       TaleMetadata metadata,
-      TaleLocalization localizations,
       List<TalePage> pages,
       String orientation,
-      int toReRender});
+      int toReRender,
+      bool isNew});
 
-  $TaleMetadataCopyWith<$Res> get metadata;
   $TaleLocalizationCopyWith<$Res> get localizations;
+  $TaleMetadataCopyWith<$Res> get metadata;
 }
 
 /// @nodoc
@@ -73,19 +68,24 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
   @override
   $Res call({
     Object? id = null,
+    Object? localizations = null,
     Object? title = null,
     Object? description = null,
     Object? metadata = null,
-    Object? localizations = null,
     Object? pages = null,
     Object? orientation = null,
     Object? toReRender = null,
+    Object? isNew = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      localizations: null == localizations
+          ? _value.localizations
+          : localizations // ignore: cast_nullable_to_non_nullable
+              as TaleLocalization,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -98,10 +98,6 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as TaleMetadata,
-      localizations: null == localizations
-          ? _value.localizations
-          : localizations // ignore: cast_nullable_to_non_nullable
-              as TaleLocalization,
       pages: null == pages
           ? _value.pages
           : pages // ignore: cast_nullable_to_non_nullable
@@ -114,17 +110,11 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
           ? _value.toReRender
           : toReRender // ignore: cast_nullable_to_non_nullable
               as int,
+      isNew: null == isNew
+          ? _value.isNew
+          : isNew // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
-  }
-
-  /// Create a copy of Tale
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TaleMetadataCopyWith<$Res> get metadata {
-    return $TaleMetadataCopyWith<$Res>(_value.metadata, (value) {
-      return _then(_value.copyWith(metadata: value) as $Val);
-    });
   }
 
   /// Create a copy of Tale
@@ -134,6 +124,16 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
   $TaleLocalizationCopyWith<$Res> get localizations {
     return $TaleLocalizationCopyWith<$Res>(_value.localizations, (value) {
       return _then(_value.copyWith(localizations: value) as $Val);
+    });
+  }
+
+  /// Create a copy of Tale
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TaleMetadataCopyWith<$Res> get metadata {
+    return $TaleMetadataCopyWith<$Res>(_value.metadata, (value) {
+      return _then(_value.copyWith(metadata: value) as $Val);
     });
   }
 }
@@ -147,18 +147,19 @@ abstract class _$$TaleImplCopyWith<$Res> implements $TaleCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      TaleLocalization localizations,
       String title,
       String description,
       TaleMetadata metadata,
-      TaleLocalization localizations,
       List<TalePage> pages,
       String orientation,
-      int toReRender});
+      int toReRender,
+      bool isNew});
 
   @override
-  $TaleMetadataCopyWith<$Res> get metadata;
-  @override
   $TaleLocalizationCopyWith<$Res> get localizations;
+  @override
+  $TaleMetadataCopyWith<$Res> get metadata;
 }
 
 /// @nodoc
@@ -174,19 +175,24 @@ class __$$TaleImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? localizations = null,
     Object? title = null,
     Object? description = null,
     Object? metadata = null,
-    Object? localizations = null,
     Object? pages = null,
     Object? orientation = null,
     Object? toReRender = null,
+    Object? isNew = null,
   }) {
     return _then(_$TaleImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      localizations: null == localizations
+          ? _value.localizations
+          : localizations // ignore: cast_nullable_to_non_nullable
+              as TaleLocalization,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -199,10 +205,6 @@ class __$$TaleImplCopyWithImpl<$Res>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as TaleMetadata,
-      localizations: null == localizations
-          ? _value.localizations
-          : localizations // ignore: cast_nullable_to_non_nullable
-              as TaleLocalization,
       pages: null == pages
           ? _value._pages
           : pages // ignore: cast_nullable_to_non_nullable
@@ -215,41 +217,43 @@ class __$$TaleImplCopyWithImpl<$Res>
           ? _value.toReRender
           : toReRender // ignore: cast_nullable_to_non_nullable
               as int,
+      isNew: null == isNew
+          ? _value.isNew
+          : isNew // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 
-@JsonSerializable(fieldRename: FieldRename.snake)
 class _$TaleImpl extends _Tale {
   const _$TaleImpl(
       {required this.id,
-      required this.title,
-      required this.description,
-      this.metadata = const TaleMetadata(),
-      this.localizations = TaleLocalization.empty,
+      required this.localizations,
+      this.title = '',
+      this.description = '',
+      this.metadata = TaleMetadata.empty,
       final List<TalePage> pages = const [],
       this.orientation = 'portrait',
-      this.toReRender = 0})
+      this.toReRender = 0,
+      this.isNew = false})
       : _pages = pages,
         super._();
-
-  factory _$TaleImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TaleImplFromJson(json);
 
   @override
   final String id;
   @override
+  final TaleLocalization localizations;
+  @override
+  @JsonKey()
   final String title;
   @override
+  @JsonKey()
   final String description;
   @override
   @JsonKey()
   final TaleMetadata metadata;
-  @override
-  @JsonKey()
-  final TaleLocalization localizations;
   final List<TalePage> _pages;
   @override
   @JsonKey()
@@ -265,10 +269,13 @@ class _$TaleImpl extends _Tale {
   @override
   @JsonKey()
   final int toReRender;
+  @override
+  @JsonKey()
+  final bool isNew;
 
   @override
   String toString() {
-    return 'Tale(id: $id, title: $title, description: $description, metadata: $metadata, localizations: $localizations, pages: $pages, orientation: $orientation, toReRender: $toReRender)';
+    return 'Tale(id: $id, localizations: $localizations, title: $title, description: $description, metadata: $metadata, pages: $pages, orientation: $orientation, toReRender: $toReRender, isNew: $isNew)';
   }
 
   @override
@@ -277,32 +284,33 @@ class _$TaleImpl extends _Tale {
         (other.runtimeType == runtimeType &&
             other is _$TaleImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.localizations, localizations) ||
+                other.localizations == localizations) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.metadata, metadata) ||
                 other.metadata == metadata) &&
-            (identical(other.localizations, localizations) ||
-                other.localizations == localizations) &&
             const DeepCollectionEquality().equals(other._pages, _pages) &&
             (identical(other.orientation, orientation) ||
                 other.orientation == orientation) &&
             (identical(other.toReRender, toReRender) ||
-                other.toReRender == toReRender));
+                other.toReRender == toReRender) &&
+            (identical(other.isNew, isNew) || other.isNew == isNew));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      localizations,
       title,
       description,
       metadata,
-      localizations,
       const DeepCollectionEquality().hash(_pages),
       orientation,
-      toReRender);
+      toReRender,
+      isNew);
 
   /// Create a copy of Tale
   /// with the given fields replaced by the non-null parameter values.
@@ -311,31 +319,25 @@ class _$TaleImpl extends _Tale {
   @pragma('vm:prefer-inline')
   _$$TaleImplCopyWith<_$TaleImpl> get copyWith =>
       __$$TaleImplCopyWithImpl<_$TaleImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TaleImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _Tale extends Tale {
   const factory _Tale(
       {required final String id,
-      required final String title,
-      required final String description,
+      required final TaleLocalization localizations,
+      final String title,
+      final String description,
       final TaleMetadata metadata,
-      final TaleLocalization localizations,
       final List<TalePage> pages,
       final String orientation,
-      final int toReRender}) = _$TaleImpl;
+      final int toReRender,
+      final bool isNew}) = _$TaleImpl;
   const _Tale._() : super._();
-
-  factory _Tale.fromJson(Map<String, dynamic> json) = _$TaleImpl.fromJson;
 
   @override
   String get id;
+  @override
+  TaleLocalization get localizations;
   @override
   String get title;
   @override
@@ -343,13 +345,13 @@ abstract class _Tale extends Tale {
   @override
   TaleMetadata get metadata;
   @override
-  TaleLocalization get localizations;
-  @override
   List<TalePage> get pages;
   @override
   String get orientation;
   @override
   int get toReRender;
+  @override
+  bool get isNew;
 
   /// Create a copy of Tale
   /// with the given fields replaced by the non-null parameter values.

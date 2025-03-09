@@ -1,32 +1,34 @@
 // TalePage Model
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale_page.freezed.dart';
-part 'tale_page.g.dart';
 
 @freezed
 class TalePage with _$TalePage {
   const TalePage._();
 
-  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TalePage({
     required String id,
     required String taleId,
-    required int pageNumber,
-    required String text,
-    required TalePageMetadata metadata,
+
+    ///for now not using this property
+    @Default(-1) int pageNumber,
+    @Default('') String text,
+    @Default(TalePageMetadata.empty) TalePageMetadata metadata,
     @Default([]) List<TaleInteraction> interactions,
     @Default(false) bool isNew,
     @Default(0) int toReRender,
   }) = _TalePage;
 
-  factory TalePage.empty() => const TalePage(
-        id: '',
-        taleId: '',
-        pageNumber: 0,
-        text: '',
-        metadata: TalePageMetadata(),
+  factory TalePage.empty({
+    required String id,
+    required String taleId,
+  }) =>
+      TalePage(
+        id: id,
+        taleId: taleId,
       );
 
   factory TalePage.newPage({
@@ -35,25 +37,51 @@ class TalePage with _$TalePage {
     required String text,
     required int pageNumber,
   }) =>
-      TalePage(
-        id: id,
-        taleId: taleId,
-        pageNumber: pageNumber,
-        text: text,
-        metadata: const TalePageMetadata(),
-        isNew: true,
-      );
+      TalePage.empty(id: id, taleId: taleId)
+          .copyWith(text: text, pageNumber: pageNumber, isNew: true);
 
-  factory TalePage.fromJson(Map<String, dynamic> json) =>
-      _$TalePageFromJson(json);
+  factory TalePage.fromJson(Map<String, dynamic> json) {
+    try {
+      final id = json['id'] as String;
+      final taleId = json['tale_id'] as String;
+      var model = TalePage.empty(id: id, taleId: taleId);
 
-  Map<dynamic, dynamic> saveToJson() {
-    final json = toJson()
-      ..remove('created_at')
-      ..remove('is_new')
-      ..remove('to_re_render')
-      ..remove('interactions');
+      if (json['page_number'] != null) {
+        model = model.copyWith(pageNumber: json['page_number'] as int);
+      }
+      if (json['text'] != null) {
+        model = model.copyWith(text: json['text'] as String);
+      }
+      if (json['metadata'] != null) {
+        model = model.copyWith(
+          metadata: TalePageMetadata.fromJson(
+            json['metadata'] as Map<String, dynamic>,
+          ),
+        );
+      }
+      if (json['interactions'] != null) {
+        model = model.copyWith(
+          interactions: (json['interactions'] as List)
+              .map((e) => TaleInteraction.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        );
+      }
 
+      return model;
+    } catch (e, st) {
+      Log().error('TalePage.fromJson', e, st);
+      rethrow;
+    }
+  }
+
+  Map<dynamic, dynamic> toJson() {
+    final json = {
+      'id': id,
+      'tale_id': taleId,
+      'page_number': pageNumber,
+      'text': text,
+      'metadata': metadata.toJson(),
+    }..removeWhere((key, value) => value.toString().isEmpty);
     return json;
   }
 
@@ -68,5 +96,9 @@ class TalePage with _$TalePage {
       interactions[index] = interaction;
     }
     return copyWith(interactions: interactions);
+  }
+
+  TalePage updateText(String text) {
+    return copyWith(text: text);
   }
 }

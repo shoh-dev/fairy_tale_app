@@ -1,5 +1,5 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/editor_action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/interaction_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +54,7 @@ class _InteractionObjectComponentState
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
               onTap: () {
-                dispatch(SelectInteractionAction(interaction));
+                dispatch(SelectInteractionAction(interaction: interaction));
               },
               onPanUpdate: !isSelected
                   ? null
@@ -87,10 +87,9 @@ class _InteractionObjectComponentState
                     },
               onPanEnd: (_) {
                 dispatch(
-                  UpdateSelectedInteractionAction(
-                    interaction.updateInitialPosition(
-                      TaleInteractionPosition(_position.dx, _position.dy),
-                    ),
+                  UpdateInteractionAction(
+                    initialdx: _position.dx,
+                    initialdy: _position.dy,
                   ),
                 );
               },
@@ -99,10 +98,10 @@ class _InteractionObjectComponentState
                 width: interaction.size.width,
                 height: interaction.size.height,
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
                   border: isSelected
                       ? Border.all(color: Colors.red, width: 2)
                       : Border.all(color: Colors.grey, width: 2),
-                  borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
                       color: (isSelected ? Colors.red : Colors.grey)
@@ -113,8 +112,11 @@ class _InteractionObjectComponentState
                   ],
                 ),
                 child: interaction.metadata.hasImage
-                    ? Image.network(
-                        '${interaction.metadata.imageUrl}?${DateTime.now().millisecondsSinceEpoch}',
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          '${interaction.metadata.imageUrl}?cache=${DateTime.now().millisecondsSinceEpoch}',
+                        ),
                       )
                     : null,
               ),

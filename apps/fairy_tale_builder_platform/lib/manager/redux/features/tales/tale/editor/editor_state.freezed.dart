@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TaleEditorState {
-  TalePage get selectedTalePage => throw _privateConstructorUsedError;
+  TalePage get selectedPage => throw _privateConstructorUsedError;
   TaleInteraction get selectedInteraction => throw _privateConstructorUsedError;
   bool get isTalePageEdited => throw _privateConstructorUsedError;
   bool get isInteractionEdited => throw _privateConstructorUsedError;
@@ -35,12 +35,12 @@ abstract class $TaleEditorStateCopyWith<$Res> {
       _$TaleEditorStateCopyWithImpl<$Res, TaleEditorState>;
   @useResult
   $Res call(
-      {TalePage selectedTalePage,
+      {TalePage selectedPage,
       TaleInteraction selectedInteraction,
       bool isTalePageEdited,
       bool isInteractionEdited});
 
-  $TalePageCopyWith<$Res> get selectedTalePage;
+  $TalePageCopyWith<$Res> get selectedPage;
   $TaleInteractionCopyWith<$Res> get selectedInteraction;
 }
 
@@ -59,15 +59,15 @@ class _$TaleEditorStateCopyWithImpl<$Res, $Val extends TaleEditorState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? selectedTalePage = null,
+    Object? selectedPage = null,
     Object? selectedInteraction = null,
     Object? isTalePageEdited = null,
     Object? isInteractionEdited = null,
   }) {
     return _then(_value.copyWith(
-      selectedTalePage: null == selectedTalePage
-          ? _value.selectedTalePage
-          : selectedTalePage // ignore: cast_nullable_to_non_nullable
+      selectedPage: null == selectedPage
+          ? _value.selectedPage
+          : selectedPage // ignore: cast_nullable_to_non_nullable
               as TalePage,
       selectedInteraction: null == selectedInteraction
           ? _value.selectedInteraction
@@ -88,9 +88,9 @@ class _$TaleEditorStateCopyWithImpl<$Res, $Val extends TaleEditorState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $TalePageCopyWith<$Res> get selectedTalePage {
-    return $TalePageCopyWith<$Res>(_value.selectedTalePage, (value) {
-      return _then(_value.copyWith(selectedTalePage: value) as $Val);
+  $TalePageCopyWith<$Res> get selectedPage {
+    return $TalePageCopyWith<$Res>(_value.selectedPage, (value) {
+      return _then(_value.copyWith(selectedPage: value) as $Val);
     });
   }
 
@@ -114,13 +114,13 @@ abstract class _$$TaleEditorStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {TalePage selectedTalePage,
+      {TalePage selectedPage,
       TaleInteraction selectedInteraction,
       bool isTalePageEdited,
       bool isInteractionEdited});
 
   @override
-  $TalePageCopyWith<$Res> get selectedTalePage;
+  $TalePageCopyWith<$Res> get selectedPage;
   @override
   $TaleInteractionCopyWith<$Res> get selectedInteraction;
 }
@@ -138,15 +138,15 @@ class __$$TaleEditorStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? selectedTalePage = null,
+    Object? selectedPage = null,
     Object? selectedInteraction = null,
     Object? isTalePageEdited = null,
     Object? isInteractionEdited = null,
   }) {
     return _then(_$TaleEditorStateImpl(
-      selectedTalePage: null == selectedTalePage
-          ? _value.selectedTalePage
-          : selectedTalePage // ignore: cast_nullable_to_non_nullable
+      selectedPage: null == selectedPage
+          ? _value.selectedPage
+          : selectedPage // ignore: cast_nullable_to_non_nullable
               as TalePage,
       selectedInteraction: null == selectedInteraction
           ? _value.selectedInteraction
@@ -168,14 +168,14 @@ class __$$TaleEditorStateImplCopyWithImpl<$Res>
 
 class _$TaleEditorStateImpl extends _TaleEditorState {
   const _$TaleEditorStateImpl(
-      {required this.selectedTalePage,
+      {required this.selectedPage,
       required this.selectedInteraction,
       required this.isTalePageEdited,
       required this.isInteractionEdited})
       : super._();
 
   @override
-  final TalePage selectedTalePage;
+  final TalePage selectedPage;
   @override
   final TaleInteraction selectedInteraction;
   @override
@@ -185,7 +185,7 @@ class _$TaleEditorStateImpl extends _TaleEditorState {
 
   @override
   String toString() {
-    return 'TaleEditorState(selectedTalePage: $selectedTalePage, selectedInteraction: $selectedInteraction, isTalePageEdited: $isTalePageEdited, isInteractionEdited: $isInteractionEdited)';
+    return 'TaleEditorState(selectedPage: $selectedPage, selectedInteraction: $selectedInteraction, isTalePageEdited: $isTalePageEdited, isInteractionEdited: $isInteractionEdited)';
   }
 
   @override
@@ -193,8 +193,8 @@ class _$TaleEditorStateImpl extends _TaleEditorState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TaleEditorStateImpl &&
-            (identical(other.selectedTalePage, selectedTalePage) ||
-                other.selectedTalePage == selectedTalePage) &&
+            (identical(other.selectedPage, selectedPage) ||
+                other.selectedPage == selectedPage) &&
             (identical(other.selectedInteraction, selectedInteraction) ||
                 other.selectedInteraction == selectedInteraction) &&
             (identical(other.isTalePageEdited, isTalePageEdited) ||
@@ -204,7 +204,7 @@ class _$TaleEditorStateImpl extends _TaleEditorState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, selectedTalePage,
+  int get hashCode => Object.hash(runtimeType, selectedPage,
       selectedInteraction, isTalePageEdited, isInteractionEdited);
 
   /// Create a copy of TaleEditorState
@@ -219,14 +219,14 @@ class _$TaleEditorStateImpl extends _TaleEditorState {
 
 abstract class _TaleEditorState extends TaleEditorState {
   const factory _TaleEditorState(
-      {required final TalePage selectedTalePage,
+      {required final TalePage selectedPage,
       required final TaleInteraction selectedInteraction,
       required final bool isTalePageEdited,
       required final bool isInteractionEdited}) = _$TaleEditorStateImpl;
   const _TaleEditorState._() : super._();
 
   @override
-  TalePage get selectedTalePage;
+  TalePage get selectedPage;
   @override
   TaleInteraction get selectedInteraction;
   @override

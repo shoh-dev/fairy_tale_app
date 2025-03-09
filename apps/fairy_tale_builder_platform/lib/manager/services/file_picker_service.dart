@@ -4,13 +4,27 @@ import 'package:myspace_data/myspace_data.dart';
 class FilePickerService {
   const FilePickerService();
 
-  ResultFuture<FilePickerResult?> pickFile(FileType type) async {
+  ResultFuture<PlatformFile?> pickPNGFile() async {
     try {
       final result = await FilePicker.platform.pickFiles(
-        type: type,
+        type: FileType.custom,
+        allowedExtensions: ['png'],
       );
 
-      return Result.ok(result);
+      return Result.ok(result?.files.firstOrNull);
+    } catch (e) {
+      return Result.error(ErrorX(e));
+    }
+  }
+
+  ResultFuture<PlatformFile?> pickAudioFile() async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.audio,
+        // allowedExtensions: ['mp3'],
+      );
+
+      return Result.ok(result?.files.firstOrNull);
     } catch (e) {
       return Result.error(ErrorX(e));
     }

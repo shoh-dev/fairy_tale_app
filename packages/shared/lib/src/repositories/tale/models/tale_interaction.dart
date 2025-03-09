@@ -3,7 +3,6 @@ import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale_interaction.freezed.dart';
-part 'tale_interaction.g.dart';
 
 /// Enum for the different types of interaction events
 enum TaleInteractionEventType { swipe, tap }
@@ -29,11 +28,11 @@ sealed class TaleInteractionSubType {
 }
 
 enum SwipeType implements TaleInteractionSubType {
+  any,
   right,
   left,
   up,
-  down,
-  any;
+  down;
 
   @override
   bool isSwipe() => true;
@@ -99,56 +98,94 @@ extension TaleInteractionActionExt on TaleInteractionAction {
 class TaleInteraction with _$TaleInteraction {
   const TaleInteraction._();
 
-  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TaleInteraction({
     required String id,
     required String talePageId,
-    required String eventType,
-    required String eventSubtype,
-    required int animationDuration,
     required TaleInteractionMetadata metadata,
-    required String action,
-    String? hintKey,
-    @JsonKey(includeFromJson: false) @Default(false) bool isUsed,
-    @JsonKey(includeFromJson: false) @Default(false) bool isNew,
+    @Default('') String action,
+    @Default('') String eventType,
+    @Default('') String eventSubtype,
+    @Default(500) int animationDuration,
+    @Default('') String hintKey,
+    @Default(false) bool isUsed,
+    @Default(false) bool isNew,
     @Default(0) int toReRender,
   }) = _TaleInteraction;
 
-  factory TaleInteraction.empty() => const TaleInteraction(
-        id: '',
-        talePageId: '',
-        eventType: '',
-        eventSubtype: '',
-        hintKey: '',
-        animationDuration: 500,
-        metadata: TaleInteractionMetadata(),
-        action: '',
-      );
-
-  factory TaleInteraction.newInteraction({
+  factory TaleInteraction.empty({
     required String id,
     required String talePageId,
   }) =>
       TaleInteraction(
         id: id,
         talePageId: talePageId,
-        eventType: '',
-        eventSubtype: '',
-        hintKey: '',
-        action: '',
-        animationDuration: 500,
-        metadata: const TaleInteractionMetadata(),
-        isNew: true,
+        metadata: TaleInteractionMetadata.empty,
       );
 
-  factory TaleInteraction.fromJson(Map<String, dynamic> json) =>
-      _$TaleInteractionFromJson(json);
+  factory TaleInteraction.newInteraction({
+    required String id,
+    required String talePageId,
+  }) =>
+      TaleInteraction.empty(id: id, talePageId: talePageId)
+          .copyWith(isNew: true);
 
-  Map<dynamic, dynamic> saveToJson() {
-    final json = toJson()
-      ..remove('created_at')
-      ..remove('to_re_render')
-      ..remove('is_new');
+  factory TaleInteraction.fromJson(Map<String, dynamic> json) {
+    try {
+      final id = json['id'] as String;
+      final talePageId = json['tale_page_id'] as String;
+      var model = TaleInteraction.empty(id: id, talePageId: talePageId);
+
+      if (json['metadata'] != null) {
+        model = model.copyWith(
+          metadata: TaleInteractionMetadata.fromJson(
+            json['metadata'] as Map<String, dynamic>,
+          ),
+        );
+      }
+      if (json['action'] != null) {
+        model = model.copyWith(
+          action: json['action'] as String,
+        );
+      }
+      if (json['event_type'] != null) {
+        model = model.copyWith(
+          eventType: json['event_type'] as String,
+        );
+      }
+      if (json['event_subtype'] != null) {
+        model = model.copyWith(
+          eventSubtype: json['event_subtype'] as String,
+        );
+      }
+      if (json['animation_duration'] != null) {
+        model = model.copyWith(
+          animationDuration: json['animation_duration'] as int,
+        );
+      }
+      if (json['hint_key'] != null) {
+        model = model.copyWith(
+          hintKey: json['hint_key'] as String,
+        );
+      }
+
+      return model;
+    } catch (e, st) {
+      Log().error('TaleInteraction.fromJson', e, st);
+      rethrow;
+    }
+  }
+
+  Map<dynamic, dynamic> toJson() {
+    final json = {
+      'id': id,
+      'tale_page_id': talePageId,
+      'metadata': metadata.toJson(),
+      'action': action,
+      'event_type': eventType,
+      'event_subtype': eventSubtype,
+      'animation_duration': animationDuration,
+      'hint_key': hintKey,
+    }..removeWhere((key, value) => value.toString().isEmpty);
 
     return json;
   }

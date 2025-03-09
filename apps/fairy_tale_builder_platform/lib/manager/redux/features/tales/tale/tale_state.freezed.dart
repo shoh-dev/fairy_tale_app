@@ -18,8 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TaleState {
   StateResult get selectedTaleResult => throw _privateConstructorUsedError;
   Tale get selectedTale => throw _privateConstructorUsedError;
-  TaleEditorState get editorState => throw _privateConstructorUsedError;
   bool get isTaleEdited => throw _privateConstructorUsedError;
+  TaleEditorState get editorState => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleState
   /// with the given fields replaced by the non-null parameter values.
@@ -36,8 +36,8 @@ abstract class $TaleStateCopyWith<$Res> {
   $Res call(
       {StateResult selectedTaleResult,
       Tale selectedTale,
-      TaleEditorState editorState,
-      bool isTaleEdited});
+      bool isTaleEdited,
+      TaleEditorState editorState});
 
   $StateResultCopyWith<$Res> get selectedTaleResult;
   $TaleCopyWith<$Res> get selectedTale;
@@ -61,8 +61,8 @@ class _$TaleStateCopyWithImpl<$Res, $Val extends TaleState>
   $Res call({
     Object? selectedTaleResult = null,
     Object? selectedTale = null,
-    Object? editorState = null,
     Object? isTaleEdited = null,
+    Object? editorState = null,
   }) {
     return _then(_value.copyWith(
       selectedTaleResult: null == selectedTaleResult
@@ -73,14 +73,14 @@ class _$TaleStateCopyWithImpl<$Res, $Val extends TaleState>
           ? _value.selectedTale
           : selectedTale // ignore: cast_nullable_to_non_nullable
               as Tale,
-      editorState: null == editorState
-          ? _value.editorState
-          : editorState // ignore: cast_nullable_to_non_nullable
-              as TaleEditorState,
       isTaleEdited: null == isTaleEdited
           ? _value.isTaleEdited
           : isTaleEdited // ignore: cast_nullable_to_non_nullable
               as bool,
+      editorState: null == editorState
+          ? _value.editorState
+          : editorState // ignore: cast_nullable_to_non_nullable
+              as TaleEditorState,
     ) as $Val);
   }
 
@@ -126,8 +126,8 @@ abstract class _$$TaleStateImplCopyWith<$Res>
   $Res call(
       {StateResult selectedTaleResult,
       Tale selectedTale,
-      TaleEditorState editorState,
-      bool isTaleEdited});
+      bool isTaleEdited,
+      TaleEditorState editorState});
 
   @override
   $StateResultCopyWith<$Res> get selectedTaleResult;
@@ -152,8 +152,8 @@ class __$$TaleStateImplCopyWithImpl<$Res>
   $Res call({
     Object? selectedTaleResult = null,
     Object? selectedTale = null,
-    Object? editorState = null,
     Object? isTaleEdited = null,
+    Object? editorState = null,
   }) {
     return _then(_$TaleStateImpl(
       selectedTaleResult: null == selectedTaleResult
@@ -164,14 +164,14 @@ class __$$TaleStateImplCopyWithImpl<$Res>
           ? _value.selectedTale
           : selectedTale // ignore: cast_nullable_to_non_nullable
               as Tale,
-      editorState: null == editorState
-          ? _value.editorState
-          : editorState // ignore: cast_nullable_to_non_nullable
-              as TaleEditorState,
       isTaleEdited: null == isTaleEdited
           ? _value.isTaleEdited
           : isTaleEdited // ignore: cast_nullable_to_non_nullable
               as bool,
+      editorState: null == editorState
+          ? _value.editorState
+          : editorState // ignore: cast_nullable_to_non_nullable
+              as TaleEditorState,
     ));
   }
 }
@@ -182,8 +182,8 @@ class _$TaleStateImpl extends _TaleState {
   const _$TaleStateImpl(
       {required this.selectedTaleResult,
       required this.selectedTale,
-      required this.editorState,
-      required this.isTaleEdited})
+      required this.isTaleEdited,
+      required this.editorState})
       : super._();
 
   @override
@@ -191,13 +191,13 @@ class _$TaleStateImpl extends _TaleState {
   @override
   final Tale selectedTale;
   @override
-  final TaleEditorState editorState;
-  @override
   final bool isTaleEdited;
+  @override
+  final TaleEditorState editorState;
 
   @override
   String toString() {
-    return 'TaleState(selectedTaleResult: $selectedTaleResult, selectedTale: $selectedTale, editorState: $editorState, isTaleEdited: $isTaleEdited)';
+    return 'TaleState(selectedTaleResult: $selectedTaleResult, selectedTale: $selectedTale, isTaleEdited: $isTaleEdited, editorState: $editorState)';
   }
 
   @override
@@ -209,15 +209,15 @@ class _$TaleStateImpl extends _TaleState {
                 other.selectedTaleResult == selectedTaleResult) &&
             (identical(other.selectedTale, selectedTale) ||
                 other.selectedTale == selectedTale) &&
-            (identical(other.editorState, editorState) ||
-                other.editorState == editorState) &&
             (identical(other.isTaleEdited, isTaleEdited) ||
-                other.isTaleEdited == isTaleEdited));
+                other.isTaleEdited == isTaleEdited) &&
+            (identical(other.editorState, editorState) ||
+                other.editorState == editorState));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, selectedTaleResult, selectedTale, editorState, isTaleEdited);
+      runtimeType, selectedTaleResult, selectedTale, isTaleEdited, editorState);
 
   /// Create a copy of TaleState
   /// with the given fields replaced by the non-null parameter values.
@@ -232,8 +232,8 @@ abstract class _TaleState extends TaleState {
   const factory _TaleState(
       {required final StateResult selectedTaleResult,
       required final Tale selectedTale,
-      required final TaleEditorState editorState,
-      required final bool isTaleEdited}) = _$TaleStateImpl;
+      required final bool isTaleEdited,
+      required final TaleEditorState editorState}) = _$TaleStateImpl;
   const _TaleState._() : super._();
 
   @override
@@ -241,9 +241,9 @@ abstract class _TaleState extends TaleState {
   @override
   Tale get selectedTale;
   @override
-  TaleEditorState get editorState;
-  @override
   bool get isTaleEdited;
+  @override
+  TaleEditorState get editorState;
 
   /// Create a copy of TaleState
   /// with the given fields replaced by the non-null parameter values.

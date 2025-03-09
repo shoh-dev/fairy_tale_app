@@ -1,4 +1,4 @@
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/editor_action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/interaction_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
@@ -33,7 +33,7 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
                     text: 'Add interaction',
                     icon: Icons.add_rounded,
                     onPressed: () {
-                      dispatch(AddEmptyInteractionAction());
+                      dispatch(AddInteractionAction());
                     },
                   ),
                 );
@@ -71,7 +71,8 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
                               child: Text(interaction.id),
                             ),
                             onTap: () {
-                              dispatch(SelectInteractionAction(interaction));
+                              dispatch(SelectInteractionAction(
+                                  interaction: interaction));
                             },
                           );
                         },

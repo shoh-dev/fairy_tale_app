@@ -1,6 +1,8 @@
 import 'package:just_audio/just_audio.dart';
 import 'package:myspace_data/myspace_data.dart';
 
+export 'package:just_audio/just_audio.dart' show ProcessingState;
+
 abstract class AudioPlayerService {
   final AudioPlayer _player;
 
@@ -57,7 +59,7 @@ abstract class AudioPlayerService {
     }
   }
 
-  Stream<bool> get isPlayingStream => _player.playingStream;
+  Stream<PlayerState> get playerStateStream => _player.playerStateStream;
 }
 
 //main player service
@@ -67,4 +69,8 @@ class MainAudioPlayerService extends AudioPlayerService {
 
 class InteractionAudioPlayerService extends AudioPlayerService {
   InteractionAudioPlayerService() : super(AudioPlayer());
+}
+
+class BackgroundAudioService extends AudioPlayerService {
+  BackgroundAudioService() : super(AudioPlayer());
 }

@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/editor_action.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/page_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/left_sidebar.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/page_details_form.dart';
@@ -19,45 +19,6 @@ class TaleEditorPage extends StatelessWidget {
   });
 
   final String taleId;
-
-  @override
-  Widget build(BuildContext context) {
-    return StateResultConnector<AppState>(
-      selector: (state) => state.taleListState.taleState.selectedTaleResult,
-      onInitialBuild: (dispatch, model) {
-        dispatch(GetTaleAction(taleId: taleId));
-      },
-      onDispose: (dispatch) {
-        dispatch(SelectEditorTalePageAction(null));
-      },
-      builder: (context, dispatch, model) {
-        return model.when(
-          ok: () {
-            return const _Layout();
-          },
-          error: (error) {
-            return Scaffold(
-              body: Center(
-                child: Text(error.toString()),
-              ),
-            );
-          },
-          loading: () {
-            return const Scaffold(
-              body: LoadingComponent(),
-            );
-          },
-          initial: () {
-            return const SizedBox();
-          },
-        );
-      },
-    );
-  }
-}
-
-class _Layout extends StatelessWidget {
-  const _Layout();
 
   @override
   Widget build(BuildContext context) {
@@ -103,29 +64,68 @@ class _Layout extends StatelessWidget {
             return ButtonComponent.icon(
               icon: Icons.save_rounded,
               onPressed: () {
-                dispatch(SaveSelectedTaleAction());
+                dispatch(SaveTaleAction());
               },
             );
           },
         ),
         const SizedBox(width: 8),
       ],
-      body: StateConnector<AppState, bool>(
-        selector: (state) => state
-            .taleListState.taleState.editorState.selectedTalePage.id.isNotEmpty,
-        builder: (context, dispatch, isSelected) {
-          if (isSelected) {
-            //show page editor details
-            return const TalePageDetailsForm();
-          }
-          return Center(
-            child: Text(
-              'Select a page to edit',
-              style: context.textTheme.titleLarge,
-            ),
+      body: StateResultConnector<AppState>(
+        selector: (state) => state.taleListState.taleState.selectedTaleResult,
+        onInitialBuild: (dispatch, model) {
+          dispatch(GetTaleAction(taleId: taleId));
+        },
+        onDispose: (dispatch) {
+          dispatch(ResetTaleStateAction());
+        },
+        builder: (context, dispatch, model) {
+          return model.when(
+            ok: () {
+              return const _Layout();
+            },
+            error: (error) {
+              return Scaffold(
+                body: Center(
+                  child: Text(error.toString()),
+                ),
+              );
+            },
+            loading: () {
+              return const Scaffold(
+                body: LoadingComponent(),
+              );
+            },
+            initial: () {
+              return const SizedBox();
+            },
           );
         },
       ),
+    );
+  }
+}
+
+class _Layout extends StatelessWidget {
+  const _Layout();
+
+  @override
+  Widget build(BuildContext context) {
+    return StateConnector<AppState, bool>(
+      selector: (state) =>
+          state.taleListState.taleState.editorState.selectedPage.id.isNotEmpty,
+      builder: (context, dispatch, isSelected) {
+        if (isSelected) {
+          //show page editor details
+          return const TalePageDetailsForm();
+        }
+        return Center(
+          child: Text(
+            'Select a page to edit',
+            style: context.textTheme.titleLarge,
+          ),
+        );
+      },
     );
   }
 }

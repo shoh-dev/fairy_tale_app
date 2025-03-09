@@ -1,8 +1,8 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:fairy_tale_builder_platform/components/orientation_selector.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/editor_action.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/interaction_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/tale_preview_dialog.dart';
@@ -42,11 +42,7 @@ class TalePageInteractionsEditor extends StatelessWidget {
                       hasLabel: false,
                       orientation: model.orientation,
                       onChanged: (value) {
-                        dispatch(
-                          UpdateSelectedTaleAction(
-                            model.updateOrientation(value),
-                          ),
-                        );
+                        dispatch(UpdateTaleAction(orientation: value));
                       },
                     ),
                   ),
@@ -69,15 +65,15 @@ class TalePageInteractionsEditor extends StatelessWidget {
                     );
                   },
                 ),
-                ButtonComponent.icon(
-                  icon: Icons.save_rounded,
-                  tooltip: 'Save',
-                  onPressed: !model
-                      ? null
-                      : () {
-                          dispatch(SaveInteractionsAction());
-                        },
-                ),
+                // ButtonComponent.icon(
+                //   icon: Icons.save_rounded,
+                //   tooltip: 'Save',
+                //   onPressed: !model
+                //       ? null
+                //       : () {
+                //           dispatch(SaveInteractionsAction());
+                //         },
+                // ),
                 const SizedBox(width: 1),
               ],
             );
@@ -114,7 +110,7 @@ class _Body extends StatelessWidget {
     return StateConnector<AppState, Tale>(
       selector: selectedTaleSelector,
       onDispose: (dispatch) {
-        dispatch(SelectInteractionAction(null));
+        dispatch(SelectInteractionAction());
       },
       builder: (context, dispatch, tale) {
         return StateConnector<AppState, TalePage>(
@@ -142,7 +138,7 @@ class _Body extends StatelessWidget {
                   Positioned.fill(
                     child: GestureDetector(
                       onTap: () {
-                        dispatch(SelectInteractionAction(null));
+                        dispatch(SelectInteractionAction());
                       },
                     ),
                   ),

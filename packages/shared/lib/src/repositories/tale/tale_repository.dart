@@ -15,10 +15,11 @@ abstract class TaleRepository {
   ResultFuture<void> saveTale(Tale tale);
   ResultFuture<void> saveTalePages(List<TalePage> pages);
   ResultFuture<void> saveTaleInteractions(List<TaleInteraction> ineractions);
-  ResultFuture<String> uploadImage({
+  ResultFuture<String> uploadFile({
     required Uint8List bytes,
     required String path,
   });
+  ResultFuture<void> deleteTalePage(String id);
 }
 
 class TaleRepositoryImpl implements TaleRepository {
@@ -78,7 +79,7 @@ class TaleRepositoryImpl implements TaleRepository {
   @override
   ResultFuture<void> saveTale(Tale tale) async {
     try {
-      await _supabase.from('tales').upsert(tale.saveToJson());
+      await _supabase.from('tales').upsert(tale.toJson());
       return const Result.ok(null);
     } catch (e) {
       return Result.error(ErrorX(e));
@@ -90,7 +91,7 @@ class TaleRepositoryImpl implements TaleRepository {
     try {
       await _supabase
           .from('pages')
-          .upsert(pages.map((e) => e.saveToJson()).toList());
+          .upsert(pages.map((e) => e.toJson()).toList());
 
       return const Result.ok(null);
     } catch (e) {
@@ -104,7 +105,7 @@ class TaleRepositoryImpl implements TaleRepository {
   ) async {
     try {
       await _supabase.from('interactions').upsert(
-            ineractions.map((e) => e.saveToJson()).toList(),
+            ineractions.map((e) => e.toJson()).toList(),
           );
 
       return const Result.ok(null);
@@ -114,7 +115,7 @@ class TaleRepositoryImpl implements TaleRepository {
   }
 
   @override
-  ResultFuture<String> uploadImage({
+  ResultFuture<String> uploadFile({
     required Uint8List bytes,
     required String path,
   }) async {
@@ -128,6 +129,17 @@ class TaleRepositoryImpl implements TaleRepository {
       final publicUrl = _supabase.storage.from('default').getPublicUrl(path);
 
       return Result.ok(publicUrl);
+    } catch (e) {
+      return Result.error(ErrorX(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> deleteTalePage(String id) async {
+    try {
+      await _supabase.from('pages').delete().eq('id', id);
+
+      return const Result.ok(null);
     } catch (e) {
       return Result.error(ErrorX(e));
     }

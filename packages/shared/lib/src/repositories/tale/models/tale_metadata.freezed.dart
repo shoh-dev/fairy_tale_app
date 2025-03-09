@@ -14,17 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-TaleMetadata _$TaleMetadataFromJson(Map<String, dynamic> json) {
-  return _TaleMetadata.fromJson(json);
-}
-
 /// @nodoc
 mixin _$TaleMetadata {
   String get coverImageUrl => throw _privateConstructorUsedError;
   String get backgroundAudioUrl => throw _privateConstructorUsedError;
-
-  /// Serializes this TaleMetadata to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleMetadata
   /// with the given fields replaced by the non-null parameter values.
@@ -115,14 +108,10 @@ class __$$TaleMetadataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(fieldRename: FieldRename.snake)
 class _$TaleMetadataImpl extends _TaleMetadata {
   const _$TaleMetadataImpl(
       {this.coverImageUrl = '', this.backgroundAudioUrl = ''})
       : super._();
-
-  factory _$TaleMetadataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TaleMetadataImplFromJson(json);
 
   @override
   @JsonKey()
@@ -147,7 +136,6 @@ class _$TaleMetadataImpl extends _TaleMetadata {
                 other.backgroundAudioUrl == backgroundAudioUrl));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, coverImageUrl, backgroundAudioUrl);
@@ -159,13 +147,6 @@ class _$TaleMetadataImpl extends _TaleMetadata {
   @pragma('vm:prefer-inline')
   _$$TaleMetadataImplCopyWith<_$TaleMetadataImpl> get copyWith =>
       __$$TaleMetadataImplCopyWithImpl<_$TaleMetadataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TaleMetadataImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _TaleMetadata extends TaleMetadata {
@@ -173,9 +154,6 @@ abstract class _TaleMetadata extends TaleMetadata {
       {final String coverImageUrl,
       final String backgroundAudioUrl}) = _$TaleMetadataImpl;
   const _TaleMetadata._() : super._();
-
-  factory _TaleMetadata.fromJson(Map<String, dynamic> json) =
-      _$TaleMetadataImpl.fromJson;
 
   @override
   String get coverImageUrl;

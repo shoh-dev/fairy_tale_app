@@ -1,6 +1,5 @@
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/editor_action.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/interaction_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:flutter/material.dart';
@@ -154,19 +153,13 @@ class __FormState extends State<_Form> with StateHelpers {
       builder: (context, dp) {
         // final deviceSize = Devices.ios.iPhone13.screenSize;
 
-        void dispatch(TaleInteraction interaction) {
-          if (mounted) {
-            dp(UpdateSelectedInteractionAction(interaction));
-          }
-        }
-
         Widget saveButton(
-          TaleInteraction interaction,
+          UpdateInteractionAction action,
           TextEditingController controller,
         ) {
           return ButtonComponent.iconOutlined(
             icon: Icons.save,
-            onPressed: isValid(controller) ? () => dispatch(interaction) : null,
+            onPressed: isValid(controller) ? () => dp(action) : null,
           );
         }
 
@@ -177,15 +170,13 @@ class __FormState extends State<_Form> with StateHelpers {
             onPressed:
                 //function to make with and height equal to width
                 isValid(isWidth ? _widthCtrl : _heightCtrl)
-                    ? () => dispatch(
-                          interaction.updateSize(
-                            TaleInteractionSize(
-                              num.parse(
-                                isWidth ? _widthCtrl.text : _heightCtrl.text,
-                              ),
-                              num.parse(
-                                isWidth ? _widthCtrl.text : _heightCtrl.text,
-                              ),
+                    ? () => dp(
+                          UpdateInteractionAction(
+                            width: num.parse(
+                              isWidth ? _widthCtrl.text : _heightCtrl.text,
+                            ),
+                            height: num.parse(
+                              isWidth ? _widthCtrl.text : _heightCtrl.text,
                             ),
                           ),
                         )
@@ -193,22 +184,41 @@ class __FormState extends State<_Form> with StateHelpers {
           );
         }
 
-        Widget aspectButtonPosition(bool isX) {
+        Widget aspectButtonInitialPosition(bool isX) {
           return ButtonComponent.iconOutlined(
             tooltip: 'Make X and Y equal',
             icon: Icons.aspect_ratio_rounded,
             onPressed:
                 //function to make with and height equal to width
                 isValid(isX ? _initialdxCtrl : _initialdyCtrl)
-                    ? () => dispatch(
-                          interaction.updateInitialPosition(
-                            TaleInteractionPosition(
-                              num.parse(
-                                isX ? _initialdxCtrl.text : _initialdyCtrl.text,
-                              ),
-                              num.parse(
-                                isX ? _initialdxCtrl.text : _initialdyCtrl.text,
-                              ),
+                    ? () => dp(
+                          UpdateInteractionAction(
+                            initialdx: num.parse(
+                              isX ? _initialdxCtrl.text : _initialdyCtrl.text,
+                            ),
+                            initialdy: num.parse(
+                              isX ? _initialdxCtrl.text : _initialdyCtrl.text,
+                            ),
+                          ),
+                        )
+                    : null,
+          );
+        }
+
+        Widget aspectButtonFinalPosition(bool isX) {
+          return ButtonComponent.iconOutlined(
+            tooltip: 'Make X and Y equal',
+            icon: Icons.aspect_ratio_rounded,
+            onPressed:
+                //function to make with and height equal to width
+                isValid(isX ? _finaldxCtrl : _finaldyCtrl)
+                    ? () => dp(
+                          UpdateInteractionAction(
+                            initialdx: num.parse(
+                              isX ? _finaldxCtrl.text : _finaldyCtrl.text,
+                            ),
+                            initialdy: num.parse(
+                              isX ? _finaldxCtrl.text : _finaldyCtrl.text,
                             ),
                           ),
                         )
@@ -225,7 +235,7 @@ class __FormState extends State<_Form> with StateHelpers {
               label: 'Hint',
               textKey: interaction.hintKey,
               onChanged: (value) {
-                dispatch(interaction.updateHintKey(value));
+                dp(UpdateInteractionAction(hintKey: value));
               },
             ),
             TextFieldComponent(
@@ -235,7 +245,9 @@ class __FormState extends State<_Form> with StateHelpers {
               suffixWidgets: [
                 aspectButtonSize(true),
                 saveButton(
-                  interaction.updateSize(makeInteractionSize()),
+                  UpdateInteractionAction(
+                    width: num.tryParse(_widthCtrl.text),
+                  ),
                   _widthCtrl,
                 ),
               ],
@@ -247,7 +259,9 @@ class __FormState extends State<_Form> with StateHelpers {
               suffixWidgets: [
                 aspectButtonSize(false),
                 saveButton(
-                  interaction.updateSize(makeInteractionSize()),
+                  UpdateInteractionAction(
+                    height: num.tryParse(_heightCtrl.text),
+                  ),
                   _heightCtrl,
                 ),
               ],
@@ -257,10 +271,11 @@ class __FormState extends State<_Form> with StateHelpers {
               maxLines: 1,
               controller: _initialdxCtrl,
               suffixWidgets: [
-                aspectButtonPosition(true),
+                aspectButtonInitialPosition(true),
                 saveButton(
-                  interaction
-                      .updateInitialPosition(makeInteractionInitialPosition()),
+                  UpdateInteractionAction(
+                    initialdx: num.tryParse(_initialdxCtrl.text),
+                  ),
                   _initialdxCtrl,
                 ),
               ],
@@ -270,66 +285,67 @@ class __FormState extends State<_Form> with StateHelpers {
               maxLines: 1,
               controller: _initialdyCtrl,
               suffixWidgets: [
-                aspectButtonPosition(false),
+                aspectButtonInitialPosition(false),
                 saveButton(
-                  interaction
-                      .updateInitialPosition(makeInteractionInitialPosition()),
+                  UpdateInteractionAction(
+                    initialdy: num.tryParse(_initialdyCtrl.text),
+                  ),
                   _initialdyCtrl,
                 ),
               ],
             ),
             _TypeDropdown(interaction: interaction),
-            _SubTypeDropdown(interaction: interaction),
-            _ActionDropdown(interaction: interaction),
+            if (interaction.availableSubTypes.isNotEmpty)
+              _SubTypeDropdown(interaction: interaction),
+            if (interaction.availableSubTypes.isNotEmpty)
+              _ActionDropdown(interaction: interaction),
             if (interaction.availableSubTypes.isNotEmpty)
               Text(
                 //
                 // ignore: lines_longer_than_80_chars
                 'When user ${interaction.eventType} -> ${interaction.eventSubtype} -> ${interaction.action}',
               ),
-            TextFieldComponent(
-              label: 'Final Position X',
-              maxLines: 1,
-              controller: _finaldxCtrl,
-              enabled: interaction.actionEnum == TaleInteractionAction.move,
-              suffixWidgets: const [
-                ButtonComponent.icon(
-                  icon: Icons.save,
-                  // onPressed: isValid(_finaldxCtrl)
-                  //     ? () => dispatch(interaction.updateFinalPosition(
-                  //         TaleInteractionPosition(num.parse(_finaldxCtrl.text
-                  // ),
-                  //             interaction.finalPosition?.dy ?? 0)))
-                  //     : null,
-                ),
-              ],
-            ),
-            TextFieldComponent(
-              label: 'Final Position Y',
-              maxLines: 1,
-              controller: _finaldyCtrl,
-              enabled: interaction.actionEnum == TaleInteractionAction.move,
-              suffixWidgets: const [
-                ButtonComponent.icon(
-                  icon: Icons.save,
-                  // onPressed: isValid(_finaldyCtrl)
-                  //     ? () => dispatch(interaction.updateFinalPosition(
-                  //         TaleInteractionPosition(
-                  //             interaction.finalPosition?.dx ?? 0,
-                  //             num.parse(_finaldyCtrl.text))))
-                  //     : null,
-                ),
-              ],
-            ),
             Text(
               'Metadata',
               style: context.textTheme.headlineSmall,
             ),
+            if (interaction.actionEnum == TaleInteractionAction.move) ...[
+              TextFieldComponent(
+                label: 'Final Position X',
+                maxLines: 1,
+                controller: _finaldxCtrl,
+                enabled: interaction.actionEnum == TaleInteractionAction.move,
+                suffixWidgets: [
+                  aspectButtonFinalPosition(true),
+                  saveButton(
+                    UpdateInteractionAction(
+                      finaldx: num.tryParse(_initialdxCtrl.text),
+                    ),
+                    _initialdxCtrl,
+                  ),
+                ],
+              ),
+              TextFieldComponent(
+                label: 'Final Position Y',
+                maxLines: 1,
+                controller: _finaldyCtrl,
+                enabled: interaction.actionEnum == TaleInteractionAction.move,
+                suffixWidgets: [
+                  aspectButtonFinalPosition(false),
+                  saveButton(
+                    UpdateInteractionAction(
+                      finaldy: num.tryParse(_finaldyCtrl.text),
+                    ),
+                    _initialdxCtrl,
+                  ),
+                ],
+              ),
+            ],
             ImageSelectorComponent(
               title: 'Object Image',
               imagePath: interaction.metadata.imageUrl,
               onImageSelected: (value) {
-                dp(AddSelectedInteractionImageAction(value));
+                dp(UpdateInteractionAction(imageFile: value));
               },
             ),
           ],
@@ -372,8 +388,8 @@ class _TypeDropdown extends StatelessWidget {
               return;
             }
             dispatch(
-              UpdateSelectedInteractionAction(
-                interaction.updateEventType(value.value),
+              UpdateInteractionAction(
+                eventType: value.value.name,
               ),
             );
           },
@@ -412,8 +428,8 @@ class _SubTypeDropdown extends StatelessWidget {
               return;
             }
             dispatch(
-              UpdateSelectedInteractionAction(
-                interaction.updateEventSubType(value.value),
+              UpdateInteractionAction(
+                eventSubType: value.value.name(),
               ),
             );
           },
@@ -452,8 +468,8 @@ class _ActionDropdown extends StatelessWidget {
               return;
             }
             dispatch(
-              UpdateSelectedInteractionAction(
-                interaction.updateAction(value.value),
+              UpdateInteractionAction(
+                action: value.value.name,
               ),
             );
           },

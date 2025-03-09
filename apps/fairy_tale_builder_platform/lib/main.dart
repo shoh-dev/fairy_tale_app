@@ -24,6 +24,7 @@ void main() async {
       runApp(
         StoreProvider(
           appStore: AppStore(
+            enableActionLog: true,
             initialState: AppState.initial(),
             di: di,
           ).createStore(),

@@ -1,5 +1,6 @@
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/editor_action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/translation_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:flutter/material.dart';
@@ -182,7 +183,7 @@ class _BodyState extends State<_Body> {
 
   Widget noRowsWidget() {
     return const Center(
-      child: Text('No Rows'),
+      child: Text('No translations'),
     );
   }
 
@@ -282,7 +283,30 @@ class _BodyState extends State<_Body> {
                     child: DropdownComponent<String>(
                       // hintText: locale,
                       initialValue: DropdownItem(value: locale, label: locale),
-                      onChanged: (value) {
+                      onChanged: (value) async {
+                        if (value?.value == 'add') {
+                          final newLocale = await _showAddLocaleDialog(context);
+                          if (newLocale != null) {
+                            final rows = stateManager.rows;
+                            final keys = rows.map<String>(
+                              (e) =>
+                                  "${newLocale.toUpperCase()}_${e.cells['key']!.value}",
+                            );
+                            final values = rows.map<String>(
+                              (e) =>
+                                  '${newLocale.toUpperCase()} ${e.cells['value']!.value}',
+                            );
+                            onLocaleChanged(newLocale);
+                            dispatch(
+                              UpdateTaleTranslationsAction(
+                                locale: newLocale,
+                                keys: keys,
+                                values: values,
+                              ),
+                            );
+                          }
+                          return;
+                        }
                         if (value == null || value.value == locale) {
                           return;
                         }
@@ -297,6 +321,11 @@ class _BodyState extends State<_Body> {
                         onLocaleChanged(value.value);
                       },
                       items: [
+                        DropdownItem(
+                          value: 'add',
+                          label: 'Add locale',
+                          icon: Icons.add_rounded,
+                        ),
                         for (final l in locales ?? <String>[])
                           DropdownItem(
                             value: l,
@@ -328,7 +357,11 @@ class _BodyState extends State<_Body> {
                     tooltip: 'Add',
                     icon: Icons.add_rounded,
                     onPressed: () {
-                      stateManager.insertRows(0, stateManager.getNewRows());
+                      stateManager.insertRows(0, [
+                        fromEntry(
+                          MapEntry('key_${stateManager.rows.length}', 'value'),
+                        ),
+                      ]);
                     },
                   ),
                   const SizedBox(width: 8),
@@ -343,7 +376,7 @@ class _BodyState extends State<_Body> {
                         (e) => e.cells['value']!.value.toString(),
                       );
                       dispatch(
-                        SaveSelectedTaleLocalizationAction(
+                        UpdateTaleTranslationsAction(
                           locale: locale,
                           keys: keys,
                           values: values,
@@ -358,6 +391,61 @@ class _BodyState extends State<_Body> {
           );
         },
       ),
+    );
+  }
+
+  Future<String?> _showAddLocaleDialog(BuildContext context) {
+    return showDialog<String>(
+      context: context,
+      builder: (context) => const _AddLocaleDialog(),
+    );
+  }
+}
+
+class _AddLocaleDialog extends StatefulWidget {
+  const _AddLocaleDialog();
+
+  @override
+  State<_AddLocaleDialog> createState() => __AddLocaleDialogState();
+}
+
+class __AddLocaleDialogState extends State<_AddLocaleDialog> {
+  final controller = TextEditingController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Add locale'),
+      titleTextStyle: context.textTheme.titleMedium,
+      content: TextFieldComponent(
+        autoFocus: true,
+        controller: controller,
+        hintText: 'en, ru, uz, etc.',
+      ),
+      actionsAlignment: MainAxisAlignment.spaceBetween,
+      actions: [
+        ButtonComponent.outlined(
+          text: 'Cancel',
+          icon: Icons.cancel_rounded,
+          onPressed: () => Navigator.pop(context),
+        ),
+        ButtonComponent.primary(
+          text: 'Save',
+          icon: Icons.save_rounded,
+          onPressed: () {
+            if (controller.text.isEmpty) {
+              return;
+            }
+            Navigator.pop(context, controller.text.toLowerCase().trim());
+          },
+        ),
+      ],
     );
   }
 }

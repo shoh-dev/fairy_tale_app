@@ -1,53 +1,92 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale.freezed.dart';
-part 'tale.g.dart';
 
 @freezed
 class Tale with _$Tale {
   const Tale._();
 
-  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Tale({
     required String id,
-    required String title,
-    required String description,
-    @Default(TaleMetadata()) TaleMetadata metadata,
-    @Default(TaleLocalization.empty) TaleLocalization localizations,
+    required TaleLocalization localizations,
+    @Default('') String title,
+    @Default('') String description,
+    @Default(TaleMetadata.empty) TaleMetadata metadata,
     @Default([]) List<TalePage> pages,
     @Default('portrait') String orientation,
     @Default(0) int toReRender,
+    @Default(false) bool isNew,
   }) = _Tale;
 
-  factory Tale.fromJson(Map<String, dynamic> json) => _$TaleFromJson(json);
+  factory Tale.fromJson(Map<String, dynamic> json) {
+    try {
+      final id = json['id'] as String;
+      var model = Tale.empty(id);
 
-  Map<dynamic, dynamic> saveToJson() {
-    return toJson()
-      ..remove('localizations')
-      ..remove('to_re_render')
-      ..remove('pages');
+      if (json['localizations'] != null) {
+        model = model.copyWith(
+          localizations: TaleLocalization.fromJson(
+            json['localizations'] as Map<String, dynamic>,
+          ),
+        );
+      }
+      if (json['metadata'] != null) {
+        model = model.copyWith(
+          metadata: TaleMetadata.fromJson(
+            json['metadata'] as Map<String, dynamic>,
+          ),
+        );
+      }
+      if (json['orientation'] != null) {
+        model = model.copyWith(
+          orientation: json['orientation'] as String,
+        );
+      }
+      if (json['title'] != null) {
+        model = model.copyWith(
+          title: json['title'] as String,
+        );
+      }
+      if (json['description'] != null) {
+        model = model.copyWith(
+          description: json['description'] as String,
+        );
+      }
+      if (json['pages'] != null) {
+        model = model.copyWith(
+          pages: (json['pages'] as List)
+              .map((e) => TalePage.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        );
+      }
+
+      return model;
+    } catch (e, st) {
+      Log().error('Tale.fromJson', e, st);
+      rethrow;
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = {
+      'id': id,
+      'title': title,
+      'description': description,
+      'metadata': metadata.toJson(),
+      'orientation': orientation,
+    }..removeWhere((key, value) => value.toString().isEmpty);
+
+    return json;
   }
 
   factory Tale.empty(String id) => Tale(
         id: id,
-        title: '',
-        description: '',
-        localizations: TaleLocalization.empty.copyWith(taleId: id),
+        localizations: TaleLocalization.empty(id),
       );
 
-  factory Tale.newTale({
-    required String id,
-    String title = '',
-    String description = '',
-  }) {
-    return Tale(
-      id: id,
-      title: title,
-      description: description,
-      localizations: TaleLocalization.empty.copyWith(taleId: id),
-    );
-  }
+  factory Tale.newTale(String id) => Tale.empty(id).copyWith(isNew: true);
 
   bool get isPortrait => orientation == 'portrait';
 

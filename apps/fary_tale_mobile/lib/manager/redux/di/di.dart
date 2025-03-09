@@ -10,6 +10,7 @@ class DependencyInjection extends ReduxDependencyInjection {
   late final PathProviderService pathProviderService;
   late final AudioPlayerService interactionAudioPlayerService;
   late final AudioPlayerService mainAudioPlayerService;
+  late final AudioPlayerService backgroundAudioPlayerService;
   late final DeviceService deviceService;
 
   @override
@@ -20,6 +21,8 @@ class DependencyInjection extends ReduxDependencyInjection {
       interactionAudioPlayerService =
           InteractionAudioPlayerService() as AudioPlayerService;
       mainAudioPlayerService = MainAudioPlayerService() as AudioPlayerService;
+      backgroundAudioPlayerService =
+          BackgroundAudioService() as AudioPlayerService;
       supabaseRepository = SupabaseService(EnvironmentKeyService());
       final supabaseClient = await supabaseRepository.initialize();
       return supabaseClient.when(

@@ -14,17 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-TaleInteractionSize _$TaleInteractionSizeFromJson(Map<String, dynamic> json) {
-  return _TaleInteractionSize.fromJson(json);
-}
-
 /// @nodoc
 mixin _$TaleInteractionSize {
   num get w => throw _privateConstructorUsedError;
   num get h => throw _privateConstructorUsedError;
-
-  /// Serializes this TaleInteractionSize to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleInteractionSize
   /// with the given fields replaced by the non-null parameter values.
@@ -115,12 +108,8 @@ class __$$TaleInteractionSizeImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(fieldRename: FieldRename.snake)
 class _$TaleInteractionSizeImpl extends _TaleInteractionSize {
   const _$TaleInteractionSizeImpl(this.w, this.h) : super._();
-
-  factory _$TaleInteractionSizeImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TaleInteractionSizeImplFromJson(json);
 
   @override
   final num w;
@@ -141,7 +130,6 @@ class _$TaleInteractionSizeImpl extends _TaleInteractionSize {
             (identical(other.h, h) || other.h == h));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, w, h);
 
@@ -153,22 +141,12 @@ class _$TaleInteractionSizeImpl extends _TaleInteractionSize {
   _$$TaleInteractionSizeImplCopyWith<_$TaleInteractionSizeImpl> get copyWith =>
       __$$TaleInteractionSizeImplCopyWithImpl<_$TaleInteractionSizeImpl>(
           this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TaleInteractionSizeImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _TaleInteractionSize extends TaleInteractionSize {
   const factory _TaleInteractionSize(final num w, final num h) =
       _$TaleInteractionSizeImpl;
   const _TaleInteractionSize._() : super._();
-
-  factory _TaleInteractionSize.fromJson(Map<String, dynamic> json) =
-      _$TaleInteractionSizeImpl.fromJson;
 
   @override
   num get w;

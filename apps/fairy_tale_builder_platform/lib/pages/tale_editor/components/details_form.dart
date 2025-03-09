@@ -4,6 +4,7 @@ import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/localization_settings/localization_settings_page.dart';
+import 'package:fairy_tale_builder_platform/pages/tale_editor/components/audio_selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -42,20 +43,6 @@ class TaleDetailsForm extends StatelessWidget {
                     );
                   },
                 ),
-                // const SizedBox(width: 8),
-                // StateConnector<AppState, bool>(
-                //   selector: isTaleEditedSelector,
-                //   builder: (context, dispatch, isEdited) {
-                //     return ButtonComponent.icon(
-                //       icon: Icons.save_rounded,
-                //       onPressed: isEdited
-                //           ? () {
-                //               dispatch(SaveTaleAction(tale));
-                //             }
-                //           : null,
-                //     );
-                //   },
-                // ),
               ],
             ),
             space(8),
@@ -68,7 +55,7 @@ class TaleDetailsForm extends StatelessWidget {
               label: 'Title',
               textKey: tale.title,
               onChanged: (value) {
-                dispatch(UpdateSelectedTaleAction(tale.copyWith(title: value)));
+                dispatch(UpdateTaleAction(title: value));
               },
             ),
             space(),
@@ -76,20 +63,14 @@ class TaleDetailsForm extends StatelessWidget {
               label: 'Description',
               textKey: tale.description,
               onChanged: (value) {
-                dispatch(
-                  UpdateSelectedTaleAction(
-                    tale.copyWith(description: value),
-                  ),
-                );
+                dispatch(UpdateTaleAction(description: value));
               },
             ),
             space(),
             OrientationSelector(
               orientation: tale.orientation,
               onChanged: (value) {
-                dispatch(
-                  UpdateSelectedTaleAction(tale.updateOrientation(value)),
-                );
+                dispatch(UpdateTaleAction(orientation: value));
               },
             ),
             space(),
@@ -103,7 +84,17 @@ class TaleDetailsForm extends StatelessWidget {
               imagePath: tale.coverImage,
               onImageSelected: (value) {
                 dispatch(
-                  AddSelectedTaleCoverImageAction(value),
+                  UpdateTaleAction(coverImageFile: value),
+                );
+              },
+            ),
+            space(16),
+            AudioSelectorComponent(
+              title: 'Background Audio',
+              audioPath: tale.metadata.backgroundAudioUrl,
+              onAudioSelected: (value) {
+                dispatch(
+                  UpdateTaleAction(backgroundAudioFile: value),
                 );
               },
             ),
