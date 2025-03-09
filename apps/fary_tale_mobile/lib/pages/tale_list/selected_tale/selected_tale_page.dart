@@ -27,17 +27,31 @@ class _SelectedTalePageState extends State<SelectedTalePage>
     with StateHelpers, WidgetsBindingObserver {
   final pageController = PageController();
 
-  AudioPlayerService audioService(BuildContext context) {
+  AudioPlayerService interactionAudioService(BuildContext context) {
     return context
         .getDependency<DependencyInjection>()
         .interactionAudioPlayerService;
   }
 
+  AudioPlayerService backgroundAudioService(BuildContext context) {
+    return context
+        .getDependency<DependencyInjection>()
+        .backgroundAudioPlayerService;
+  }
+
+  bool isAnyAudioPlaying(BuildContext context) {
+    return interactionAudioService(context).isPlaying() ||
+        backgroundAudioService(context).isPlaying();
+  }
+
   @override
   void dispose() {
     safeDispose(() {
-      if (audioService(context).isPlaying()) {
-        stopAudio(audioService(context));
+      if (interactionAudioService(context).isPlaying()) {
+        stopAudio(interactionAudioService(context));
+      }
+      if (backgroundAudioService(context).isPlaying()) {
+        stopAudio(backgroundAudioService(context));
       }
       pageController.dispose();
       WidgetsBinding.instance.removeObserver(this);
@@ -54,23 +68,42 @@ class _SelectedTalePageState extends State<SelectedTalePage>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    Log('SelectedTalePage').debug(state.toString());
     log(state.toString());
 
-    final isAudioPlaying = audioService(context).isPlaying();
+    final isInteractionAudioPlaying =
+        interactionAudioService(context).isPlaying();
+    final isBackgroundAudioPlaying =
+        backgroundAudioService(context).isPlaying();
 
-    if (isAudioPlaying) {
+    if (isInteractionAudioPlaying || isBackgroundAudioPlaying) {
       if (state
           case AppLifecycleState.hidden ||
               AppLifecycleState.inactive ||
               AppLifecycleState.paused) {
-        pauseAudio(audioService(context));
+        if (isInteractionAudioPlaying) {
+          pauseAudio(interactionAudioService(context));
+        }
+        if (isBackgroundAudioPlaying) {
+          pauseAudio(backgroundAudioService(context));
+        }
       }
       if (state case AppLifecycleState.detached) {
-        stopAudio(audioService(context));
+        if (isInteractionAudioPlaying) {
+          stopAudio(interactionAudioService(context));
+        }
+        if (isBackgroundAudioPlaying) {
+          stopAudio(backgroundAudioService(context));
+        }
       }
     } else {
       if (state case AppLifecycleState.resumed) {
-        resumeAudio(audioService(context));
+        // if (isInteractionAudioPlaying) {
+        resumeAudio(interactionAudioService(context));
+        // }
+        // if (isBackgroundAudioPlaying) {
+        resumeAudio(backgroundAudioService(context));
+        // }
       }
     }
   }
@@ -164,57 +197,58 @@ class _TaleView extends StatefulWidget {
 }
 
 class _TaleViewState extends State<_TaleView> with StateHelpers {
+  Tale get tale => widget.tale;
+
   @override
   void initState() {
     super.initState();
-    safeInitialize(() async {
-      if (!widget.tale.isPortrait) {
-        await context
-            .getDependency<DependencyInjection>()
-            .deviceService
-            .setDeviceOrientation([
-          DeviceOrientation.landscapeLeft,
-          DeviceOrientation.landscapeRight,
-        ]).then(
-          (value) {
-            if (value.isError) {
-              log((value as ErrorX).toString());
-            }
-          },
-        );
-      }
+    safeInitialize(() {
+      Future.wait([
+        if (!tale.isPortrait)
+          context
+              .getDependency<DependencyInjection>()
+              .deviceService
+              .setDeviceOrientation([
+            DeviceOrientation.landscapeLeft,
+            DeviceOrientation.landscapeRight,
+          ]),
+        if (tale.metadata.hasBackgroundAudio)
+          context
+              .getDependency<DependencyInjection>()
+              .backgroundAudioPlayerService
+              .playFromUrl(tale.metadata.backgroundAudioUrl),
+      ]); //todo: handle error
     });
   }
 
   @override
   void dispose() {
     safeDispose(() async {
-      await context
-          .getDependency<DependencyInjection>()
-          .deviceService
-          .setDeviceOrientation([
-        DeviceOrientation.portraitDown,
-        DeviceOrientation.portraitUp,
-      ]).then(
-        (value) {
-          if (value.isError) {
-            log((value as ErrorX).toString());
-          }
-        },
-      );
+      await Future.wait([
+        context
+            .getDependency<DependencyInjection>()
+            .deviceService
+            .setDeviceOrientation([
+          DeviceOrientation.portraitDown,
+          DeviceOrientation.portraitUp,
+        ]),
+      ]); //todo: handle error
     });
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final audioService = context
+    final interactionAudio = context
         .getDependency<DependencyInjection>()
         .interactionAudioPlayerService;
+    final backgroundAudio = context
+        .getDependency<DependencyInjection>()
+        .backgroundAudioPlayerService;
     return Translator(
       toTranslate: [
-        widget.tale.title,
-        widget.tale.description,
+        tale.title,
+        tale.description,
       ],
       builder: (translatedValue) {
         return Scaffold(
@@ -222,14 +256,55 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
             title: TextComponent.any(translatedValue[0]),
             actions: [
               StreamBuilder(
-                stream: audioService.isPlayingStream,
+                stream: interactionAudio.playerStateStream,
                 builder: (context, snapshot) {
-                  if (snapshot.data != null && snapshot.data!) {
-                    return const Tooltip(
-                      triggerMode: TooltipTriggerMode.tap,
-                      message: 'Audio is playing',
-                      child: Icon(Icons.pause),
-                    );
+                  log('Interaction: ${snapshot.data?.playing}');
+                  log('Interaction: ${snapshot.data?.processingState}');
+                  if (snapshot.data != null) {
+                    final isPlaying = snapshot.data!.processingState ==
+                            ProcessingState.ready &&
+                        snapshot.data!.playing == true;
+                    final isBuffering = snapshot.data!.processingState ==
+                        ProcessingState.buffering;
+                    if (isBuffering) {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    }
+                    if (isPlaying) {
+                      return const Tooltip(
+                        triggerMode: TooltipTriggerMode.tap,
+                        message: 'Interaction audio is playing',
+                        child: Icon(Icons.audiotrack),
+                      );
+                    }
+                  }
+                  return const SizedBox();
+                },
+              ),
+              StreamBuilder(
+                stream: backgroundAudio.playerStateStream,
+                builder: (context, snapshot) {
+                  log('Background: ${snapshot.data?.playing}');
+                  log('Background: ${snapshot.data?.processingState}');
+                  if (snapshot.data != null) {
+                    final isPlaying = snapshot.data!.processingState ==
+                            ProcessingState.ready &&
+                        snapshot.data!.playing == true;
+                    final isBuffering = snapshot.data!.processingState ==
+                        ProcessingState.buffering;
+                    if (isBuffering) {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    }
+                    if (isPlaying) {
+                      return const Tooltip(
+                        triggerMode: TooltipTriggerMode.tap,
+                        message: 'Background audio is playing',
+                        child: Icon(Icons.audiotrack),
+                      );
+                    }
                   }
                   return const SizedBox();
                 },
@@ -249,11 +324,11 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
             builder: (context, cc) {
               return PageView.builder(
                 controller: widget.pageController,
-                itemCount: widget.tale.pages.length,
+                itemCount: tale.pages.length,
                 physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  final page = widget.tale.pages[index];
+                  final page = tale.pages[index];
                   return Stack(
                     children: [
                       //image
@@ -288,11 +363,11 @@ class _TaleViewState extends State<_TaleView> with StateHelpers {
           bottomNavigationBar: BottomAppBar(
             child: SelectedTalePageNavigatorComponent(
               controller: widget.pageController,
-              totalPages: widget.tale.pages.length,
+              totalPages: tale.pages.length,
               interactions: widget.pageController.hasClients
-                  ? widget.tale.pages[widget.pageController.page?.toInt() ?? 0]
+                  ? tale.pages[widget.pageController.page?.toInt() ?? 0]
                       .interactions
-                  : widget.tale.pages.first.interactions,
+                  : tale.pages.first.interactions,
             ),
           ),
         );

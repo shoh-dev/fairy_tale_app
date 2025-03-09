@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
-class ImageSelectorComponent extends StatelessWidget {
-  const ImageSelectorComponent({
+class AudioSelectorComponent extends StatelessWidget {
+  const AudioSelectorComponent({
     required this.title,
     super.key,
-    this.imagePath = '',
-    this.onImageSelected,
+    this.audioPath = '',
+    this.onAudioSelected,
   });
 
-  final String imagePath;
-  final ValueChanged<PlatformFile>? onImageSelected;
+  final String audioPath;
+  final ValueChanged<PlatformFile>? onAudioSelected;
   final String title;
 
   @override
@@ -25,25 +25,21 @@ class ImageSelectorComponent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title, style: context.textTheme.bodyMedium),
-        if (imagePath.isNotEmpty)
-          Image.network(
-            '$imagePath?${DateTime.now().millisecondsSinceEpoch}',
-            width: 200,
-            height: 200,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return const Placeholder();
-            },
+        if (audioPath.isNotEmpty)
+          ButtonComponent.outlined(
+            text: 'Play',
+            icon: Icons.play_arrow,
+            onPressed: () {}, //todo: handle play audio
           ),
         ButtonComponent.primary(
-          onPressed: onImageSelected == null
+          onPressed: onAudioSelected == null
               ? null
               : () async {
                   final picker = context
                       .getDependency<DependencyInjection>()
                       .filePickerService;
 
-                  final result = await picker.pickPNGFile();
+                  final result = await picker.pickAudioFile();
 
                   result.when(
                     ok: (file) {
@@ -51,7 +47,7 @@ class ImageSelectorComponent extends StatelessWidget {
                         return;
                       }
 
-                      onImageSelected!(file);
+                      onAudioSelected!(file);
                     },
                     error: (e) {
                       //todo: show error
@@ -60,7 +56,7 @@ class ImageSelectorComponent extends StatelessWidget {
                   );
                 },
           icon: Icons.image_rounded,
-          text: imagePath.isEmpty ? 'Select Image' : 'Replace Image',
+          text: audioPath.isEmpty ? 'Select Audio' : 'Replace Audio',
         ),
       ],
     );

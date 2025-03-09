@@ -4,6 +4,7 @@ import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/localization_settings/localization_settings_page.dart';
+import 'package:fairy_tale_builder_platform/pages/tale_editor/components/audio_selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -84,6 +85,16 @@ class TaleDetailsForm extends StatelessWidget {
               onImageSelected: (value) {
                 dispatch(
                   UpdateTaleAction(coverImageFile: value),
+                );
+              },
+            ),
+            space(16),
+            AudioSelectorComponent(
+              title: 'Background Audio',
+              audioPath: tale.metadata.backgroundAudioUrl,
+              onAudioSelected: (value) {
+                dispatch(
+                  UpdateTaleAction(backgroundAudioFile: value),
                 );
               },
             ),

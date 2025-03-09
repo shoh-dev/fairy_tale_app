@@ -192,10 +192,10 @@ class _UpdateInteractionImageAction extends DefaultAction {
 
     final ineraction = taleState.editorState.selectedInteraction;
 
-    final uploadedResult = await taleRepository.uploadImage(
+    final uploadedResult = await taleRepository.uploadFile(
       bytes: await file.xFile.readAsBytes(),
       path:
-          'interaction_objects/${ineraction.id}.${file.extension!.toLowerCase()}',
+          'interaction/images/${ineraction.id}.${file.extension!.toLowerCase()}',
     );
 
     uploadedResult.when(

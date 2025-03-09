@@ -96,6 +96,8 @@ class UpdateTaleAction extends DefaultAction {
   final String? coverImageUrl;
   final Map<String, Map<String, String>>? translations;
   final List<TalePage>? pages;
+  final PlatformFile? backgroundAudioFile;
+  final String? backgroundAudioUrl;
 
   UpdateTaleAction({
     /// when passed as true, re renders all StoreConnectors using selectedTale
@@ -107,6 +109,8 @@ class UpdateTaleAction extends DefaultAction {
     this.coverImageUrl,
     this.translations,
     this.pages,
+    this.backgroundAudioFile,
+    this.backgroundAudioUrl,
   });
 
   @override
@@ -122,6 +126,11 @@ class UpdateTaleAction extends DefaultAction {
       return null;
     }
 
+    if (backgroundAudioFile != null) {
+      dispatch(_UpdateTaleBackgroundAudioAction(backgroundAudioFile!));
+      return null;
+    }
+
     final newTale = tale.copyWith(
       title: title ?? tale.title,
       description: description ?? tale.description,
@@ -131,6 +140,8 @@ class UpdateTaleAction extends DefaultAction {
       ),
       metadata: tale.metadata.copyWith(
         coverImageUrl: coverImageUrl ?? tale.metadata.coverImageUrl,
+        backgroundAudioUrl:
+            backgroundAudioUrl ?? tale.metadata.backgroundAudioUrl,
       ),
       pages: pages ?? tale.pages,
     );
@@ -161,9 +172,9 @@ class _UpdateTaleCoverImageAction extends DefaultAction {
 
     final tale = taleState.selectedTale;
 
-    final uploadedResult = await taleRepository.uploadImage(
+    final uploadedResult = await taleRepository.uploadFile(
       bytes: await file.xFile.readAsBytes(),
-      path: 'covers/${tale.id}.${file.extension!.toLowerCase()}',
+      path: 'tale/covers/${tale.id}.${file.extension!.toLowerCase()}',
     );
 
     uploadedResult.when(
@@ -178,31 +189,35 @@ class _UpdateTaleCoverImageAction extends DefaultAction {
   }
 }
 
-class UpdateTaleTranslationsAction extends DefaultAction {
-  final String locale;
-  final Iterable<String> keys;
-  final Iterable<String> values;
+class _UpdateTaleBackgroundAudioAction extends DefaultAction {
+  final PlatformFile file;
 
-  UpdateTaleTranslationsAction({
-    required this.locale,
-    required this.keys,
-    required this.values,
-  });
+  _UpdateTaleBackgroundAudioAction(this.file);
 
   @override
   Future<AppState?> reduce() async {
-    final selectedTale = taleState.selectedTale;
-    // final oldTranslations = Map.of(selectedTale.localizations.translations);
-    final newTranslations = Map.of(selectedTale.localizations.translations);
+    if (file.bytes == null && file.extension == null) {
+      return null;
+    }
 
-    newTranslations[locale] = Map<String, String>.fromIterables(keys, values);
+    final tale = taleState.selectedTale;
 
-    //todo: check why this is not working
-    // if (mapEquals(oldTranslations, newTranslations)) {
-    //   return null;
-    // }
+    final uploadedResult = await taleRepository.uploadFile(
+      bytes: await file.xFile.readAsBytes(),
+      path:
+          'tale/background_audios/${tale.id}.${file.extension!.toLowerCase()}',
+    );
 
-    dispatch(UpdateTaleAction(translations: newTranslations));
+    print(uploadedResult);
+
+    uploadedResult.when(
+      ok: (url) {
+        dispatch(UpdateTaleAction(backgroundAudioUrl: url, reRender: true));
+      },
+      error: (error) {
+        dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
+      },
+    );
     return null;
   }
 }

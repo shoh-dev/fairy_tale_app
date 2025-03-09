@@ -15,7 +15,7 @@ abstract class TaleRepository {
   ResultFuture<void> saveTale(Tale tale);
   ResultFuture<void> saveTalePages(List<TalePage> pages);
   ResultFuture<void> saveTaleInteractions(List<TaleInteraction> ineractions);
-  ResultFuture<String> uploadImage({
+  ResultFuture<String> uploadFile({
     required Uint8List bytes,
     required String path,
   });
@@ -115,7 +115,7 @@ class TaleRepositoryImpl implements TaleRepository {
   }
 
   @override
-  ResultFuture<String> uploadImage({
+  ResultFuture<String> uploadFile({
     required Uint8List bytes,
     required String path,
   }) async {

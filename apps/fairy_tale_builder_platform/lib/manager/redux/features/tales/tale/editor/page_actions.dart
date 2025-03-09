@@ -144,10 +144,9 @@ class _UpdatePageBackgroundImageAction extends DefaultAction {
 
     final page = taleState.editorState.selectedPage;
 
-    final uploadedResult = await taleRepository.uploadImage(
+    final uploadedResult = await taleRepository.uploadFile(
       bytes: await file.xFile.readAsBytes(),
-      path:
-          'page_images/background/${page.id}.${file.extension!.toLowerCase()}',
+      path: 'page/background/${page.id}.${file.extension!.toLowerCase()}',
     );
 
     uploadedResult.when(

@@ -1,5 +1,6 @@
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/translation_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:flutter/material.dart';
