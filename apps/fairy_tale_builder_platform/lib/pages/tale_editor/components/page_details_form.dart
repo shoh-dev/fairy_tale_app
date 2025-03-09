@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/editor_action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/page_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
@@ -34,11 +31,12 @@ class TalePageDetailsForm extends StatelessWidget {
                   style: context.textTheme.headlineSmall,
                 ),
                 const Spacer(),
-                const ButtonComponent.iconDesctructive(
+                ButtonComponent.iconDesctructive(
                   tooltip: 'Delete Page',
                   icon: Icons.delete_rounded,
-                  // onPressed: () {},
-                  //todo: onPressed
+                  onPressed: () {
+                    dispatch(DeletePageAction());
+                  },
                 ),
                 const SizedBox(width: 8),
                 //Interactions Editor icon button

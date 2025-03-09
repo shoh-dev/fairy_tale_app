@@ -14,19 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-TaleLocalization _$TaleLocalizationFromJson(Map<String, dynamic> json) {
-  return _TaleLocalization.fromJson(json);
-}
-
 /// @nodoc
 mixin _$TaleLocalization {
   String get taleId => throw _privateConstructorUsedError;
   Map<String, Map<String, String>> get translations =>
       throw _privateConstructorUsedError;
   String get defaultLocale => throw _privateConstructorUsedError;
-
-  /// Serializes this TaleLocalization to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleLocalization
   /// with the given fields replaced by the non-null parameter values.
@@ -133,7 +126,6 @@ class __$$TaleLocalizationImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(fieldRename: FieldRename.snake)
 class _$TaleLocalizationImpl extends _TaleLocalization {
   const _$TaleLocalizationImpl(
       {required this.taleId,
@@ -141,9 +133,6 @@ class _$TaleLocalizationImpl extends _TaleLocalization {
       required this.defaultLocale})
       : _translations = translations,
         super._();
-
-  factory _$TaleLocalizationImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TaleLocalizationImplFromJson(json);
 
   @override
   final String taleId;
@@ -175,7 +164,6 @@ class _$TaleLocalizationImpl extends _TaleLocalization {
                 other.defaultLocale == defaultLocale));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, taleId,
       const DeepCollectionEquality().hash(_translations), defaultLocale);
@@ -188,13 +176,6 @@ class _$TaleLocalizationImpl extends _TaleLocalization {
   _$$TaleLocalizationImplCopyWith<_$TaleLocalizationImpl> get copyWith =>
       __$$TaleLocalizationImplCopyWithImpl<_$TaleLocalizationImpl>(
           this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TaleLocalizationImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _TaleLocalization extends TaleLocalization {
@@ -203,9 +184,6 @@ abstract class _TaleLocalization extends TaleLocalization {
       required final Map<String, Map<String, String>> translations,
       required final String defaultLocale}) = _$TaleLocalizationImpl;
   const _TaleLocalization._() : super._();
-
-  factory _TaleLocalization.fromJson(Map<String, dynamic> json) =
-      _$TaleLocalizationImpl.fromJson;
 
   @override
   String get taleId;

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/editor_action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/page_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:file_picker/file_picker.dart';
@@ -93,6 +93,7 @@ class UpdateTaleAction extends DefaultAction {
   final PlatformFile? coverImageFile;
   final String? coverImageUrl;
   final Map<String, Map<String, String>>? translations;
+  final List<TalePage>? pages;
 
   UpdateTaleAction({
     /// when passed as true, re renders all StoreConnectors using selectedTale
@@ -103,6 +104,7 @@ class UpdateTaleAction extends DefaultAction {
     this.coverImageFile,
     this.coverImageUrl,
     this.translations,
+    this.pages,
   });
 
   @override
@@ -124,6 +126,7 @@ class UpdateTaleAction extends DefaultAction {
       metadata: tale.metadata.copyWith(
         coverImageUrl: coverImageUrl ?? tale.metadata.coverImageUrl,
       ),
+      pages: pages ?? tale.pages,
     );
 
     return state.copyWith(
@@ -169,45 +172,31 @@ class _UpdateTaleCoverImageAction extends DefaultAction {
   }
 }
 
-/// TEST DONE UP TO HERE
+class UpdateTaleTranslationsAction extends DefaultAction {
+  final String locale;
+  final Iterable<String> keys;
+  final Iterable<String> values;
 
-class AddSelectedInteractionImageAction extends DefaultAction {
-  final PlatformFile file;
-
-  AddSelectedInteractionImageAction(this.file);
+  UpdateTaleTranslationsAction({
+    required this.locale,
+    required this.keys,
+    required this.values,
+  });
 
   @override
   Future<AppState?> reduce() async {
-    if (file.bytes == null && file.extension == null) {
-      return null;
-    }
+    final selectedTale = taleState.selectedTale;
+    // final oldTranslations = Map.of(selectedTale.localizations.translations);
+    final newTranslations = Map.of(selectedTale.localizations.translations);
 
-    final ineraction = taleState.editorState.selectedInteraction;
+    newTranslations[locale] = Map<String, String>.fromIterables(keys, values);
 
-    final uploadedResult = await taleRepository.uploadImage(
-      bytes: await file.xFile.readAsBytes(),
-      path:
-          'interaction_objects/${ineraction.id}.${file.extension!.toLowerCase()}',
-    );
+    //todo: check why this is not working
+    // if (mapEquals(oldTranslations, newTranslations)) {
+    //   return null;
+    // }
 
-    uploadedResult.when(
-      ok: (url) {
-        dispatch(
-          UpdateSelectedInteractionAction(
-            ineraction.copyWith(
-              metadata: ineraction.metadata.copyWith(imageUrl: url),
-              toReRender: ineraction.toReRender + 1,
-            ),
-          ),
-        );
-
-        dispatch(SaveInteractionsAction());
-      },
-      error: (error) {
-        // dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
-        //todo:
-      },
-    );
+    dispatch(UpdateTaleAction(translations: newTranslations));
     return null;
   }
 }

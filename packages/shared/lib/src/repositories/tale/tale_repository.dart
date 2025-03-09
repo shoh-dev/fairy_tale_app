@@ -19,6 +19,7 @@ abstract class TaleRepository {
     required Uint8List bytes,
     required String path,
   });
+  ResultFuture<void> deleteTalePage(String id);
 }
 
 class TaleRepositoryImpl implements TaleRepository {
@@ -128,6 +129,17 @@ class TaleRepositoryImpl implements TaleRepository {
       final publicUrl = _supabase.storage.from('default').getPublicUrl(path);
 
       return Result.ok(publicUrl);
+    } catch (e) {
+      return Result.error(ErrorX(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> deleteTalePage(String id) async {
+    try {
+      await _supabase.from('pages').delete().eq('id', id);
+
+      return const Result.ok(null);
     } catch (e) {
       return Result.error(ErrorX(e));
     }
