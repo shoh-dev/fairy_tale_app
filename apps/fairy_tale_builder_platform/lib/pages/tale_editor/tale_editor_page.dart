@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/page_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/left_sidebar.dart';
@@ -11,6 +10,7 @@ import 'package:fairy_tale_builder_platform/pages/tale_editor/components/right_s
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:shared/shared.dart';
 
 class TaleEditorPage extends StatelessWidget {
   const TaleEditorPage({
@@ -28,8 +28,10 @@ class TaleEditorPage extends StatelessWidget {
       rigthSidebar: const TaleEditorRightSidebarComponent(),
       leading: StateConnector<AppState, (bool, bool)>(
         selector: (state) => (
-          state.taleListState.taleState.isTaleEdited,
-          state.taleListState.taleState.editorState.isTalePageEdited
+          false,
+          false, //todo:
+          // state.taleListState.taleState.isTaleEdited,
+          // state.taleListState.taleState.editorState.isTalePageEdited
         ),
         builder: (context, dispatch, isEdited) {
           return IconButton(
@@ -59,12 +61,17 @@ class TaleEditorPage extends StatelessWidget {
         },
       ),
       actions: [
-        DispatchConnector<AppState>(
-          builder: (context, dispatch) {
+        StateConnector<AppState, ModelValidation>(
+          selector: (state) => state.taleListState.taleState.isTaleValidToSave,
+          builder: (context, dispatch, model) {
             return ButtonComponent.icon(
               icon: Icons.save_rounded,
               onPressed: () {
-                dispatch(SaveTaleAction());
+                if (model.isEmpty) {
+                  dispatch(SaveTaleAction());
+                  return;
+                }
+                log('TaleEditorPage.save: $model');
               },
             );
           },
@@ -72,7 +79,7 @@ class TaleEditorPage extends StatelessWidget {
         const SizedBox(width: 8),
       ],
       body: StateResultConnector<AppState>(
-        selector: (state) => state.taleListState.taleState.selectedTaleResult,
+        selector: (state) => state.taleListState.taleState.taleResult,
         onInitialBuild: (dispatch, model) {
           dispatch(GetTaleAction(taleId: taleId));
         },
@@ -113,7 +120,7 @@ class _Layout extends StatelessWidget {
   Widget build(BuildContext context) {
     return StateConnector<AppState, bool>(
       selector: (state) =>
-          state.taleListState.taleState.editorState.selectedPage.id.isNotEmpty,
+          state.taleListState.taleState.editorState.selectedPageId.isNotEmpty,
       builder: (context, dispatch, isSelected) {
         if (isSelected) {
           //show page editor details

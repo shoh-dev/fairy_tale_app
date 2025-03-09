@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/translation_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/selector.dart';
@@ -14,9 +15,27 @@ class LocalizationSettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DefaultLayout(
-      title: Text('Localization settings'),
-      body: _Body(),
+    return DefaultLayout(
+      title: const Text('Localization settings'),
+      leading: StateConnector<AppState, ModelValidation>(
+        selector: (state) =>
+            state.taleListState.taleState.tale.localizations.isValid,
+        builder: (context, dispatch, model) {
+          return ButtonComponent.icon(
+            icon: Icons.arrow_back,
+            onPressed: () {
+              if (model.isEmpty) {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+              } else {
+                log('LocalizationSettingsPage: $model');
+              }
+            },
+          );
+        },
+      ),
+      body: const _Body(),
     );
   }
 }
@@ -51,8 +70,7 @@ class _BodyState extends State<_Body> {
           ]);
         },
         onDidChange: (dispatch, state, model) {
-          final localization =
-              state.taleListState.taleState.selectedTale.localizations;
+          final localization = state.taleListState.taleState.tale.localizations;
           stateManager
             ..removeAllRows()
             ..appendRows([

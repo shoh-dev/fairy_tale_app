@@ -27,8 +27,8 @@ class TalePageInteractionsEditor extends StatelessWidget {
       rigthSidebar: const InteractionRightSidebarComponent(),
       actions: [
         StateConnector<AppState, bool>(
-          selector: (state) =>
-              state.taleListState.taleState.editorState.isInteractionEdited,
+          selector: (state) => false, //todo:
+          // state.taleListState.taleState.editorState.isInteractionEdited,
           builder: (context, dispatch, model) {
             return Row(
               mainAxisSize: MainAxisSize.min,
@@ -57,9 +57,11 @@ class TalePageInteractionsEditor extends StatelessWidget {
                   onPressed: () {
                     showDialog<void>(
                       context: context,
-                      builder: (context) => StateConnector<AppState, TalePage>(
+                      builder: (context) => StateConnector<AppState, TalePage?>(
                         selector: selectedTalePageSelector,
-                        builder: (context, dispatch, model) =>
+                        builder: (context, dispatch, model) => model == null
+                            ? const SizedBox()
+                            : //todo: check this
                             TalePreviewDialog(id: model.id),
                       ),
                     );
@@ -81,12 +83,14 @@ class TalePageInteractionsEditor extends StatelessWidget {
         ),
       ],
       leading: StateConnector<AppState, bool>(
-        selector: (state) =>
-            state.taleListState.taleState.editorState.isInteractionEdited,
+        selector: (state) => false,
+        // state.taleListState.taleState.editorState.isInteractionsValidToSave,//todo:
         builder: (context, dispatch, model) {
+          print(model);
           return ButtonComponent.icon(
-            icon: Icons.arrow_back_rounded,
-            onPressed: model
+            icon:
+                !model ? Icons.error_outline_rounded : Icons.arrow_back_rounded,
+            onPressed: !model
                 ? null
                 : () {
                     //todo: prompt to save before quitting
@@ -113,9 +117,12 @@ class _Body extends StatelessWidget {
         dispatch(SelectInteractionAction());
       },
       builder: (context, dispatch, tale) {
-        return StateConnector<AppState, TalePage>(
+        return StateConnector<AppState, TalePage?>(
           selector: selectedTalePageSelector,
           builder: (context, dispatch, page) {
+            if (page == null) {
+              return const SizedBox();
+            }
             return DeviceFrame(
               device: Devices.ios.iPhoneSE,
               orientation: tale.isPortrait

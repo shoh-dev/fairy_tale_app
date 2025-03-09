@@ -193,6 +193,21 @@ class TaleInteraction with _$TaleInteraction {
     return json;
   }
 
+  bool get isValidToSave {
+    //is valid if:
+    //metadata is valid
+    //event type is valid
+    //event subtype is valid
+    //action is valid
+
+    //todo: validate based on action
+
+    return metadata.isValidToSave &&
+        eventTypeEnum != null &&
+        eventSubTypeEnum != null &&
+        actionEnum != null;
+  }
+
   TaleInteractionSize get size => metadata.size;
   TaleInteractionPosition get initialPosition => metadata.initialPosition;
   TaleInteractionPosition? get finalPosition => metadata.finalPosition;

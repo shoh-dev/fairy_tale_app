@@ -40,9 +40,9 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
               },
             ),
             const Divider(height: 0),
-            StateConnector<AppState, (List<TaleInteraction>, TaleInteraction)>(
+            StateConnector<AppState, (List<TaleInteraction>?, TaleInteraction)>(
               selector: (state) => (
-                selectedTalePageSelector(state).interactions,
+                selectedTalePageSelector(state)?.interactions,
                 selectedInteractionSelector(state),
               ),
               builder: (context, dispatch, model) {
@@ -53,7 +53,8 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
                   spacing: 4,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    for (final interaction in interactions)
+                    for (final TaleInteraction interaction
+                        in interactions ?? [])
                       Builder(
                         builder: (context) {
                           final isSelected =
@@ -65,15 +66,32 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
                                 context.colorScheme.onSecondaryContainer,
                             selectedTileColor:
                                 context.colorScheme.secondaryContainer,
-                            title: Badge(
+                            tileColor: interaction.isValidToSave
+                                ? null
+                                : context.error.withAlpha(30),
+                            shape: interaction.isValidToSave
+                                ? null
+                                : Border.all(color: context.error),
+                            title: Text(interaction.id),
+                            onTap: () {
+                              dispatch(
+                                SelectInteractionAction(
+                                    interaction: interaction),
+                              );
+                            },
+                            trailing: Badge(
                               isLabelVisible: interaction.isNew,
                               label: const Text('New'),
-                              child: Text(interaction.id),
+                              child: ButtonComponent.iconDesctructive(
+                                icon: Icons.delete_rounded,
+                                onPressed: () {
+                                  //todo: delete interaction
+                                  dispatch(
+                                    DeleteInteractionAction(interaction),
+                                  );
+                                },
+                              ),
                             ),
-                            onTap: () {
-                              dispatch(SelectInteractionAction(
-                                  interaction: interaction));
-                            },
                           );
                         },
                       ),

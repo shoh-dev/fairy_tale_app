@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/list_action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/interaction_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/page_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
@@ -13,9 +15,9 @@ class ResetTaleStateAction extends DefaultAction {
   @override
   AppState? reduce() {
     dispatchAll([
-      GetTaleAction(),
-      SelectPageAction(),
       SelectInteractionAction(),
+      ResetPageAction(),
+      GetTaleAction(),
     ]);
 
     return null;
@@ -36,9 +38,8 @@ class TaleAction extends DefaultAction {
     return state.copyWith(
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
-          selectedTale: tale ?? taleState.selectedTale,
-          selectedTaleResult:
-              selectedTaleResult ?? taleState.selectedTaleResult,
+          tale: tale ?? taleState.tale,
+          taleResult: selectedTaleResult ?? taleState.taleResult,
         ),
       ),
     );
@@ -115,7 +116,7 @@ class UpdateTaleAction extends DefaultAction {
 
   @override
   AppState? reduce() {
-    final tale = taleState.selectedTale;
+    final tale = taleState.tale;
 
     if (tale.id.isEmpty) {
       return null;
@@ -149,10 +150,9 @@ class UpdateTaleAction extends DefaultAction {
     return state.copyWith(
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
-          selectedTale: newTale.copyWith(
+          tale: newTale.copyWith(
             toReRender: reRender ? tale.toReRender + 1 : tale.toReRender,
           ),
-          isTaleEdited: false, //todo:
         ),
       ),
     );
@@ -170,7 +170,7 @@ class _UpdateTaleCoverImageAction extends DefaultAction {
       return null;
     }
 
-    final tale = taleState.selectedTale;
+    final tale = taleState.tale;
 
     final uploadedResult = await taleRepository.uploadFile(
       bytes: await file.xFile.readAsBytes(),
@@ -200,7 +200,7 @@ class _UpdateTaleBackgroundAudioAction extends DefaultAction {
       return null;
     }
 
-    final tale = taleState.selectedTale;
+    final tale = taleState.tale;
 
     final uploadedResult = await taleRepository.uploadFile(
       bytes: await file.xFile.readAsBytes(),
@@ -216,6 +216,48 @@ class _UpdateTaleBackgroundAudioAction extends DefaultAction {
         dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
       },
     );
+    return null;
+  }
+}
+
+//! TEST DONE UP TO HERE
+
+class SaveTaleAction extends DefaultAction {
+  @override
+  Future<AppState?> reduce() async {
+    final selectedTale = taleState.tale;
+
+    if (taleState.isTaleValidToSave.isNotEmpty) {
+      log('SaveTaleAction: ${taleState.isTaleValidToSave} not valid');
+      return null;
+    }
+
+    dispatch(TaleAction(selectedTaleResult: const StateResult.loading()));
+
+    //todo: handle result
+    final taleResult = await taleRepository.saveTale(selectedTale);
+    final localizationResult = await taleRepository.saveTaleLocalization(
+      defaultLocale: selectedTale.localizations.defaultLocale,
+      translations: selectedTale.localizations.translations,
+      taleId: selectedTale.id,
+    );
+
+    // final pagesResult = await taleRepository.saveTalePages(selectedTale.pages);
+    // final interactionsResult = await taleRepository.saveTaleInteractions(
+    // selectedTale.pages.expand((e) => e.interactions).toList(),
+    // );
+
+    Log().debug('tale $taleResult');
+    // Log().debug('pages $pagesResult');
+    Log().debug('locale $localizationResult');
+    // Log().debug('interactions $interactionsResult');
+
+    dispatchAll([
+      ResetPageAction(),
+      GetTaleAction(taleId: selectedTale.id),
+      GetTaleListAction(),
+    ]);
+
     return null;
   }
 }

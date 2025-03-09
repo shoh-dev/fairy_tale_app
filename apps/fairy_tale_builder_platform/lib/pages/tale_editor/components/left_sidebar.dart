@@ -15,9 +15,9 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StateConnector<AppState, List<TalePage>>(
-      selector: talePagesSelector,
-      builder: (context, dispatch, pages) {
+    return StateConnector<AppState, Tale>(
+      selector: selectedTaleSelector,
+      builder: (context, dispatch, tale) {
         return Container(
           width: Sizes.kLeftSidebarWidth,
           height: context.height,
@@ -30,102 +30,105 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
           ),
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(Sizes.kLayoutPadding),
-            child: StateConnector<AppState, TalePage>(
-              selector: selectedTalePageSelector,
-              builder: (context, dispatch, model) {
-                return Column(
-                  spacing: 16,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('Pages', style: context.textTheme.titleLarge),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ButtonComponent.outlined(
-                        text: 'Add page',
-                        icon: Icons.add_rounded,
-                        onPressed: () {
-                          dispatch(AddPageAction());
+            child: Column(
+              spacing: 16,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Pages', style: context.textTheme.titleLarge),
+                SizedBox(
+                  width: double.infinity,
+                  child: ButtonComponent.outlined(
+                    text: 'Add page',
+                    icon: Icons.add_rounded,
+                    onPressed: () {
+                      dispatch(AddPageAction());
+                    },
+                  ),
+                ),
+                const Divider(height: 0),
+                //pages
+                for (final page in tale.pages)
+                  StateConnector<AppState, bool>(
+                    selector: (state) =>
+                        isTalePageSelectedSelector(state, page),
+                    builder: (context, dispatch, isSelected) {
+                      final isPageValid = tale.isPageValid(page).isEmpty;
+                      return InkWell(
+                        onTap: () {
+                          dispatch(SelectPageAction(page.id));
                         },
-                      ),
-                    ),
-                    const Divider(height: 0),
-                    //pages
-                    for (final page in pages)
-                      StateConnector<AppState, bool>(
-                        selector: (state) =>
-                            isTalePageSelectedSelector(state, page),
-                        builder: (context, dispatch, isSelected) {
-                          return InkWell(
-                            onTap: () {
-                              dispatch(SelectPageAction(page: page));
-                            },
-                            child: Badge(
-                              isLabelVisible: page.isNew,
-                              alignment: Alignment.topLeft,
-                              label: const Text('New'),
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 100),
-                                width: double.infinity,
-                                height: 370,
-                                decoration: BoxDecoration(
-                                  color: isSelected
+                        child: Badge(
+                          isLabelVisible: page.isNew,
+                          alignment: Alignment.topLeft,
+                          label: const Text('New'),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 100),
+                            width: double.infinity,
+                            height: 370,
+                            decoration: BoxDecoration(
+                              color: !isPageValid
+                                  ? context.error.withAlpha(50)
+                                  : isSelected
                                       ? context.colorScheme.primaryContainer
                                       : null,
-                                  border: isSelected
+                              border: !isPageValid
+                                  ? Border.all(
+                                      color: context.error,
+                                      width: 2,
+                                    )
+                                  : isSelected
                                       ? Border.all(
                                           color: context
                                               .colorScheme.onPrimaryContainer,
                                           width: 2,
                                         )
                                       : null,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    if (page.metadata.hasBackgroundImage)
-                                      Image.network(
-                                        '${page.metadata.backgroundImageUrl}?${DateTime.now().millisecondsSinceEpoch}',
-                                        fit: BoxFit.cover,
-                                        height: 300,
-                                      )
-                                    else
-                                      Container(
-                                        height: 300,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.grey,
-                                            //todo: no image placeholder
-                                          ),
-                                        ),
-                                        child: const Placeholder(),
-                                      ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Translator(
-                                        showOriginalNotTranslated: page.isNew,
-                                        toTranslate: [page.text],
-                                        builder: (translatedValue) {
-                                          return SizedBox(
-                                            width: 330,
-                                            child: Text(
-                                              translatedValue[0],
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          );
-                                        },
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (page.metadata.hasBackgroundImage)
+                                  Image.network(
+                                    '${page.metadata.backgroundImageUrl}?${DateTime.now().millisecondsSinceEpoch}',
+                                    fit: BoxFit.cover,
+                                    height: 300,
+                                  )
+                                else
+                                  Container(
+                                    height: 300,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        //todo: no image placeholder
                                       ),
                                     ),
-                                  ],
+                                    child: const Placeholder(),
+                                  ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Translator(
+                                    showOriginalNotTranslated: page.isNew,
+                                    toTranslate: [page.text],
+                                    builder: (translatedValue) {
+                                      return SizedBox(
+                                        width: 330,
+                                        child: Text(
+                                          translatedValue[0],
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          );
-                        },
-                      ),
-                  ],
-                );
-              },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+              ],
             ),
           ),
         );

@@ -23,9 +23,9 @@ class TalesPage extends StatelessWidget {
           dispatch(GetTaleListAction());
         },
         builder: (context, dispatch, vm) {
-          return vm.taleListResult.when(
+          return vm.listResult.when(
             ok: () {
-              return _Grid(tales: vm.taleList);
+              return _Grid(tales: vm.list);
             },
             error: (e) {
               return Center(child: Text(e.toString()));

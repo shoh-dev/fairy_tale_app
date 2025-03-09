@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/src/repositories/tale/models.dart';
 import 'package:shared/src/services/audio_player_service.dart';
+import 'package:shared/src/utils.dart';
 
 part 'tale.freezed.dart';
 
@@ -94,6 +95,89 @@ class Tale with _$Tale {
   bool get isPortrait => orientation == 'portrait';
 
   String get coverImage => metadata.coverImageUrl;
+
+  bool get isOrientationValid {
+    if (orientation.isEmpty) {
+      return false;
+    }
+    if (orientation == 'portrait' || orientation == 'landscape') {
+      return true;
+    }
+    return false;
+  }
+
+  ModelValidation get _isMetadataValid {
+    return {};
+  }
+
+  /// if returns empty string means tale is valid to save
+  /// otherwise returns error with which field is invalid
+  ModelValidation get isValidToSave {
+    //id not empty
+    //localization is valid
+    //title is not empty
+    //orientation is not empty and is valid
+    //title and description are contained in localizationsTranslations
+
+    final error = ModelValidation();
+
+    if (id.isEmpty) {
+      error['tale.id'] = ['ID is empty'];
+    }
+
+    if (localizations.isValid.isNotEmpty) {
+      return localizations.isValid;
+    }
+
+    if (title.isEmpty) {
+      error['tale.title'] = ['Title is empty'];
+    } else {
+      if (localizations.defaultTranslation[title] == null) {
+        error['tale.title'] = ['Title is not contained in localizations'];
+      }
+    }
+
+    if (description.isNotEmpty) {
+      if (localizations.defaultTranslation[description] == null) {
+        error['tale.description'] = [
+          'Description is not contained in localizations',
+        ];
+      }
+    }
+
+    if (isOrientationValid == false) {
+      error['tale.orientation'] = ['Orientation is not valid'];
+    }
+    if (_isMetadataValid.isNotEmpty) {
+      return _isMetadataValid;
+    }
+
+    //todo: validate pages
+    for (final page in pages) {
+      final pageError = isPageValid(page);
+      if (pageError.isNotEmpty) {
+        return pageError;
+      }
+    }
+
+    return error;
+  }
+
+  ModelValidation isPageValid(TalePage page) {
+    final error = ModelValidation();
+
+    if (page.isValidToSave.isNotEmpty) {
+      return page.isValidToSave;
+    }
+    //check if page.text contains in localizations
+    if (localizations.defaultTranslation[page.text] == null) {
+      error['tale.page${page.pageNumber}'] = [
+        'Page text [${page.text}] is not contained in localizations',
+      ];
+    }
+
+    return error;
+  }
 
   //updatePageMethod
   Tale updatePage(TalePage page) {

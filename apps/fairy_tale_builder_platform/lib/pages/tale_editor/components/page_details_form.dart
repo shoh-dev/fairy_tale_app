@@ -17,9 +17,12 @@ class TalePageDetailsForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StateConnector<AppState, TalePage>(
+    return StateConnector<AppState, TalePage?>(
       selector: selectedTalePageSelector,
       builder: (context, dispatch, page) {
+        if (page == null) {
+          return const SizedBox(); //todo: check this
+        }
         return Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,6 +75,7 @@ class TalePageDetailsForm extends StatelessWidget {
             TranslationSelector(
               label: 'Page Title',
               textKey: page.text,
+              isRequiredToSelect: true,
               onChanged: (value) {
                 dispatch(UpdatePageAction(text: value));
               },

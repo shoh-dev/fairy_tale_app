@@ -15,16 +15,10 @@ class UpdateTaleTranslationsAction extends DefaultAction {
 
   @override
   Future<AppState?> reduce() async {
-    final selectedTale = taleState.selectedTale;
-    // final oldTranslations = Map.of(selectedTale.localizations.translations);
-    final newTranslations = Map.of(selectedTale.localizations.translations);
+    final tale = taleState.tale;
 
+    final newTranslations = Map.of(tale.localizations.translations);
     newTranslations[locale] = Map<String, String>.fromIterables(keys, values);
-
-    //todo: check why this is not working
-    // if (mapEquals(oldTranslations, newTranslations)) {
-    //   return null;
-    // }
 
     dispatch(UpdateTaleAction(translations: newTranslations));
     return null;

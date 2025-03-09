@@ -2,6 +2,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/src/repositories/tale/models.dart';
+import 'package:shared/src/utils.dart';
 
 part 'tale_page.freezed.dart';
 
@@ -86,6 +87,24 @@ class TalePage with _$TalePage {
   }
 
   bool get hasBackgroundAudio => metadata.hasBackgroundAudio;
+
+  ModelValidation get isValidToSave {
+    final error = ModelValidation();
+
+    if (id.isEmpty) {
+      error['tale.page$pageNumber.id'] = ['ID is required'];
+    }
+
+    if (taleId.isEmpty) {
+      error['tale.page$pageNumber.tale_id'] = ['Tale ID is required'];
+    }
+
+    if (text.isEmpty) {
+      error['tale.page$pageNumber.text'] = ['Text is required'];
+    }
+
+    return error;
+  }
 
   //updateInteractionMethod
   TalePage updateInteraction(TaleInteraction interaction) {

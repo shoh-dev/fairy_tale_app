@@ -54,6 +54,7 @@ class TaleDetailsForm extends StatelessWidget {
             TranslationSelector(
               label: 'Title',
               textKey: tale.title,
+              isRequiredToSelect: true,
               onChanged: (value) {
                 dispatch(UpdateTaleAction(title: value));
               },

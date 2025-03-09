@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:shared/src/utils.dart';
 
 part 'tale_localization.freezed.dart';
 
@@ -52,5 +53,31 @@ class TaleLocalization with _$TaleLocalization {
         locale: {},
       },
     );
+  }
+
+  Map<String, String> get defaultTranslation =>
+      translations[defaultLocale] ?? {};
+
+  ModelValidation get isValid {
+    final error = <String, List<String>>{};
+
+    if (taleId.isEmpty) {
+      error['tale.localizations.tale_id'] = ['Tale ID is empty'];
+    }
+    if (translations.isEmpty) {
+      error['tale.localizations.translations'] = ['Translations are empty'];
+    }
+    if (defaultLocale.isEmpty) {
+      error['tale.localizations.default_locale'] = ['Default locale is empty'];
+    }
+    //check each locale translations are not empty
+    for (final locale in translations.keys) {
+      if (translations[locale]!.isEmpty) {
+        error['tale.localizations.translations'] = [
+          'Translations are empty for ${locale.toUpperCase()}',
+        ];
+      }
+    }
+    return error;
   }
 }

@@ -241,9 +241,19 @@ class __FormState extends State<_Form> with StateHelpers {
               },
             ),
             TextFieldComponent(
+              autovalidateMode: AutovalidateMode.always,
               label: 'Width',
               maxLines: 1,
               controller: _widthCtrl,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Width can't be empty";
+                }
+                if (num.tryParse(value) == null) {
+                  return 'Width must be a number';
+                }
+                return null;
+              },
               suffixWidgets: [
                 aspectButtonSize(true),
                 saveButton(
@@ -255,9 +265,19 @@ class __FormState extends State<_Form> with StateHelpers {
               ],
             ),
             TextFieldComponent(
+              autovalidateMode: AutovalidateMode.always,
               label: 'Height',
               maxLines: 1,
               controller: _heightCtrl,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Height can't be empty";
+                }
+                if (num.tryParse(value) == null) {
+                  return 'Height must be a number';
+                }
+                return null;
+              },
               suffixWidgets: [
                 aspectButtonSize(false),
                 saveButton(
@@ -269,9 +289,19 @@ class __FormState extends State<_Form> with StateHelpers {
               ],
             ),
             TextFieldComponent(
+              autovalidateMode: AutovalidateMode.always,
               label: 'Initial Position X',
               maxLines: 1,
               controller: _initialdxCtrl,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Initial position X can't be empty";
+                }
+                if (num.tryParse(value) == null) {
+                  return 'Initial position X must be a number';
+                }
+                return null;
+              },
               suffixWidgets: [
                 aspectButtonInitialPosition(true),
                 saveButton(
@@ -283,9 +313,19 @@ class __FormState extends State<_Form> with StateHelpers {
               ],
             ),
             TextFieldComponent(
+              autovalidateMode: AutovalidateMode.always,
               label: 'Initial Position Y',
               maxLines: 1,
               controller: _initialdyCtrl,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Initial position Y can't be empty";
+                }
+                if (num.tryParse(value) == null) {
+                  return 'Initial position Y must be a number';
+                }
+                return null;
+              },
               suffixWidgets: [
                 aspectButtonInitialPosition(false),
                 saveButton(
@@ -316,14 +356,13 @@ class __FormState extends State<_Form> with StateHelpers {
                 label: 'Final Position X',
                 maxLines: 1,
                 controller: _finaldxCtrl,
-                enabled: interaction.actionEnum == TaleInteractionAction.move,
                 suffixWidgets: [
                   aspectButtonFinalPosition(true),
                   saveButton(
                     UpdateInteractionAction(
-                      finaldx: num.tryParse(_initialdxCtrl.text),
+                      finaldx: num.tryParse(_finaldxCtrl.text),
                     ),
-                    _initialdxCtrl,
+                    _finaldxCtrl,
                   ),
                 ],
               ),
@@ -331,14 +370,13 @@ class __FormState extends State<_Form> with StateHelpers {
                 label: 'Final Position Y',
                 maxLines: 1,
                 controller: _finaldyCtrl,
-                enabled: interaction.actionEnum == TaleInteractionAction.move,
                 suffixWidgets: [
                   aspectButtonFinalPosition(false),
                   saveButton(
                     UpdateInteractionAction(
                       finaldy: num.tryParse(_finaldyCtrl.text),
                     ),
-                    _initialdxCtrl,
+                    _finaldyCtrl,
                   ),
                 ],
               ),
@@ -383,7 +421,14 @@ class _TypeDropdown extends StatelessWidget {
     return DispatchConnector<AppState>(
       builder: (context, dispatch) {
         return DropdownComponent<TaleInteractionEventType>(
+          autovalidateMode: AutovalidateMode.always,
           label: 'Event Type',
+          validator: (value) {
+            if (value == null) {
+              return "Event type can't be empty";
+            }
+            return null;
+          },
           initialValue: interaction.eventTypeEnum == null
               ? null
               : DropdownItem(
@@ -423,7 +468,14 @@ class _SubTypeDropdown extends StatelessWidget {
     return DispatchConnector<AppState>(
       builder: (context, dispatch) {
         return DropdownComponent<TaleInteractionSubType>(
+          autovalidateMode: AutovalidateMode.always,
           label: 'Event Sub Type',
+          validator: (value) {
+            if (value == null) {
+              return "Event sub type can't be empty";
+            }
+            return null;
+          },
           initialValue: interaction.eventSubTypeEnum == null
               ? null
               : DropdownItem(
@@ -463,7 +515,14 @@ class _ActionDropdown extends StatelessWidget {
     return DispatchConnector<AppState>(
       builder: (context, dispatch) {
         return DropdownComponent<TaleInteractionAction>(
+          autovalidateMode: AutovalidateMode.always,
           label: 'Action',
+          validator: (value) {
+            if (value == null) {
+              return "Action can't be empty";
+            }
+            return null;
+          },
           initialValue: interaction.actionEnum == null
               ? null
               : DropdownItem(

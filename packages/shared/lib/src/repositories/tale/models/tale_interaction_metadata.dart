@@ -75,6 +75,11 @@ class TaleInteractionMetadata with _$TaleInteractionMetadata {
     return json;
   }
 
+  bool get isValidToSave {
+    final isSizeValid = size.width > 0 && size.height > 0;
+    return isSizeValid;
+  }
+
   static const empty = TaleInteractionMetadata();
 
   bool get hasAudio => audioUrl.isNotEmpty;

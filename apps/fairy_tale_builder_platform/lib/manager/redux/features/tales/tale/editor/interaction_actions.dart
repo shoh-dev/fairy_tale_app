@@ -1,4 +1,6 @@
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/page_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:file_picker/file_picker.dart';
@@ -14,6 +16,10 @@ class SelectInteractionAction extends DefaultAction {
   @override
   AppState? reduce() {
     if (editorState.selectedInteraction == interaction) {
+      return null;
+    }
+
+    if (interaction == null && editorState.selectedInteraction.id.isEmpty) {
       return null;
     }
 
@@ -33,22 +39,23 @@ class SelectInteractionAction extends DefaultAction {
 class AddInteractionAction extends DefaultAction {
   @override
   AppState? reduce() {
-    final page = editorState.selectedPage;
+    final page = taleState.selectedPage;
+    if (page == null) {
+      return null;
+    }
 
     final newInteraction =
         TaleInteraction.newInteraction(id: UUID.v4(), talePageId: page.id);
 
     final newPage = page.copyWith(
       interactions: [...page.interactions, newInteraction],
-    );
+    ); //todo:
 
     return state.copyWith(
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
           editorState: editorState.copyWith(
-            selectedPage: newPage,
             selectedInteraction: newInteraction, //once created select it
-            isInteractionEdited: false, //todo:
           ),
         ),
       ),
@@ -97,8 +104,11 @@ class UpdateInteractionAction extends DefaultAction {
 
   @override
   AppState? reduce() {
-    final page = editorState.selectedPage;
-    final tale = taleState.selectedTale;
+    final page = taleState.selectedPage;
+    if (page == null) {
+      return null;
+    }
+    final tale = taleState.tale;
     final interaction = editorState.selectedInteraction;
     if (interaction.id.isEmpty || page.id.isEmpty || tale.id.isEmpty) {
       return null;
@@ -171,17 +181,14 @@ class UpdateInteractionAction extends DefaultAction {
     return state.copyWith(
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
-          selectedTale: newTale.copyWith(
+          tale: newTale.copyWith(
             toReRender: reRender ? tale.toReRender + 1 : tale.toReRender,
           ),
           editorState: editorState.copyWith(
             selectedInteraction: newInteraction.copyWith(
               toReRender: reRender ? tale.toReRender + 1 : tale.toReRender,
             ),
-            selectedPage: newPage.copyWith(
-              toReRender: reRender ? tale.toReRender + 1 : tale.toReRender,
-            ),
-            isInteractionEdited: false, //todo:
+            selectedPageId: newPage.id,
           ),
         ),
       ),
@@ -249,6 +256,56 @@ class _UpdateInteractionAudioAction extends DefaultAction {
         //todo:
       },
     );
+    return null;
+  }
+}
+
+class DeleteInteractionAction extends DefaultAction {
+  final TaleInteraction interaction;
+
+  DeleteInteractionAction(this.interaction);
+
+  @override
+  Future<AppState?> reduce() async {
+    if (interaction.isNew) {
+      final selectedPage = taleState.selectedPage;
+      if (selectedPage == null) {
+        return null;
+      }
+
+      final newInteractions = selectedPage.interactions
+          .where((e) => e.id != interaction.id)
+          .toList();
+
+      final newPage = selectedPage.copyWith(interactions: newInteractions);
+
+      final newPages = taleState.tale.pages
+          .map((e) => e.id == selectedPage.id ? newPage : e)
+          .toList();
+
+      dispatch(UpdateTaleAction(pages: newPages));
+      dispatch(SelectInteractionAction());
+
+      return null;
+    }
+
+    // final deleteResult = await taleRepository.deleteTalePage(selectedPage.id);
+
+    // deleteResult.when(
+    //   ok: (_) {
+    //     final newPages = taleState.selectedTale.pages
+    //         .where((e) => e.id != selectedPage.id)
+    //         .toList();
+    //     dispatchAll([
+    //       SelectPageAction(),
+    //       UpdateTaleAction(pages: newPages.toList()),
+    //     ]);
+    //   },
+    //   error: (error) {
+    //     dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
+    //   },
+    // );
+
     return null;
   }
 }

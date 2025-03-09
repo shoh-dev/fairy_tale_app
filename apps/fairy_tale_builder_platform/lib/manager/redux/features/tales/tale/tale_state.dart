@@ -10,18 +10,25 @@ part 'tale_state.freezed.dart';
 class TaleState with _$TaleState {
   const TaleState._();
   const factory TaleState({
-    required StateResult selectedTaleResult,
-    required Tale selectedTale,
-    required bool isTaleEdited,
+    required StateResult taleResult,
+    required Tale tale,
     required TaleEditorState editorState,
   }) = _TaleState;
 
   factory TaleState.initial() {
     return TaleState(
-      selectedTaleResult: const StateResult.loading(),
-      selectedTale: Tale.newTale(UUID.v4()),
-      isTaleEdited: false,
+      taleResult: const StateResult.loading(),
+      tale: Tale.newTale(UUID.v4()),
       editorState: TaleEditorState.initial(),
     );
+  }
+
+  TalePage? get selectedPage =>
+      tale.pages.firstWhereOrNull((e) => e.id == editorState.selectedPageId);
+
+  /// if returns empty string means tale is valid to save
+  /// otherwise returns error with which field is invalid
+  Map<String, List<String>> get isTaleValidToSave {
+    return tale.isValidToSave;
   }
 }

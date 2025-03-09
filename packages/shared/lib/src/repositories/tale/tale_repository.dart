@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:myspace_data/myspace_data.dart';
@@ -104,12 +105,14 @@ class TaleRepositoryImpl implements TaleRepository {
     List<TaleInteraction> ineractions,
   ) async {
     try {
+      log(ineractions.map((e) => e.toJson()).toList().toString());
       await _supabase.from('interactions').upsert(
             ineractions.map((e) => e.toJson()).toList(),
           );
 
       return const Result.ok(null);
     } catch (e) {
+      log(e.toString());
       return Result.error(ErrorX(e));
     }
   }

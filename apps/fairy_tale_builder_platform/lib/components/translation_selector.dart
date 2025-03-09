@@ -11,12 +11,14 @@ class TranslationSelector extends StatelessWidget {
     required this.label,
     required this.textKey,
     required this.onChanged,
+    this.isRequiredToSelect = false,
     super.key,
   });
 
   final String label;
   final String? textKey;
   final ValueChanged<String> onChanged;
+  final bool isRequiredToSelect;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,8 @@ class TranslationSelector extends StatelessWidget {
 
         return DropdownComponent<String>(
           label: label,
-          hintText: '$textKey: NOT_FOUND',
+          // hintText: '$textKey: NOT_FOUND',
+          hintText: textKey,
           autovalidateMode: AutovalidateMode.always,
           initialValue: textKey == null
               ? null
@@ -52,8 +55,16 @@ class TranslationSelector extends StatelessWidget {
                   label: textKey!,
                 ),
           validator: (value) {
-            if (translations.isEmpty) {
-              return 'No translations found! Please add some.';
+            if (isRequiredToSelect) {
+              if (translations.isEmpty) {
+                return 'No translations found! Please add some.';
+              }
+              // if (value?.value == null || value?.value == 'add') {
+              //   return "Translation can't be empty";
+              // }
+              if (translations[value?.value] == null) {
+                return 'Translation not found!';
+              }
             }
             return null;
           },

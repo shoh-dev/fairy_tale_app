@@ -16,9 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TaleState {
-  StateResult get selectedTaleResult => throw _privateConstructorUsedError;
-  Tale get selectedTale => throw _privateConstructorUsedError;
-  bool get isTaleEdited => throw _privateConstructorUsedError;
+  StateResult get taleResult => throw _privateConstructorUsedError;
+  Tale get tale => throw _privateConstructorUsedError;
   TaleEditorState get editorState => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleState
@@ -33,14 +32,10 @@ abstract class $TaleStateCopyWith<$Res> {
   factory $TaleStateCopyWith(TaleState value, $Res Function(TaleState) then) =
       _$TaleStateCopyWithImpl<$Res, TaleState>;
   @useResult
-  $Res call(
-      {StateResult selectedTaleResult,
-      Tale selectedTale,
-      bool isTaleEdited,
-      TaleEditorState editorState});
+  $Res call({StateResult taleResult, Tale tale, TaleEditorState editorState});
 
-  $StateResultCopyWith<$Res> get selectedTaleResult;
-  $TaleCopyWith<$Res> get selectedTale;
+  $StateResultCopyWith<$Res> get taleResult;
+  $TaleCopyWith<$Res> get tale;
   $TaleEditorStateCopyWith<$Res> get editorState;
 }
 
@@ -59,24 +54,19 @@ class _$TaleStateCopyWithImpl<$Res, $Val extends TaleState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? selectedTaleResult = null,
-    Object? selectedTale = null,
-    Object? isTaleEdited = null,
+    Object? taleResult = null,
+    Object? tale = null,
     Object? editorState = null,
   }) {
     return _then(_value.copyWith(
-      selectedTaleResult: null == selectedTaleResult
-          ? _value.selectedTaleResult
-          : selectedTaleResult // ignore: cast_nullable_to_non_nullable
+      taleResult: null == taleResult
+          ? _value.taleResult
+          : taleResult // ignore: cast_nullable_to_non_nullable
               as StateResult,
-      selectedTale: null == selectedTale
-          ? _value.selectedTale
-          : selectedTale // ignore: cast_nullable_to_non_nullable
+      tale: null == tale
+          ? _value.tale
+          : tale // ignore: cast_nullable_to_non_nullable
               as Tale,
-      isTaleEdited: null == isTaleEdited
-          ? _value.isTaleEdited
-          : isTaleEdited // ignore: cast_nullable_to_non_nullable
-              as bool,
       editorState: null == editorState
           ? _value.editorState
           : editorState // ignore: cast_nullable_to_non_nullable
@@ -88,9 +78,9 @@ class _$TaleStateCopyWithImpl<$Res, $Val extends TaleState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $StateResultCopyWith<$Res> get selectedTaleResult {
-    return $StateResultCopyWith<$Res>(_value.selectedTaleResult, (value) {
-      return _then(_value.copyWith(selectedTaleResult: value) as $Val);
+  $StateResultCopyWith<$Res> get taleResult {
+    return $StateResultCopyWith<$Res>(_value.taleResult, (value) {
+      return _then(_value.copyWith(taleResult: value) as $Val);
     });
   }
 
@@ -98,9 +88,9 @@ class _$TaleStateCopyWithImpl<$Res, $Val extends TaleState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $TaleCopyWith<$Res> get selectedTale {
-    return $TaleCopyWith<$Res>(_value.selectedTale, (value) {
-      return _then(_value.copyWith(selectedTale: value) as $Val);
+  $TaleCopyWith<$Res> get tale {
+    return $TaleCopyWith<$Res>(_value.tale, (value) {
+      return _then(_value.copyWith(tale: value) as $Val);
     });
   }
 
@@ -123,16 +113,12 @@ abstract class _$$TaleStateImplCopyWith<$Res>
       __$$TaleStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {StateResult selectedTaleResult,
-      Tale selectedTale,
-      bool isTaleEdited,
-      TaleEditorState editorState});
+  $Res call({StateResult taleResult, Tale tale, TaleEditorState editorState});
 
   @override
-  $StateResultCopyWith<$Res> get selectedTaleResult;
+  $StateResultCopyWith<$Res> get taleResult;
   @override
-  $TaleCopyWith<$Res> get selectedTale;
+  $TaleCopyWith<$Res> get tale;
   @override
   $TaleEditorStateCopyWith<$Res> get editorState;
 }
@@ -150,24 +136,19 @@ class __$$TaleStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? selectedTaleResult = null,
-    Object? selectedTale = null,
-    Object? isTaleEdited = null,
+    Object? taleResult = null,
+    Object? tale = null,
     Object? editorState = null,
   }) {
     return _then(_$TaleStateImpl(
-      selectedTaleResult: null == selectedTaleResult
-          ? _value.selectedTaleResult
-          : selectedTaleResult // ignore: cast_nullable_to_non_nullable
+      taleResult: null == taleResult
+          ? _value.taleResult
+          : taleResult // ignore: cast_nullable_to_non_nullable
               as StateResult,
-      selectedTale: null == selectedTale
-          ? _value.selectedTale
-          : selectedTale // ignore: cast_nullable_to_non_nullable
+      tale: null == tale
+          ? _value.tale
+          : tale // ignore: cast_nullable_to_non_nullable
               as Tale,
-      isTaleEdited: null == isTaleEdited
-          ? _value.isTaleEdited
-          : isTaleEdited // ignore: cast_nullable_to_non_nullable
-              as bool,
       editorState: null == editorState
           ? _value.editorState
           : editorState // ignore: cast_nullable_to_non_nullable
@@ -180,24 +161,19 @@ class __$$TaleStateImplCopyWithImpl<$Res>
 
 class _$TaleStateImpl extends _TaleState {
   const _$TaleStateImpl(
-      {required this.selectedTaleResult,
-      required this.selectedTale,
-      required this.isTaleEdited,
-      required this.editorState})
+      {required this.taleResult, required this.tale, required this.editorState})
       : super._();
 
   @override
-  final StateResult selectedTaleResult;
+  final StateResult taleResult;
   @override
-  final Tale selectedTale;
-  @override
-  final bool isTaleEdited;
+  final Tale tale;
   @override
   final TaleEditorState editorState;
 
   @override
   String toString() {
-    return 'TaleState(selectedTaleResult: $selectedTaleResult, selectedTale: $selectedTale, isTaleEdited: $isTaleEdited, editorState: $editorState)';
+    return 'TaleState(taleResult: $taleResult, tale: $tale, editorState: $editorState)';
   }
 
   @override
@@ -205,19 +181,15 @@ class _$TaleStateImpl extends _TaleState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TaleStateImpl &&
-            (identical(other.selectedTaleResult, selectedTaleResult) ||
-                other.selectedTaleResult == selectedTaleResult) &&
-            (identical(other.selectedTale, selectedTale) ||
-                other.selectedTale == selectedTale) &&
-            (identical(other.isTaleEdited, isTaleEdited) ||
-                other.isTaleEdited == isTaleEdited) &&
+            (identical(other.taleResult, taleResult) ||
+                other.taleResult == taleResult) &&
+            (identical(other.tale, tale) || other.tale == tale) &&
             (identical(other.editorState, editorState) ||
                 other.editorState == editorState));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, selectedTaleResult, selectedTale, isTaleEdited, editorState);
+  int get hashCode => Object.hash(runtimeType, taleResult, tale, editorState);
 
   /// Create a copy of TaleState
   /// with the given fields replaced by the non-null parameter values.
@@ -230,18 +202,15 @@ class _$TaleStateImpl extends _TaleState {
 
 abstract class _TaleState extends TaleState {
   const factory _TaleState(
-      {required final StateResult selectedTaleResult,
-      required final Tale selectedTale,
-      required final bool isTaleEdited,
+      {required final StateResult taleResult,
+      required final Tale tale,
       required final TaleEditorState editorState}) = _$TaleStateImpl;
   const _TaleState._() : super._();
 
   @override
-  StateResult get selectedTaleResult;
+  StateResult get taleResult;
   @override
-  Tale get selectedTale;
-  @override
-  bool get isTaleEdited;
+  Tale get tale;
   @override
   TaleEditorState get editorState;
 
