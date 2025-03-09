@@ -15,7 +15,7 @@ class ResetTaleStateAction extends DefaultAction {
   @override
   AppState? reduce() {
     dispatchAll([
-      SelectInteractionAction(),
+      ResetInteractinAction(),
       ResetPageAction(),
       GetTaleAction(),
     ]);
@@ -278,14 +278,14 @@ class SaveTaleAction extends DefaultAction {
     );
 
     final pagesResult = await taleRepository.saveTalePages(selectedTale.pages);
-    // final interactionsResult = await taleRepository.saveTaleInteractions(
-    // selectedTale.pages.expand((e) => e.interactions).toList(),
-    // );
+    final interactionsResult = await taleRepository.saveTaleInteractions(
+      selectedTale.pages.expand((e) => e.interactions).toList(),
+    );
 
     Log().debug('tale $taleResult');
     Log().debug('pages $pagesResult');
     Log().debug('locale $localizationResult');
-    // Log().debug('interactions $interactionsResult');
+    Log().debug('interactions $interactionsResult');
 
     dispatchAll([
       ResetPageAction(),

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:shared/shared.dart';
+import 'package:myspace_data/myspace_data.dart';
 
 part 'editor_state.freezed.dart';
 
@@ -8,26 +8,16 @@ class TaleEditorState with _$TaleEditorState {
   const TaleEditorState._();
 
   const factory TaleEditorState({
+    required StateResult interactionResult,
     required String selectedPageId,
-    required TaleInteraction selectedInteraction,
+    required String selectedInteractionId,
   }) = _TaleEditorState;
 
   factory TaleEditorState.initial() {
-    return TaleEditorState(
+    return const TaleEditorState(
       selectedPageId: '',
-      selectedInteraction: TaleInteraction.empty(id: '', talePageId: ''),
+      selectedInteractionId: '',
+      interactionResult: StateResult.initial(),
     );
   }
-
-  // bool isPageSelected(TalePage page) => selectedPage.id == page.id;
-  // bool isInteractionSelected(TaleInteraction interaction) =>
-  // selectedInteraction.id == interaction.id;
-
-  // bool get isInteractionsValidToSave {
-  //   if (selectedPage.interactions.isEmpty) {
-  //     return true;
-  //   }
-  //   return selectedPage.interactions
-  //       .every((interaction) => interaction.isValidToSave);
-  // }
 }

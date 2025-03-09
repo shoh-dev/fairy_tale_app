@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:shared/shared.dart';
 import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale_interaction_metadata.freezed.dart';
@@ -75,9 +76,15 @@ class TaleInteractionMetadata with _$TaleInteractionMetadata {
     return json;
   }
 
-  bool get isValidToSave {
+  ModelValidation get isValidToSave {
+    final error = ModelValidation();
     final isSizeValid = size.width > 0 && size.height > 0;
-    return isSizeValid;
+
+    if (!isSizeValid) {
+      error['size'] = ['Size is invalid'];
+    }
+
+    return error;
   }
 
   static const empty = TaleInteractionMetadata();

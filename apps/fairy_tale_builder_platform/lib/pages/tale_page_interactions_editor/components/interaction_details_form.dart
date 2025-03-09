@@ -135,26 +135,10 @@ class __FormState extends State<_Form> with StateHelpers {
     }
   }
 
-  TaleInteractionSize makeInteractionSize() {
-    return TaleInteractionSize(
-      num.tryParse(_widthCtrl.text) ?? interaction.size.width,
-      num.tryParse(_heightCtrl.text) ?? interaction.size.height,
-    );
-  }
-
-  TaleInteractionPosition makeInteractionInitialPosition() {
-    return TaleInteractionPosition(
-      num.tryParse(_initialdxCtrl.text) ?? interaction.initialPosition.dx,
-      num.tryParse(_initialdyCtrl.text) ?? interaction.initialPosition.dy,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return DispatchConnector<AppState>(
       builder: (context, dispatch) {
-        // final deviceSize = Devices.ios.iPhone13.screenSize;
-
         Widget saveButton(
           UpdateInteractionAction action,
           TextEditingController controller,
@@ -216,10 +200,10 @@ class __FormState extends State<_Form> with StateHelpers {
                 isValid(isX ? _finaldxCtrl : _finaldyCtrl)
                     ? () => dispatch(
                           UpdateInteractionAction(
-                            initialdx: num.parse(
+                            finaldx: num.parse(
                               isX ? _finaldxCtrl.text : _finaldyCtrl.text,
                             ),
-                            initialdy: num.parse(
+                            finaldy: num.parse(
                               isX ? _finaldxCtrl.text : _finaldyCtrl.text,
                             ),
                           ),
@@ -356,6 +340,13 @@ class __FormState extends State<_Form> with StateHelpers {
                 label: 'Final Position X',
                 maxLines: 1,
                 controller: _finaldxCtrl,
+                autovalidateMode: AutovalidateMode.always,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Final position X can't be empty";
+                  }
+                  return null;
+                },
                 suffixWidgets: [
                   aspectButtonFinalPosition(true),
                   saveButton(
@@ -370,6 +361,13 @@ class __FormState extends State<_Form> with StateHelpers {
                 label: 'Final Position Y',
                 maxLines: 1,
                 controller: _finaldyCtrl,
+                autovalidateMode: AutovalidateMode.always,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Final position Y can't be empty";
+                  }
+                  return null;
+                },
                 suffixWidgets: [
                   aspectButtonFinalPosition(false),
                   saveButton(

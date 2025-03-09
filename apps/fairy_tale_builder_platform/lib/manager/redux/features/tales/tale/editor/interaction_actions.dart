@@ -1,25 +1,16 @@
+import 'dart:async';
+
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/page_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:shared/shared.dart';
 
-class SelectInteractionAction extends DefaultAction {
-  final TaleInteraction? interaction;
-
-  SelectInteractionAction({
-    this.interaction,
-  });
-
+class ResetInteractinAction extends DefaultAction {
   @override
   AppState? reduce() {
-    if (editorState.selectedInteraction == interaction) {
-      return null;
-    }
-
-    if (interaction == null && editorState.selectedInteraction.id.isEmpty) {
+    if (taleState.editorState.selectedInteractionId.isEmpty) {
       return null;
     }
 
@@ -27,8 +18,30 @@ class SelectInteractionAction extends DefaultAction {
       taleListState: taleListState.copyWith(
         taleState: taleState.copyWith(
           editorState: editorState.copyWith(
-            selectedInteraction:
-                interaction ?? TaleInteraction.empty(id: '', talePageId: ''),
+            selectedInteractionId: '',
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SelectInteractionAction extends DefaultAction {
+  final String id;
+
+  SelectInteractionAction(this.id);
+
+  @override
+  AppState? reduce() {
+    if (editorState.selectedInteractionId == id) {
+      return null;
+    }
+
+    return state.copyWith(
+      taleListState: taleListState.copyWith(
+        taleState: taleState.copyWith(
+          editorState: editorState.copyWith(
+            selectedInteractionId: id,
           ),
         ),
       ),
@@ -39,27 +52,25 @@ class SelectInteractionAction extends DefaultAction {
 class AddInteractionAction extends DefaultAction {
   @override
   AppState? reduce() {
+    final tale = taleState.tale;
     final page = taleState.selectedPage;
     if (page == null) {
       return null;
     }
 
-    final newInteraction =
-        TaleInteraction.newInteraction(id: UUID.v4(), talePageId: page.id);
+    final newInteraction = TaleInteraction.newInteraction(
+      id: UUID.v4(),
+      talePageId: page.id,
+    );
 
     final newPage = page.copyWith(
       interactions: [...page.interactions, newInteraction],
-    ); //todo:
-
-    return state.copyWith(
-      taleListState: taleListState.copyWith(
-        taleState: taleState.copyWith(
-          editorState: editorState.copyWith(
-            selectedInteraction: newInteraction, //once created select it
-          ),
-        ),
-      ),
     );
+
+    final newPages =
+        tale.pages.map((e) => e.id == page.id ? newPage : e).toList();
+    dispatch(UpdateTaleAction(pages: newPages));
+    return null; //todo: test
   }
 }
 
@@ -104,13 +115,15 @@ class UpdateInteractionAction extends DefaultAction {
 
   @override
   AppState? reduce() {
+    final tale = taleState.tale;
+
     final page = taleState.selectedPage;
     if (page == null) {
       return null;
     }
-    final tale = taleState.tale;
-    final interaction = editorState.selectedInteraction;
-    if (interaction.id.isEmpty || page.id.isEmpty || tale.id.isEmpty) {
+
+    final interaction = taleState.selectedInteraction;
+    if (interaction == null) {
       return null;
     }
 
@@ -126,7 +139,7 @@ class UpdateInteractionAction extends DefaultAction {
 
     //steps:
     //1. update selected interaction
-    final newInteraction = interaction.copyWith(
+    var newInteraction = interaction.copyWith(
       toReRender:
           reRender ? interaction.toReRender + 1 : interaction.toReRender,
       hintKey: hintKey ?? interaction.hintKey,
@@ -145,25 +158,43 @@ class UpdateInteractionAction extends DefaultAction {
           x: initialdx ?? interaction.metadata.initialPosition.dx,
           y: initialdy ?? interaction.metadata.initialPosition.dy,
         ),
-        currentPosition: initialdx != null || initialdy != null
-            ? interaction.metadata.initialPosition.copyWith(
-                x: initialdx ?? interaction.metadata.initialPosition.dx,
-                y: initialdy ?? interaction.metadata.initialPosition.dy,
-              )
-            : interaction.metadata.currentPosition,
-        finalPosition: finaldx == null && finaldy == null
-            ? null
-            : interaction.metadata.finalPosition?.copyWith(
-                x: finaldx ?? interaction.metadata.finalPosition?.dx ?? 0,
-                y: finaldy ?? interaction.metadata.finalPosition?.dy ?? 0,
-              ),
+        // currentPosition: initialdx != null || initialdy != null
+        //     ? interaction.metadata.initialPosition.copyWith(
+        //         x: initialdx ?? interaction.metadata.initialPosition.dx,
+        //         y: initialdy ?? interaction.metadata.initialPosition.dy,
+        //       )
+        //     : interaction.metadata.currentPosition,
+        finalPosition: interaction.metadata.finalPosition?.copyWith(
+          x: finaldx ?? interaction.metadata.finalPosition?.dx ?? 0,
+          y: finaldy ?? interaction.metadata.finalPosition?.dy ?? 0,
+        ),
       ),
     );
+
+    if (finaldx != null || finaldy != null) {
+      var finalPos =
+          newInteraction.metadata.finalPosition ?? TaleInteractionPosition.zero;
+
+      finalPos = finalPos.copyWith(
+        x: finaldx ?? finalPos.dx,
+        y: finaldy ?? finalPos.dy,
+      );
+
+      newInteraction = newInteraction.copyWith(
+        metadata: newInteraction.metadata.copyWith(
+          finalPosition: finalPos,
+        ),
+      );
+    }
 
     //2. update selected page interactions with new selected interaction
     final newInteractions = page.interactions.map((e) {
       if (e.id == interaction.id) {
-        return newInteraction;
+        return newInteraction.copyWith(
+          metadata: newInteraction.metadata.copyWith(
+            currentPosition: newInteraction.metadata.initialPosition,
+          ),
+        );
       }
       return e;
     });
@@ -176,21 +207,11 @@ class UpdateInteractionAction extends DefaultAction {
       }
       return e;
     });
-    final newTale = tale.copyWith(pages: newTalePages.toList());
 
-    return state.copyWith(
-      taleListState: taleListState.copyWith(
-        taleState: taleState.copyWith(
-          tale: newTale.copyWith(
-            toReRender: reRender ? tale.toReRender + 1 : tale.toReRender,
-          ),
-          editorState: editorState.copyWith(
-            selectedInteraction: newInteraction.copyWith(
-              toReRender: reRender ? tale.toReRender + 1 : tale.toReRender,
-            ),
-            selectedPageId: newPage.id,
-          ),
-        ),
+    dispatch(
+      UpdateTaleAction(
+        pages: newTalePages.toList(),
+        reRender: imageUrl != null,
       ),
     );
   }
@@ -207,7 +228,11 @@ class _UpdateInteractionImageAction extends DefaultAction {
       return null;
     }
 
-    final ineraction = taleState.editorState.selectedInteraction;
+    final ineraction = taleState.selectedInteraction;
+
+    if (ineraction == null) {
+      return null;
+    }
 
     final uploadedResult = await taleRepository.uploadFile(
       bytes: await file.xFile.readAsBytes(),
@@ -239,7 +264,11 @@ class _UpdateInteractionAudioAction extends DefaultAction {
       return null;
     }
 
-    final ineraction = taleState.editorState.selectedInteraction;
+    final ineraction = taleState.selectedInteraction;
+
+    if (ineraction == null) {
+      return null;
+    }
 
     final uploadedResult = await taleRepository.uploadFile(
       bytes: await file.xFile.readAsBytes(),
@@ -259,6 +288,8 @@ class _UpdateInteractionAudioAction extends DefaultAction {
     return null;
   }
 }
+
+//! UPDATE FROM HERE
 
 class DeleteInteractionAction extends DefaultAction {
   final TaleInteraction interaction;
@@ -284,28 +315,29 @@ class DeleteInteractionAction extends DefaultAction {
           .toList();
 
       dispatch(UpdateTaleAction(pages: newPages));
-      dispatch(SelectInteractionAction());
+      dispatch(ResetInteractinAction());
 
       return null;
     }
 
-    // final deleteResult = await taleRepository.deleteTalePage(selectedPage.id);
-
+    // final deleteResult =
+    // await taleRepository.deleteInteractionAction(interaction.id);
+//
     // deleteResult.when(
-    //   ok: (_) {
-    //     final newPages = taleState.selectedTale.pages
-    //         .where((e) => e.id != selectedPage.id)
-    //         .toList();
-    //     dispatchAll([
-    //       SelectPageAction(),
-    //       UpdateTaleAction(pages: newPages.toList()),
-    //     ]);
-    //   },
-    //   error: (error) {
-    //     dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
-    //   },
+    // ok: (_) {
+    // final newPages = taleState.selectedTale.pages
+    // .where((e) => e.id != selectedPage.id)
+    // .toList();
+    // dispatchAll([
+    // SelectPageAction(),
+    // UpdateTaleAction(pages: newPages.toList()),
+    // ]);
+    // },
+    // error: (error) {
+    // dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
+    // },
     // );
-
-    return null;
+//
+    // return null;//todo:
   }
 }

@@ -136,6 +136,7 @@ class UpdatePageAction extends DefaultAction {
         pages: newTalePages.toList(),
       ),
     );
+    return null;
   }
 }
 

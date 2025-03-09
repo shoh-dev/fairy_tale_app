@@ -44,9 +44,13 @@ enum SwipeType implements TaleInteractionSubType {
   @override
   String name() => toString().split('.').last;
 
-  bool get isVertical => this == SwipeType.up || this == SwipeType.down;
+  bool get isVertical =>
+      this == SwipeType.up || this == SwipeType.down || this == SwipeType.any;
 
-  bool get isHorizontal => this == SwipeType.right || this == SwipeType.left;
+  bool get isHorizontal =>
+      this == SwipeType.right ||
+      this == SwipeType.left ||
+      this == SwipeType.any;
 }
 
 enum TapType implements TaleInteractionSubType {
@@ -193,19 +197,39 @@ class TaleInteraction with _$TaleInteraction {
     return json;
   }
 
-  bool get isValidToSave {
-    //is valid if:
-    //metadata is valid
-    //event type is valid
-    //event subtype is valid
-    //action is valid
+  ModelValidation get isValidToSave {
+    final error = ModelValidation();
 
-    //todo: validate based on action
+    if (metadata.isValidToSave.isNotEmpty) {
+      error.addAll(metadata.isValidToSave);
+    }
+    if (eventTypeEnum == null) {
+      error['tale.interaction_$id.event_type'] = ['Event type is required'];
+    }
+    if (eventSubTypeEnum == null) {
+      error['tale.interaction_$id.event_subtype'] = [
+        'Event subtype is required',
+      ];
+    }
+    if (actionEnum == null) {
+      error['tale.interaction_$id.action'] = ['Action is required'];
+    }
+    if (actionEnum == TaleInteractionAction.move) {
+      if (metadata.finalPosition == null) {
+        error['tale.interaction_$id.final_position'] = [
+          'Final position is required',
+        ];
+      }
+    }
+    if (actionEnum == TaleInteractionAction.playSound) {
+      if (metadata.audioUrl.isEmpty) {
+        error['tale.interaction_$id.audio_url'] = [
+          'Audio url is required',
+        ];
+      }
+    }
 
-    return metadata.isValidToSave &&
-        eventTypeEnum != null &&
-        eventSubTypeEnum != null &&
-        actionEnum != null;
+    return error;
   }
 
   TaleInteractionSize get size => metadata.size;

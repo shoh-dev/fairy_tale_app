@@ -20,13 +20,16 @@ class _InteractionObjectComponentState
     extends State<InteractionObjectComponent> {
   TaleInteraction get interaction => widget.interaction;
 
-  Offset _position = Offset.zero;
+  late Offset _position = interaction.initialPosition.toOffset();
 
   @override
   Widget build(BuildContext context) {
-    return StateConnector<AppState, TaleInteraction>(
+    return StateConnector<AppState, TaleInteraction?>(
       selector: selectedInteractionSelector,
       onDidChange: (context, store, viewModel) {
+        if (viewModel == null) {
+          return;
+        }
         if (interaction.id == widget.interaction.id) {
           if (_position != interaction.initialPosition.toOffset()) {
             setState(() {
@@ -35,13 +38,8 @@ class _InteractionObjectComponentState
           }
         }
       },
-      onInitialBuild: (dispatch, model) {
-        setState(() {
-          _position = interaction.initialPosition.toOffset();
-        });
-      },
       builder: (context, dispatch, selectedInteraction) {
-        final isSelected = selectedInteraction.id == interaction.id;
+        final isSelected = selectedInteraction?.id == interaction.id;
         final device = Devices.ios.iPhoneSE;
         final deviceSize = device.screenSize;
         return AnimatedPositioned(
@@ -54,7 +52,7 @@ class _InteractionObjectComponentState
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
               onTap: () {
-                dispatch(SelectInteractionAction(interaction: interaction));
+                dispatch(SelectInteractionAction(interaction.id));
               },
               onPanUpdate: !isSelected
                   ? null
@@ -114,9 +112,7 @@ class _InteractionObjectComponentState
                 child: interaction.metadata.hasImage
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          '${interaction.metadata.imageUrl}?cache=${DateTime.now().millisecondsSinceEpoch}',
-                        ),
+                        child: Image.network(interaction.metadata.imageUrl),
                       )
                     : null,
               ),

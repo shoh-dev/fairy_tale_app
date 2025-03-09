@@ -40,25 +40,29 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
               },
             ),
             const Divider(height: 0),
-            StateConnector<AppState, (List<TaleInteraction>?, TaleInteraction)>(
+            StateConnector<AppState,
+                (List<TaleInteraction>?, TaleInteraction?)>(
               selector: (state) => (
                 selectedTalePageSelector(state)?.interactions,
                 selectedInteractionSelector(state),
               ),
               builder: (context, dispatch, model) {
                 final interactions = model.$1;
+                if (interactions == null) {
+                  return const SizedBox();
+                }
+
                 final selectedInteraction = model.$2;
 
                 return Column(
                   spacing: 4,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    for (final TaleInteraction interaction
-                        in interactions ?? [])
+                    for (final TaleInteraction interaction in interactions)
                       Builder(
                         builder: (context) {
                           final isSelected =
-                              interaction.id == selectedInteraction.id;
+                              interaction.id == selectedInteraction?.id;
 
                           return ListTile(
                             selected: isSelected,
@@ -66,17 +70,16 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
                                 context.colorScheme.onSecondaryContainer,
                             selectedTileColor:
                                 context.colorScheme.secondaryContainer,
-                            tileColor: interaction.isValidToSave
+                            tileColor: interaction.isValidToSave.isEmpty
                                 ? null
                                 : context.error.withAlpha(30),
-                            shape: interaction.isValidToSave
+                            shape: interaction.isValidToSave.isEmpty
                                 ? null
-                                : Border.all(color: context.error),
-                            title: Text(interaction.id),
+                                : Border.all(color: context.error, width: .5),
+                            title: Text(interaction.id, maxLines: 2),
                             onTap: () {
                               dispatch(
-                                SelectInteractionAction(
-                                    interaction: interaction),
+                                SelectInteractionAction(interaction.id),
                               );
                             },
                             trailing: Badge(

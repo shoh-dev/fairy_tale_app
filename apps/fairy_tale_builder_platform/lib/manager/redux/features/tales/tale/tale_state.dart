@@ -26,9 +26,16 @@ class TaleState with _$TaleState {
   TalePage? get selectedPage =>
       tale.pages.firstWhereOrNull((e) => e.id == editorState.selectedPageId);
 
+  TaleInteraction? get selectedInteraction => selectedPage?.interactions
+      .firstWhereOrNull((e) => e.id == editorState.selectedInteractionId);
+
   /// if returns empty string means tale is valid to save
   /// otherwise returns error with which field is invalid
-  Map<String, List<String>> get isTaleValidToSave {
-    return tale.isValidToSave;
+  ModelValidation get isTaleValidToSave {
+    return tale.isValidToSave..addAll(isInteractionsValidToSave);
+  }
+
+  ModelValidation get isInteractionsValidToSave {
+    return selectedPage?.isInteractionsValidToSave ?? {};
   }
 }

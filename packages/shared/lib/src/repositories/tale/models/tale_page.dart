@@ -88,6 +88,16 @@ class TalePage with _$TalePage {
 
   bool get hasBackgroundAudio => metadata.hasBackgroundAudio;
 
+  ModelValidation get isInteractionsValidToSave {
+    final error = ModelValidation();
+
+    for (final interaction in interactions) {
+      error.addAll(interaction.isValidToSave);
+    }
+
+    return error;
+  }
+
   ModelValidation get isValidToSave {
     final error = ModelValidation();
 

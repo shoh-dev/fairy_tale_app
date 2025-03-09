@@ -19,11 +19,11 @@ class InteractionRightSidebarComponent extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(Sizes.kLayoutPadding),
-        child: StateConnector<AppState, TaleInteraction>(
+        child: StateConnector<AppState, TaleInteraction?>(
           selector: (state) =>
-              state.taleListState.taleState.editorState.selectedInteraction,
+              state.taleListState.taleState.selectedInteraction,
           builder: (context, dispatch, model) {
-            if (model.id.isEmpty) {
+            if (model == null) {
               return Text(
                 'Select an interaction to edit',
                 style: context.textTheme.titleLarge,

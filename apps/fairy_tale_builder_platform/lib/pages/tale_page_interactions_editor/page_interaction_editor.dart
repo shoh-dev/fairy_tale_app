@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:device_preview/device_preview.dart';
+import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/components/orientation_selector.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/interaction_actions.dart';
@@ -26,9 +29,9 @@ class TalePageInteractionsEditor extends StatelessWidget {
       leftSidebar: const InteractionLeftSidebarComponent(),
       rigthSidebar: const InteractionRightSidebarComponent(),
       actions: [
-        StateConnector<AppState, bool>(
-          selector: (state) => false, //todo:
-          // state.taleListState.taleState.editorState.isInteractionEdited,
+        StateConnector<AppState, ModelValidation>(
+          selector: (state) =>
+              state.taleListState.taleState.isInteractionsValidToSave,
           builder: (context, dispatch, model) {
             return Row(
               mainAxisSize: MainAxisSize.min,
@@ -67,41 +70,43 @@ class TalePageInteractionsEditor extends StatelessWidget {
                     );
                   },
                 ),
-                // ButtonComponent.icon(
-                //   icon: Icons.save_rounded,
-                //   tooltip: 'Save',
-                //   onPressed: !model
-                //       ? null
-                //       : () {
-                //           dispatch(SaveInteractionsAction());
-                //         },
-                // ),
                 const SizedBox(width: 1),
               ],
             );
           },
         ),
       ],
-      leading: StateConnector<AppState, bool>(
-        selector: (state) => false,
-        // state.taleListState.taleState.editorState.isInteractionsValidToSave,//todo:
+      leading: StateConnector<AppState, ModelValidation>(
+        selector: (state) =>
+            state.taleListState.taleState.isInteractionsValidToSave,
         builder: (context, dispatch, model) {
-          print(model);
           return ButtonComponent.icon(
-            icon:
-                !model ? Icons.error_outline_rounded : Icons.arrow_back_rounded,
-            onPressed: !model
-                ? null
-                : () {
-                    //todo: prompt to save before quitting
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context);
-                    }
-                  },
+            icon: Icons.arrow_back_rounded,
+            onPressed: () {
+              if (model.isNotEmpty) {
+                log('TalePageInteractionsEditor: $model');
+                return;
+              }
+              //todo: prompt to save before quitting
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              }
+            },
           );
         },
       ),
-      body: const _Body(),
+      body: StateConnector<AppState, StateResult>(
+        selector: (state) =>
+            state.taleListState.taleState.editorState.interactionResult,
+        builder: (context, _, result) {
+          return result.when(
+            ok: () => const _Body(),
+            initial: () => const _Body(),
+            loading: LoadingComponent.new,
+            error: (e) => Center(child: Text(e.toString())),
+          );
+        },
+      ),
     );
   }
 }
@@ -114,7 +119,7 @@ class _Body extends StatelessWidget {
     return StateConnector<AppState, Tale>(
       selector: selectedTaleSelector,
       onDispose: (dispatch) {
-        dispatch(SelectInteractionAction());
+        dispatch(ResetInteractinAction());
       },
       builder: (context, dispatch, tale) {
         return StateConnector<AppState, TalePage?>(
@@ -145,7 +150,7 @@ class _Body extends StatelessWidget {
                   Positioned.fill(
                     child: GestureDetector(
                       onTap: () {
-                        dispatch(SelectInteractionAction());
+                        dispatch(ResetInteractinAction());
                       },
                     ),
                   ),
