@@ -60,12 +60,9 @@ class TaleEditorPage extends StatelessWidget {
             return ButtonComponent.iconDesctructive(
               tooltip: 'Delete Tale',
               icon: Icons.delete_rounded,
-              onPressed: tale.isNew
-                  ? null
-                  : () {
-                      //todo: add prompt dialog
-                      dispatch(DeleteTaleAction());
-                    },
+              onPressed: () {
+                dispatch(DeleteTaleAction());
+              },
             );
           },
         ),
@@ -83,8 +80,7 @@ class TaleEditorPage extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         StateConnector<AppState, ModelValidation>(
-          selector: (state) => {}, //todo:
-          // state.selectedTaleState.tale.isTaleValidToSave,
+          selector: (state) => state.selectedTaleState.taleValidation,
           builder: (context, dispatch, model) {
             return ButtonComponent.icon(
               icon: Icons.save_rounded,
@@ -106,7 +102,7 @@ class TaleEditorPage extends StatelessWidget {
           dispatch(GetTaleAction(taleId: taleId));
         },
         onDispose: (dispatch) {
-          // dispatch(ResetTaleStateAction());//todo:
+          dispatch(ResetTaleAction());
         },
         builder: (context, dispatch, model) {
           return model.when(

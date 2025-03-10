@@ -6,22 +6,37 @@ import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:shared/shared.dart';
 
+class ResetInteractionAction extends DefaultAction {
+  @override
+  AppState? reduce() {
+    return state.copyWith(
+      selectedTaleState: selectedTaleState.copyWith(
+        selectedInteractionId: '',
+      ),
+    );
+  }
+}
+
 class SelectInteractionAction extends DefaultAction {
   final String id;
 
   SelectInteractionAction(this.id);
 
   @override
-  AppState? reduce() {
+  Future<AppState?> reduce() async {
     if (selectedTaleState.selectedInteractionId == id) {
       return null;
     }
 
-    return state.copyWith(
-      selectedTaleState: selectedTaleState.copyWith(
-        selectedInteractionId: id,
-      ),
-    );
+    dispatch(ResetInteractionAction());
+
+    return Future.delayed(const Duration(milliseconds: 100), () {
+      return state.copyWith(
+        selectedTaleState: selectedTaleState.copyWith(
+          selectedInteractionId: id,
+        ),
+      );
+    });
   }
 }
 
@@ -81,7 +96,7 @@ class UpdateInteractionAction extends DefaultAction {
     this.action,
     this.finaldx,
     this.finaldy,
-    this.animationDuration, //todo:
+    this.animationDuration,
     this.imageFile,
     this.imageUrl,
     this.audioFile,
@@ -262,26 +277,35 @@ class DeleteInteractionAction extends DefaultAction {
         ),
       );
     }
-    return null;
 
-    // final deleteResult =
-    // await taleRepository.deleteInteractionAction(interaction.id);
-//
-    // deleteResult.when(
-    // ok: (_) {
-    // final newPages = taleState.selectedTale.pages
-    // .where((e) => e.id != selectedPage.id)
-    // .toList();
-    // dispatchAll([
-    // SelectPageAction(),
-    // UpdateTaleAction(pages: newPages.toList()),
-    // ]);
-    // },
-    // error: (error) {
-    // dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
-    // },
-    // );
-//
-    // return null;//todo:
+    final deleteResult =
+        await taleRepository.deleteInteractionAction(interaction.id);
+
+    return deleteResult.when(
+      ok: (_) {
+        final newInteractions = selectedTaleState.interactions
+            .where((e) => e.id != interaction.id)
+            .toList();
+
+        return state.copyWith(
+          selectedTaleState: selectedTaleState.copyWith(
+            interactions: newInteractions,
+            selectedInteractionId: '',
+          ),
+        );
+      },
+      error: (error) {
+        final newInteractions = selectedTaleState.interactions
+            .where((e) => e.id != interaction.id)
+            .toList();
+
+        return state.copyWith(
+          selectedTaleState: selectedTaleState.copyWith(
+            interactions: newInteractions,
+            selectedInteractionId: '',
+          ),
+        );
+      },
+    );
   }
 }

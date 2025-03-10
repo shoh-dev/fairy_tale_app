@@ -1,4 +1,3 @@
-import 'package:fairy_tale_mobile/manager/redux/state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';

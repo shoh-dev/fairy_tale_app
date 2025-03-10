@@ -33,6 +33,11 @@ class SelectedTaleState with _$SelectedTaleState {
   bool get isTaleNew => tale.isNew;
   bool get isPageSelected => selectedPageId.isNotEmpty;
   bool get isInteractionSelected => selectedInteractionId.isNotEmpty;
+  List<ModelValidation> get interactionValidations => interactions
+      .map((e) => e.isValidToSave)
+      .where((element) => element.isNotEmpty)
+      .toList();
+  ModelValidation get taleValidation => tale.isValidToSave;
 
   TalePage? get selectedPage =>
       pages.firstWhereOrNull((e) => e.id == selectedPageId);

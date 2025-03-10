@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
-import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale_interaction.freezed.dart';
 
@@ -184,6 +183,8 @@ class TaleInteraction with _$TaleInteraction {
   }
 
   Map<dynamic, dynamic> toJson() {
+    final defModel = TaleInteraction.empty(id: id, talePageId: talePageId);
+
     final json = {
       'id': id,
       'tale_page_id': talePageId,
@@ -191,16 +192,14 @@ class TaleInteraction with _$TaleInteraction {
       'action': action,
       'event_type': eventType,
       'event_subtype': eventSubtype,
-      'animation_duration': animationDuration,
+      'animation_duration': animationDuration == 0
+          ? defModel.animationDuration
+          : animationDuration,
       'hint_key': hintKey,
     }..removeWhere((key, value) => value.toString().isEmpty);
 
     return json;
   }
-
-  // void dispose() {
-  //   // audioPlayerService.dispose();
-  // }
 
   ModelValidation get isValidToSave {
     final error = ModelValidation();
@@ -209,26 +208,26 @@ class TaleInteraction with _$TaleInteraction {
       error.addAll(metadata.isValidToSave);
     }
     if (eventTypeEnum == null) {
-      error['tale.interaction_$id.event_type'] = ['Event type is required'];
+      error['tale.interaction.$id.event_type'] = ['Event type is required'];
     }
     if (eventSubTypeEnum == null) {
-      error['tale.interaction_$id.event_subtype'] = [
+      error['tale.interaction.$id.event_subtype'] = [
         'Event subtype is required',
       ];
     }
     if (actionEnum == null) {
-      error['tale.interaction_$id.action'] = ['Action is required'];
+      error['tale.interaction.$id.action'] = ['Action is required'];
     }
     if (actionEnum == TaleInteractionAction.move) {
       if (metadata.finalPosition == null) {
-        error['tale.interaction_$id.final_position'] = [
+        error['tale.interaction.$id.final_position'] = [
           'Final position is required',
         ];
       }
     }
     if (actionEnum == TaleInteractionAction.playSound) {
       if (metadata.audioUrl.isEmpty) {
-        error['tale.interaction_$id.audio_url'] = [
+        error['tale.interaction.$id.audio_url'] = [
           'Audio url is required',
         ];
       }

@@ -79,8 +79,6 @@ class TaleInteractionHandlerAction extends DefaultAction {
       return null;
     }
 
-    print('asas');
-
     switch (interaction.actionEnum!) {
       case TaleInteractionAction.playSound:
         if (!interaction.metadata.hasAudio) {

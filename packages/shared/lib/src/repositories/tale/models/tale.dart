@@ -77,7 +77,7 @@ class Tale with _$Tale {
       'title': title,
       'description': description,
       'metadata': metadata.toJson(),
-      'orientation': orientation,
+      'orientation': isOrientationValid ? orientation : 'portrait',
     };
 
     return json;
@@ -146,25 +146,18 @@ class Tale with _$Tale {
       error.addAll(_isMetadataValid);
     }
 
-    // for (final page in pages) {
-    //   final pageError = isPageValid(page);
-    //   if (pageError.isNotEmpty) {
-    //     error.addAll(pageError);
-    //   }
-    // }//todo: validate using function and receive pages
-
     return error;
   }
 
   ModelValidation isPageValid(TalePage page) {
     final error = ModelValidation();
 
-    // if (page.isValidToSave.isNotEmpty) {//todo: validate using function and receive pages
-    // return page.isValidToSave;
-    // }
+    if (page.isValidToSave.isNotEmpty) {
+      error.addAll(page.isValidToSave);
+    }
     //check if page.text contains in localizations
     if (localizations.defaultTranslation[page.text] == null) {
-      error['tale.page_${page.id}'] = [
+      error['tale.page.${page.id}'] = [
         'Page text [${page.text}] is not contained in localizations',
       ];
     }

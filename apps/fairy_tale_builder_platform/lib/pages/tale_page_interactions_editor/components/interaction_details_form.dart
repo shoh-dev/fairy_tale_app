@@ -57,6 +57,7 @@ class __FormState extends State<_Form> with StateHelpers {
   final TextEditingController _initialdyCtrl = TextEditingController();
   final TextEditingController _finaldxCtrl = TextEditingController();
   final TextEditingController _finaldyCtrl = TextEditingController();
+  final TextEditingController _animationDurationCtrl = TextEditingController();
 
   @override
   void dispose() {
@@ -67,6 +68,7 @@ class __FormState extends State<_Form> with StateHelpers {
       _initialdyCtrl.dispose();
       _finaldxCtrl.dispose();
       _finaldyCtrl.dispose();
+      _animationDurationCtrl.dispose();
     });
     super.dispose();
   }
@@ -94,6 +96,7 @@ class __FormState extends State<_Form> with StateHelpers {
           interaction.finalPosition?.dx.toStringAsFixed(2) ?? '';
       _finaldyCtrl.text =
           interaction.finalPosition?.dy.toStringAsFixed(2) ?? '';
+      _animationDurationCtrl.text = interaction.animationDuration.toString();
       safeSetState(() {});
 
       _widthCtrl.addListener(() {
@@ -114,6 +117,9 @@ class __FormState extends State<_Form> with StateHelpers {
       _finaldyCtrl.addListener(() {
         safeSetState(() {});
       });
+      _animationDurationCtrl.addListener(() {
+        safeSetState(() {});
+      });
     });
   }
 
@@ -130,6 +136,7 @@ class __FormState extends State<_Form> with StateHelpers {
             interaction.finalPosition?.dx.toStringAsFixed(2) ?? '';
         _finaldyCtrl.text =
             interaction.finalPosition?.dy.toStringAsFixed(2) ?? '';
+        _animationDurationCtrl.text = interaction.animationDuration.toString();
       });
     }
   }
@@ -316,6 +323,29 @@ class __FormState extends State<_Form> with StateHelpers {
                     initialdy: num.tryParse(_initialdyCtrl.text),
                   ),
                   _initialdyCtrl,
+                ),
+              ],
+            ),
+            TextFieldComponent(
+              autovalidateMode: AutovalidateMode.always,
+              label: 'Animation Duration',
+              maxLines: 1,
+              controller: _animationDurationCtrl,
+              validator: (value) {
+                if (value != null &&
+                    value.isNotEmpty &&
+                    num.tryParse(value) == null) {
+                  return 'Animation duration must be a number';
+                }
+                return null;
+              },
+              suffixWidgets: [
+                saveButton(
+                  UpdateInteractionAction(
+                    animationDuration:
+                        int.tryParse(_animationDurationCtrl.text),
+                  ),
+                  _animationDurationCtrl,
                 ),
               ],
             ),

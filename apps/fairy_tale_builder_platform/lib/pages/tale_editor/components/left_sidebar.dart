@@ -50,8 +50,7 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                   StateConnector<AppState, bool>(
                     selector: isPageSelected,
                     builder: (context, dispatch, isSelected) {
-                      final isPageValid = false; //todo:
-                      // tale.isPageValid(page).isEmpty;
+                      final isPageValid = page.isValidToSave.isEmpty;
                       return InkWell(
                         onTap: () {
                           dispatch(SelectPageAction(page.id));
@@ -120,13 +119,6 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                                           page.id,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                        ),
-                                      );
-                                      return SizedBox(
-                                        width: 330,
-                                        child: Text(
-                                          translatedValue[0],
-                                          maxLines: 1,
                                         ),
                                       );
                                     },

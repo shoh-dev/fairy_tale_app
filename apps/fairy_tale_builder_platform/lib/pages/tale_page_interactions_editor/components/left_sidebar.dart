@@ -77,6 +77,12 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
                                 ? null
                                 : Border.all(color: context.error, width: .5),
                             title: Text(interaction.id, maxLines: 2),
+                            subtitle: interaction.isValidToSave.isEmpty
+                                ? null
+                                : Text(
+                                    'Invalid!',
+                                    style: TextStyle(color: context.error),
+                                  ),
                             onTap: () {
                               dispatch(
                                 SelectInteractionAction(interaction.id),
@@ -84,11 +90,11 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
                             },
                             trailing: Badge(
                               isLabelVisible: interaction.isNew,
+                              offset: const Offset(3, -15),
                               label: const Text('New'),
                               child: ButtonComponent.iconDesctructive(
                                 icon: Icons.delete_rounded,
                                 onPressed: () {
-                                  //todo: delete interaction
                                   dispatch(
                                     DeleteInteractionAction(interaction),
                                   );

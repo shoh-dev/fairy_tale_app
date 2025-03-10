@@ -21,7 +21,7 @@ class TalePageDetailsForm extends StatelessWidget {
       selector: selectedPage,
       builder: (context, dispatch, page) {
         if (page == null) {
-          return const SizedBox(); //todo: check this
+          return const SizedBox();
         }
         return Column(
           mainAxisSize: MainAxisSize.min,
