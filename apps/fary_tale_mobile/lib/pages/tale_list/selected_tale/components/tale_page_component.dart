@@ -7,14 +7,23 @@ import 'package:shared/shared.dart';
 class TalePageComponent extends StatelessWidget {
   const TalePageComponent({
     required this.page,
+    required this.interactions,
     super.key,
   });
 
   final TalePage page;
+  final List<TaleInteraction> Function(String pageId) interactions;
 
   @override
   Widget build(BuildContext context) {
+    final interactions = this.interactions(page.id);
+
     return LifecycleComponent(
+      onDispose: () {
+        for (final interaction in interactions) {
+          interaction.audioPlayerService.dispose();
+        }
+      },
       child: Stack(
         children: [
           //image
@@ -25,20 +34,24 @@ class TalePageComponent extends StatelessWidget {
               ),
             ),
 
-          for (final interaction in page.interactions)
+          for (final interaction in interactions)
             //tale object
-            AnimatedPositioned(
-              // curve: Curves.ease, //todo: get curve from db
-              duration: Duration(
-                milliseconds: interaction.animationDuration,
-              ),
-              width: interaction.size.width,
-              height: interaction.size.height,
-              left: interaction.currentPosition.dx,
-              top: interaction.currentPosition.dy,
-              child: SelectedTaleInteractionObjectComponent(
-                interaction: interaction,
-              ),
+            Builder(
+              builder: (context) {
+                return AnimatedPositioned(
+                  // curve: Curves.ease, //todo: get curve from db
+                  duration: Duration(
+                    milliseconds: interaction.animationDuration,
+                  ),
+                  width: interaction.size.width,
+                  height: interaction.size.height,
+                  left: interaction.currentPosition.dx,
+                  top: interaction.currentPosition.dy,
+                  child: SelectedTaleInteractionObjectComponent(
+                    interaction: interaction,
+                  ),
+                );
+              },
             ),
         ],
       ),

@@ -1,6 +1,6 @@
-import 'package:fairy_tale_builder_platform/manager/redux/app/app_state.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/app_state/app_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/tale_list/tale_list_state.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/tale_list_state/tale_list_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';

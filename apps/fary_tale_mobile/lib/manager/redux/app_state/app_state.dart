@@ -1,4 +1,4 @@
-import 'package:fairy_tale_builder_platform/manager/redux/app/localization/localization_state.dart';
+import 'package:fairy_tale_mobile/manager/redux/app_state/localization/localization_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';

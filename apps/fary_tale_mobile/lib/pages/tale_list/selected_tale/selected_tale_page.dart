@@ -2,7 +2,10 @@ import 'dart:developer';
 
 import 'package:fairy_tale_mobile/components/lifecycle_component.dart';
 import 'package:fairy_tale_mobile/components/translator_component.dart';
+import 'package:fairy_tale_mobile/manager/di/di.dart';
 import 'package:fairy_tale_mobile/manager/redux.dart';
+import 'package:fairy_tale_mobile/manager/redux/selected_tale_state/action.dart';
+import 'package:fairy_tale_mobile/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_mobile/pages/tale_list/selected_tale/components/tale_page_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,8 +30,8 @@ class _SelectedTalePageState extends State<SelectedTalePage> with StateHelpers {
 
   @override
   Widget build(BuildContext context) {
-    return StateConnector<AppState, TaleState>(
-      selector: (state) => state.taleListState.taleState,
+    return StateConnector<AppState, SelectedTaleState>(
+      selector: (state) => state.selectedTaleState,
       onInitialBuild: (dispatch, viewModel) async {
         dispatch(GetTaleAction(widget.taleId));
       },
@@ -38,10 +41,12 @@ class _SelectedTalePageState extends State<SelectedTalePage> with StateHelpers {
       },
       builder: (context, dispatch, vm) {
         return Scaffold(
-          body: vm.selectedTaleResult.when(
+          body: vm.taleResult.when(
             ok: () {
               return _TaleView(
-                tale: vm.selectedTale,
+                tale: vm.tale,
+                pages: vm.pages,
+                interactions: vm.interactionsForPage,
                 pageController: pageController,
               );
             },
@@ -68,11 +73,15 @@ class _SelectedTalePageState extends State<SelectedTalePage> with StateHelpers {
 class _TaleView extends StatefulWidget {
   const _TaleView({
     required this.tale,
+    required this.pages,
     required this.pageController,
+    required this.interactions,
   });
 
   final PageController pageController;
   final Tale tale;
+  final List<TalePage> pages;
+  final List<TaleInteraction> Function(String pageId) interactions;
 
   @override
   State<_TaleView> createState() => _TaleViewState();
@@ -81,6 +90,9 @@ class _TaleView extends StatefulWidget {
 class _TaleViewState extends State<_TaleView>
     with StateHelpers, WidgetsBindingObserver {
   Tale get tale => widget.tale;
+  List<TalePage> get pages => widget.pages;
+  List<TaleInteraction> Function(String pageId) get interactions =>
+      widget.interactions;
 
   AudioPlayerService get backgroundAudioPlayer => tale.audioPlayerService;
 
@@ -98,7 +110,7 @@ class _TaleViewState extends State<_TaleView>
           ]),
           if (backgroundAudioPlayer.isPlaying()) backgroundAudioPlayer.stop(),
         ]); //todo: handle error
-        tale.disposeAudioPlayers();
+        tale.audioPlayerService.dispose();
       },
       onInitialize: () async {
         await Future.wait([
@@ -176,12 +188,15 @@ class _TaleViewState extends State<_TaleView>
           builder: (context, cc) {
             return PageView.builder(
               controller: widget.pageController,
-              itemCount: tale.pages.length,
+              itemCount: pages.length,
               physics: const NeverScrollableScrollPhysics(),
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
-                final page = tale.pages[index];
-                return TalePageComponent(page: page);
+                final page = pages[index];
+                return TalePageComponent(
+                  page: page,
+                  interactions: interactions,
+                );
               },
             );
           },

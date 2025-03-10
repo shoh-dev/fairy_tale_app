@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/tale_list/tale_list_action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/tale_list_state/tale_list_action.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:myspace_data/myspace_data.dart';
