@@ -56,7 +56,8 @@ enum SwipeType implements TaleInteractionSubType {
 enum TapType implements TaleInteractionSubType {
   shortPress,
   longPress,
-  doubleTap;
+  doubleTap,
+  ;
 
   @override
   bool isSwipe() => false;
@@ -196,6 +197,10 @@ class TaleInteraction with _$TaleInteraction {
 
     return json;
   }
+
+  // void dispose() {
+  //   // audioPlayerService.dispose();
+  // }
 
   ModelValidation get isValidToSave {
     final error = ModelValidation();

@@ -22,6 +22,17 @@ class _Action extends DefaultAction {
   }
 }
 
+// class DisposeTaleListAction extends DefaultAction {
+//   @override
+//   Future<AppState?> reduce() async {
+//     dispatch(DisposeTaleAction());
+//     for (final element in taleListState.list) {
+//       element.disposeAudioPlayers();
+//     }
+//     return null;
+//   }
+// }
+
 class GetTaleListAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {

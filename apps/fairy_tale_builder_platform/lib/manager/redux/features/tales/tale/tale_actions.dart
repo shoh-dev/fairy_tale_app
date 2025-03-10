@@ -24,6 +24,14 @@ class ResetTaleStateAction extends DefaultAction {
   }
 }
 
+// class DisposeTaleAction extends DefaultAction {
+//   @override
+//   AppState? reduce() {
+//     taleState.tale.disposeAudioPlayers();
+//     return null;
+//   }
+// }
+
 class TaleAction extends DefaultAction {
   final StateResult? selectedTaleResult;
   final Tale? tale;
@@ -282,10 +290,10 @@ class SaveTaleAction extends DefaultAction {
       selectedTale.pages.expand((e) => e.interactions).toList(),
     );
 
-    Log().debug('tale $taleResult');
-    Log().debug('pages $pagesResult');
-    Log().debug('locale $localizationResult');
-    Log().debug('interactions $interactionsResult');
+    Logger('tale').info(taleResult);
+    Logger('pages').info(pagesResult);
+    Logger('locale').info(localizationResult);
+    Logger('interactions').info(interactionsResult);
 
     dispatchAll([
       ResetPageAction(),

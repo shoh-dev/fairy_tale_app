@@ -5,11 +5,14 @@ import 'package:myspace_data/myspace_data.dart';
 
 export 'package:just_audio/just_audio.dart' show ProcessingState;
 
+final audioPlayerPool = <AudioPlayerService>[];
+
 abstract class AudioPlayerService {
   final AudioPlayer _player;
 
   AudioPlayerService(this._player) {
     log('Initializing $this');
+    audioPlayerPool.add(this);
   }
 
   void dispose() {
