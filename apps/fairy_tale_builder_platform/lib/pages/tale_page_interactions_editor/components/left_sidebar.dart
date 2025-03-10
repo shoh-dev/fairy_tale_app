@@ -1,6 +1,6 @@
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/interaction_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/interaction_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -43,8 +43,8 @@ class InteractionLeftSidebarComponent extends StatelessWidget {
             StateConnector<AppState,
                 (List<TaleInteraction>?, TaleInteraction?)>(
               selector: (state) => (
-                selectedTalePageSelector(state)?.interactions,
-                selectedInteractionSelector(state),
+                interactionsForPage(state),
+                selectedInteraction(state),
               ),
               builder: (context, dispatch, model) {
                 final interactions = model.$1;

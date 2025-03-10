@@ -1,8 +1,9 @@
 import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/components/translator_component.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/tale_list/tale_list_action.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/tale_list/tale_list_state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/tale_editor_page.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_list/components/sidebar.dart';
 import 'package:flutter/material.dart';

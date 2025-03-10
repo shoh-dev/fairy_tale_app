@@ -1,9 +1,9 @@
-import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
 
-part 'list_state.freezed.dart';
+part 'tale_list_state.freezed.dart';
 
 @freezed
 class TaleListState with _$TaleListState {
@@ -11,14 +11,15 @@ class TaleListState with _$TaleListState {
   const factory TaleListState({
     required StateResult listResult,
     required List<Tale> list,
-    required TaleState taleState,
   }) = _TaleListState;
 
   factory TaleListState.initial() {
-    return TaleListState(
-      listResult: const StateResult.loading(),
+    return const TaleListState(
+      listResult: StateResult.loading(),
       list: [],
-      taleState: TaleState.initial(),
     );
   }
 }
+
+StateResult taleListResult(AppState state) => state.taleListState.listResult;
+List<Tale> taleList(AppState state) => state.taleListState.list;

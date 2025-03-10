@@ -1,3 +1,4 @@
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_page_interactions_editor/components/interaction_details_form.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
@@ -20,8 +21,7 @@ class InteractionRightSidebarComponent extends StatelessWidget {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(Sizes.kLayoutPadding),
         child: StateConnector<AppState, TaleInteraction?>(
-          selector: (state) =>
-              state.taleListState.taleState.selectedInteraction,
+          selector: selectedInteraction,
           builder: (context, dispatch, model) {
             if (model == null) {
               return Text(

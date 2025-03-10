@@ -23,7 +23,6 @@ mixin _$Tale {
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   TaleMetadata get metadata => throw _privateConstructorUsedError;
-  List<TalePage> get pages => throw _privateConstructorUsedError;
   String get orientation => throw _privateConstructorUsedError;
   int get toReRender => throw _privateConstructorUsedError;
   bool get isNew => throw _privateConstructorUsedError;
@@ -46,7 +45,6 @@ abstract class $TaleCopyWith<$Res> {
       String title,
       String description,
       TaleMetadata metadata,
-      List<TalePage> pages,
       String orientation,
       int toReRender,
       bool isNew});
@@ -76,7 +74,6 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
     Object? title = null,
     Object? description = null,
     Object? metadata = null,
-    Object? pages = null,
     Object? orientation = null,
     Object? toReRender = null,
     Object? isNew = null,
@@ -106,10 +103,6 @@ class _$TaleCopyWithImpl<$Res, $Val extends Tale>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as TaleMetadata,
-      pages: null == pages
-          ? _value.pages
-          : pages // ignore: cast_nullable_to_non_nullable
-              as List<TalePage>,
       orientation: null == orientation
           ? _value.orientation
           : orientation // ignore: cast_nullable_to_non_nullable
@@ -160,7 +153,6 @@ abstract class _$$TaleImplCopyWith<$Res> implements $TaleCopyWith<$Res> {
       String title,
       String description,
       TaleMetadata metadata,
-      List<TalePage> pages,
       String orientation,
       int toReRender,
       bool isNew});
@@ -189,7 +181,6 @@ class __$$TaleImplCopyWithImpl<$Res>
     Object? title = null,
     Object? description = null,
     Object? metadata = null,
-    Object? pages = null,
     Object? orientation = null,
     Object? toReRender = null,
     Object? isNew = null,
@@ -219,10 +210,6 @@ class __$$TaleImplCopyWithImpl<$Res>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as TaleMetadata,
-      pages: null == pages
-          ? _value._pages
-          : pages // ignore: cast_nullable_to_non_nullable
-              as List<TalePage>,
       orientation: null == orientation
           ? _value.orientation
           : orientation // ignore: cast_nullable_to_non_nullable
@@ -249,12 +236,10 @@ class _$TaleImpl extends _Tale {
       this.title = '',
       this.description = '',
       this.metadata = TaleMetadata.empty,
-      final List<TalePage> pages = const [],
       this.orientation = 'portrait',
       this.toReRender = 0,
       this.isNew = false})
-      : _pages = pages,
-        super._();
+      : super._();
 
   @override
   final String id;
@@ -271,15 +256,6 @@ class _$TaleImpl extends _Tale {
   @override
   @JsonKey()
   final TaleMetadata metadata;
-  final List<TalePage> _pages;
-  @override
-  @JsonKey()
-  List<TalePage> get pages {
-    if (_pages is EqualUnmodifiableListView) return _pages;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_pages);
-  }
-
   @override
   @JsonKey()
   final String orientation;
@@ -292,7 +268,7 @@ class _$TaleImpl extends _Tale {
 
   @override
   String toString() {
-    return 'Tale(id: $id, localizations: $localizations, audioPlayerService: $audioPlayerService, title: $title, description: $description, metadata: $metadata, pages: $pages, orientation: $orientation, toReRender: $toReRender, isNew: $isNew)';
+    return 'Tale(id: $id, localizations: $localizations, audioPlayerService: $audioPlayerService, title: $title, description: $description, metadata: $metadata, orientation: $orientation, toReRender: $toReRender, isNew: $isNew)';
   }
 
   @override
@@ -310,7 +286,6 @@ class _$TaleImpl extends _Tale {
                 other.description == description) &&
             (identical(other.metadata, metadata) ||
                 other.metadata == metadata) &&
-            const DeepCollectionEquality().equals(other._pages, _pages) &&
             (identical(other.orientation, orientation) ||
                 other.orientation == orientation) &&
             (identical(other.toReRender, toReRender) ||
@@ -327,7 +302,6 @@ class _$TaleImpl extends _Tale {
       title,
       description,
       metadata,
-      const DeepCollectionEquality().hash(_pages),
       orientation,
       toReRender,
       isNew);
@@ -349,7 +323,6 @@ abstract class _Tale extends Tale {
       final String title,
       final String description,
       final TaleMetadata metadata,
-      final List<TalePage> pages,
       final String orientation,
       final int toReRender,
       final bool isNew}) = _$TaleImpl;
@@ -367,8 +340,6 @@ abstract class _Tale extends Tale {
   String get description;
   @override
   TaleMetadata get metadata;
-  @override
-  List<TalePage> get pages;
   @override
   String get orientation;
   @override

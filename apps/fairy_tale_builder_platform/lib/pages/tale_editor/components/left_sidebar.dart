@@ -1,12 +1,11 @@
 import 'package:fairy_tale_builder_platform/components/translator_component.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/page_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/page_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
-import 'package:shared/shared.dart';
 
 class TaleEditorLeftSidebarComponent extends StatelessWidget {
   const TaleEditorLeftSidebarComponent({
@@ -15,9 +14,9 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StateConnector<AppState, Tale>(
-      selector: selectedTaleSelector,
-      builder: (context, dispatch, tale) {
+    return StateConnector<AppState, SelectedTaleState>(
+      selector: (state) => state.selectedTaleState,
+      builder: (context, dispatch, state) {
         return Container(
           width: Sizes.kLeftSidebarWidth,
           height: context.height,
@@ -47,12 +46,12 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                 ),
                 const Divider(height: 0),
                 //pages
-                for (final page in tale.pages)
+                for (final page in state.pages)
                   StateConnector<AppState, bool>(
-                    selector: (state) =>
-                        isTalePageSelectedSelector(state, page),
+                    selector: isPageSelected,
                     builder: (context, dispatch, isSelected) {
-                      final isPageValid = tale.isPageValid(page).isEmpty;
+                      final isPageValid = false; //todo:
+                      // tale.isPageValid(page).isEmpty;
                       return InkWell(
                         onTap: () {
                           dispatch(SelectPageAction(page.id));

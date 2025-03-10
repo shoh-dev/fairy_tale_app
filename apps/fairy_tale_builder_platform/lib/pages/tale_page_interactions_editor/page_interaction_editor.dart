@@ -4,10 +4,9 @@ import 'package:device_preview/device_preview.dart';
 import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/components/orientation_selector.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/interaction_actions.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/tale_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/tale_preview_dialog.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_page_interactions_editor/components/interaction_object.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_page_interactions_editor/components/left_sidebar.dart';
@@ -30,15 +29,15 @@ class TalePageInteractionsEditor extends StatelessWidget {
       rigthSidebar: const InteractionRightSidebarComponent(),
       actions: [
         StateConnector<AppState, ModelValidation>(
-          selector: (state) =>
-              state.taleListState.taleState.isInteractionsValidToSave,
+          selector: (state) => {}, //todo:
+          // state.taleListState.taleState.isInteractionsValidToSave,
           builder: (context, dispatch, model) {
             return Row(
               mainAxisSize: MainAxisSize.min,
               spacing: 8,
               children: [
                 StateConnector<AppState, Tale>(
-                  selector: selectedTaleSelector,
+                  selector: selectedTale,
                   builder: (context, dispatch, model) => SizedBox(
                     width: 200,
                     child: OrientationSelector(
@@ -61,7 +60,7 @@ class TalePageInteractionsEditor extends StatelessWidget {
                     showDialog<void>(
                       context: context,
                       builder: (context) => StateConnector<AppState, TalePage?>(
-                        selector: selectedTalePageSelector,
+                        selector: selectedPage,
                         builder: (context, dispatch, model) => model == null
                             ? const SizedBox()
                             : //todo: check this
@@ -77,8 +76,8 @@ class TalePageInteractionsEditor extends StatelessWidget {
         ),
       ],
       leading: StateConnector<AppState, ModelValidation>(
-        selector: (state) =>
-            state.taleListState.taleState.isInteractionsValidToSave,
+        selector: (state) => {}, //todo:
+        // state.taleListState.taleState.isInteractionsValidToSave,
         builder: (context, dispatch, model) {
           return ButtonComponent.icon(
             icon: Icons.arrow_back_rounded,
@@ -95,18 +94,7 @@ class TalePageInteractionsEditor extends StatelessWidget {
           );
         },
       ),
-      body: StateConnector<AppState, StateResult>(
-        selector: (state) =>
-            state.taleListState.taleState.editorState.interactionResult,
-        builder: (context, _, result) {
-          return result.when(
-            ok: () => const _Body(),
-            initial: () => const _Body(),
-            loading: LoadingComponent.new,
-            error: (e) => Center(child: Text(e.toString())),
-          );
-        },
-      ),
+      body: const _Body(),
     );
   }
 }
@@ -116,52 +104,48 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StateConnector<AppState, Tale>(
-      selector: selectedTaleSelector,
+    return StateConnector<AppState, SelectedTaleState>(
+      selector: (state) => state.selectedTaleState,
       onDispose: (dispatch) {
-        dispatch(ResetInteractinAction());
+        // dispatch(ResetInteractinAction());//todo:
       },
-      builder: (context, dispatch, tale) {
-        return StateConnector<AppState, TalePage?>(
-          selector: selectedTalePageSelector,
-          builder: (context, dispatch, page) {
-            if (page == null) {
-              return const SizedBox();
-            }
-            return DeviceFrame(
-              device: Devices.ios.iPhoneSE,
-              orientation: tale.isPortrait
-                  ? Orientation.portrait
-                  : Orientation.landscape,
-              screen: Stack(
-                children: [
-                  //image
-                  if (page.metadata.hasBackgroundImage)
-                    Positioned.fill(
-                      child: Opacity(
-                        opacity: .2,
-                        child: Image.network(
-                          '${page.metadata.backgroundImageUrl}?${DateTime.now().millisecondsSinceEpoch}',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-
-                  Positioned.fill(
-                    child: GestureDetector(
-                      onTap: () {
-                        dispatch(ResetInteractinAction());
-                      },
+      builder: (context, dispatch, state) {
+        final page = state.selectedPage;
+        final tale = state.tale;
+        if (page == null) {
+          return const SizedBox();
+        }
+        return DeviceFrame(
+          device: Devices.ios.iPhoneSE,
+          orientation:
+              tale.isPortrait ? Orientation.portrait : Orientation.landscape,
+          screen: Stack(
+            children: [
+              //image
+              if (page.metadata.hasBackgroundImage)
+                Positioned.fill(
+                  child: Opacity(
+                    opacity: .2,
+                    child: Image.network(
+                      '${page.metadata.backgroundImageUrl}?${DateTime.now().millisecondsSinceEpoch}',
+                      fit: BoxFit.cover,
                     ),
                   ),
+                ),
 
-                  for (final interaction in page.interactions)
-                    //tale object
-                    InteractionObjectComponent(interaction: interaction),
-                ],
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: () {
+                    // dispatch(ResetInteractinAction());//tdoo:
+                  },
+                ),
               ),
-            );
-          },
+
+              for (final interaction in state.interactionsForPage)
+                //tale object
+                InteractionObjectComponent(interaction: interaction),
+            ],
+          ),
         );
       },
     );

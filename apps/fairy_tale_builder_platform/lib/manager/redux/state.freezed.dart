@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AppState {
   TaleListState get taleListState => throw _privateConstructorUsedError;
+  SelectedTaleState get selectedTaleState => throw _privateConstructorUsedError;
   ApplicationState get applicationState => throw _privateConstructorUsedError;
 
   /// Create a copy of AppState
@@ -31,9 +32,13 @@ abstract class $AppStateCopyWith<$Res> {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) then) =
       _$AppStateCopyWithImpl<$Res, AppState>;
   @useResult
-  $Res call({TaleListState taleListState, ApplicationState applicationState});
+  $Res call(
+      {TaleListState taleListState,
+      SelectedTaleState selectedTaleState,
+      ApplicationState applicationState});
 
   $TaleListStateCopyWith<$Res> get taleListState;
+  $SelectedTaleStateCopyWith<$Res> get selectedTaleState;
   $ApplicationStateCopyWith<$Res> get applicationState;
 }
 
@@ -53,6 +58,7 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
   @override
   $Res call({
     Object? taleListState = null,
+    Object? selectedTaleState = null,
     Object? applicationState = null,
   }) {
     return _then(_value.copyWith(
@@ -60,6 +66,10 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
           ? _value.taleListState
           : taleListState // ignore: cast_nullable_to_non_nullable
               as TaleListState,
+      selectedTaleState: null == selectedTaleState
+          ? _value.selectedTaleState
+          : selectedTaleState // ignore: cast_nullable_to_non_nullable
+              as SelectedTaleState,
       applicationState: null == applicationState
           ? _value.applicationState
           : applicationState // ignore: cast_nullable_to_non_nullable
@@ -74,6 +84,16 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
   $TaleListStateCopyWith<$Res> get taleListState {
     return $TaleListStateCopyWith<$Res>(_value.taleListState, (value) {
       return _then(_value.copyWith(taleListState: value) as $Val);
+    });
+  }
+
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SelectedTaleStateCopyWith<$Res> get selectedTaleState {
+    return $SelectedTaleStateCopyWith<$Res>(_value.selectedTaleState, (value) {
+      return _then(_value.copyWith(selectedTaleState: value) as $Val);
     });
   }
 
@@ -96,10 +116,15 @@ abstract class _$$AppStateImplCopyWith<$Res>
       __$$AppStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({TaleListState taleListState, ApplicationState applicationState});
+  $Res call(
+      {TaleListState taleListState,
+      SelectedTaleState selectedTaleState,
+      ApplicationState applicationState});
 
   @override
   $TaleListStateCopyWith<$Res> get taleListState;
+  @override
+  $SelectedTaleStateCopyWith<$Res> get selectedTaleState;
   @override
   $ApplicationStateCopyWith<$Res> get applicationState;
 }
@@ -118,6 +143,7 @@ class __$$AppStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? taleListState = null,
+    Object? selectedTaleState = null,
     Object? applicationState = null,
   }) {
     return _then(_$AppStateImpl(
@@ -125,6 +151,10 @@ class __$$AppStateImplCopyWithImpl<$Res>
           ? _value.taleListState
           : taleListState // ignore: cast_nullable_to_non_nullable
               as TaleListState,
+      selectedTaleState: null == selectedTaleState
+          ? _value.selectedTaleState
+          : selectedTaleState // ignore: cast_nullable_to_non_nullable
+              as SelectedTaleState,
       applicationState: null == applicationState
           ? _value.applicationState
           : applicationState // ignore: cast_nullable_to_non_nullable
@@ -137,16 +167,20 @@ class __$$AppStateImplCopyWithImpl<$Res>
 
 class _$AppStateImpl implements _AppState {
   const _$AppStateImpl(
-      {required this.taleListState, required this.applicationState});
+      {required this.taleListState,
+      required this.selectedTaleState,
+      required this.applicationState});
 
   @override
   final TaleListState taleListState;
+  @override
+  final SelectedTaleState selectedTaleState;
   @override
   final ApplicationState applicationState;
 
   @override
   String toString() {
-    return 'AppState(taleListState: $taleListState, applicationState: $applicationState)';
+    return 'AppState(taleListState: $taleListState, selectedTaleState: $selectedTaleState, applicationState: $applicationState)';
   }
 
   @override
@@ -156,12 +190,15 @@ class _$AppStateImpl implements _AppState {
             other is _$AppStateImpl &&
             (identical(other.taleListState, taleListState) ||
                 other.taleListState == taleListState) &&
+            (identical(other.selectedTaleState, selectedTaleState) ||
+                other.selectedTaleState == selectedTaleState) &&
             (identical(other.applicationState, applicationState) ||
                 other.applicationState == applicationState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, taleListState, applicationState);
+  int get hashCode => Object.hash(
+      runtimeType, taleListState, selectedTaleState, applicationState);
 
   /// Create a copy of AppState
   /// with the given fields replaced by the non-null parameter values.
@@ -175,10 +212,13 @@ class _$AppStateImpl implements _AppState {
 abstract class _AppState implements AppState {
   const factory _AppState(
       {required final TaleListState taleListState,
+      required final SelectedTaleState selectedTaleState,
       required final ApplicationState applicationState}) = _$AppStateImpl;
 
   @override
   TaleListState get taleListState;
+  @override
+  SelectedTaleState get selectedTaleState;
   @override
   ApplicationState get applicationState;
 

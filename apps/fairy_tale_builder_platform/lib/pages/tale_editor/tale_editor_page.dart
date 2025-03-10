@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/tale_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/localization_settings/localization_settings_page.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/left_sidebar.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/page_details_form.dart';
@@ -55,7 +55,7 @@ class TaleEditorPage extends StatelessWidget {
       ),
       actions: [
         StateConnector<AppState, Tale>(
-          selector: selectedTaleSelector,
+          selector: selectedTale,
           builder: (context, dispatch, tale) {
             return ButtonComponent.iconDesctructive(
               tooltip: 'Delete Tale',
@@ -83,7 +83,8 @@ class TaleEditorPage extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         StateConnector<AppState, ModelValidation>(
-          selector: (state) => state.taleListState.taleState.isTaleValidToSave,
+          selector: (state) => {}, //todo:
+          // state.selectedTaleState.tale.isTaleValidToSave,
           builder: (context, dispatch, model) {
             return ButtonComponent.icon(
               icon: Icons.save_rounded,
@@ -100,12 +101,12 @@ class TaleEditorPage extends StatelessWidget {
         const SizedBox(width: 8),
       ],
       body: StateResultConnector<AppState>(
-        selector: (state) => state.taleListState.taleState.taleResult,
+        selector: (state) => state.selectedTaleState.taleResult,
         onInitialBuild: (dispatch, model) {
           dispatch(GetTaleAction(taleId: taleId));
         },
         onDispose: (dispatch) {
-          dispatch(ResetTaleStateAction());
+          // dispatch(ResetTaleStateAction());//todo:
         },
         builder: (context, dispatch, model) {
           return model.when(
@@ -140,8 +141,7 @@ class _Layout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, bool>(
-      selector: (state) =>
-          state.taleListState.taleState.editorState.selectedPageId.isNotEmpty,
+      selector: isPageSelected,
       builder: (context, dispatch, isSelected) {
         if (isSelected) {
           //show page editor details

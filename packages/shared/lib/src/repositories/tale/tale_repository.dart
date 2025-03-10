@@ -7,7 +7,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class TaleRepository {
   ResultFuture<List<Tale>> getAllTales();
-  ResultFuture<Tale> getTaleById(String taleId);
+  ResultFuture<(Tale, List<TalePage>, List<TaleInteraction>)> getTaleById(
+    String taleId,
+  );
   ResultFuture<void> saveTaleLocalization({
     required String taleId,
     required Map<String, Map<String, String>> translations,
@@ -44,7 +46,9 @@ class TaleRepositoryImpl implements TaleRepository {
   }
 
   @override
-  ResultFuture<Tale> getTaleById(String taleId) async {
+  ResultFuture<(Tale, List<TalePage>, List<TaleInteraction>)> getTaleById(
+    String taleId,
+  ) async {
     try {
       final response = await _supabase
           .from('tales')
@@ -52,7 +56,21 @@ class TaleRepositoryImpl implements TaleRepository {
           .eq('id', taleId)
           .single();
 
-      return Result.ok(Tale.fromJson(response));
+      final tale = Tale.fromJson(response);
+      final interactions = <TaleInteraction>[];
+      final pages = (response['pages'] as List).map((e) {
+        final page = e as Map<String, dynamic>;
+        if (page['interactions'] != null) {
+          interactions.addAll(
+            (page['interactions'] as List).map(
+              (e) => TaleInteraction.fromJson(e as Map<String, dynamic>),
+            ),
+          );
+        }
+        return TalePage.fromJson(page);
+      }).toList();
+
+      return Result.ok((tale, pages, interactions));
     } catch (e) {
       return Result.error(ErrorX(e));
     }

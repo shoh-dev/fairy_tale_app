@@ -1,7 +1,7 @@
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/page_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/page_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/tale_preview_dialog.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_page_interactions_editor/page_interaction_editor.dart';
@@ -18,7 +18,7 @@ class TalePageDetailsForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, TalePage?>(
-      selector: selectedTalePageSelector,
+      selector: selectedPage,
       builder: (context, dispatch, page) {
         if (page == null) {
           return const SizedBox(); //todo: check this
@@ -88,7 +88,7 @@ class TalePageDetailsForm extends StatelessWidget {
             ),
             space(8),
             StateConnector<AppState, Tale>(
-              selector: selectedTaleSelector,
+              selector: selectedTale,
               builder: (context, dispatch, _) {
                 return ImageSelectorComponent(
                   title: 'Background Image',

@@ -2,7 +2,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/src/repositories/tale/models.dart';
-import 'package:shared/src/utils.dart';
 
 part 'tale_page.freezed.dart';
 
@@ -18,7 +17,6 @@ class TalePage with _$TalePage {
     @Default(-1) int pageNumber,
     @Default('') String text,
     @Default(TalePageMetadata.empty) TalePageMetadata metadata,
-    @Default([]) List<TaleInteraction> interactions,
     @Default(false) bool isNew,
     @Default(0) int toReRender,
   }) = _TalePage;
@@ -60,13 +58,13 @@ class TalePage with _$TalePage {
           ),
         );
       }
-      if (json['interactions'] != null) {
-        model = model.copyWith(
-          interactions: (json['interactions'] as List)
-              .map((e) => TaleInteraction.fromJson(e as Map<String, dynamic>))
-              .toList(),
-        );
-      }
+      // if (json['interactions'] != null) {
+      //   model = model.copyWith(
+      //     interactions: (json['interactions'] as List)
+      //         .map((e) => TaleInteraction.fromJson(e as Map<String, dynamic>))
+      //         .toList(),
+      //   );
+      // }
 
       return model;
     } catch (e, st) {
@@ -88,54 +86,39 @@ class TalePage with _$TalePage {
 
   bool get hasBackgroundAudio => metadata.hasBackgroundAudio;
 
-  ModelValidation get isInteractionsValidToSave {
-    final error = ModelValidation();
+  // ModelValidation get isInteractionsValidToSave {
+  //   final error = ModelValidation();
 
-    for (final interaction in interactions) {
-      error.addAll(interaction.isValidToSave);
-    }
+  //   for (final interaction in interactions) {
+  //     error.addAll(interaction.isValidToSave);
+  //   }
 
-    return error;
-  }
+  //   return error;
+  // }//todo: validate using functions and receive interactions
 
-  ModelValidation get isValidToSave {
-    final error = ModelValidation();
+  // ModelValidation get isValidToSave {
+  //   final error = ModelValidation();
 
-    if (id.isEmpty) {
-      error['tale.page.id'] = ['ID is required'];
-    }
+  //   if (id.isEmpty) {
+  //     error['tale.page.id'] = ['ID is required'];
+  //   }
 
-    if (taleId.isEmpty) {
-      error['tale.page_$id.tale_id'] = ['Tale ID is required'];
-    }
+  //   if (taleId.isEmpty) {
+  //     error['tale.page_$id.tale_id'] = ['Tale ID is required'];
+  //   }
 
-    if (text.isEmpty) {
-      error['tale.page_$id.text'] = ['Text is required'];
-    }
+  //   if (text.isEmpty) {
+  //     error['tale.page_$id.text'] = ['Text is required'];
+  //   }
 
-    if (!metadata.hasBackgroundImage) {
-      error['tale.page_$id.background_image'] = [
-        'Background image is required',
-      ];
-    }
+  //   if (!metadata.hasBackgroundImage) {
+  //     error['tale.page_$id.background_image'] = [
+  //       'Background image is required',
+  //     ];
+  //   }
 
-    //todo: validate interactions
+  //   //todo: validate interactions
 
-    return error;
-  }
-
-  //updateInteractionMethod
-  TalePage updateInteraction(TaleInteraction interaction) {
-    final interactions = List<TaleInteraction>.from(this.interactions);
-    final index =
-        interactions.indexWhere((element) => element.id == interaction.id);
-    if (index != -1) {
-      interactions[index] = interaction;
-    }
-    return copyWith(interactions: interactions);
-  }
-
-  TalePage updateText(String text) {
-    return copyWith(text: text);
-  }
+  //   return error;
+  // }
 }

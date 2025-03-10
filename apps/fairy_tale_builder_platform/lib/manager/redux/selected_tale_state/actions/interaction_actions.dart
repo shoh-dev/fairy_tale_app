@@ -1,30 +1,10 @@
 import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:shared/shared.dart';
-
-class ResetInteractinAction extends DefaultAction {
-  @override
-  AppState? reduce() {
-    if (taleState.editorState.selectedInteractionId.isEmpty) {
-      return null;
-    }
-
-    return state.copyWith(
-      taleListState: taleListState.copyWith(
-        taleState: taleState.copyWith(
-          editorState: editorState.copyWith(
-            selectedInteractionId: '',
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class SelectInteractionAction extends DefaultAction {
   final String id;
@@ -33,17 +13,13 @@ class SelectInteractionAction extends DefaultAction {
 
   @override
   AppState? reduce() {
-    if (editorState.selectedInteractionId == id) {
+    if (selectedTaleState.selectedInteractionId == id) {
       return null;
     }
 
     return state.copyWith(
-      taleListState: taleListState.copyWith(
-        taleState: taleState.copyWith(
-          editorState: editorState.copyWith(
-            selectedInteractionId: id,
-          ),
-        ),
+      selectedTaleState: selectedTaleState.copyWith(
+        selectedInteractionId: id,
       ),
     );
   }
@@ -52,8 +28,7 @@ class SelectInteractionAction extends DefaultAction {
 class AddInteractionAction extends DefaultAction {
   @override
   AppState? reduce() {
-    final tale = taleState.tale;
-    final page = taleState.selectedPage;
+    final page = selectedTaleState.selectedPage;
     if (page == null) {
       return null;
     }
@@ -63,14 +38,14 @@ class AddInteractionAction extends DefaultAction {
       talePageId: page.id,
     );
 
-    final newPage = page.copyWith(
-      interactions: [...page.interactions, newInteraction],
-    );
+    final newInteractions = [...selectedTaleState.interactions, newInteraction];
 
-    final newPages =
-        tale.pages.map((e) => e.id == page.id ? newPage : e).toList();
-    dispatch(UpdateTaleAction(pages: newPages));
-    return null; //todo: test
+    return state.copyWith(
+      selectedTaleState: selectedTaleState.copyWith(
+        selectedInteractionId: newInteraction.id,
+        interactions: newInteractions,
+      ),
+    );
   }
 }
 
@@ -115,14 +90,7 @@ class UpdateInteractionAction extends DefaultAction {
 
   @override
   AppState? reduce() {
-    final tale = taleState.tale;
-
-    final page = taleState.selectedPage;
-    if (page == null) {
-      return null;
-    }
-
-    final interaction = taleState.selectedInteraction;
+    final interaction = selectedTaleState.selectedInteraction;
     if (interaction == null) {
       return null;
     }
@@ -158,12 +126,6 @@ class UpdateInteractionAction extends DefaultAction {
           x: initialdx ?? interaction.metadata.initialPosition.dx,
           y: initialdy ?? interaction.metadata.initialPosition.dy,
         ),
-        // currentPosition: initialdx != null || initialdy != null
-        //     ? interaction.metadata.initialPosition.copyWith(
-        //         x: initialdx ?? interaction.metadata.initialPosition.dx,
-        //         y: initialdy ?? interaction.metadata.initialPosition.dy,
-        //       )
-        //     : interaction.metadata.currentPosition,
         finalPosition: interaction.metadata.finalPosition?.copyWith(
           x: finaldx ?? interaction.metadata.finalPosition?.dx ?? 0,
           y: finaldy ?? interaction.metadata.finalPosition?.dy ?? 0,
@@ -188,7 +150,7 @@ class UpdateInteractionAction extends DefaultAction {
     }
 
     //2. update selected page interactions with new selected interaction
-    final newInteractions = page.interactions.map((e) {
+    final newInteractions = selectedTaleState.interactions.map((e) {
       if (e.id == interaction.id) {
         return newInteraction.copyWith(
           metadata: newInteraction.metadata.copyWith(
@@ -198,20 +160,10 @@ class UpdateInteractionAction extends DefaultAction {
       }
       return e;
     });
-    final newPage = page.copyWith(interactions: newInteractions.toList());
 
-    //3. update tale pages with new selected page
-    final newTalePages = tale.pages.map((e) {
-      if (e.id == page.id) {
-        return newPage;
-      }
-      return e;
-    });
-
-    dispatch(
-      UpdateTaleAction(
-        pages: newTalePages.toList(),
-        reRender: imageUrl != null,
+    return state.copyWith(
+      selectedTaleState: selectedTaleState.copyWith(
+        interactions: newInteractions.toList(),
       ),
     );
   }
@@ -228,7 +180,7 @@ class _UpdateInteractionImageAction extends DefaultAction {
       return null;
     }
 
-    final ineraction = taleState.selectedInteraction;
+    final ineraction = selectedTaleState.selectedInteraction;
 
     if (ineraction == null) {
       return null;
@@ -240,16 +192,17 @@ class _UpdateInteractionImageAction extends DefaultAction {
           'interaction/images/${ineraction.id}.${file.extension!.toLowerCase()}',
     );
 
-    uploadedResult.when(
+    return uploadedResult.when(
       ok: (url) {
         dispatch(UpdateInteractionAction(imageUrl: url, reRender: true));
+        return null;
       },
       error: (error) {
         // dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
         //todo:
+        return null;
       },
     );
-    return null;
   }
 }
 
@@ -264,7 +217,7 @@ class _UpdateInteractionAudioAction extends DefaultAction {
       return null;
     }
 
-    final ineraction = taleState.selectedInteraction;
+    final ineraction = selectedTaleState.selectedInteraction;
 
     if (ineraction == null) {
       return null;
@@ -276,20 +229,19 @@ class _UpdateInteractionAudioAction extends DefaultAction {
           'interaction/audios/${ineraction.id}.${file.extension!.toLowerCase()}',
     );
 
-    uploadedResult.when(
+    return uploadedResult.when(
       ok: (url) {
         dispatch(UpdateInteractionAction(audioUrl: url));
+        return null;
       },
       error: (error) {
         // dispatch(TaleAction(selectedTaleResult: StateResult.error(error)));
         //todo:
+        return null;
       },
     );
-    return null;
   }
 }
-
-//! UPDATE FROM HERE
 
 class DeleteInteractionAction extends DefaultAction {
   final TaleInteraction interaction;
@@ -299,26 +251,18 @@ class DeleteInteractionAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     if (interaction.isNew) {
-      final selectedPage = taleState.selectedPage;
-      if (selectedPage == null) {
-        return null;
-      }
-
-      final newInteractions = selectedPage.interactions
+      final newInteractions = selectedTaleState.interactions
           .where((e) => e.id != interaction.id)
           .toList();
 
-      final newPage = selectedPage.copyWith(interactions: newInteractions);
-
-      final newPages = taleState.tale.pages
-          .map((e) => e.id == selectedPage.id ? newPage : e)
-          .toList();
-
-      dispatch(UpdateTaleAction(pages: newPages));
-      dispatch(ResetInteractinAction());
-
-      return null;
+      return state.copyWith(
+        selectedTaleState: selectedTaleState.copyWith(
+          interactions: newInteractions,
+          selectedInteractionId: '',
+        ),
+      );
     }
+    return null;
 
     // final deleteResult =
     // await taleRepository.deleteInteractionAction(interaction.id);

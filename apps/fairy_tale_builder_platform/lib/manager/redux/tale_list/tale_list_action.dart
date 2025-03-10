@@ -22,26 +22,14 @@ class _Action extends DefaultAction {
   }
 }
 
-// class DisposeTaleListAction extends DefaultAction {
-//   @override
-//   Future<AppState?> reduce() async {
-//     dispatch(DisposeTaleAction());
-//     for (final element in taleListState.list) {
-//       element.disposeAudioPlayers();
-//     }
-//     return null;
-//   }
-// }
-
 class GetTaleListAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     dispatch(_Action(listResult: const StateResult.loading()));
     final tales = await taleRepository.getAllTales();
     tales.when(
-      ok: (data) => dispatch(
-        _Action(listResult: const StateResult.ok(), list: data),
-      ),
+      ok: (data) =>
+          dispatch(_Action(listResult: const StateResult.ok(), list: data)),
       error: (e) => dispatch(_Action(listResult: StateResult.error(e))),
     );
     return null;

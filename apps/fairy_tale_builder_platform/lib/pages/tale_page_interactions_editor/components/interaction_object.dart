@@ -1,7 +1,7 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/editor/interaction_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/interaction_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
@@ -25,7 +25,7 @@ class _InteractionObjectComponentState
   @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, TaleInteraction?>(
-      selector: selectedInteractionSelector,
+      selector: selectedInteraction,
       onDidChange: (context, store, viewModel) {
         if (viewModel == null) {
           return;

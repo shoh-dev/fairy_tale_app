@@ -1,5 +1,4 @@
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:fairy_tale_builder_platform/pages/localization_settings/localization_settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -22,12 +21,12 @@ class TranslationSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StateConnector<AppState, TaleLocalization?>(
-      selector: (state) => selectedTaleSelector(state).localizations,
+    return StateConnector<AppState, TaleLocalization>(
+      selector: (state) => state.selectedTaleState.tale.localizations,
       builder: (context, dispatch, model) {
-        final defaultLocale = model?.defaultLocale ?? 'en';
+        final defaultLocale = model.defaultLocale;
         final translations =
-            model?.translations[defaultLocale] ?? <String, String>{};
+            model.translations[defaultLocale] ?? <String, String>{};
 
         return DropdownComponent<String>(
           label: label,

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'list_state.dart';
+part of 'tale_list_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TaleListState {
   StateResult get listResult => throw _privateConstructorUsedError;
   List<Tale> get list => throw _privateConstructorUsedError;
-  TaleState get taleState => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleListState
   /// with the given fields replaced by the non-null parameter values.
@@ -33,10 +32,9 @@ abstract class $TaleListStateCopyWith<$Res> {
           TaleListState value, $Res Function(TaleListState) then) =
       _$TaleListStateCopyWithImpl<$Res, TaleListState>;
   @useResult
-  $Res call({StateResult listResult, List<Tale> list, TaleState taleState});
+  $Res call({StateResult listResult, List<Tale> list});
 
   $StateResultCopyWith<$Res> get listResult;
-  $TaleStateCopyWith<$Res> get taleState;
 }
 
 /// @nodoc
@@ -56,7 +54,6 @@ class _$TaleListStateCopyWithImpl<$Res, $Val extends TaleListState>
   $Res call({
     Object? listResult = null,
     Object? list = null,
-    Object? taleState = null,
   }) {
     return _then(_value.copyWith(
       listResult: null == listResult
@@ -67,10 +64,6 @@ class _$TaleListStateCopyWithImpl<$Res, $Val extends TaleListState>
           ? _value.list
           : list // ignore: cast_nullable_to_non_nullable
               as List<Tale>,
-      taleState: null == taleState
-          ? _value.taleState
-          : taleState // ignore: cast_nullable_to_non_nullable
-              as TaleState,
     ) as $Val);
   }
 
@@ -83,16 +76,6 @@ class _$TaleListStateCopyWithImpl<$Res, $Val extends TaleListState>
       return _then(_value.copyWith(listResult: value) as $Val);
     });
   }
-
-  /// Create a copy of TaleListState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TaleStateCopyWith<$Res> get taleState {
-    return $TaleStateCopyWith<$Res>(_value.taleState, (value) {
-      return _then(_value.copyWith(taleState: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -103,12 +86,10 @@ abstract class _$$TaleListStateImplCopyWith<$Res>
       __$$TaleListStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({StateResult listResult, List<Tale> list, TaleState taleState});
+  $Res call({StateResult listResult, List<Tale> list});
 
   @override
   $StateResultCopyWith<$Res> get listResult;
-  @override
-  $TaleStateCopyWith<$Res> get taleState;
 }
 
 /// @nodoc
@@ -126,7 +107,6 @@ class __$$TaleListStateImplCopyWithImpl<$Res>
   $Res call({
     Object? listResult = null,
     Object? list = null,
-    Object? taleState = null,
   }) {
     return _then(_$TaleListStateImpl(
       listResult: null == listResult
@@ -137,10 +117,6 @@ class __$$TaleListStateImplCopyWithImpl<$Res>
           ? _value._list
           : list // ignore: cast_nullable_to_non_nullable
               as List<Tale>,
-      taleState: null == taleState
-          ? _value.taleState
-          : taleState // ignore: cast_nullable_to_non_nullable
-              as TaleState,
     ));
   }
 }
@@ -149,9 +125,7 @@ class __$$TaleListStateImplCopyWithImpl<$Res>
 
 class _$TaleListStateImpl extends _TaleListState {
   const _$TaleListStateImpl(
-      {required this.listResult,
-      required final List<Tale> list,
-      required this.taleState})
+      {required this.listResult, required final List<Tale> list})
       : _list = list,
         super._();
 
@@ -166,11 +140,8 @@ class _$TaleListStateImpl extends _TaleListState {
   }
 
   @override
-  final TaleState taleState;
-
-  @override
   String toString() {
-    return 'TaleListState(listResult: $listResult, list: $list, taleState: $taleState)';
+    return 'TaleListState(listResult: $listResult, list: $list)';
   }
 
   @override
@@ -180,14 +151,12 @@ class _$TaleListStateImpl extends _TaleListState {
             other is _$TaleListStateImpl &&
             (identical(other.listResult, listResult) ||
                 other.listResult == listResult) &&
-            const DeepCollectionEquality().equals(other._list, _list) &&
-            (identical(other.taleState, taleState) ||
-                other.taleState == taleState));
+            const DeepCollectionEquality().equals(other._list, _list));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, listResult,
-      const DeepCollectionEquality().hash(_list), taleState);
+  int get hashCode => Object.hash(
+      runtimeType, listResult, const DeepCollectionEquality().hash(_list));
 
   /// Create a copy of TaleListState
   /// with the given fields replaced by the non-null parameter values.
@@ -201,16 +170,13 @@ class _$TaleListStateImpl extends _TaleListState {
 abstract class _TaleListState extends TaleListState {
   const factory _TaleListState(
       {required final StateResult listResult,
-      required final List<Tale> list,
-      required final TaleState taleState}) = _$TaleListStateImpl;
+      required final List<Tale> list}) = _$TaleListStateImpl;
   const _TaleListState._() : super._();
 
   @override
   StateResult get listResult;
   @override
   List<Tale> get list;
-  @override
-  TaleState get taleState;
 
   /// Create a copy of TaleListState
   /// with the given fields replaced by the non-null parameter values.

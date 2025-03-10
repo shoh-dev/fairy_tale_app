@@ -23,7 +23,6 @@ mixin _$TalePage {
   int get pageNumber => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   TalePageMetadata get metadata => throw _privateConstructorUsedError;
-  List<TaleInteraction> get interactions => throw _privateConstructorUsedError;
   bool get isNew => throw _privateConstructorUsedError;
   int get toReRender => throw _privateConstructorUsedError;
 
@@ -45,7 +44,6 @@ abstract class $TalePageCopyWith<$Res> {
       int pageNumber,
       String text,
       TalePageMetadata metadata,
-      List<TaleInteraction> interactions,
       bool isNew,
       int toReRender});
 
@@ -72,7 +70,6 @@ class _$TalePageCopyWithImpl<$Res, $Val extends TalePage>
     Object? pageNumber = null,
     Object? text = null,
     Object? metadata = null,
-    Object? interactions = null,
     Object? isNew = null,
     Object? toReRender = null,
   }) {
@@ -97,10 +94,6 @@ class _$TalePageCopyWithImpl<$Res, $Val extends TalePage>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as TalePageMetadata,
-      interactions: null == interactions
-          ? _value.interactions
-          : interactions // ignore: cast_nullable_to_non_nullable
-              as List<TaleInteraction>,
       isNew: null == isNew
           ? _value.isNew
           : isNew // ignore: cast_nullable_to_non_nullable
@@ -137,7 +130,6 @@ abstract class _$$TalePageImplCopyWith<$Res>
       int pageNumber,
       String text,
       TalePageMetadata metadata,
-      List<TaleInteraction> interactions,
       bool isNew,
       int toReRender});
 
@@ -163,7 +155,6 @@ class __$$TalePageImplCopyWithImpl<$Res>
     Object? pageNumber = null,
     Object? text = null,
     Object? metadata = null,
-    Object? interactions = null,
     Object? isNew = null,
     Object? toReRender = null,
   }) {
@@ -188,10 +179,6 @@ class __$$TalePageImplCopyWithImpl<$Res>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as TalePageMetadata,
-      interactions: null == interactions
-          ? _value._interactions
-          : interactions // ignore: cast_nullable_to_non_nullable
-              as List<TaleInteraction>,
       isNew: null == isNew
           ? _value.isNew
           : isNew // ignore: cast_nullable_to_non_nullable
@@ -213,11 +200,9 @@ class _$TalePageImpl extends _TalePage {
       this.pageNumber = -1,
       this.text = '',
       this.metadata = TalePageMetadata.empty,
-      final List<TaleInteraction> interactions = const [],
       this.isNew = false,
       this.toReRender = 0})
-      : _interactions = interactions,
-        super._();
+      : super._();
 
   @override
   final String id;
@@ -234,15 +219,6 @@ class _$TalePageImpl extends _TalePage {
   @override
   @JsonKey()
   final TalePageMetadata metadata;
-  final List<TaleInteraction> _interactions;
-  @override
-  @JsonKey()
-  List<TaleInteraction> get interactions {
-    if (_interactions is EqualUnmodifiableListView) return _interactions;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_interactions);
-  }
-
   @override
   @JsonKey()
   final bool isNew;
@@ -252,7 +228,7 @@ class _$TalePageImpl extends _TalePage {
 
   @override
   String toString() {
-    return 'TalePage(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, metadata: $metadata, interactions: $interactions, isNew: $isNew, toReRender: $toReRender)';
+    return 'TalePage(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, metadata: $metadata, isNew: $isNew, toReRender: $toReRender)';
   }
 
   @override
@@ -267,8 +243,6 @@ class _$TalePageImpl extends _TalePage {
             (identical(other.text, text) || other.text == text) &&
             (identical(other.metadata, metadata) ||
                 other.metadata == metadata) &&
-            const DeepCollectionEquality()
-                .equals(other._interactions, _interactions) &&
             (identical(other.isNew, isNew) || other.isNew == isNew) &&
             (identical(other.toReRender, toReRender) ||
                 other.toReRender == toReRender));
@@ -276,15 +250,7 @@ class _$TalePageImpl extends _TalePage {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      taleId,
-      pageNumber,
-      text,
-      metadata,
-      const DeepCollectionEquality().hash(_interactions),
-      isNew,
-      toReRender);
+      runtimeType, id, taleId, pageNumber, text, metadata, isNew, toReRender);
 
   /// Create a copy of TalePage
   /// with the given fields replaced by the non-null parameter values.
@@ -302,7 +268,6 @@ abstract class _TalePage extends TalePage {
       final int pageNumber,
       final String text,
       final TalePageMetadata metadata,
-      final List<TaleInteraction> interactions,
       final bool isNew,
       final int toReRender}) = _$TalePageImpl;
   const _TalePage._() : super._();
@@ -319,8 +284,6 @@ abstract class _TalePage extends TalePage {
   String get text;
   @override
   TalePageMetadata get metadata;
-  @override
-  List<TaleInteraction> get interactions;
   @override
   bool get isNew;
   @override
