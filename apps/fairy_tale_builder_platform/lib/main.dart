@@ -46,7 +46,10 @@ class App extends StatelessWidget {
       theme: appTheme.lightTheme,
       darkTheme: appTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home: const SplashPage(),
+      navigatorKey: NavigateAction.navigatorKey,
+      home: UserExceptionDialog<AppState>(
+        child: const SplashPage(),
+      ),
     );
   }
 }

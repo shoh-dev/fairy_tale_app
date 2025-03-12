@@ -48,7 +48,8 @@ class TaleEditorLeftSidebarComponent extends StatelessWidget {
                 //pages
                 for (final page in state.pages)
                   StateConnector<AppState, bool>(
-                    selector: isPageSelected,
+                    selector: (state) =>
+                        state.selectedTaleState.selectedPage?.id == page.id,
                     builder: (context, dispatch, isSelected) {
                       final isPageValid = page.isValidToSave.isEmpty;
                       return InkWell(

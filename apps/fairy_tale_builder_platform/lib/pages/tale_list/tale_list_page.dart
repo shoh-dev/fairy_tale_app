@@ -28,8 +28,8 @@ class TalesPage extends StatelessWidget {
             ok: () {
               return _Grid(tales: vm.list);
             },
-            error: (e) {
-              return Center(child: Text(e.toString()));
+            error: (error) {
+              return Center(child: Text(error.string()));
             },
             loading: () {
               return const LoadingComponent();

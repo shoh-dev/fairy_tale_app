@@ -112,7 +112,7 @@ class TaleEditorPage extends StatelessWidget {
             error: (error) {
               return Scaffold(
                 body: Center(
-                  child: Text(error.toString()),
+                  child: Text(error.string()),
                 ),
               );
             },

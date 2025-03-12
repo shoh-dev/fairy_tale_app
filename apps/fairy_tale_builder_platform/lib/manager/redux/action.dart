@@ -17,4 +17,9 @@ abstract class DefaultAction extends ReduxAction<AppState> {
 
   //Repositories
   TaleRepository get taleRepository => env.taleRepository;
+
+  void throwException(ErrorX error) => throw UserException(
+        'Error',
+        reason: error.string(),
+      );
 }

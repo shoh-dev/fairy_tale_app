@@ -15,7 +15,7 @@ class TaleListState with _$TaleListState {
 
   factory TaleListState.initial() {
     return const TaleListState(
-      listResult: StateResult.loading(),
+      listResult: StateResult.initial(),
       list: [],
     );
   }

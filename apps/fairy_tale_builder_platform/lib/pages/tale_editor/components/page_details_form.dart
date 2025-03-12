@@ -4,7 +4,7 @@ import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/se
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/tale_preview_dialog.dart';
-import 'package:fairy_tale_builder_platform/pages/tale_page_interactions_editor/page_interaction_editor.dart';
+import 'package:fairy_tale_builder_platform/pages/interactions_editor/page_interaction_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
