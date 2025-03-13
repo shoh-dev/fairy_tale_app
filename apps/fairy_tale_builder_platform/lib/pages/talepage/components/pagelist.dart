@@ -1,14 +1,12 @@
 import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/page_actions.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/talepage/components/pagecard.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:shared/shared.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TalepagePagesList extends StatelessWidget
     with StateConnectorMixin<(StateResult, List<TalePage>)> {
@@ -21,6 +19,8 @@ class TalepagePagesList extends StatelessWidget
     Dispatcher<AppState> dispatch,
     (StateResult, List<TalePage>) model,
   ) {
+    final pages = List.of(model.$2)
+      ..sort((a, b) => a.pageNumber > b.pageNumber ? 1 : 0);
     return Container(
       width: 320,
       height: double.infinity,
@@ -58,7 +58,7 @@ class TalepagePagesList extends StatelessWidget
           ),
           model.$1.when(
             ok: () {
-              if (model.$2.isEmpty) {
+              if (pages.isEmpty) {
                 return Text(
                   'No pages. Add one!',
                   style: context.textTheme.titleMedium,
@@ -68,9 +68,9 @@ class TalepagePagesList extends StatelessWidget
                 child: ListView.separated(
                   padding: const EdgeInsets.all(12),
                   separatorBuilder: (context, index) => const Divider(),
-                  itemCount: model.$2.length,
+                  itemCount: pages.length,
                   itemBuilder: (context, index) {
-                    final page = model.$2[index];
+                    final page = pages[index];
                     return Pagecard(page: page);
                   },
                 ),

@@ -3,8 +3,8 @@ import 'package:myspace_design_system/myspace_design_system.dart';
 
 class TalepageTabBar extends StatelessWidget {
   const TalepageTabBar({
-    super.key,
     required this.controller,
+    super.key,
   });
 
   final TabController controller;

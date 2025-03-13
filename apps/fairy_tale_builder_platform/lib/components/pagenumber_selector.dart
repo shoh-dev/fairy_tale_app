@@ -24,6 +24,7 @@ class PagenumberSelector extends StatelessWidget with StateConnectorMixin<int> {
   ) {
     return DropdownComponent<int>(
       label: hasLabel ? 'Page Number' : null,
+      helperText: 'Page number is used to identify which page comes first!',
       initialValue: DropdownItem(
         value: pageNumber,
         label: pageNumber.toString(),
