@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:flutter/foundation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
 
@@ -52,6 +53,9 @@ class GetTaleListAction extends DefaultAction {
     final tales = await taleRepository.getTales(
       searchQuery: taleListState.searchQuery,
     );
+    if (kDebugMode) {
+      await Future.delayed(const Duration(seconds: 1));
+    }
     tales.when(
       ok: (data) =>
           dispatch(_Action(listResult: const StateResult.ok(), list: data)),

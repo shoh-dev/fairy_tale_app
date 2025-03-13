@@ -1,18 +1,27 @@
-import 'package:fairy_tale_builder_platform/components/loading_component.dart';
-import 'package:fairy_tale_builder_platform/components/translator_component.dart';
-import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/tale_list_state/tale_list_action.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/tale_list_state/tale_list_state.dart';
 import 'package:fairy_tale_builder_platform/pages/homepage/components/appbar.dart';
-import 'package:fairy_tale_builder_platform/pages/homepage/components/sidebar.dart';
 import 'package:fairy_tale_builder_platform/pages/homepage/components/tale_list.dart';
 import 'package:fairy_tale_builder_platform/pages/homepage/components/title.dart';
-import 'package:fairy_tale_builder_platform/pages/tale_editor/tale_editor_page.dart';
+import 'package:fairy_tale_builder_platform/pages/talepage/talepage.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:myspace_data/myspace_data.dart';
-import 'package:shared/shared.dart';
+import 'package:go_router/go_router.dart';
+
+part 'homepage.g.dart';
+
+@TypedGoRoute<HomepageRoute>(
+  path: '/',
+  routes: [
+    TypedGoRoute<TalepageRoute>(
+      path: 'tale/:id',
+    ),
+  ],
+)
+class HomepageRoute extends GoRouteData {
+  const HomepageRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const Homepage();
+}
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -51,83 +60,85 @@ class Homepage extends StatelessWidget {
         ),
       ),
     );
-    return DefaultLayout(
-      leftSidebar: const TaleListSidebarComponent(),
-      title: const Text('Tales'),
-      body: StateConnector<AppState, TaleListState>(
-        selector: (state) => state.taleListState,
-        onInitialBuild: (dispatch, model) {
-          dispatch(GetTaleListAction());
-        },
-        builder: (context, dispatch, vm) {
-          return vm.listResult.when(
-            ok: () {
-              return _Grid(tales: vm.list);
-            },
-            error: (error) {
-              return Center(child: Text(error.string()));
-            },
-            loading: () {
-              return const LoadingComponent();
-            },
-            initial: () {
-              return const SizedBox();
-            },
-          );
-        },
-      ),
-    );
   }
 }
 
-class _Grid extends StatelessWidget {
-  const _Grid({required this.tales});
+   // return DefaultLayout(
+    //   leftSidebar: const TaleListSidebarComponent(),
+    //   title: const Text('Tales'),
+    //   body: StateConnector<AppState, TaleListState>(
+    //     selector: (state) => state.taleListState,
+    //     onInitialBuild: (dispatch, model) {
+    //       dispatch(GetTaleListAction());
+    //     },
+    //     builder: (context, dispatch, vm) {
+    //       return vm.listResult.when(
+    //         ok: () {
+    //           return _Grid(tales: vm.list);
+    //         },
+    //         error: (error) {
+    //           return Center(child: Text(error.string()));
+    //         },
+    //         loading: () {
+    //           return const LoadingComponent();
+    //         },
+    //         initial: () {
+    //           return const SizedBox();
+    //         },
+    //       );
+    //     },
+    //   ),
+    // );
+ 
 
-  final List<Tale> tales;
+// class _Grid extends StatelessWidget {
+//   const _Grid({required this.tales});
 
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-      ),
-      itemCount: tales.length,
-      itemBuilder: (context, index) {
-        final tale = tales[index];
-        return InkWell(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (context) => TaleEditorPage(taleId: tale.id),
-              ),
-            );
-          },
-          borderRadius: BorderRadius.circular(8),
-          child: Card(
-            child: Column(
-              children: [
-                Expanded(
-                  child: tale.coverImage.isEmpty
-                      ? const Placeholder()
-                      : Image.network(
-                          //
-                          // ignore: lines_longer_than_80_chars
-                          '${tale.coverImage}?${DateTime.now().millisecondsSinceEpoch}',
-                          fit: BoxFit.cover,
-                        ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Translator(
-                    toTranslate: [tale.title],
-                    builder: (translatedValue) => Text(translatedValue[0]),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
+//   final List<Tale> tales;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GridView.builder(
+//       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//         crossAxisCount: 4,
+//       ),
+//       itemCount: tales.length,
+//       itemBuilder: (context, index) {
+//         final tale = tales[index];
+//         return InkWell(
+//           onTap: () {
+//             Navigator.of(context).push(
+//               MaterialPageRoute<void>(
+//                 builder: (context) => TaleEditorPage(taleId: tale.id),
+//               ),
+//             );
+//           },
+//           borderRadius: BorderRadius.circular(8),
+//           child: Card(
+//             child: Column(
+//               children: [
+//                 Expanded(
+//                   child: tale.coverImage.isEmpty
+//                       ? const Placeholder()
+//                       : Image.network(
+//                           //
+//                           // ignore: lines_longer_than_80_chars
+//                           '${tale.coverImage}?${DateTime.now().millisecondsSinceEpoch}',
+//                           fit: BoxFit.cover,
+//                         ),
+//                 ),
+//                 Padding(
+//                   padding: const EdgeInsets.all(8),
+//                   child: Translator(
+//                     toTranslate: [tale.title],
+//                     builder: (translatedValue) => Text(translatedValue[0]),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }

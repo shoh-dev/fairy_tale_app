@@ -3,7 +3,9 @@ analyzer:
   errors:
     avoid_catches_without_on_clauses: ignore
     avoid_positional_boolean_parameters: ignore
+    avoid_renaming_method_parameters: ignore
     flutter_style_todos: ignore
+    inference_failure_on_instance_creation: ignore
     invalid_annotation_target: ignore
     lines_longer_than_80_chars: ignore
     only_throw_errors: ignore

@@ -1,9 +1,16 @@
 import 'package:fairy_tale_builder_platform/manager/redux.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/pages/splash/splash_page.dart';
+import 'package:fairy_tale_builder_platform/pages/homepage/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+
+final _router = GoRouter(
+  navigatorKey: NavigateAction.navigatorKey,
+  routes: $appRoutes,
+  debugLogDiagnostics: true,
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,15 +73,16 @@ class App extends StatelessWidget {
     // Zinc-400: #A1A1AA
     // Zinc-500: #71717A
 
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Tale Builder',
       theme: appTheme.lightTheme,
       darkTheme: appTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      navigatorKey: NavigateAction.navigatorKey,
-      home: UserExceptionDialog<AppState>(
-        child: const SplashPage(),
-      ),
+      routerConfig: _router,
+      // navigatorKey: NavigateAction.navigatorKey,
+      // home: UserExceptionDialog<AppState>(
+      // child: const SplashPage(),
+      // ),
     );
   }
 }

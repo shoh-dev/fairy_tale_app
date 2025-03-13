@@ -1,21 +1,23 @@
 import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/components/card.dart';
+import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/tale_list_state/tale_list_action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/tale_list_state/tale_list_state.dart';
+import 'package:fairy_tale_builder_platform/pages/homepage/homepage.dart';
+import 'package:fairy_tale_builder_platform/pages/talepage/talepage.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
-import 'package:shared/shared.dart';
 
 class HomepageTaleList extends StatelessWidget
-    with StateConnectorMixin<List<Tale>> {
+    with StateConnectorMixin<TaleListState> {
   const HomepageTaleList({super.key});
 
   @override
   FutureOr<void> onInitialBuild(
-      Dispatcher<AppState> dispatch, List<Tale> model) {
+      Dispatcher<AppState> dispatch, TaleListState model) {
     dispatch(GetTaleListAction());
     return super.onInitialBuild(dispatch, model);
   }
@@ -24,28 +26,35 @@ class HomepageTaleList extends StatelessWidget
   Widget builder(
     BuildContext context,
     Dispatcher<AppState> dispatch,
-    List<Tale> model,
+    TaleListState model,
   ) {
     return SliverToBoxAdapter(
-      child: Wrap(
-        alignment: WrapAlignment.spaceBetween,
-        runSpacing: 32,
-        spacing: 16,
-        children: [
-          for (final tale in model)
-            DefaultCard(
-              title: tale.title,
-              bottomTitle: tale.id,
-              image: NetworkImage(tale.coverImage),
-              onTap: () {
-                //todo:
-              },
-            ),
-        ],
+      child: model.listResult.when(
+        initial: () => const SizedBox(),
+        error: (error) => Center(child: Text(error.string())),
+        loading: LoadingComponent.new,
+        ok: () {
+          final tales = model.list;
+          return Wrap(
+            runSpacing: 32,
+            spacing: 25,
+            children: [
+              for (final tale in tales)
+                DefaultCard(
+                  title: tale.title,
+                  bottomTitle: tale.id,
+                  image: NetworkImage(tale.coverImage),
+                  onTap: () {
+                    TalepageRoute(id: tale.id).go(context);
+                  },
+                ),
+            ],
+          );
+        },
       ),
     );
   }
 
   @override
-  List<Tale> selector(AppState state) => taleList(state);
+  TaleListState selector(AppState state) => state.taleListState;
 }

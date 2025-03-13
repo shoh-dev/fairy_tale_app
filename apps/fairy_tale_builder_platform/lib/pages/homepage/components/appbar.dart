@@ -1,6 +1,8 @@
 import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/tale_list_state/tale_list_action.dart';
+import 'package:fairy_tale_builder_platform/pages/homepage/homepage.dart';
+import 'package:fairy_tale_builder_platform/pages/talepage/talepage.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
@@ -63,7 +65,7 @@ class HomepageAppBar extends StatelessWidget with DispatchConnectorMixin {
           text: 'Create Tale',
           icon: Icons.add,
           onPressed: () {
-            //todo:
+            TalepageRoute(id: 'new').push<void>(context);
           },
         ),
         const SizedBox(width: 8),

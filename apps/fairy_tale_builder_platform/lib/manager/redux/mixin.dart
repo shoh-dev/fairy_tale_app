@@ -24,6 +24,25 @@ mixin DispatchConnectorMixin on StatelessWidget {
   }
 }
 
+mixin DispatchConnectorMixinState<T extends StatefulWidget> on State<T> {
+  Widget builder(
+    BuildContext context,
+    Dispatcher<AppState> dispatch,
+  );
+  FutureOr<void> onInitialBuild(Dispatcher<AppState> dispatch) {}
+  FutureOr<void> onDispose(Dispatcher<AppState> dispatch) {}
+
+  @nonVirtual
+  @override
+  Widget build(BuildContext context) {
+    return DispatchConnector<AppState>(
+      builder: builder,
+      onInitialBuild: onInitialBuild,
+      onDispose: onDispose,
+    );
+  }
+}
+
 mixin StateConnectorMixin<T> on StatelessWidget {
   T selector(AppState state);
   Widget builder(
