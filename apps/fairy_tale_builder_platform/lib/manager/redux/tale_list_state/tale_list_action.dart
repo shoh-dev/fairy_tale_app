@@ -22,11 +22,36 @@ class _Action extends DefaultAction {
   }
 }
 
+class UpdateSearchQueryAction extends DefaultAction {
+  final String query;
+
+  UpdateSearchQueryAction(this.query);
+
+  @override
+  AppState? reduce() {
+    return state.copyWith(
+      taleListState: taleListState.copyWith(
+        searchQuery: query,
+      ),
+    );
+  }
+
+  @override
+  void after() {
+    if (taleListState.searchQuery.isEmpty) {
+      dispatch(GetTaleListAction());
+    }
+    super.after();
+  }
+}
+
 class GetTaleListAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     dispatch(_Action(listResult: const StateResult.loading()));
-    final tales = await taleRepository.getAllTales();
+    final tales = await taleRepository.getTales(
+      searchQuery: taleListState.searchQuery,
+    );
     tales.when(
       ok: (data) =>
           dispatch(_Action(listResult: const StateResult.ok(), list: data)),

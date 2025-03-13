@@ -30,6 +30,7 @@ class HomepageTaleList extends StatelessWidget
       child: Wrap(
         alignment: WrapAlignment.spaceBetween,
         runSpacing: 32,
+        spacing: 16,
         children: [
           for (final tale in model)
             DefaultCard(

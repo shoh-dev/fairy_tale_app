@@ -26,7 +26,7 @@ class GetTaleListAction extends DefaultAction {
   @override
   Future<AppState?> reduce() async {
     dispatch(_Action(listResult: const StateResult.loading()));
-    final tales = await taleRepository.getAllTales();
+    final tales = await taleRepository.getTales();
     tales.when(
       ok: (data) =>
           dispatch(_Action(listResult: const StateResult.ok(), list: data)),

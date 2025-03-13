@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TaleListState {
   StateResult get listResult => throw _privateConstructorUsedError;
   List<Tale> get list => throw _privateConstructorUsedError;
+  String get searchQuery => throw _privateConstructorUsedError;
 
   /// Create a copy of TaleListState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +33,7 @@ abstract class $TaleListStateCopyWith<$Res> {
           TaleListState value, $Res Function(TaleListState) then) =
       _$TaleListStateCopyWithImpl<$Res, TaleListState>;
   @useResult
-  $Res call({StateResult listResult, List<Tale> list});
+  $Res call({StateResult listResult, List<Tale> list, String searchQuery});
 
   $StateResultCopyWith<$Res> get listResult;
 }
@@ -54,6 +55,7 @@ class _$TaleListStateCopyWithImpl<$Res, $Val extends TaleListState>
   $Res call({
     Object? listResult = null,
     Object? list = null,
+    Object? searchQuery = null,
   }) {
     return _then(_value.copyWith(
       listResult: null == listResult
@@ -64,6 +66,10 @@ class _$TaleListStateCopyWithImpl<$Res, $Val extends TaleListState>
           ? _value.list
           : list // ignore: cast_nullable_to_non_nullable
               as List<Tale>,
+      searchQuery: null == searchQuery
+          ? _value.searchQuery
+          : searchQuery // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 
@@ -86,7 +92,7 @@ abstract class _$$TaleListStateImplCopyWith<$Res>
       __$$TaleListStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({StateResult listResult, List<Tale> list});
+  $Res call({StateResult listResult, List<Tale> list, String searchQuery});
 
   @override
   $StateResultCopyWith<$Res> get listResult;
@@ -107,6 +113,7 @@ class __$$TaleListStateImplCopyWithImpl<$Res>
   $Res call({
     Object? listResult = null,
     Object? list = null,
+    Object? searchQuery = null,
   }) {
     return _then(_$TaleListStateImpl(
       listResult: null == listResult
@@ -117,6 +124,10 @@ class __$$TaleListStateImplCopyWithImpl<$Res>
           ? _value._list
           : list // ignore: cast_nullable_to_non_nullable
               as List<Tale>,
+      searchQuery: null == searchQuery
+          ? _value.searchQuery
+          : searchQuery // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -125,7 +136,9 @@ class __$$TaleListStateImplCopyWithImpl<$Res>
 
 class _$TaleListStateImpl extends _TaleListState {
   const _$TaleListStateImpl(
-      {required this.listResult, required final List<Tale> list})
+      {required this.listResult,
+      required final List<Tale> list,
+      required this.searchQuery})
       : _list = list,
         super._();
 
@@ -140,8 +153,11 @@ class _$TaleListStateImpl extends _TaleListState {
   }
 
   @override
+  final String searchQuery;
+
+  @override
   String toString() {
-    return 'TaleListState(listResult: $listResult, list: $list)';
+    return 'TaleListState(listResult: $listResult, list: $list, searchQuery: $searchQuery)';
   }
 
   @override
@@ -151,12 +167,14 @@ class _$TaleListStateImpl extends _TaleListState {
             other is _$TaleListStateImpl &&
             (identical(other.listResult, listResult) ||
                 other.listResult == listResult) &&
-            const DeepCollectionEquality().equals(other._list, _list));
+            const DeepCollectionEquality().equals(other._list, _list) &&
+            (identical(other.searchQuery, searchQuery) ||
+                other.searchQuery == searchQuery));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, listResult, const DeepCollectionEquality().hash(_list));
+  int get hashCode => Object.hash(runtimeType, listResult,
+      const DeepCollectionEquality().hash(_list), searchQuery);
 
   /// Create a copy of TaleListState
   /// with the given fields replaced by the non-null parameter values.
@@ -170,13 +188,16 @@ class _$TaleListStateImpl extends _TaleListState {
 abstract class _TaleListState extends TaleListState {
   const factory _TaleListState(
       {required final StateResult listResult,
-      required final List<Tale> list}) = _$TaleListStateImpl;
+      required final List<Tale> list,
+      required final String searchQuery}) = _$TaleListStateImpl;
   const _TaleListState._() : super._();
 
   @override
   StateResult get listResult;
   @override
   List<Tale> get list;
+  @override
+  String get searchQuery;
 
   /// Create a copy of TaleListState
   /// with the given fields replaced by the non-null parameter values.

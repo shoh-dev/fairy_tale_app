@@ -11,11 +11,13 @@ class TaleListState with _$TaleListState {
   const factory TaleListState({
     required StateResult listResult,
     required List<Tale> list,
+    required String searchQuery,
   }) = _TaleListState;
 
   factory TaleListState.initial() {
     return const TaleListState(
       listResult: StateResult.initial(),
+      searchQuery: '',
       list: [],
     );
   }

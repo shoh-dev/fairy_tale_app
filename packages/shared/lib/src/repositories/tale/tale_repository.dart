@@ -6,7 +6,9 @@ import 'package:shared/src/repositories/tale/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class TaleRepository {
-  ResultFuture<List<Tale>> getAllTales();
+  ResultFuture<List<Tale>> getTales({
+    String searchQuery = '',
+  });
   ResultFuture<(Tale, List<TalePage>, List<TaleInteraction>)> getTaleById(
     String taleId,
   );
@@ -33,14 +35,20 @@ class TaleRepositoryImpl implements TaleRepository {
   const TaleRepositoryImpl(this._supabase);
 
   @override
-  ResultFuture<List<Tale>> getAllTales() async {
+  ResultFuture<List<Tale>> getTales({
+    String searchQuery = '',
+  }) async {
     try {
-      final response = await _supabase
-          .from('tales')
-          .select('id, title, description, metadata')
-          .order('created_at');
+      var response =
+          _supabase.from('tales').select('id, title, description, metadata');
 
-      return Result.ok(response.map(Tale.fromJson).toList());
+      if (searchQuery.isNotEmpty) {
+        response = response.like('title', '%$searchQuery%');
+      }
+
+      return Result.ok(
+        (await response.order('created_at')).map(Tale.fromJson).toList(),
+      );
     } catch (e) {
       return Result.error(ErrorX(e));
     }

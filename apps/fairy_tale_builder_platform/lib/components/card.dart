@@ -10,7 +10,7 @@ class DefaultCard extends StatefulWidget {
     required this.bottomTitle,
     this.image,
     this.onTap,
-    this.size = const Size(240, 260),
+    this.size = const Size(260, 320),
   });
 
   final String title;
@@ -83,7 +83,7 @@ class _DefaultCardState extends State<DefaultCard> {
                         ),
                         Positioned(
                           bottom: 0,
-                          height: widget.size.height * .3,
+                          height: widget.size.height * .2,
                           width: widget.size.width,
                           child: const DecoratedBox(
                             decoration: BoxDecoration(

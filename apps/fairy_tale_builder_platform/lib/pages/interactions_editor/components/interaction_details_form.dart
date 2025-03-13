@@ -244,7 +244,7 @@ class __FormState extends State<_Form> with StateHelpers {
                 }
                 return null;
               },
-              suffixWidgets: [
+              suffixWidgets: (q) => [
                 aspectButtonSize(true),
                 saveButton(
                   UpdateInteractionAction(
@@ -268,7 +268,7 @@ class __FormState extends State<_Form> with StateHelpers {
                 }
                 return null;
               },
-              suffixWidgets: [
+              suffixWidgets: (q) => [
                 aspectButtonSize(false),
                 saveButton(
                   UpdateInteractionAction(
@@ -292,7 +292,7 @@ class __FormState extends State<_Form> with StateHelpers {
                 }
                 return null;
               },
-              suffixWidgets: [
+              suffixWidgets: (q) => [
                 aspectButtonInitialPosition(true),
                 saveButton(
                   UpdateInteractionAction(
@@ -316,7 +316,7 @@ class __FormState extends State<_Form> with StateHelpers {
                 }
                 return null;
               },
-              suffixWidgets: [
+              suffixWidgets: (q) => [
                 aspectButtonInitialPosition(false),
                 saveButton(
                   UpdateInteractionAction(
@@ -339,7 +339,7 @@ class __FormState extends State<_Form> with StateHelpers {
                 }
                 return null;
               },
-              suffixWidgets: [
+              suffixWidgets: (q) => [
                 saveButton(
                   UpdateInteractionAction(
                     animationDuration:
@@ -376,7 +376,7 @@ class __FormState extends State<_Form> with StateHelpers {
                   }
                   return null;
                 },
-                suffixWidgets: [
+                suffixWidgets: (q) => [
                   aspectButtonFinalPosition(true),
                   saveButton(
                     UpdateInteractionAction(
@@ -397,7 +397,7 @@ class __FormState extends State<_Form> with StateHelpers {
                   }
                   return null;
                 },
-                suffixWidgets: [
+                suffixWidgets: (q) => [
                   aspectButtonFinalPosition(false),
                   saveButton(
                     UpdateInteractionAction(
