@@ -29,6 +29,7 @@ mixin DispatchConnectorMixinState<T extends StatefulWidget> on State<T> {
     BuildContext context,
     Dispatcher<AppState> dispatch,
   );
+
   FutureOr<void> onInitialBuild(Dispatcher<AppState> dispatch) {}
   FutureOr<void> onDispose(Dispatcher<AppState> dispatch) {}
 

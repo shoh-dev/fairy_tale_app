@@ -48,8 +48,6 @@ class GetTaleAction extends DefaultAction {
 
   @override
   Future<AppState?> reduce() async {
-    dispatch(TaleAction(selectedTaleResult: const StateResult.loading()));
-
     if (taleId.isEmpty) {
       dispatch(
         TaleAction(
@@ -59,6 +57,10 @@ class GetTaleAction extends DefaultAction {
       );
       return null;
     }
+
+    dispatch(TaleAction(selectedTaleResult: const StateResult.loading()));
+
+    await Future.delayed(const Duration(seconds: 1));
 
     final tale = await taleRepository.getTaleById(taleId);
 

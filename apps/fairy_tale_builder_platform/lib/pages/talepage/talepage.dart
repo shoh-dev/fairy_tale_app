@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/talepage/components/appbar.dart';
 import 'package:fairy_tale_builder_platform/pages/talepage/components/editor.dart';
@@ -30,7 +31,7 @@ class Talepage extends StatefulWidget {
 }
 
 class _TalepageState extends State<Talepage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, DispatchConnectorMixinState<Talepage> {
   late final TabController controller;
 
   @override
@@ -40,7 +41,19 @@ class _TalepageState extends State<Talepage>
   }
 
   @override
-  Widget build(BuildContext context) {
+  void onDispose(Dispatcher<AppState> dispatch) {
+    dispatch(ResetTaleAction());
+  }
+
+  @override
+  void onInitialBuild(Dispatcher<AppState> dispatch) {
+    dispatch(
+      GetTaleAction(taleId: widget.taleId == 'new' ? '' : widget.taleId),
+    );
+  }
+
+  @override
+  Widget builder(BuildContext context, Dispatcher<AppState> dispatch) {
     return Scaffold(
       appBar: TalepageAppBar(controller: controller),
       body: Column(
