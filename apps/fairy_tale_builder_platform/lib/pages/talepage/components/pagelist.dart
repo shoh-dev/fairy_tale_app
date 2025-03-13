@@ -32,36 +32,42 @@ class TalepagePagesList extends StatelessWidget
         ),
         borderRadius: const BorderRadius.only(
           topRight: Radius.circular(16),
-          // bottomRight: Radius.circular(16),
         ),
       ),
-      padding: const EdgeInsets.all(12),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            children: [
-              Text(
-                'Pages',
-                style: context.textTheme.titleMedium,
-              ),
-              const Spacer(),
-              ButtonComponent.text(
-                text: 'Add',
-                icon: Icons.add_rounded,
-                onPressed: () {
-                  dispatch(AddPageAction());
-                },
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Text(
+                  'Pages',
+                  style: context.textTheme.titleMedium,
+                ),
+                const Spacer(),
+                ButtonComponent.text(
+                  text: 'Add',
+                  icon: Icons.add_rounded,
+                  onPressed: () {
+                    dispatch(AddPageAction());
+                  },
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 16),
           model.$1.when(
             ok: () {
+              if (model.$2.isEmpty) {
+                return Text(
+                  'No pages. Add one!',
+                  style: context.textTheme.titleMedium,
+                );
+              }
               return Expanded(
                 child: ListView.separated(
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 32),
+                  padding: const EdgeInsets.all(12),
+                  separatorBuilder: (context, index) => const Divider(),
                   itemCount: model.$2.length,
                   itemBuilder: (context, index) {
                     final page = model.$2[index];

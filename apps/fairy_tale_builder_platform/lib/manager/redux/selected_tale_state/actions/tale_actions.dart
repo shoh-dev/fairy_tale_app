@@ -71,6 +71,7 @@ class GetTaleAction extends DefaultAction {
             tale: result.$1,
             pages: result.$2,
             interactions: result.$3,
+            selectedPageId: result.$2.firstOrNull?.id ?? '',
             taleResult: const StateResult.ok(),
           ),
         );

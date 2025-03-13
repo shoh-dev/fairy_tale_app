@@ -47,5 +47,5 @@ class TalepageAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight * 1.5);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

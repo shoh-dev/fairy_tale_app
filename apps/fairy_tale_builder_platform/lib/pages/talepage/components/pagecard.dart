@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
 
-class Pagecard extends StatelessWidget with StateConnectorMixin<bool> {
+class Pagecard extends StatelessWidget with StateConnectorMixin<(bool, Tale)> {
   const Pagecard({
     required this.page,
     super.key,
@@ -19,26 +19,32 @@ class Pagecard extends StatelessWidget with StateConnectorMixin<bool> {
   Widget builder(
     BuildContext context,
     Dispatcher<AppState> dispatch,
-    bool model,
+    (bool, Tale) model,
   ) {
+    final device = Devices.ios.iPhone13;
     return HoverWidget(
       onTap: () {
         dispatch(SelectPageAction(page.id));
       },
-      isSelected: model,
+      isSelected: model.$1,
       child: (hovering) {
         return SizedBox(
-          height: Devices.ios.iPhone13.screenSize.height / 2,
+          height: device.screenSize.height / 2.5,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
-            child: DeviceFrame(
-              device: Devices.ios.iPhone13,
-              screen: page.metadata.hasBackgroundImage
-                  ? Image.network(
-                      page.metadata.backgroundImageUrl,
-                      fit: BoxFit.cover,
-                    )
-                  : const Placeholder(),
+            child: _banner(
+              DeviceFrame(
+                orientation: model.$2.isPortrait
+                    ? Orientation.portrait
+                    : Orientation.landscape,
+                device: device,
+                screen: page.metadata.hasBackgroundImage
+                    ? Image.network(
+                        page.metadata.backgroundImageUrl,
+                        fit: BoxFit.cover,
+                      )
+                    : const Placeholder(),
+              ),
             ),
           ),
         );
@@ -46,6 +52,18 @@ class Pagecard extends StatelessWidget with StateConnectorMixin<bool> {
     );
   }
 
+  Widget _banner(Widget child) {
+    if (page.isNew) {
+      return Banner(
+        message: 'New',
+        location: BannerLocation.topEnd,
+        child: child,
+      );
+    }
+    return child;
+  }
+
   @override
-  bool selector(AppState state) => selectedPage(state)?.id == page.id;
+  (bool, Tale) selector(AppState state) =>
+      (selectedPage(state)?.id == page.id, selectedTale(state));
 }

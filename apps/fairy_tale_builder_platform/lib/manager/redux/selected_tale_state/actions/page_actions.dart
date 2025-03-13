@@ -55,11 +55,13 @@ class UpdatePageAction extends DefaultAction {
   final String? text;
   final PlatformFile? backgroundImageFile;
   final String? backgroundImageUrl;
+  final int? pageNumber;
 
   UpdatePageAction({
     this.text,
     this.backgroundImageFile,
     this.backgroundImageUrl,
+    this.pageNumber,
   });
 
   @override
@@ -80,10 +82,25 @@ class UpdatePageAction extends DefaultAction {
       return null;
     }
 
+    var pageNumber = page.pageNumber;
+    TalePage? pageNumberUpdatedPage;
+
+    if (this.pageNumber != null) {
+      final pageWithThisNumber = selectedTaleState.pages
+          .firstWhereOrNull((e) => e.pageNumber == this.pageNumber);
+      if (pageWithThisNumber != null) {
+        //replace it with current page pageNumber
+        pageNumberUpdatedPage = pageWithThisNumber.copyWith(
+          pageNumber: pageNumber,
+        );
+      }
+    }
+
     //steps:
     //1. update selected page
     final newPage = page.copyWith(
       text: text ?? page.text,
+      pageNumber: this.pageNumber ?? page.pageNumber,
       metadata: page.metadata.copyWith(
         backgroundImageUrl:
             backgroundImageUrl ?? page.metadata.backgroundImageUrl,
@@ -91,6 +108,11 @@ class UpdatePageAction extends DefaultAction {
     );
     //2. update tale pages
     final newTalePages = selectedTaleState.pages.map((e) {
+      if (pageNumberUpdatedPage != null) {
+        if (pageNumberUpdatedPage.id == e.id) {
+          return pageNumberUpdatedPage;
+        }
+      }
       if (e.id == page.id) {
         return newPage;
       }

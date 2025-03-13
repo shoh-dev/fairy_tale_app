@@ -24,33 +24,33 @@ class _HoverWidgetState extends State<HoverWidget> {
   Widget build(BuildContext context) {
     final radius = (context.theme.cardTheme.shape! as RoundedRectangleBorder)
         .borderRadius as BorderRadius;
-    return MouseRegion(
-      cursor: widget.onTap != null
-          ? SystemMouseCursors.click
-          : SystemMouseCursors.none,
-      onHover: (event) {
-        setState(() {
-          hovering = true;
-        });
-      },
-      onExit: (event) {
-        setState(() {
-          hovering = false;
-        });
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        decoration: BoxDecoration(
-          borderRadius: radius,
-          border: !hovering && !widget.isSelected
-              ? null
-              : Border.all(
-                  color: Colors.purple,
-                  width: widget.isSelected ? 3 : 1,
-                ),
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 100),
+      decoration: BoxDecoration(
+        borderRadius: radius,
+        border: Border.all(
+          color: widget.isSelected || hovering
+              ? Colors.purple
+              : Colors.transparent,
+          width: !widget.isSelected && hovering ? 1 : 3,
         ),
-        child: GestureDetector(
-          onTap: widget.onTap,
+      ),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: MouseRegion(
+          cursor: widget.onTap != null
+              ? SystemMouseCursors.click
+              : SystemMouseCursors.none,
+          onHover: (event) {
+            setState(() {
+              hovering = true;
+            });
+          },
+          onExit: (event) {
+            setState(() {
+              hovering = false;
+            });
+          },
           child: widget.child(hovering),
         ),
       ),
