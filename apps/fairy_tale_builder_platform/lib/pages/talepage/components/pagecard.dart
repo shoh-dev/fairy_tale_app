@@ -33,17 +33,27 @@ class Pagecard extends StatelessWidget with StateConnectorMixin<(bool, Tale)> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: _banner(
-              DeviceFrame(
-                orientation: model.$2.isPortrait
-                    ? Orientation.portrait
-                    : Orientation.landscape,
-                device: device,
-                screen: page.metadata.hasBackgroundImage
-                    ? Image.network(
-                        page.metadata.backgroundImageUrl,
-                        fit: BoxFit.cover,
-                      )
-                    : const Placeholder(),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  DeviceFrame(
+                    orientation: model.$2.isPortrait
+                        ? Orientation.portrait
+                        : Orientation.landscape,
+                    device: device,
+                    screen: page.metadata.hasBackgroundImage
+                        ? Image.network(
+                            page.metadata.backgroundImageUrl,
+                            fit: BoxFit.cover,
+                          )
+                        : const Placeholder(),
+                  ),
+                  Positioned(
+                    top: 8,
+                    left: 8,
+                    child: Text(page.pageNumber.toString()),
+                  ),
+                ],
               ),
             ),
           ),

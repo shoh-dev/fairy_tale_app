@@ -59,12 +59,8 @@ class AudioSelectorComponent extends StatelessWidget {
                 },
               );
             },
-          )
-        else
-          const ButtonComponent.outlined(
-            text: 'No Audio Selected',
-            icon: Icons.play_arrow,
           ),
+
         ButtonComponent.primary(
           onPressed: onAudioSelected == null
               ? null
@@ -91,6 +87,12 @@ class AudioSelectorComponent extends StatelessWidget {
                 },
           icon: Icons.audiotrack_rounded,
           text: audioPath.isEmpty ? 'Select Audio' : 'Replace Audio',
+        ),
+
+        //todo:
+        const ButtonComponent.destructive(
+          text: 'Remove Audio',
+          icon: Icons.delete_rounded,
         ),
       ],
     );

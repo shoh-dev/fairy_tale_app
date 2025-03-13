@@ -82,7 +82,7 @@ class UpdatePageAction extends DefaultAction {
       return null;
     }
 
-    var pageNumber = page.pageNumber;
+    final pageNumber = page.pageNumber;
     TalePage? pageNumberUpdatedPage;
 
     if (this.pageNumber != null) {

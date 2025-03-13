@@ -29,6 +29,7 @@ class _HoverWidgetState extends State<HoverWidget> {
       decoration: BoxDecoration(
         borderRadius: radius,
         border: Border.all(
+          strokeAlign: BorderSide.strokeAlignOutside,
           color: widget.isSelected || hovering
               ? Colors.purple
               : Colors.transparent,

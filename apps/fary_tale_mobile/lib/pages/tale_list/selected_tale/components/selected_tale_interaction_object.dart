@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fairy_tale_mobile/components/lifecycle_component.dart';
 import 'package:fairy_tale_mobile/components/translator_component.dart';
 import 'package:fairy_tale_mobile/manager/redux.dart';
@@ -146,8 +144,6 @@ class _Child extends StatelessWidget {
                   : StreamBuilder(
                       stream: interaction.audioPlayerService.playerStateStream,
                       builder: (context, snapshot) {
-                        log('Interaction ${interaction.id}: ${snapshot.data?.playing}');
-                        log('Interaction ${interaction.id}: ${snapshot.data?.processingState}');
                         if (snapshot.data != null) {
                           final isPlaying = snapshot.data!.processingState ==
                                   ProcessingState.ready &&

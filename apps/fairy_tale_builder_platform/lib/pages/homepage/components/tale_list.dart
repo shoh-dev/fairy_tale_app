@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:fairy_tale_builder_platform/components/card.dart';
 import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/tale_list_state/tale_list_action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/tale_list_state/tale_list_state.dart';
@@ -18,7 +17,9 @@ class HomepageTaleList extends StatelessWidget
 
   @override
   FutureOr<void> onInitialBuild(
-      Dispatcher<AppState> dispatch, TaleListState model) {
+    Dispatcher<AppState> dispatch,
+    TaleListState model,
+  ) {
     dispatch(GetTaleListAction());
     return super.onInitialBuild(dispatch, model);
   }
@@ -36,20 +37,23 @@ class HomepageTaleList extends StatelessWidget
         loading: LoadingComponent.new,
         ok: () {
           final tales = model.list;
-          return Wrap(
-            runSpacing: 32,
-            spacing: 25,
-            children: [
-              for (final tale in tales)
-                DefaultCard(
-                  title: tale.title,
-                  bottomTitle: tale.id,
-                  image: NetworkImage(tale.coverImage),
-                  onTap: () {
-                    TalepageRoute(id: tale.id).go(context);
-                  },
-                ),
-            ],
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 1),
+            child: Wrap(
+              runSpacing: 32,
+              spacing: 24,
+              children: [
+                for (final tale in tales)
+                  DefaultCard(
+                    title: tale.title,
+                    bottomTitle: tale.id,
+                    image: NetworkImage(tale.coverImage),
+                    onTap: () {
+                      TalepageRoute(id: tale.id).go(context);
+                    },
+                  ),
+              ],
+            ),
           );
         },
       ),

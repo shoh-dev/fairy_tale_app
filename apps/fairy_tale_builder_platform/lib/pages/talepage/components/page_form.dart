@@ -4,7 +4,6 @@ import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/page_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/pages/tale_editor/components/audio_selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
@@ -62,9 +61,6 @@ class __FormState extends State<_Form> with DispatchConnectorMixinState {
 
   @override
   Widget builder(BuildContext context, Dispatcher<AppState> dispatch) {
-    final radius =
-        (context.theme.inputDecorationTheme.border! as OutlineInputBorder)
-            .borderRadius;
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 32),
       children: [
@@ -100,16 +96,12 @@ class __FormState extends State<_Form> with DispatchConnectorMixinState {
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //image
-            const ImageSelectorComponent(
+            ImageSelectorComponent(
               title: 'Background Image',
-            ),
-
-            space(16),
-
-            //audio
-            AudioSelectorComponent(
-              title: 'Background Auido',
-              audioPlayer: tale.audioPlayerService,
+              imagePath: page.metadata.backgroundImageUrl,
+              onImageSelected: (value) {
+                dispatch(UpdatePageAction(backgroundImageFile: value));
+              },
             ),
           ],
         ),
@@ -121,7 +113,7 @@ class __FormState extends State<_Form> with DispatchConnectorMixinState {
             //todo: show confirmation first
             dispatch(DeletePageAction());
           },
-        )
+        ),
       ],
     );
   }

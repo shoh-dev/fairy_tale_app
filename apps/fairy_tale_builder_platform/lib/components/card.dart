@@ -5,10 +5,10 @@ import 'package:myspace_design_system/myspace_design_system.dart';
 class DefaultCard extends StatelessWidget {
   const DefaultCard({
     required this.title,
+    required this.bottomTitle,
     super.key,
     this.subTitle,
     this.bottomSubTitle,
-    required this.bottomTitle,
     this.image,
     this.onTap,
     this.size = const Size(260, 320),
