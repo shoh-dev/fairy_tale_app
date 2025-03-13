@@ -1,4 +1,4 @@
-import 'package:fairy_tale_builder_platform/pages/tale_list/tale_list_page.dart';
+import 'package:fairy_tale_builder_platform/pages/homepage/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
@@ -33,7 +33,7 @@ class __LoadedState extends State<_Loaded> with StateHelpers {
     safeInitialize(() {
       // move to tales list page
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(builder: (context) => const TalesPage()),
+        MaterialPageRoute<void>(builder: (context) => const Homepage()),
       );
     });
   }

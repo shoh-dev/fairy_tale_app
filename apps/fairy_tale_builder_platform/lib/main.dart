@@ -39,7 +39,32 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appTheme = AppTheme();
+    final appTheme = AppTheme(
+      borderRadius: 64,
+      surfaceDark: Colors.black,
+      seedDark: const Color(0xFF8B5CF6),
+    );
+    //     // Base Colors
+    // Black: #000000
+    // Dark Gray (Background): #121212
+    // Dark Gray (Surface): #1E1E1E
+    // Dark Gray (Cards): #242424
+    // Zinc-800: #27272A
+    // Zinc-900: #18181B
+
+    // // Accent Colors
+    // Purple-500: #8B5CF6
+    // Purple-600: #7C3AED
+    // Purple-700: #6D28D9
+    // Pink-500: #EC4899
+    // Pink-600: #DB2777
+
+    // // Text Colors
+    // White: #FFFFFF
+    // Gray-200: #E5E7EB
+    // Gray-400: #9CA3AF
+    // Zinc-400: #A1A1AA
+    // Zinc-500: #71717A
 
     return MaterialApp(
       title: 'Tale Builder',
