@@ -53,9 +53,9 @@ enum SwipeType implements TaleInteractionSubType {
 }
 
 enum TapType implements TaleInteractionSubType {
-  shortPress,
-  longPress,
-  doubleTap,
+  short,
+  long,
+  double,
   ;
 
   @override
@@ -67,12 +67,12 @@ enum TapType implements TaleInteractionSubType {
   @override
   String name() {
     switch (this) {
-      case TapType.shortPress:
-        return 'short_press';
-      case TapType.longPress:
-        return 'long_press';
-      case TapType.doubleTap:
-        return 'double_tap';
+      case TapType.short:
+        return 'short';
+      case TapType.long:
+        return 'long';
+      case TapType.double:
+        return 'double';
     }
   }
 }

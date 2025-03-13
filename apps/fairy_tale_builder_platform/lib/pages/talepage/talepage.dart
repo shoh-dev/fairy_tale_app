@@ -2,7 +2,8 @@ import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/talepage/components/appbar.dart';
-import 'package:fairy_tale_builder_platform/pages/talepage/components/editor.dart';
+import 'package:fairy_tale_builder_platform/pages/talepage/components/tabs/editor.dart';
+import 'package:fairy_tale_builder_platform/pages/talepage/components/tabs/interactions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -66,7 +67,7 @@ class _TalepageState extends State<Talepage>
                 //editor
                 TalepageEditor(),
                 //interactions
-                SizedBox(),
+                TalepageInteractions(),
                 //preview
                 SizedBox(),
                 //settings
