@@ -86,6 +86,7 @@ class __FormState extends State<_Form> with DispatchConnectorMixinState {
         ),
         space(),
         ExpansionTile(
+          initiallyExpanded: true,
           childrenPadding: const EdgeInsets.only(
             left: 16,
             bottom: 16,

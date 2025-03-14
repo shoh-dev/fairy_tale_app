@@ -63,30 +63,35 @@ class TalepageInteractionsList extends StatelessWidget
                 final item = interactions[index];
                 final isSelected = item.id == model.$2?.id;
                 return Card(
-                  child: ListTile(
-                    selectedTileColor: context.colorScheme.primaryContainer,
-                    shape: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide(
-                        color: isSelected
-                            ? Colors.purpleAccent
-                            : context.colorScheme.outline,
+                  child: Badge(
+                    isLabelVisible: item.isNew,
+                    label: const Text('New'),
+                    offset: const Offset(-10, 0),
+                    child: ListTile(
+                      selectedTileColor: context.colorScheme.primaryContainer,
+                      shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                        borderSide: BorderSide(
+                          color: isSelected
+                              ? Colors.purpleAccent
+                              : context.colorScheme.outline,
+                        ),
                       ),
-                    ),
-                    selectedColor: context.colorScheme.onPrimaryContainer,
-                    selected: isSelected,
-                    onTap: () {
-                      dispatch(SelectInteractionAction(item.id));
-                    },
-                    title: Text(
-                      item.id,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: Text(
-                      item.availableSubTypes.isEmpty
-                          ? 'No Action'
-                          : '${item.eventType} (${item.eventSubtype}) -> ${item.action}',
+                      selectedColor: context.colorScheme.onPrimaryContainer,
+                      selected: isSelected,
+                      onTap: () {
+                        dispatch(SelectInteractionAction(item.id));
+                      },
+                      title: Text(
+                        item.id,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: Text(
+                        item.availableSubTypes.isEmpty
+                            ? 'No Action'
+                            : '${item.eventType} (${item.eventSubtype}) -> ${item.action}',
+                      ),
                     ),
                   ),
                 );

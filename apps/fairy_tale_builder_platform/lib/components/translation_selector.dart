@@ -32,7 +32,6 @@ class TranslationSelector extends StatelessWidget {
           label: label,
           // hintText: '$textKey: NOT_FOUND',
           hintText: textKey,
-          autovalidateMode: AutovalidateMode.always,
           initialValue: textKey == null
               ? null
               : DropdownItem(
@@ -48,9 +47,11 @@ class TranslationSelector extends StatelessWidget {
                 return 'Translation not found!';
               }
             }
-            if (value != null && value.value.isNotEmpty) {
-              if (translations[value.value] == null) {
-                return 'Translation not found!';
+            if (value?.value != 'empty') {
+              if (value != null && value.value.isNotEmpty) {
+                if (translations[value.value] == null) {
+                  return 'Translation not found!';
+                }
               }
             }
             return null;

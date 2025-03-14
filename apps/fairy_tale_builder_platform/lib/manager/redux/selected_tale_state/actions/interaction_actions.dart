@@ -41,6 +41,8 @@ class SelectInteractionAction extends DefaultAction {
 }
 
 class AddInteractionAction extends DefaultAction {
+  late final TaleInteraction _newInteraction;
+
   @override
   AppState? reduce() {
     final page = selectedTaleState.selectedPage;
@@ -48,19 +50,27 @@ class AddInteractionAction extends DefaultAction {
       return null;
     }
 
-    final newInteraction = TaleInteraction.newInteraction(
+    _newInteraction = TaleInteraction.newInteraction(
       id: UUID.v4(),
       talePageId: page.id,
     );
 
-    final newInteractions = [...selectedTaleState.interactions, newInteraction];
+    final newInteractions = [
+      ...selectedTaleState.interactions,
+      _newInteraction
+    ];
 
     return state.copyWith(
       selectedTaleState: selectedTaleState.copyWith(
-        selectedInteractionId: newInteraction.id,
         interactions: newInteractions,
       ),
     );
+  }
+
+  @override
+  void after() {
+    dispatch(SelectInteractionAction(_newInteraction.id));
+    super.after();
   }
 }
 

@@ -99,35 +99,48 @@ class _InteractionObjectComponentState
                   //todo: show toast select item first
                 }
               },
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 100),
-                width: interaction.size.width,
-                height: interaction.size.height,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: isSelected
-                      ? Border.all(color: Colors.red, width: 2)
-                      : Border.all(color: Colors.grey, width: 2),
-                  boxShadow: [
-                    BoxShadow(
-                      color: (isSelected ? Colors.red : Colors.grey)
-                          .withAlpha(100),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                    ),
-                  ],
+              child: _banner(
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 100),
+                  width: interaction.size.width,
+                  height: interaction.size.height,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: isSelected
+                        ? Border.all(color: Colors.red, width: 2)
+                        : Border.all(color: Colors.grey, width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: (isSelected ? Colors.red : Colors.grey)
+                            .withAlpha(100),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: interaction.metadata.hasImage
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(interaction.metadata.imageUrl),
+                        )
+                      : null,
                 ),
-                child: interaction.metadata.hasImage
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(interaction.metadata.imageUrl),
-                      )
-                    : null,
               ),
             ),
           ),
         );
       },
     );
+  }
+
+  Widget _banner(Widget child) {
+    if (interaction.isNew) {
+      return Badge(
+        label: const Text('New'),
+        isLabelVisible: interaction.isNew,
+        child: child,
+      );
+    }
+    return child;
   }
 }
