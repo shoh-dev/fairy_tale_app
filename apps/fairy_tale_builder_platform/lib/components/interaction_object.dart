@@ -1,7 +1,8 @@
-import 'package:device_preview/device_preview.dart';
+import 'package:fairy_tale_builder_platform/components/dialogs/error.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/interaction_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
@@ -40,7 +41,7 @@ class _InteractionObjectComponentState
       },
       builder: (context, dispatch, selectedInteraction) {
         final isSelected = selectedInteraction?.id == interaction.id;
-        final device = Devices.ios.iPhoneSE;
+        final device = Sizes.device;
         final deviceSize = device.screenSize;
         return AnimatedPositioned(
           duration: const Duration(milliseconds: 100),
@@ -84,12 +85,19 @@ class _InteractionObjectComponentState
                       }
                     },
               onPanEnd: (_) {
-                dispatch(
-                  UpdateInteractionAction(
-                    initialdx: _position.dx,
-                    initialdy: _position.dy,
-                  ),
-                );
+                if (isSelected) {
+                  dispatch(
+                    UpdateInteractionAction(
+                      initialdx: _position.dx,
+                      initialdy: _position.dy,
+                    ),
+                  );
+                }
+              },
+              onPanStart: (details) {
+                if (!isSelected) {
+                  //todo: show toast select item first
+                }
               },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 100),

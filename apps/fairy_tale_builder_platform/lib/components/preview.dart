@@ -1,8 +1,10 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:fairy_tale_builder_platform/components/page_background.dart';
 import 'package:fairy_tale_builder_platform/components/translator_component.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
@@ -18,81 +20,74 @@ class Preview extends StatelessWidget
     Dispatcher<AppState> dispatch,
     (Tale, TalePage?, List<TaleInteraction>) model,
   ) {
-    final device = Devices.ios.iPhone13;
+    final device = Sizes.device;
     final tale = model.$1;
     final page = model.$2;
     final interactions = model.$3;
 
-    return DeviceFrame(
-      orientation:
-          tale.isPortrait ? Orientation.portrait : Orientation.landscape,
-      device: device,
-      screen: page == null
-          ? Center(
-              child: Text(
-                'No page selected',
-                style: context.textTheme.titleLarge,
-              ),
-            )
-          : Stack(
-              children: [
-                //image
-                Positioned.fill(
-                  child: page.metadata.hasBackgroundImage
-                      ? Image.network(
-                          page.metadata.backgroundImageUrl,
-                          fit: BoxFit.cover,
-                        )
-                      : Placeholder(
-                          child: Center(
-                            child: Text(
-                              'No background image',
-                              style: context.textTheme.titleLarge,
-                            ),
-                          ),
-                        ),
+    return Hero(
+      tag: page?.id ?? '-',
+      child: DeviceFrame(
+        orientation:
+            tale.isPortrait ? Orientation.portrait : Orientation.landscape,
+        device: device,
+        screen: page == null
+            ? Center(
+                child: Text(
+                  'No page selected',
+                  style: context.textTheme.titleLarge,
                 ),
-
-                for (final interaction in interactions)
-                  //tale object
-                  Positioned(
-                    width: interaction.size.width,
-                    height: interaction.size.height,
-                    left: interaction.currentPosition.dx,
-                    top: interaction.currentPosition.dy,
-                    child: Translator(
-                      toTranslate: [interaction.hintKey],
-                      builder: (translatedValue) {
-                        return Tooltip(
-                          triggerMode: TooltipTriggerMode.longPress,
-                          message: translatedValue[0],
-                          showDuration: const Duration(seconds: 5),
-                          child: Container(
-                            width: interaction.size.width,
-                            height: interaction.size.height,
-                            decoration: !interaction.metadata.hasImage
-                                ? BoxDecoration(
-                                    border: Border.all(),
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withAlpha(100),
-                                        blurRadius: 10,
-                                        spreadRadius: 2,
-                                      ),
-                                    ],
-                                  )
-                                : null,
-                            child: interaction.metadata.hasImage
-                                ? Image.network(interaction.metadata.imageUrl)
-                                : const SizedBox(),
-                          ),
-                        );
-                      },
+              )
+            : Stack(
+                children: [
+                  //image
+                  Positioned.fill(
+                    child: PageBackground(
+                      url: page.metadata.backgroundImageUrl,
                     ),
                   ),
-              ],
-            ),
+
+                  for (final interaction in interactions)
+                    //tale object
+                    Positioned(
+                      width: interaction.size.width,
+                      height: interaction.size.height,
+                      left: interaction.currentPosition.dx,
+                      top: interaction.currentPosition.dy,
+                      child: Translator(
+                        toTranslate: [interaction.hintKey],
+                        builder: (translatedValue) {
+                          return Tooltip(
+                            triggerMode: TooltipTriggerMode.longPress,
+                            message: translatedValue[0],
+                            showDuration: const Duration(seconds: 5),
+                            child: Container(
+                              width: interaction.size.width,
+                              height: interaction.size.height,
+                              decoration: !interaction.metadata.hasImage
+                                  ? BoxDecoration(
+                                      border: Border.all(),
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withAlpha(100),
+                                          blurRadius: 10,
+                                          spreadRadius: 2,
+                                        ),
+                                      ],
+                                    )
+                                  : null,
+                              child: interaction.metadata.hasImage
+                                  ? Image.network(interaction.metadata.imageUrl)
+                                  : const SizedBox(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                ],
+              ),
+      ),
     );
   }
 
@@ -106,25 +101,73 @@ class Preview extends StatelessWidget
   }
 
   static Future<void> dialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Row(
-            children: [
-              const Text('Page Preview'),
-              const Spacer(),
-              ButtonComponent.iconOutlined(
-                icon: Icons.close_rounded,
-                onPressed: Navigator.of(context).pop,
-              ),
-            ],
-          ),
-          content: const Preview(),
-        );
-      },
+    return Navigator.push<void>(
+      context,
+      HeroDialogRoute(
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                const Text('Page Preview'),
+                const Spacer(),
+                ButtonComponent.iconOutlined(
+                  icon: Icons.close_rounded,
+                  onPressed: Navigator.of(context).pop,
+                ),
+              ],
+            ),
+            content: const Preview(),
+          );
+        },
+      ),
     );
   }
+}
+
+class HeroDialogRoute<T> extends PageRoute<T> {
+  HeroDialogRoute({required this.builder});
+
+  final WidgetBuilder builder;
+
+  @override
+  bool get opaque => false;
+
+  @override
+  bool get barrierDismissible => true;
+
+  @override
+  Duration get transitionDuration => const Duration(milliseconds: 300);
+
+  @override
+  bool get maintainState => true;
+
+  @override
+  Color get barrierColor => Colors.black54;
+
+  @override
+  Widget buildTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return FadeTransition(
+      opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+      child: child,
+    );
+  }
+
+  @override
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
+    return builder(context);
+  }
+
+  @override
+  String? get barrierLabel => 'Preview';
 }
 
 

@@ -13,7 +13,6 @@ class TalepagePagesList extends StatelessWidget
   const TalepagePagesList({super.key});
 
   @override
-  @override
   Widget builder(
     BuildContext context,
     Dispatcher<AppState> dispatch,

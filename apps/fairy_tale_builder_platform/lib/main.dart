@@ -1,6 +1,7 @@
 import 'package:fairy_tale_builder_platform/manager/redux.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/homepage/homepage.dart';
+import 'package:fairy_tale_builder_platform/pages/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -73,16 +74,23 @@ class App extends StatelessWidget {
     // Zinc-400: #A1A1AA
     // Zinc-500: #71717A
 
+    //new design
     return MaterialApp.router(
       title: 'Tale Builder',
       theme: appTheme.lightTheme,
       darkTheme: appTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       routerConfig: _router,
-      // navigatorKey: NavigateAction.navigatorKey,
-      // home: UserExceptionDialog<AppState>(
-      // child: const SplashPage(),
-      // ),
     );
+
+    // //old design
+    // return MaterialApp(
+    //   title: 'Tale Builder',
+    //   theme: appTheme.lightTheme,
+    //   darkTheme: appTheme.darkTheme,
+    //   debugShowCheckedModeBanner: false,
+    //   navigatorKey: NavigateAction.navigatorKey,
+    //   home: const SplashPage(),
+    // );
   }
 }

@@ -30,7 +30,7 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
 
         VoidCallback? onTap() {
           if (interaction.eventTypeEnum == TaleInteractionEventType.tap) {
-            if (interaction.eventSubTypeEnum == TapType.shortPress) {
+            if (interaction.eventSubTypeEnum == TapType.short) {
               return handleInteraction;
             }
           }
@@ -39,7 +39,7 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
 
         VoidCallback? onDoubleTap() {
           if (interaction.eventTypeEnum == TaleInteractionEventType.tap) {
-            if (interaction.eventSubTypeEnum == TapType.doubleTap) {
+            if (interaction.eventSubTypeEnum == TapType.double) {
               return handleInteraction;
             }
           }
@@ -48,7 +48,7 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
 
         VoidCallback? onLongPress() {
           if (interaction.eventTypeEnum == TaleInteractionEventType.tap) {
-            if (interaction.eventSubTypeEnum == TapType.longPress) {
+            if (interaction.eventSubTypeEnum == TapType.long) {
               return handleInteraction;
             }
           }

@@ -4,6 +4,7 @@ import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/page_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
@@ -21,7 +22,8 @@ class Pagecard extends StatelessWidget with StateConnectorMixin<(bool, Tale)> {
     Dispatcher<AppState> dispatch,
     (bool, Tale) model,
   ) {
-    final device = Devices.ios.iPhone13;
+    final device = Sizes.device;
+
     return HoverWidget(
       onTap: () {
         dispatch(SelectPageAction(page.id));

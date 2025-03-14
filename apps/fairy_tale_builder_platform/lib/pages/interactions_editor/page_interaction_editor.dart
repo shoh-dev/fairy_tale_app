@@ -1,13 +1,13 @@
 import 'dart:developer';
 
 import 'package:device_preview/device_preview.dart';
+import 'package:fairy_tale_builder_platform/components/interaction_object.dart';
 import 'package:fairy_tale_builder_platform/components/orientation_selector.dart';
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/interaction_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/pages/interactions_editor/components/interaction_object.dart';
 import 'package:fairy_tale_builder_platform/pages/interactions_editor/components/left_sidebar.dart';
 import 'package:fairy_tale_builder_platform/pages/interactions_editor/components/right_sidebar.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/tale_preview_dialog.dart';
