@@ -12,7 +12,12 @@ import 'package:shared/shared.dart';
 
 class Preview extends StatelessWidget
     with StateConnectorMixin<(Tale, TalePage?, List<TaleInteraction>)> {
-  const Preview({super.key});
+  const Preview({
+    super.key,
+    this.page,
+  });
+
+  final TalePage? page;
 
   @override
   Widget builder(
@@ -93,6 +98,15 @@ class Preview extends StatelessWidget
 
   @override
   (Tale, TalePage?, List<TaleInteraction>) selector(AppState state) {
+    if (page != null) {
+      return (
+        selectedTale(state),
+        page,
+        state.selectedTaleState.interactions
+            .where((element) => element.talePageId == page?.id)
+            .toList(),
+      );
+    }
     return (
       selectedTale(state),
       selectedPage(state),
