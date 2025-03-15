@@ -12,10 +12,12 @@ class ImageSelectorComponent extends StatelessWidget {
     super.key,
     this.imagePath = '',
     this.onImageSelected,
+    this.onImageRemoved,
   });
 
   final String imagePath;
   final ValueChanged<PlatformFile>? onImageSelected;
+  final VoidCallback? onImageRemoved;
   final String title;
 
   @override
@@ -25,16 +27,16 @@ class ImageSelectorComponent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title, style: context.textTheme.bodyMedium),
-        // if (imagePath.isNotEmpty)
-        //   Image.network(
-        //     '$imagePath?${DateTime.now().millisecondsSinceEpoch}',
-        //     width: 200,
-        //     height: 200,
-        //     fit: BoxFit.cover,
-        //     errorBuilder: (context, error, stackTrace) {
-        //       return const Placeholder();
-        //     },
-        //   ),
+        if (imagePath.isNotEmpty)
+          Image.network(
+            '$imagePath?${DateTime.now().millisecondsSinceEpoch}',
+            width: 200,
+            height: 200,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return const Placeholder();
+            },
+          ),
         ButtonComponent.primary(
           onPressed: onImageSelected == null
               ? null
@@ -62,11 +64,10 @@ class ImageSelectorComponent extends StatelessWidget {
           icon: Icons.image_rounded,
           text: imagePath.isEmpty ? 'Select Image' : 'Replace Image',
         ),
-
-        //todo:
-        const ButtonComponent.destructive(
+        ButtonComponent.destructive(
           text: 'Remove Image',
           icon: Icons.delete_rounded,
+          onPressed: imagePath.isNotEmpty ? onImageRemoved : null,
         ),
       ],
     );

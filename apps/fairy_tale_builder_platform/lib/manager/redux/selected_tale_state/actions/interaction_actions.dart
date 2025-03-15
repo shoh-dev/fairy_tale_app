@@ -4,6 +4,7 @@ import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/uuid.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
 
 class ResetInteractionAction extends DefaultAction {
@@ -92,6 +93,8 @@ class UpdateInteractionAction extends DefaultAction {
   final String? imageUrl;
   final PlatformFile? audioFile;
   final String? audioUrl;
+  final bool? use;
+  final String? id;
 
   UpdateInteractionAction({
     /// when passed as true, re renders all StoreConnectors using selectedTale
@@ -111,11 +114,28 @@ class UpdateInteractionAction extends DefaultAction {
     this.imageUrl,
     this.audioFile,
     this.audioUrl,
+    this.use,
+    this.id,
   });
 
   @override
   AppState? reduce() {
-    final interaction = selectedTaleState.selectedInteraction;
+    if (use == false) {
+      final newInteractions = selectedTaleState.interactions.map((e) {
+        return e.unuse();
+      });
+
+      return state.copyWith(
+        selectedTaleState: selectedTaleState.copyWith(
+          interactions: newInteractions.toList(),
+        ),
+      );
+    }
+
+    final interaction =
+        selectedTaleState.interactions.firstWhereOrNull((e) => e.id == id) ??
+            selectedTaleState.selectedInteraction;
+
     if (interaction == null) {
       return null;
     }
@@ -174,14 +194,16 @@ class UpdateInteractionAction extends DefaultAction {
       );
     }
 
+    newInteraction =
+        newInteraction.updateCurrentPosition(newInteraction.initialPosition);
+
     //2. update selected page interactions with new selected interaction
     final newInteractions = selectedTaleState.interactions.map((e) {
       if (e.id == interaction.id) {
-        return newInteraction.copyWith(
-          metadata: newInteraction.metadata.copyWith(
-            currentPosition: newInteraction.metadata.initialPosition,
-          ),
-        );
+        if (use == true) {
+          return newInteraction.use();
+        }
+        return newInteraction;
       }
       return e;
     });

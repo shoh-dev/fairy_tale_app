@@ -1,4 +1,4 @@
-import 'package:fairy_tale_builder_platform/components/dialogs/error.dart';
+import 'package:fairy_tale_builder_platform/components/translator_component.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/interaction_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
@@ -7,21 +7,39 @@ import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
 
-class InteractionObjectComponent extends StatefulWidget {
-  const InteractionObjectComponent({required this.interaction, super.key});
+class InteractionObject extends StatelessWidget {
+  const InteractionObject({
+    required this.interaction,
+    super.key,
+    this.draggable = false,
+  });
+
+  final TaleInteraction interaction;
+  final bool draggable;
+
+  @override
+  Widget build(BuildContext context) {
+    if (draggable) {
+      return _DraggableObject(interaction: interaction);
+    }
+    return _NotDraggableObject(interaction: interaction);
+  }
+}
+
+//Draggable
+class _DraggableObject extends StatefulWidget {
+  const _DraggableObject({required this.interaction});
 
   final TaleInteraction interaction;
 
   @override
-  State<InteractionObjectComponent> createState() =>
-      _InteractionObjectComponentState();
+  State<_DraggableObject> createState() => _DraggableObjectState();
 }
 
-class _InteractionObjectComponentState
-    extends State<InteractionObjectComponent> {
+class _DraggableObjectState extends State<_DraggableObject> {
   TaleInteraction get interaction => widget.interaction;
 
-  late Offset _position = interaction.initialPosition.toOffset();
+  late Offset _position = interaction.currentPosition.toOffset();
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +50,9 @@ class _InteractionObjectComponentState
           return;
         }
         if (interaction.id == widget.interaction.id) {
-          if (_position != interaction.initialPosition.toOffset()) {
+          if (_position != interaction.currentPosition.toOffset()) {
             setState(() {
-              _position = viewModel.initialPosition.toOffset();
+              _position = viewModel.currentPosition.toOffset();
             });
           }
         }
@@ -141,6 +159,126 @@ class _InteractionObjectComponentState
         child: child,
       );
     }
+    return child;
+  }
+}
+
+//Not draggable
+class _NotDraggableObject extends StatelessWidget {
+  const _NotDraggableObject({
+    required this.interaction,
+  });
+
+  final TaleInteraction interaction;
+
+  @override
+  Widget build(BuildContext context) {
+    if (interaction.isUsed) {
+      return _Child(interaction: interaction);
+    }
+
+    return DispatchConnector<AppState>(
+      builder: (context, dispatch) {
+        return AnimatedPositioned(
+          width: interaction.size.width,
+          height: interaction.size.height,
+          left: interaction.currentPosition.dx,
+          top: interaction.currentPosition.dy,
+          duration: Duration(
+            milliseconds: interaction.animationDuration,
+          ),
+          child: _Child(interaction: interaction, position: false),
+        );
+      },
+    );
+  }
+}
+
+class _Child extends StatelessWidget {
+  const _Child({
+    required this.interaction,
+    this.position = true,
+  });
+
+  final TaleInteraction interaction;
+  final bool position;
+
+  @override
+  Widget build(BuildContext context) {
+    return _positioned(
+      Translator(
+        toTranslate: [interaction.hintKey],
+        builder: (translatedValue) {
+          return Tooltip(
+            triggerMode: TooltipTriggerMode.longPress,
+            message: translatedValue[0],
+            showDuration: const Duration(seconds: 5),
+            child: Container(
+              width: interaction.size.width,
+              height: interaction.size.height,
+              decoration: !interaction.metadata.hasImage
+                  ? BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(100),
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    )
+                  : null,
+              child: interaction.metadata.hasImage
+                  ? Image.network(interaction.metadata.imageUrl)
+                  : StreamBuilder(
+                      stream: interaction.audioPlayerService.playerStateStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.data != null) {
+                          final isPlaying = snapshot.data!.processingState ==
+                                  ProcessingState.ready &&
+                              snapshot.data!.playing == true;
+                          final isBuffering = snapshot.data!.processingState ==
+                              ProcessingState.buffering;
+                          if (isBuffering) {
+                            return const Center(
+                              child: CircularProgressIndicator.adaptive(),
+                            );
+                          }
+                          if (isPlaying) {
+                            return const Tooltip(
+                              triggerMode: TooltipTriggerMode.tap,
+                              message: 'Background audio is playing',
+                              child:
+                                  Icon(Icons.audiotrack, color: Colors.white),
+                            );
+                          }
+                        }
+                        return const SizedBox();
+                      },
+                    ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _positioned(Widget child) {
+    if (position) {
+      return AnimatedPositioned(
+        // curve: Curves.ease, //todo: get curve from db
+        width: interaction.size.width,
+        height: interaction.size.height,
+        left: interaction.currentPosition.dx,
+        top: interaction.currentPosition.dy,
+        duration: Duration(
+          milliseconds: interaction.animationDuration,
+        ),
+        child: child,
+      );
+    }
+
     return child;
   }
 }

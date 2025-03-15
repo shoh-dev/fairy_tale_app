@@ -135,7 +135,7 @@ class _Body extends StatelessWidget {
 
               for (final interaction in state.interactionsForPage)
                 //tale object
-                InteractionObjectComponent(interaction: interaction),
+                InteractionObject(interaction: interaction),
             ],
           ),
         );

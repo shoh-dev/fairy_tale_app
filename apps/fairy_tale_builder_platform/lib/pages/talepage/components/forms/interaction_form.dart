@@ -177,6 +177,27 @@ class __FormState extends State<_Form>
       );
     }
 
+    Widget aspectButtonFinalPosition(bool isX) {
+      return ButtonComponent.iconOutlined(
+        tooltip: 'Make X and Y equal',
+        icon: Icons.aspect_ratio_rounded,
+        onPressed:
+            //function to make with and height equal to width
+            isNumber(isX ? _finaldxCtrl : _finaldyCtrl)
+                ? () => dispatch(
+                      UpdateInteractionAction(
+                        finaldx: num.parse(
+                          isX ? _finaldxCtrl.text : _finaldyCtrl.text,
+                        ),
+                        finaldy: num.parse(
+                          isX ? _finaldxCtrl.text : _finaldyCtrl.text,
+                        ),
+                      ),
+                    )
+                : null,
+      );
+    }
+
     void onSave() {
       if (formKey.currentState?.validate() == true) {
         if (interaction.actionEnum == TaleInteractionAction.playSound &&
@@ -321,6 +342,46 @@ class __FormState extends State<_Form>
               ),
             ],
           ),
+          if (interaction.actionEnum == TaleInteractionAction.move) ...[
+            space(),
+            Row(
+              spacing: 8,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: TextFieldComponent(
+                    label: 'Final Position X',
+                    maxLines: 1,
+                    controller: _finaldxCtrl,
+                    autovalidateMode: AutovalidateMode.always,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Final position X can't be empty";
+                      }
+                      return null;
+                    },
+                    suffixWidgets: (q) => [
+                      aspectButtonFinalPosition(true),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: TextFieldComponent(
+                    label: 'Final Position Y',
+                    maxLines: 1,
+                    controller: _finaldyCtrl,
+                    autovalidateMode: AutovalidateMode.always,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Final position Y can't be empty";
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
           space(),
           TextFieldComponent(
             label: 'Animation Duration (milliseconds)',

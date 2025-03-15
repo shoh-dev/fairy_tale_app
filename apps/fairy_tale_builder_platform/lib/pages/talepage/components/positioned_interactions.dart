@@ -63,7 +63,10 @@ class _TalepagePositionedInteractionsState
                   ),
 
                   for (final interaction in interactions)
-                    InteractionObjectComponent(interaction: interaction),
+                    InteractionObject(
+                      interaction: interaction,
+                      draggable: true,
+                    ),
                 ],
               ),
       ),

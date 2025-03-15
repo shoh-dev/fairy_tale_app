@@ -1,6 +1,6 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:fairy_tale_builder_platform/components/interaction_object.dart';
 import 'package:fairy_tale_builder_platform/components/page_background.dart';
-import 'package:fairy_tale_builder_platform/components/translator_component.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
@@ -54,42 +54,7 @@ class Preview extends StatelessWidget
 
                   for (final interaction in interactions)
                     //tale object
-                    Positioned(
-                      width: interaction.size.width,
-                      height: interaction.size.height,
-                      left: interaction.currentPosition.dx,
-                      top: interaction.currentPosition.dy,
-                      child: Translator(
-                        toTranslate: [interaction.hintKey],
-                        builder: (translatedValue) {
-                          return Tooltip(
-                            triggerMode: TooltipTriggerMode.longPress,
-                            message: translatedValue[0],
-                            showDuration: const Duration(seconds: 5),
-                            child: Container(
-                              width: interaction.size.width,
-                              height: interaction.size.height,
-                              decoration: !interaction.metadata.hasImage
-                                  ? BoxDecoration(
-                                      border: Border.all(),
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withAlpha(100),
-                                          blurRadius: 10,
-                                          spreadRadius: 2,
-                                        ),
-                                      ],
-                                    )
-                                  : null,
-                              child: interaction.metadata.hasImage
-                                  ? Image.network(interaction.metadata.imageUrl)
-                                  : const SizedBox(),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                    InteractionObject(interaction: interaction),
                 ],
               ),
       ),

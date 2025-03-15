@@ -36,22 +36,8 @@ class TalePageComponent extends StatelessWidget {
 
           for (final interaction in interactions)
             //tale object
-            Builder(
-              builder: (context) {
-                return AnimatedPositioned(
-                  // curve: Curves.ease, //todo: get curve from db
-                  duration: Duration(
-                    milliseconds: interaction.animationDuration,
-                  ),
-                  width: interaction.size.width,
-                  height: interaction.size.height,
-                  left: interaction.currentPosition.dx,
-                  top: interaction.currentPosition.dy,
-                  child: SelectedTaleInteractionObjectComponent(
-                    interaction: interaction,
-                  ),
-                );
-              },
+            SelectedTaleInteractionObjectComponent(
+              interaction: interaction,
             ),
         ],
       ),

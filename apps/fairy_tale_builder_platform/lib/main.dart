@@ -1,7 +1,6 @@
 import 'package:fairy_tale_builder_platform/manager/redux.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/homepage/homepage.dart';
-import 'package:fairy_tale_builder_platform/pages/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myspace_data/myspace_data.dart';

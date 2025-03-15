@@ -81,22 +81,33 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
           return null;
         }
 
-        return SimpleGestureDetector(
-          onTap: onTap(),
-          onDoubleTap: onDoubleTap(),
-          onLongPress: onLongPress(),
-          onHorizontalSwipe: (direction) => onHorizontalSwipe(direction) != null
-              ? onHorizontalSwipe(direction)!(direction)
-              : null,
-          onVerticalSwipe: (direction) => onVerticalSwipe(direction) != null
-              ? onVerticalSwipe(direction)!(direction)
-              : null,
-          swipeConfig: const SimpleSwipeConfig(
-            horizontalThreshold: 40,
-            verticalThreshold: 40,
-            swipeDetectionBehavior: SwipeDetectionBehavior.singular,
+        return AnimatedPositioned(
+          // curve: Curves.ease, //todo: get curve from db
+          width: interaction.size.width,
+          height: interaction.size.height,
+          left: interaction.currentPosition.dx,
+          top: interaction.currentPosition.dy,
+          duration: Duration(
+            milliseconds: interaction.animationDuration,
           ),
-          child: _Child(interaction: interaction),
+          child: SimpleGestureDetector(
+            onTap: onTap(),
+            onDoubleTap: onDoubleTap(),
+            onLongPress: onLongPress(),
+            onHorizontalSwipe: (direction) =>
+                onHorizontalSwipe(direction) != null
+                    ? onHorizontalSwipe(direction)!(direction)
+                    : null,
+            onVerticalSwipe: (direction) => onVerticalSwipe(direction) != null
+                ? onVerticalSwipe(direction)!(direction)
+                : null,
+            swipeConfig: const SimpleSwipeConfig(
+              horizontalThreshold: 40,
+              verticalThreshold: 40,
+              swipeDetectionBehavior: SwipeDetectionBehavior.singular,
+            ),
+            child: _Child(interaction: interaction),
+          ),
         );
       },
     );

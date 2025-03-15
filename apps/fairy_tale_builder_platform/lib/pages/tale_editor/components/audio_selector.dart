@@ -14,12 +14,14 @@ class AudioSelectorComponent extends StatelessWidget {
     super.key,
     this.audioPath = '',
     this.onAudioSelected,
+    this.onAudioRemoved,
   });
 
   final String audioPath;
   final ValueChanged<PlatformFile>? onAudioSelected;
   final String title;
   final AudioPlayerService audioPlayer;
+  final VoidCallback? onAudioRemoved;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,6 @@ class AudioSelectorComponent extends StatelessWidget {
               );
             },
           ),
-
         ButtonComponent.primary(
           onPressed: onAudioSelected == null
               ? null
@@ -88,11 +89,10 @@ class AudioSelectorComponent extends StatelessWidget {
           icon: Icons.audiotrack_rounded,
           text: audioPath.isEmpty ? 'Select Audio' : 'Replace Audio',
         ),
-
-        //todo:
-        const ButtonComponent.destructive(
+        ButtonComponent.destructive(
           text: 'Remove Audio',
           icon: Icons.delete_rounded,
+          onPressed: audioPath.isNotEmpty ? onAudioRemoved : null,
         ),
       ],
     );

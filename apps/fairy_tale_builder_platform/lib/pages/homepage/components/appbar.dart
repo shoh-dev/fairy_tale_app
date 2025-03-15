@@ -65,7 +65,7 @@ class HomepageAppBar extends StatelessWidget with DispatchConnectorMixin {
           text: 'Create Tale',
           icon: Icons.add,
           onPressed: () {
-            TalepageRoute(id: 'new').push<void>(context);
+            TalepageRoute(id: 'new').go(context);
           },
         ),
         const SizedBox(width: 8),

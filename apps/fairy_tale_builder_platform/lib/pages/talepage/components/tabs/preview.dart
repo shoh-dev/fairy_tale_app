@@ -1,5 +1,6 @@
 import 'package:fairy_tale_builder_platform/components/preview.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/interaction_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
@@ -36,14 +37,29 @@ class TalepagePreview extends StatelessWidget
         return Stack(
           children: [
             Preview(page: page),
-            Positioned(
+            // Positioned.fill(
+            //   bottom: 24,
+            //   right: 56,
+            //   child: Align(
+            //     alignment: Alignment.bottomRight,
+            //     child: ButtonComponent.iconOutlined(
+            //       tooltip: 'Reset used',
+            //       icon: Icons.restore_rounded,
+            //       onPressed: () {
+            //         dispatch(UpdateInteractionAction(use: false));
+            //       },
+            //     ),
+            //   ),
+            // ),
+            Positioned.fill(
               bottom: 28,
-              left: (Sizes.device.screenSize.width / 2) - 26,
-              width: 50,
-              child: Text(
-                page.pageNumber.toString(),
-                textAlign: TextAlign.center,
-                style: context.textTheme.headlineSmall,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  page.pageNumber.toString(),
+                  textAlign: TextAlign.center,
+                  style: context.textTheme.headlineSmall,
+                ),
               ),
             ),
           ],
