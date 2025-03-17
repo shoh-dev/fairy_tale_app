@@ -6,8 +6,12 @@ import 'package:shared/src/repositories/tale/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class TaleRepository {
-  ResultFuture<List<Tale>> getAllTales();
-  ResultFuture<Tale> getTaleById(String taleId);
+  ResultFuture<List<Tale>> getTales({
+    String searchQuery = '',
+  });
+  ResultFuture<(Tale, List<TalePage>, List<TaleInteraction>)> getTaleById(
+    String taleId,
+  );
   ResultFuture<void> saveTaleLocalization({
     required String taleId,
     required Map<String, Map<String, String>> translations,
@@ -22,6 +26,7 @@ abstract class TaleRepository {
   });
   ResultFuture<void> deleteTalePage(String id);
   ResultFuture<void> deleteTale(String id);
+  ResultFuture<void> deleteInteractionAction(String id);
 }
 
 class TaleRepositoryImpl implements TaleRepository {
@@ -30,21 +35,29 @@ class TaleRepositoryImpl implements TaleRepository {
   const TaleRepositoryImpl(this._supabase);
 
   @override
-  ResultFuture<List<Tale>> getAllTales() async {
+  ResultFuture<List<Tale>> getTales({
+    String searchQuery = '',
+  }) async {
     try {
-      final response = await _supabase
-          .from('tales')
-          .select('id, title, description, metadata')
-          .order('created_at');
+      var response =
+          _supabase.from('tales').select('id, title, description, metadata');
 
-      return Result.ok(response.map(Tale.fromJson).toList());
+      if (searchQuery.isNotEmpty) {
+        response = response.like('title', '%$searchQuery%');
+      }
+
+      return Result.ok(
+        (await response.order('created_at')).map(Tale.fromJson).toList(),
+      );
     } catch (e) {
       return Result.error(ErrorX(e));
     }
   }
 
   @override
-  ResultFuture<Tale> getTaleById(String taleId) async {
+  ResultFuture<(Tale, List<TalePage>, List<TaleInteraction>)> getTaleById(
+    String taleId,
+  ) async {
     try {
       final response = await _supabase
           .from('tales')
@@ -52,7 +65,21 @@ class TaleRepositoryImpl implements TaleRepository {
           .eq('id', taleId)
           .single();
 
-      return Result.ok(Tale.fromJson(response));
+      final tale = Tale.fromJson(response);
+      final interactions = <TaleInteraction>[];
+      final pages = (response['pages'] as List).map((e) {
+        final page = e as Map<String, dynamic>;
+        if (page['interactions'] != null) {
+          interactions.addAll(
+            (page['interactions'] as List).map(
+              (e) => TaleInteraction.fromJson(e as Map<String, dynamic>),
+            ),
+          );
+        }
+        return TalePage.fromJson(page);
+      }).toList();
+
+      return Result.ok((tale, pages, interactions));
     } catch (e) {
       return Result.error(ErrorX(e));
     }
@@ -154,6 +181,16 @@ class TaleRepositoryImpl implements TaleRepository {
     try {
       await _supabase.from('tales').delete().eq('id', id);
 
+      return const Result.ok(null);
+    } catch (e) {
+      return Result.error(ErrorX(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> deleteInteractionAction(String id) async {
+    try {
+      await _supabase.from('interactions').delete().eq('id', id);
       return const Result.ok(null);
     } catch (e) {
       return Result.error(ErrorX(e));

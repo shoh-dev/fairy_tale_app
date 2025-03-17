@@ -1,104 +1,12 @@
+import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
-import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale_interaction.freezed.dart';
-
-/// Enum for the different types of interaction events
-enum TaleInteractionEventType { swipe, tap }
-
-extension TaleInteractionEventTypeExt on TaleInteractionEventType {
-  /// Returns the name of the event type
-  String get name {
-    switch (this) {
-      case TaleInteractionEventType.swipe:
-        return 'swipe';
-      case TaleInteractionEventType.tap:
-        return 'tap';
-    }
-  }
-}
-
-/// Enum for the different types of interaction events
-
-sealed class TaleInteractionSubType {
-  String name();
-  bool isSwipe();
-  bool isTap();
-}
-
-enum SwipeType implements TaleInteractionSubType {
-  any,
-  right,
-  left,
-  up,
-  down;
-
-  @override
-  bool isSwipe() => true;
-
-  @override
-  bool isTap() => false;
-
-  @override
-  String name() => toString().split('.').last;
-
-  bool get isVertical =>
-      this == SwipeType.up || this == SwipeType.down || this == SwipeType.any;
-
-  bool get isHorizontal =>
-      this == SwipeType.right ||
-      this == SwipeType.left ||
-      this == SwipeType.any;
-}
-
-enum TapType implements TaleInteractionSubType {
-  shortPress,
-  longPress,
-  doubleTap,
-  ;
-
-  @override
-  bool isSwipe() => false;
-
-  @override
-  bool isTap() => true;
-
-  @override
-  String name() {
-    switch (this) {
-      case TapType.shortPress:
-        return 'short_press';
-      case TapType.longPress:
-        return 'long_press';
-      case TapType.doubleTap:
-        return 'double_tap';
-    }
-  }
-}
-
-final Map<TaleInteractionEventType, List<TaleInteractionSubType>>
-    _eventSubTypesMap = {
-  TaleInteractionEventType.swipe: SwipeType.values,
-  TaleInteractionEventType.tap: TapType.values,
-};
-
-enum TaleInteractionAction {
-  playSound,
-  move,
-}
-
-extension TaleInteractionActionExt on TaleInteractionAction {
-  String get name {
-    switch (this) {
-      case TaleInteractionAction.playSound:
-        return 'play_sound';
-      case TaleInteractionAction.move:
-        return 'move';
-    }
-  }
-}
 
 @freezed
 class TaleInteraction with _$TaleInteraction {
@@ -184,6 +92,8 @@ class TaleInteraction with _$TaleInteraction {
   }
 
   Map<dynamic, dynamic> toJson() {
+    final defModel = TaleInteraction.empty(id: id, talePageId: talePageId);
+
     final json = {
       'id': id,
       'tale_page_id': talePageId,
@@ -191,16 +101,14 @@ class TaleInteraction with _$TaleInteraction {
       'action': action,
       'event_type': eventType,
       'event_subtype': eventSubtype,
-      'animation_duration': animationDuration,
+      'animation_duration': animationDuration == 0
+          ? defModel.animationDuration
+          : animationDuration,
       'hint_key': hintKey,
     }..removeWhere((key, value) => value.toString().isEmpty);
 
     return json;
   }
-
-  // void dispose() {
-  //   // audioPlayerService.dispose();
-  // }
 
   ModelValidation get isValidToSave {
     final error = ModelValidation();
@@ -209,26 +117,26 @@ class TaleInteraction with _$TaleInteraction {
       error.addAll(metadata.isValidToSave);
     }
     if (eventTypeEnum == null) {
-      error['tale.interaction_$id.event_type'] = ['Event type is required'];
+      error['tale.interaction.$id.event_type'] = ['Event type is required'];
     }
     if (eventSubTypeEnum == null) {
-      error['tale.interaction_$id.event_subtype'] = [
+      error['tale.interaction.$id.event_subtype'] = [
         'Event subtype is required',
       ];
     }
     if (actionEnum == null) {
-      error['tale.interaction_$id.action'] = ['Action is required'];
+      error['tale.interaction.$id.action'] = ['Action is required'];
     }
     if (actionEnum == TaleInteractionAction.move) {
       if (metadata.finalPosition == null) {
-        error['tale.interaction_$id.final_position'] = [
+        error['tale.interaction.$id.final_position'] = [
           'Final position is required',
         ];
       }
     }
     if (actionEnum == TaleInteractionAction.playSound) {
       if (metadata.audioUrl.isEmpty) {
-        error['tale.interaction_$id.audio_url'] = [
+        error['tale.interaction.$id.audio_url'] = [
           'Audio url is required',
         ];
       }
@@ -317,6 +225,139 @@ class TaleInteraction with _$TaleInteraction {
   }
 
   ResultFuture<void> playAudio() {
-    return audioPlayerService.playFromUrl(metadata.audioUrl);
+    if (Platform.isAndroid || Platform.isIOS) {
+      return audioPlayerService.playFromUrl(metadata.audioUrl);
+    }
+    return Future.value(const Result.ok(null));
+  }
+
+  TaleInteraction use() {
+    if (isUsed) {
+      return this;
+    }
+    if (eventTypeEnum == null) {
+      return this;
+    }
+    if (eventSubTypeEnum == null) {
+      return this;
+    }
+    if (actionEnum == null) {
+      return this;
+    }
+
+    switch (actionEnum!) {
+      case TaleInteractionAction.playSound:
+        if (!metadata.hasAudio) {
+          log('Mission audio!');
+          return this;
+        }
+        unawaited(playAudio());
+        return updateIsUsed(true);
+      case TaleInteractionAction.move:
+        if (metadata.finalPosition == null) {
+          log('Mission final position!');
+          return this;
+        }
+        return updateCurrentPosition(finalPosition!).updateIsUsed(true);
+    }
+  }
+
+  TaleInteraction unuse() {
+    return updateCurrentPosition(initialPosition).updateIsUsed(false);
+  }
+}
+
+/// Enum for the different types of interaction events
+enum TaleInteractionEventType { swipe, tap }
+
+extension TaleInteractionEventTypeExt on TaleInteractionEventType {
+  /// Returns the name of the event type
+  String get name {
+    switch (this) {
+      case TaleInteractionEventType.swipe:
+        return 'swipe';
+      case TaleInteractionEventType.tap:
+        return 'tap';
+    }
+  }
+}
+
+/// Enum for the different types of interaction events
+
+sealed class TaleInteractionSubType {
+  String name();
+  bool isSwipe();
+  bool isTap();
+}
+
+enum SwipeType implements TaleInteractionSubType {
+  any,
+  right,
+  left,
+  up,
+  down;
+
+  @override
+  bool isSwipe() => true;
+
+  @override
+  bool isTap() => false;
+
+  @override
+  String name() => toString().split('.').last;
+
+  bool get isVertical =>
+      this == SwipeType.up || this == SwipeType.down || this == SwipeType.any;
+
+  bool get isHorizontal =>
+      this == SwipeType.right ||
+      this == SwipeType.left ||
+      this == SwipeType.any;
+}
+
+enum TapType implements TaleInteractionSubType {
+  short,
+  long,
+  double,
+  ;
+
+  @override
+  bool isSwipe() => false;
+
+  @override
+  bool isTap() => true;
+
+  @override
+  String name() {
+    switch (this) {
+      case TapType.short:
+        return 'short';
+      case TapType.long:
+        return 'long';
+      case TapType.double:
+        return 'double';
+    }
+  }
+}
+
+final Map<TaleInteractionEventType, List<TaleInteractionSubType>>
+    _eventSubTypesMap = {
+  TaleInteractionEventType.swipe: SwipeType.values,
+  TaleInteractionEventType.tap: TapType.values,
+};
+
+enum TaleInteractionAction {
+  playSound,
+  move,
+}
+
+extension TaleInteractionActionExt on TaleInteractionAction {
+  String get name {
+    switch (this) {
+      case TaleInteractionAction.playSound:
+        return 'play_sound';
+      case TaleInteractionAction.move:
+        return 'move';
+    }
   }
 }

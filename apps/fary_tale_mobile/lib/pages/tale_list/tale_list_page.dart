@@ -1,5 +1,7 @@
 import 'package:fairy_tale_mobile/components/translator_component.dart';
 import 'package:fairy_tale_mobile/manager/redux.dart';
+import 'package:fairy_tale_mobile/manager/redux/tale_list_state/tale_list_action.dart';
+import 'package:fairy_tale_mobile/manager/redux/tale_list_state/tale_list_state.dart';
 import 'package:fairy_tale_mobile/pages/tale_list/selected_tale/selected_tale_page.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -28,7 +30,7 @@ class _Tales extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StateResultConnector<AppState>(
-      selector: (state) => state.taleListState.taleListResult,
+      selector: (state) => state.taleListState.listResult,
       onInitialBuild: (dispatch, viewModel) {
         dispatch(GetTaleListAction());
       },
@@ -58,7 +60,7 @@ class _Loaded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, List<Tale>>(
-      selector: (state) => state.taleListState.taleList,
+      selector: taleList,
       builder: (context, dispatch, taleList) {
         return RefreshIndicator.adaptive(
           onRefresh: () {
@@ -91,11 +93,7 @@ class _Loaded extends StatelessWidget {
                         ),
                       );
                     },
-                    subtitle: TextComponent.any(
-                      translatedValue[1],
-                      // maxLines: 2,
-                      // overflow: TextOverflow.ellipsis,//todo:
-                    ),
+                    subtitle: TextComponent.any(translatedValue[1]),
                   );
                 },
               );

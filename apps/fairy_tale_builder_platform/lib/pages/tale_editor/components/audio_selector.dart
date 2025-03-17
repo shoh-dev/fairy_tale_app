@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:fairy_tale_builder_platform/manager/redux.dart';
@@ -15,12 +14,14 @@ class AudioSelectorComponent extends StatelessWidget {
     super.key,
     this.audioPath = '',
     this.onAudioSelected,
+    this.onAudioRemoved,
   });
 
   final String audioPath;
   final ValueChanged<PlatformFile>? onAudioSelected;
   final String title;
   final AudioPlayerService audioPlayer;
+  final VoidCallback? onAudioRemoved;
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +61,6 @@ class AudioSelectorComponent extends StatelessWidget {
                 },
               );
             },
-          )
-        else
-          const ButtonComponent.outlined(
-            text: 'No Audio Selected',
-            icon: Icons.play_arrow,
           ),
         ButtonComponent.primary(
           onPressed: onAudioSelected == null
@@ -92,6 +88,11 @@ class AudioSelectorComponent extends StatelessWidget {
                 },
           icon: Icons.audiotrack_rounded,
           text: audioPath.isEmpty ? 'Select Audio' : 'Replace Audio',
+        ),
+        ButtonComponent.destructive(
+          text: 'Remove Audio',
+          icon: Icons.delete_rounded,
+          onPressed: audioPath.isNotEmpty ? onAudioRemoved : null,
         ),
       ],
     );

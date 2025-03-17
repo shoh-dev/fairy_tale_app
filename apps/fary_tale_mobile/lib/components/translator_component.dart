@@ -17,14 +17,14 @@ class Translator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StateConnector<AppState, (TaleLocalization?, String)>(
+    return StateConnector<AppState, (TaleLocalization, String)>(
       selector: (state) => (
-        state.taleListState.taleState.selectedTale.localizations,
+        state.selectedTaleState.tale.localizations,
         state.applicationState.localizationState.locale,
       ),
       builder: (_, __, vm) {
         final locale = vm.$2;
-        final translations = vm.$1?.translations[locale];
+        final translations = vm.$1.translations[locale];
         final translatedList = [
           for (final key in toTranslate)
             translations?[key] ??

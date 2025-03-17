@@ -12,10 +12,12 @@ class ImageSelectorComponent extends StatelessWidget {
     super.key,
     this.imagePath = '',
     this.onImageSelected,
+    this.onImageRemoved,
   });
 
   final String imagePath;
   final ValueChanged<PlatformFile>? onImageSelected;
+  final VoidCallback? onImageRemoved;
   final String title;
 
   @override
@@ -61,6 +63,11 @@ class ImageSelectorComponent extends StatelessWidget {
                 },
           icon: Icons.image_rounded,
           text: imagePath.isEmpty ? 'Select Image' : 'Replace Image',
+        ),
+        ButtonComponent.destructive(
+          text: 'Remove Image',
+          icon: Icons.delete_rounded,
+          onPressed: imagePath.isNotEmpty ? onImageRemoved : null,
         ),
       ],
     );

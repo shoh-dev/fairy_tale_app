@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
-import 'package:shared/src/repositories/tale/models.dart';
 
 part 'tale_interaction_metadata.freezed.dart';
 
@@ -81,7 +80,7 @@ class TaleInteractionMetadata with _$TaleInteractionMetadata {
     final isSizeValid = size.width > 0 && size.height > 0;
 
     if (!isSizeValid) {
-      error['size'] = ['Size is invalid'];
+      error['tale.interaction.metadata.size'] = ['Size is invalid'];
     }
 
     return error;

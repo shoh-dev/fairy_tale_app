@@ -1,9 +1,8 @@
 import 'package:fairy_tale_builder_platform/components/orientation_selector.dart';
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/features.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/tale_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/selector.dart';
-import 'package:fairy_tale_builder_platform/pages/localization_settings/localization_settings_page.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/audio_selector.dart';
 import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ class TaleDetailsForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StateConnector<AppState, Tale>(
-      selector: selectedTaleSelector,
+      selector: selectedTale,
       builder: (context, dispatch, tale) {
         return Column(
           mainAxisSize: MainAxisSize.min,

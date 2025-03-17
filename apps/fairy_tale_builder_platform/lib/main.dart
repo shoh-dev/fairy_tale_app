@@ -1,9 +1,16 @@
 import 'package:fairy_tale_builder_platform/manager/redux.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/pages/splash/splash_page.dart';
+import 'package:fairy_tale_builder_platform/pages/homepage/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+
+final _router = GoRouter(
+  navigatorKey: NavigateAction.navigatorKey,
+  routes: $appRoutes,
+  debugLogDiagnostics: true,
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,14 +46,50 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appTheme = AppTheme();
+    final appTheme = AppTheme(
+      borderRadius: 64,
+      surfaceDark: Colors.black,
+      seedDark: const Color(0xFF8B5CF6),
+    );
+    //     // Base Colors
+    // Black: #000000
+    // Dark Gray (Background): #121212
+    // Dark Gray (Surface): #1E1E1E
+    // Dark Gray (Cards): #242424
+    // Zinc-800: #27272A
+    // Zinc-900: #18181B
 
-    return MaterialApp(
+    // // Accent Colors
+    // Purple-500: #8B5CF6
+    // Purple-600: #7C3AED
+    // Purple-700: #6D28D9
+    // Pink-500: #EC4899
+    // Pink-600: #DB2777
+
+    // // Text Colors
+    // White: #FFFFFF
+    // Gray-200: #E5E7EB
+    // Gray-400: #9CA3AF
+    // Zinc-400: #A1A1AA
+    // Zinc-500: #71717A
+
+    //new design
+    return MaterialApp.router(
       title: 'Tale Builder',
       theme: appTheme.lightTheme,
       darkTheme: appTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home: const SplashPage(),
+      routerConfig: _router,
     );
+
+    // //old design
+    // return MaterialApp(
+    //   title: 'Tale Builder',
+    //   theme: appTheme.lightTheme,
+    //   darkTheme: appTheme.darkTheme,
+    //   debugShowCheckedModeBanner: false,
+    //   navigatorKey: NavigateAction.navigatorKey,
+    //   home: const SplashPage(),
+    // );
   }
 }

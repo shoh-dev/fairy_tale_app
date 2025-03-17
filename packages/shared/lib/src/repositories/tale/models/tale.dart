@@ -17,7 +17,6 @@ class Tale with _$Tale {
     @Default('') String title,
     @Default('') String description,
     @Default(TaleMetadata.empty) TaleMetadata metadata,
-    @Default([]) List<TalePage> pages,
     @Default('portrait') String orientation,
     @Default(0) int toReRender,
     @Default(false) bool isNew,
@@ -57,13 +56,13 @@ class Tale with _$Tale {
           description: json['description'] as String,
         );
       }
-      if (json['pages'] != null) {
-        model = model.copyWith(
-          pages: (json['pages'] as List)
-              .map((e) => TalePage.fromJson(e as Map<String, dynamic>))
-              .toList(),
-        );
-      }
+      // if (json['pages'] != null) {
+      //   model = model.copyWith(
+      //     pages: (json['pages'] as List)
+      //         .map((e) => TalePage.fromJson(e as Map<String, dynamic>))
+      //         .toList(),
+      //   );
+      // }
 
       return model;
     } catch (e, st) {
@@ -78,7 +77,7 @@ class Tale with _$Tale {
       'title': title,
       'description': description,
       'metadata': metadata.toJson(),
-      'orientation': orientation,
+      'orientation': isOrientationValid ? orientation : 'portrait',
     };
 
     return json;
@@ -147,13 +146,6 @@ class Tale with _$Tale {
       error.addAll(_isMetadataValid);
     }
 
-    for (final page in pages) {
-      final pageError = isPageValid(page);
-      if (pageError.isNotEmpty) {
-        error.addAll(pageError);
-      }
-    }
-
     return error;
   }
 
@@ -161,11 +153,11 @@ class Tale with _$Tale {
     final error = ModelValidation();
 
     if (page.isValidToSave.isNotEmpty) {
-      return page.isValidToSave;
+      error.addAll(page.isValidToSave);
     }
     //check if page.text contains in localizations
     if (localizations.defaultTranslation[page.text] == null) {
-      error['tale.page_${page.id}'] = [
+      error['tale.page.${page.id}'] = [
         'Page text [${page.text}] is not contained in localizations',
       ];
     }
@@ -173,28 +165,7 @@ class Tale with _$Tale {
     return error;
   }
 
-  //updatePageMethod
-  Tale updatePage(TalePage page) {
-    final pages = List<TalePage>.from(this.pages);
-    final index = pages.indexWhere((element) => element.id == page.id);
-    if (index != -1) {
-      pages[index] = page;
-    }
-    return copyWith(pages: pages);
-  }
-
-  Tale updateOrientation(String orientation) {
-    return copyWith(orientation: orientation);
-  }
-
   ResultFuture<void> playAudio() {
     return audioPlayerService.playFromUrl(metadata.backgroundAudioUrl);
-  }
-
-  void disposeAudioPlayers() {
-    for (final interaction in pages.expand((element) => element.interactions)) {
-      interaction.audioPlayerService.dispose();
-    }
-    audioPlayerService.dispose();
   }
 }

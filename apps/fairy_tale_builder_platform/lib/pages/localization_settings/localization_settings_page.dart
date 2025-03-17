@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:fairy_tale_builder_platform/layout/default_layout.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/features/tales/tale/translation_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/tale_actions.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
@@ -18,8 +18,7 @@ class LocalizationSettingsPage extends StatelessWidget {
     return DefaultLayout(
       title: const Text('Localization settings'),
       leading: StateConnector<AppState, ModelValidation>(
-        selector: (state) =>
-            state.taleListState.taleState.tale.localizations.isValid,
+        selector: (state) => state.selectedTaleState.tale.localizations.isValid,
         builder: (context, dispatch, model) {
           return ButtonComponent.icon(
             icon: Icons.arrow_back,
@@ -58,7 +57,7 @@ class _BodyState extends State<_Body> {
       configuration: configurations(),
       columns: columns(),
       createHeader: (stateManager) => StateConnector<AppState, Tale>(
-        selector: selectedTaleSelector,
+        selector: selectedTale,
         onInitialBuild: (dispatch, model) {
           final translations = <String, String>{
             for (final entry
@@ -70,7 +69,7 @@ class _BodyState extends State<_Body> {
           ]);
         },
         onDidChange: (dispatch, state, model) {
-          final localization = state.taleListState.taleState.tale.localizations;
+          final localization = model.localizations;
           stateManager
             ..removeAllRows()
             ..appendRows([

@@ -1,11 +1,10 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:fairy_tale_builder_platform/components/translator_component.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/manager/selector.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
-import 'package:shared/shared.dart';
 
 class TalePreviewDialog extends StatelessWidget {
   const TalePreviewDialog({
@@ -17,10 +16,12 @@ class TalePreviewDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StateConnector<AppState, Tale>(
-      selector: selectedTaleSelector,
-      builder: (context, dispatch, tale) {
-        final page = tale.pages.firstWhereOrNull((element) => element.id == id);
+    return StateConnector<AppState, SelectedTaleState>(
+      selector: (state) => state.selectedTaleState,
+      builder: (context, dispatch, state) {
+        final tale = state.tale;
+        final page =
+            state.pages.firstWhereOrNull((element) => element.id == id);
 
         return AlertDialog(
           title: Row(
@@ -55,7 +56,7 @@ class TalePreviewDialog extends StatelessWidget {
                             ),
                           ),
 
-                        for (final interaction in page.interactions)
+                        for (final interaction in state.interactionsForPage)
                           //tale object
                           Builder(
                             builder: (context) {
@@ -118,12 +119,6 @@ class TalePreviewDialog extends StatelessWidget {
                     ),
                   ),
           ),
-          // actions: [
-          //   ButtonComponent.outlined(
-          //     text: 'Close',
-          //     onPressed: Navigator.of(context).pop,
-          //   ),
-          // ],
         );
       },
     );

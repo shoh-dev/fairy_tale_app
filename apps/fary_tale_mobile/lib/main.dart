@@ -1,3 +1,4 @@
+import 'package:fairy_tale_mobile/manager/di/di.dart';
 import 'package:fairy_tale_mobile/manager/redux.dart';
 import 'package:fairy_tale_mobile/pages/app/app.dart';
 import 'package:flutter/material.dart';

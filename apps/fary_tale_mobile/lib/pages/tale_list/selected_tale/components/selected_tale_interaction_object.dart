@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:fairy_tale_mobile/components/lifecycle_component.dart';
 import 'package:fairy_tale_mobile/components/translator_component.dart';
 import 'package:fairy_tale_mobile/manager/redux.dart';
+import 'package:fairy_tale_mobile/manager/redux/selected_tale_state/action.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
@@ -31,7 +30,7 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
 
         VoidCallback? onTap() {
           if (interaction.eventTypeEnum == TaleInteractionEventType.tap) {
-            if (interaction.eventSubTypeEnum == TapType.shortPress) {
+            if (interaction.eventSubTypeEnum == TapType.short) {
               return handleInteraction;
             }
           }
@@ -40,7 +39,7 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
 
         VoidCallback? onDoubleTap() {
           if (interaction.eventTypeEnum == TaleInteractionEventType.tap) {
-            if (interaction.eventSubTypeEnum == TapType.doubleTap) {
+            if (interaction.eventSubTypeEnum == TapType.double) {
               return handleInteraction;
             }
           }
@@ -49,7 +48,7 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
 
         VoidCallback? onLongPress() {
           if (interaction.eventTypeEnum == TaleInteractionEventType.tap) {
-            if (interaction.eventSubTypeEnum == TapType.longPress) {
+            if (interaction.eventSubTypeEnum == TapType.long) {
               return handleInteraction;
             }
           }
@@ -82,22 +81,33 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
           return null;
         }
 
-        return SimpleGestureDetector(
-          onTap: onTap(),
-          onDoubleTap: onDoubleTap(),
-          onLongPress: onLongPress(),
-          onHorizontalSwipe: (direction) => onHorizontalSwipe(direction) != null
-              ? onHorizontalSwipe(direction)!(direction)
-              : null,
-          onVerticalSwipe: (direction) => onVerticalSwipe(direction) != null
-              ? onVerticalSwipe(direction)!(direction)
-              : null,
-          swipeConfig: const SimpleSwipeConfig(
-            horizontalThreshold: 40,
-            verticalThreshold: 40,
-            swipeDetectionBehavior: SwipeDetectionBehavior.singular,
+        return AnimatedPositioned(
+          // curve: Curves.ease, //todo: get curve from db
+          width: interaction.size.width,
+          height: interaction.size.height,
+          left: interaction.currentPosition.dx,
+          top: interaction.currentPosition.dy,
+          duration: Duration(
+            milliseconds: interaction.animationDuration,
           ),
-          child: _Child(interaction: interaction),
+          child: SimpleGestureDetector(
+            onTap: onTap(),
+            onDoubleTap: onDoubleTap(),
+            onLongPress: onLongPress(),
+            onHorizontalSwipe: (direction) =>
+                onHorizontalSwipe(direction) != null
+                    ? onHorizontalSwipe(direction)!(direction)
+                    : null,
+            onVerticalSwipe: (direction) => onVerticalSwipe(direction) != null
+                ? onVerticalSwipe(direction)!(direction)
+                : null,
+            swipeConfig: const SimpleSwipeConfig(
+              horizontalThreshold: 40,
+              verticalThreshold: 40,
+              swipeDetectionBehavior: SwipeDetectionBehavior.singular,
+            ),
+            child: _Child(interaction: interaction),
+          ),
         );
       },
     );
@@ -145,8 +155,6 @@ class _Child extends StatelessWidget {
                   : StreamBuilder(
                       stream: interaction.audioPlayerService.playerStateStream,
                       builder: (context, snapshot) {
-                        log('Interaction ${interaction.id}: ${snapshot.data?.playing}');
-                        log('Interaction ${interaction.id}: ${snapshot.data?.processingState}');
                         if (snapshot.data != null) {
                           final isPlaying = snapshot.data!.processingState ==
                                   ProcessingState.ready &&
