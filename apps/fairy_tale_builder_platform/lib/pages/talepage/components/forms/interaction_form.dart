@@ -409,6 +409,7 @@ class __FormState extends State<_Form>
               ImageSelectorComponent(
                 title: 'Object Image',
                 imagePath: interaction.metadata.imageUrl,
+                recommendedSize: interaction.metadata.size.toSize(),
                 onImageSelected: (value) {
                   dispatch(UpdateInteractionAction(imageFile: value));
                 },

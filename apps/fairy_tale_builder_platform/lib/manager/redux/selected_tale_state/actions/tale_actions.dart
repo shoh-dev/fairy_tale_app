@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:fairy_tale_builder_platform/manager/redux/action.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
@@ -273,10 +274,13 @@ class SaveTaleAction extends DefaultAction {
   Future<AppState?> reduce() async {
     final tale = selectedTaleState.tale;
 
-    // if (taleState.isTaleValidToSave.isNotEmpty) {//todo: handle
-    // log('SaveTaleAction: ${taleState.isTaleValidToSave} not valid');
-    // return null;
-    // }
+    //validate tale
+    final isTaleValid = tale.isValidToSave;
+    if (isTaleValid.isNotEmpty) {
+      log(isTaleValid.toString());
+      throwException(ErrorX(isTaleValid));
+      return null;
+    }
 
     dispatch(TaleAction(selectedTaleResult: const StateResult.loading()));
 

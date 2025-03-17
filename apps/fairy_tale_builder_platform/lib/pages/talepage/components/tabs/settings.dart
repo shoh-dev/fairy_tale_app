@@ -116,9 +116,6 @@ class __FormState extends State<_Form> with DispatchConnectorMixinState {
               ImageSelectorComponent(
                 title: 'Cover Image',
                 imagePath: tale.metadata.coverImageUrl,
-                onImageRemoved: () {
-                  dispatch(UpdateTaleAction(coverImageUrl: ''));
-                },
                 onImageSelected: (value) {
                   dispatch(UpdateTaleAction(coverImageFile: value));
                 },

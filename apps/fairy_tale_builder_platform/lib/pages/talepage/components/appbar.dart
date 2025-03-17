@@ -1,5 +1,6 @@
 import 'package:fairy_tale_builder_platform/components/backbutton.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
+import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/talepage/components/tabbar.dart';
@@ -28,17 +29,20 @@ class TalepageAppBar extends StatelessWidget
       centerTitle: false,
       title: Text(model.title),
       leading: const Backbutton(),
-      actions: const [
-        ButtonComponent.outlined(
-          text: 'Share',
-          icon: Icons.share_rounded,
+      actions: [
+        const ButtonComponent.outlined(
+          text: 'Save as Draft',
+          icon: Icons.save_as,
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         ButtonComponent.primary(
           text: 'Save',
           icon: Icons.save_rounded,
+          onPressed: () {
+            dispatch(SaveTaleAction());
+          },
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
       ],
       flexibleSpace: Container(
         decoration: BoxDecoration(
