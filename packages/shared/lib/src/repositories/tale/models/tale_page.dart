@@ -96,15 +96,15 @@ class TalePage with _$TalePage {
     }
 
     if (taleId.isEmpty) {
-      error['tale.page.$id.tale_id'] = ['Tale ID is required'];
+      error['tale.page.$pageNumber.tale_id'] = ['Tale ID is required'];
     }
 
     if (text.isEmpty) {
-      error['tale.page.$id.text'] = ['Text is required'];
+      error['tale.page.$pageNumber.text'] = ['Text is required'];
     }
 
     if (!metadata.hasBackgroundImage) {
-      error['tale.page.$id.background_image'] = [
+      error['tale.page.$pageNumber.background_image'] = [
         'Background image is required',
       ];
     }

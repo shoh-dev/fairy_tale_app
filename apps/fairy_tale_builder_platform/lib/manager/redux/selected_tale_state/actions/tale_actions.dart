@@ -280,30 +280,48 @@ class SaveTaleAction extends DefaultAction {
       log(isTaleValid.toString());
       throwException(ErrorX(isTaleValid));
       return null;
+    } else {
+      await Future.wait([
+        taleRepository.saveTale(tale),
+        taleRepository.saveTaleLocalization(
+          defaultLocale: tale.localizations.defaultLocale,
+          translations: tale.localizations.translations,
+          taleId: tale.id,
+        ),
+      ]);
     }
 
-    dispatch(TaleAction(selectedTaleResult: const StateResult.loading()));
+    final pages = selectedTaleState.pages;
+    if (pages.isEmpty) {
+      throwException(const ErrorX('Tale must contain at least 1 page.'));
+      return null;
+    }
+
+    //validate pages
+    final arePagesValid = pages.map((e) => e.isValidToSave);
+
+    if (arePagesValid.any((element) => element.isNotEmpty)) {
+      throwException(ErrorX(arePagesValid));
+      return null;
+    } else {
+      await taleRepository.saveTalePages(pages);
+    }
+
+    final interactions = selectedTaleState.interactions;
+
+    //validate interactions
+    final areInteractionsValid = interactions.map((e) => e.isValidToSave);
+
+    if (areInteractionsValid.any((element) => element.isNotEmpty)) {
+      throwException(ErrorX(areInteractionsValid));
+      return null;
+    } else {
+      await taleRepository.saveTaleInteractions(selectedTaleState.interactions);
+    }
 
     //todo: handle result
-    final taleResult = await taleRepository.saveTale(tale);
-    final localizationResult = await taleRepository.saveTaleLocalization(
-      defaultLocale: tale.localizations.defaultLocale,
-      translations: tale.localizations.translations,
-      taleId: tale.id,
-    );
-
-    final pagesResult =
-        await taleRepository.saveTalePages(selectedTaleState.pages);
-    final interactionsResult = await taleRepository
-        .saveTaleInteractions(selectedTaleState.interactions);
-
-    Logger('tale').info(taleResult);
-    Logger('pages').info(pagesResult);
-    Logger('locale').info(localizationResult);
-    Logger('interactions').info(interactionsResult);
 
     dispatchAll([
-      // ResetPageAction(),
       GetTaleAction(taleId: tale.id),
       GetTaleListAction(),
     ]);
