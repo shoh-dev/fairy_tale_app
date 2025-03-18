@@ -187,7 +187,7 @@ class TaleInteraction with _$TaleInteraction {
   TaleInteraction updateEventType(TaleInteractionEventType eventType) {
     return copyWith(
       eventType: eventType.name,
-      eventSubtype: '',
+      eventSubtype: _eventSubTypesMap[eventType]?.firstOrNull?.toString() ?? '',
     );
   }
 

@@ -6,9 +6,9 @@ import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/ac
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/localization_settings/localization_settings_page.dart';
-import 'package:fairy_tale_builder_platform/pages/tale_editor/components/left_sidebar.dart';
-import 'package:fairy_tale_builder_platform/pages/tale_editor/components/page_details_form.dart';
-import 'package:fairy_tale_builder_platform/pages/tale_editor/components/right_sidebar.dart';
+import 'components/left_sidebar.dart';
+import 'components/page_details_form.dart';
+import 'components/right_sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';

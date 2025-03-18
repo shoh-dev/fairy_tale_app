@@ -1,3 +1,5 @@
+import 'package:fairy_tale_builder_platform/components/audio_selector.dart';
+import 'package:fairy_tale_builder_platform/components/image_selector.dart';
 import 'package:fairy_tale_builder_platform/components/loading_component.dart';
 import 'package:fairy_tale_builder_platform/components/orientation_selector.dart';
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
@@ -5,8 +7,6 @@ import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/tale_actions.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
-import 'package:fairy_tale_builder_platform/pages/tale_editor/components/audio_selector.dart';
-import 'package:fairy_tale_builder_platform/pages/tale_editor/components/image_selector.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -116,6 +116,7 @@ class __FormState extends State<_Form> with DispatchConnectorMixinState {
               ImageSelectorComponent(
                 title: 'Cover Image',
                 imagePath: tale.metadata.coverImageUrl,
+                recommendedSize: const Size(260, 320),
                 onImageSelected: (value) {
                   dispatch(UpdateTaleAction(coverImageFile: value));
                 },

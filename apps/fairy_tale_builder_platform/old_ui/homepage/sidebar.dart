@@ -1,4 +1,3 @@
-import 'package:fairy_tale_builder_platform/pages/tale_editor/tale_editor_page.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
@@ -31,11 +30,11 @@ class TaleListSidebarComponent extends StatelessWidget {
                     leading: const Icon(Icons.add_rounded),
                     title: const Text('Create new tale'),
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute<void>(
-                          builder: (context) => const TaleEditorPage(),
-                        ),
-                      );
+                      // Navigator.of(context).push(
+                      // MaterialPageRoute<void>(
+                      // builder: (context) => const TaleEditorPage(),
+                      // ),
+                      // );
                     },
                   ),
                 ],

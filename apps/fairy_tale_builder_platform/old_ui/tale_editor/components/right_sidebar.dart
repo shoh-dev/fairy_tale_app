@@ -1,4 +1,4 @@
-import 'package:fairy_tale_builder_platform/pages/tale_editor/components/details_form.dart';
+import 'details_form.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';

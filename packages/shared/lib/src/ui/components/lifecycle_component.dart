@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:myspace_design_system/myspace_design_system.dart';
 
 class LifecycleComponent extends StatefulWidget {
   const LifecycleComponent({
@@ -27,27 +26,27 @@ class LifecycleComponent extends StatefulWidget {
 }
 
 class _LifecycleComponentState extends State<LifecycleComponent>
-    with StateHelpers, WidgetsBindingObserver {
+    with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
     if (widget.onInitialize != null) {
-      safeInitialize(() async {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
         await widget.onInitialize!();
       });
     }
   }
 
   @override
-  void dispose() {
-    safeDispose(() async {
+  Future<void> dispose() async {
+    if (mounted) {
       if (widget.onDispose != null) {
         await widget.onDispose!();
       }
       WidgetsBinding.instance.removeObserver(this);
-    });
+    }
     super.dispose();
   }
 

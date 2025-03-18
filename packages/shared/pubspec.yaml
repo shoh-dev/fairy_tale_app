@@ -18,6 +18,7 @@ dependencies:
 
   myspace_data:
     path: /Users/shoh/Documents/github/personal/myspace/packages/myspace_data
+  uuid: ^4.5.1
 
 dev_dependencies:
   flutter_test:
