@@ -1,4 +1,3 @@
-import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';

@@ -2,11 +2,8 @@ import 'dart:developer';
 
 import 'package:fairy_tale_mobile/components/lifecycle_component.dart';
 import 'package:fairy_tale_mobile/components/translator_component.dart';
-import 'package:fairy_tale_mobile/manager/di/di.dart';
-import 'package:fairy_tale_mobile/manager/redux.dart';
-import 'package:fairy_tale_mobile/manager/redux/selected_tale_state/action.dart';
-import 'package:fairy_tale_mobile/manager/redux/selected_tale_state/selected_tale_state.dart';
 import 'package:fairy_tale_mobile/pages/tale_list/selected_tale/components/tale_page_component.dart';
+import 'package:fairy_tale_mobile/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -33,11 +30,11 @@ class _SelectedTalePageState extends State<SelectedTalePage> with StateHelpers {
     return StateConnector<AppState, SelectedTaleState>(
       selector: (state) => state.selectedTaleState,
       onInitialBuild: (dispatch, viewModel) async {
-        dispatch(GetTaleAction(widget.taleId));
+        dispatch(GetTaleAction(taleId: widget.taleId));
       },
       onDispose: (dispatch) {
         safeDispose(pageController.dispose);
-        dispatch(GetTaleAction(widget.taleId, reset: true));
+        dispatch(ResetTaleAction());
       },
       builder: (context, dispatch, vm) {
         return Scaffold(
@@ -46,7 +43,7 @@ class _SelectedTalePageState extends State<SelectedTalePage> with StateHelpers {
               return _TaleView(
                 tale: vm.tale,
                 pages: vm.pages,
-                interactions: vm.interactionsForPage,
+                interactions: (pageId) => vm.interactions,
                 pageController: pageController,
               );
             },
@@ -101,13 +98,7 @@ class _TaleViewState extends State<_TaleView>
     return LifecycleComponent(
       onDispose: () async {
         await Future.wait([
-          context
-              .getDependency<DependencyInjection>()
-              .deviceService
-              .setDeviceOrientation([
-            DeviceOrientation.portraitDown,
-            DeviceOrientation.portraitUp,
-          ]),
+          SystemChrome.setPreferredOrientations(AppConstants.appOrientation),
           if (backgroundAudioPlayer.isPlaying()) backgroundAudioPlayer.stop(),
         ]); //todo: handle error
         tale.audioPlayerService.dispose();
@@ -115,13 +106,7 @@ class _TaleViewState extends State<_TaleView>
       onInitialize: () async {
         await Future.wait([
           if (!tale.isPortrait)
-            context
-                .getDependency<DependencyInjection>()
-                .deviceService
-                .setDeviceOrientation([
-              DeviceOrientation.landscapeLeft,
-              DeviceOrientation.landscapeRight,
-            ]),
+            SystemChrome.setPreferredOrientations(AppConstants.appOrientation),
           if (tale.metadata.hasBackgroundAudio) tale.playAudio(),
         ]); //todo: handle error
       },

@@ -1,4 +1,3 @@
-import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/homepage/components/appbar.dart';
 import 'package:fairy_tale_builder_platform/pages/homepage/components/tale_list.dart';
 import 'package:fairy_tale_builder_platform/pages/homepage/components/title.dart';
@@ -7,6 +6,7 @@ import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myspace_data/myspace_data.dart';
+import 'package:shared/shared.dart';
 
 part 'homepage.g.dart';
 

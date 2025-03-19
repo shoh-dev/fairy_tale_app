@@ -1,7 +1,5 @@
 import 'package:fairy_tale_mobile/components/lifecycle_component.dart';
 import 'package:fairy_tale_mobile/components/translator_component.dart';
-import 'package:fairy_tale_mobile/manager/redux.dart';
-import 'package:fairy_tale_mobile/manager/redux/selected_tale_state/action.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
@@ -25,7 +23,7 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
     return DispatchConnector<AppState>(
       builder: (context, dispatch) {
         void handleInteraction() {
-          dispatch(TaleInteractionHandlerAction(interaction));
+          // dispatch(TaleInteractionHandlerAction(interaction));//todo:
         }
 
         VoidCallback? onTap() {

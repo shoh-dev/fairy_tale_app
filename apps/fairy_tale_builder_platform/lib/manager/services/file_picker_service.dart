@@ -8,7 +8,7 @@ class FilePickerService {
     try {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['png'],
+        allowedExtensions: ['png', 'jpeg'],
       );
 
       return Result.ok(result?.files.firstOrNull);
@@ -21,7 +21,6 @@ class FilePickerService {
     try {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.audio,
-        // allowedExtensions: ['mp3'],
       );
 
       return Result.ok(result?.files.firstOrNull);

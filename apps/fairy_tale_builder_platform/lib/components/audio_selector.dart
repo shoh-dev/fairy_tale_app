@@ -1,9 +1,8 @@
 import 'dart:developer';
 
-import 'package:fairy_tale_builder_platform/manager/redux.dart';
+import 'package:fairy_tale_builder_platform/manager/services/file_picker_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:shared/shared.dart';
 
@@ -66,9 +65,7 @@ class AudioSelectorComponent extends StatelessWidget {
           onPressed: onAudioSelected == null
               ? null
               : () async {
-                  final picker = context
-                      .getDependency<DependencyInjection>()
-                      .filePickerService;
+                  const picker = FilePickerService();
 
                   final result = await picker.pickAudioFile();
 

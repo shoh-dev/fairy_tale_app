@@ -1,12 +1,8 @@
 import 'dart:developer';
 
-import 'package:fairy_tale_builder_platform/manager/redux.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
+import 'package:fairy_tale_builder_platform/manager/services/file_picker_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
 class ImageSelectorComponent extends StatelessWidget {
@@ -61,9 +57,7 @@ class ImageSelectorComponent extends StatelessWidget {
               onPressed: onImageSelected == null
                   ? null
                   : () async {
-                      final picker = context
-                          .getDependency<DependencyInjection>()
-                          .filePickerService;
+                      const picker = FilePickerService();
 
                       final result = await picker.pickPNGFile();
 

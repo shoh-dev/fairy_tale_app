@@ -1,8 +1,7 @@
-import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:flutter/widgets.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:shared/shared.dart';
 
 class PagenumberSelector extends StatelessWidget with StateConnectorMixin<int> {
   const PagenumberSelector({

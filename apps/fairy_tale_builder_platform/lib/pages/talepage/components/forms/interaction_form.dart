@@ -1,10 +1,6 @@
 import 'package:fairy_tale_builder_platform/components/audio_selector.dart';
 import 'package:fairy_tale_builder_platform/components/image_selector.dart';
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/interaction_actions.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';

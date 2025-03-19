@@ -1,8 +1,4 @@
 import 'package:fairy_tale_builder_platform/components/backbutton.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/actions/tale_actions.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/pages/talepage/components/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';

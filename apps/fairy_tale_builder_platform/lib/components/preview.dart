@@ -1,9 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:fairy_tale_builder_platform/components/interaction_object.dart';
 import 'package:fairy_tale_builder_platform/components/page_background.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/mixin.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/selected_tale_state/selected_tale_state.dart';
-import 'package:fairy_tale_builder_platform/manager/redux/state.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
