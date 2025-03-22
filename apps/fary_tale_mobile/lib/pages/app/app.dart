@@ -10,9 +10,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = AppTheme(
-      seedDark: Colors.blueAccent,
-      borderRadius: 8,
-      surfaceDark: Colors.blueAccent,
+      borderRadius: 999,
+      seedDark: Colors.deepPurple,
+      surfaceDark: Colors.deepPurple,
     );
 
     return DispatchConnector<AppState>(

@@ -20,7 +20,7 @@ class PageBackground extends StatelessWidget {
             opacity: opacity,
             child: Image.network(
               url,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               width: size?.width,
               height: size?.height,
             ),

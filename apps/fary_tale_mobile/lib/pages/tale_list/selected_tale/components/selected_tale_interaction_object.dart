@@ -23,7 +23,12 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
     return DispatchConnector<AppState>(
       builder: (context, dispatch) {
         void handleInteraction() {
-          // dispatch(TaleInteractionHandlerAction(interaction));//todo:
+          dispatch(
+            UpdateInteractionAction(
+              id: interaction.id,
+              use: true,
+            ),
+          ); //todo:
         }
 
         VoidCallback? onTap() {

@@ -1,4 +1,6 @@
 import 'package:fairy_tale_mobile/components/page_background.dart';
+import 'package:fairy_tale_mobile/pages/tale/tale_page.dart';
+import 'package:fairy_tale_mobile/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:shared/shared.dart';
@@ -13,12 +15,17 @@ class HomepageTale extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = context.width * .244;
+    final width = context.width * .23;
     final height = context.height * .6;
     final borderRadius = BorderRadius.circular(12);
     return GestureDetector(
       onTap: () {
-        //todo: handle on tap
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (_) => Talepage(taleId: tale.id),
+          ),
+        );
       },
       child: ClipRRect(
         borderRadius: borderRadius,
@@ -39,21 +46,22 @@ class HomepageTale extends StatelessWidget {
                 ),
               ),
               Positioned.fill(
-                  child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  width: width,
-                  height: height * .4,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withAlpha(40),
-                        blurRadius: 16,
-                      )
-                    ],
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: width,
+                    height: height * .4,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(40),
+                          blurRadius: 16,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              )),
+              ),
               Positioned.fill(
                 bottom: 12,
                 child: Align(
@@ -67,12 +75,7 @@ class HomepageTale extends StatelessWidget {
                       style: context.textTheme.titleMedium!.copyWith(
                         fontWeight: FontWeight.w800,
                         shadows: [
-                          const BoxShadow(
-                            color: Colors.black45,
-                            offset: Offset(1, 1),
-                            // spreadRadius: 4,
-                            // blurRadius: 4,
-                          ),
+                          AppUI.defaultShadow,
                         ],
                       ),
                     ),
