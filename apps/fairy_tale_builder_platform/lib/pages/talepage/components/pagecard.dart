@@ -27,7 +27,7 @@ class Pagecard extends StatelessWidget with StateConnectorMixin<(bool, Tale)> {
       isSelected: model.$1,
       child: (hovering) {
         return SizedBox(
-          height: device.screenSize.height / 2.5,
+          height: Sizes.deviceSize(model.$2.isPortrait).height / 2.5,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: _banner(

@@ -33,7 +33,7 @@ class _HoverWidgetState extends State<HoverWidget> {
           color: widget.isSelected || hovering
               ? Colors.purple
               : Colors.transparent,
-          width: !widget.isSelected && hovering ? 1 : 3,
+          width: !widget.isSelected && hovering ? 2 : 3,
         ),
       ),
       child: GestureDetector(

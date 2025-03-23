@@ -205,6 +205,9 @@ class _Pages extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         final page = pages[index];
+        final interactions = this.interactions.where(
+              (element) => element.talePageId == page.id,
+            );
 
         return Stack(
           children: [
@@ -217,7 +220,6 @@ class _Pages extends StatelessWidget {
             //objects
             for (final interaction in interactions)
               SelectedTaleInteractionObjectComponent(
-                key: ValueKey(interaction.id),
                 interaction: interaction,
               )
           ],

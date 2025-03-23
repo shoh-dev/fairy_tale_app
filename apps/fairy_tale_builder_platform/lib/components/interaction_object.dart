@@ -40,24 +40,23 @@ class _DraggableObjectState extends State<_DraggableObject> {
 
   @override
   Widget build(BuildContext context) {
-    return StateConnector<AppState, TaleInteraction?>(
-      selector: selectedInteraction,
+    return StateConnector<AppState, (TaleInteraction?, Tale)>(
+      selector: (state) => (selectedInteraction(state), selectedTale(state)),
       onDidChange: (context, store, viewModel) {
-        if (viewModel == null) {
+        if (viewModel.$1 == null) {
           return;
         }
         if (interaction.id == widget.interaction.id) {
           if (_position != interaction.currentPosition.toOffset()) {
             setState(() {
-              _position = viewModel.currentPosition.toOffset();
+              _position = viewModel.$1!.currentPosition.toOffset();
             });
           }
         }
       },
-      builder: (context, dispatch, selectedInteraction) {
-        final isSelected = selectedInteraction?.id == interaction.id;
-        final device = Sizes.device;
-        final deviceSize = device.screenSize;
+      builder: (context, dispatch, model) {
+        final isSelected = model.$1?.id == interaction.id;
+        final deviceSize = Sizes.deviceSize(model.$2.isPortrait);
         return AnimatedPositioned(
           duration: const Duration(milliseconds: 100),
           width: interaction.size.width,

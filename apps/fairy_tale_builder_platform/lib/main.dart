@@ -46,7 +46,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = AppTheme(
-      borderRadius: 64,
+      borderRadius: 4,
       surfaceDark: Colors.black,
       seedDark: const Color(0xFF8B5CF6),
     );

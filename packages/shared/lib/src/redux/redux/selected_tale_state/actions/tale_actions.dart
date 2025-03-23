@@ -5,9 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:shared/shared.dart';
 import 'package:shared/src/redux/redux/action.dart';
-import 'package:shared/src/redux/redux/selected_tale_state/selected_tale_state.dart';
-import 'package:shared/src/redux/redux/state.dart';
-import 'package:shared/src/redux/redux/tale_list_state/tale_list_action.dart';
 import 'package:uuid/v4.dart';
 
 class ResetTaleAction extends DefaultAction {
@@ -60,8 +57,6 @@ class GetTaleAction extends DefaultAction {
     }
 
     dispatch(TaleAction(selectedTaleResult: const StateResult.loading()));
-
-    await Future.delayed(const Duration(seconds: 1));
 
     final tale = await taleRepository.getTaleById(taleId);
 

@@ -90,6 +90,12 @@ class __FormState extends State<_Form>
   }
 
   @override
+  void onDispose(Dispatcher<AppState> dispatch) {
+    dispatch(saveAction());
+    print("Dispose");
+  }
+
+  @override
   void dispose() {
     safeDispose(() {
       _widthCtrl.dispose();
@@ -127,6 +133,19 @@ class __FormState extends State<_Form>
       return false;
     }
     return true;
+  }
+
+  UpdateInteractionAction saveAction() {
+    return UpdateInteractionAction(
+      id: interaction.id,
+      width: num.tryParse(_widthCtrl.text),
+      height: num.tryParse(_heightCtrl.text),
+      initialdx: num.tryParse(_initialdxCtrl.text),
+      initialdy: num.tryParse(_initialdyCtrl.text),
+      finaldx: num.tryParse(_finaldxCtrl.text),
+      finaldy: num.tryParse(_finaldyCtrl.text),
+      animationDuration: int.tryParse(_animationDurationCtrl.text),
+    );
   }
 
   @override

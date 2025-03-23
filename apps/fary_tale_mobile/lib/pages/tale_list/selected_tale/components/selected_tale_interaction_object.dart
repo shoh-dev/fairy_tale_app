@@ -6,7 +6,7 @@ import 'package:shared/shared.dart';
 
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
-class SelectedTaleInteractionObjectComponent extends StatelessWidget {
+class SelectedTaleInteractionObjectComponent extends StatefulWidget {
   const SelectedTaleInteractionObjectComponent({
     required this.interaction,
     super.key,
@@ -15,20 +15,25 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
   final TaleInteraction interaction;
 
   @override
+  State<SelectedTaleInteractionObjectComponent> createState() =>
+      _SelectedTaleInteractionObjectComponentState();
+}
+
+class _SelectedTaleInteractionObjectComponentState
+    extends State<SelectedTaleInteractionObjectComponent>
+    with AutomaticKeepAliveClientMixin {
+  late TaleInteraction interaction = widget.interaction;
+
+  @override
   Widget build(BuildContext context) {
-    if (interaction.isUsed) {
-      return _Child(interaction: interaction);
-    }
+    super.build(context);
 
     return DispatchConnector<AppState>(
       builder: (context, dispatch) {
         void handleInteraction() {
-          dispatch(
-            UpdateInteractionAction(
-              id: interaction.id,
-              use: true,
-            ),
-          ); //todo:
+          setState(() {
+            interaction = interaction.use();
+          });
         }
 
         VoidCallback? onTap() {
@@ -85,36 +90,40 @@ class SelectedTaleInteractionObjectComponent extends StatelessWidget {
         }
 
         return AnimatedPositioned(
-          // curve: Curves.ease, //todo: get curve from db
+          key: ValueKey(interaction.id),
           width: interaction.size.width,
           height: interaction.size.height,
           left: interaction.currentPosition.dx,
           top: interaction.currentPosition.dy,
-          duration: Duration(
-            milliseconds: interaction.animationDuration,
-          ),
-          child: SimpleGestureDetector(
-            onTap: onTap(),
-            onDoubleTap: onDoubleTap(),
-            onLongPress: onLongPress(),
-            onHorizontalSwipe: (direction) =>
-                onHorizontalSwipe(direction) != null
-                    ? onHorizontalSwipe(direction)!(direction)
-                    : null,
-            onVerticalSwipe: (direction) => onVerticalSwipe(direction) != null
-                ? onVerticalSwipe(direction)!(direction)
-                : null,
-            swipeConfig: const SimpleSwipeConfig(
-              horizontalThreshold: 40,
-              verticalThreshold: 40,
-              swipeDetectionBehavior: SwipeDetectionBehavior.singular,
-            ),
-            child: _Child(interaction: interaction),
-          ),
+          duration: Duration(milliseconds: interaction.animationDuration),
+          child: interaction.isUsed
+              ? _Child(interaction: interaction)
+              : SimpleGestureDetector(
+                  onTap: onTap(),
+                  onDoubleTap: onDoubleTap(),
+                  onLongPress: onLongPress(),
+                  onHorizontalSwipe: (direction) =>
+                      onHorizontalSwipe(direction) != null
+                          ? onHorizontalSwipe(direction)!(direction)
+                          : null,
+                  onVerticalSwipe: (direction) =>
+                      onVerticalSwipe(direction) != null
+                          ? onVerticalSwipe(direction)!(direction)
+                          : null,
+                  swipeConfig: const SimpleSwipeConfig(
+                    horizontalThreshold: 40,
+                    verticalThreshold: 40,
+                    swipeDetectionBehavior: SwipeDetectionBehavior.singular,
+                  ),
+                  child: _Child(interaction: interaction),
+                ),
         );
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _Child extends StatelessWidget {

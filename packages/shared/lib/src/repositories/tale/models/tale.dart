@@ -17,7 +17,7 @@ class Tale with _$Tale {
     @Default('') String title,
     @Default('') String description,
     @Default(TaleMetadata.empty) TaleMetadata metadata,
-    @Default('portrait') String orientation,
+    @Default('landscape') String orientation,
     @Default(0) int toReRender,
     @Default(false) bool isNew,
   }) = _Tale;
@@ -77,7 +77,7 @@ class Tale with _$Tale {
       'title': title,
       'description': description,
       'metadata': metadata.toJson(),
-      'orientation': isOrientationValid ? orientation : 'portrait',
+      'orientation': isOrientationValid ? orientation : 'landscape',
     };
 
     return json;

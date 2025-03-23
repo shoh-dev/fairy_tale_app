@@ -96,12 +96,7 @@ class __FormState extends State<_Form> with DispatchConnectorMixinState {
             ImageSelectorComponent(
               title: 'Background Image',
               imagePath: page.metadata.backgroundImageUrl,
-              recommendedSize: tale.isPortrait
-                  ? Sizes.device.frameSize
-                  : Size(
-                      Sizes.device.frameSize.height,
-                      Sizes.device.frameSize.width,
-                    ),
+              recommendedSize: Sizes.deviceSize(tale.isPortrait),
               onImageSelected: (value) {
                 dispatch(UpdatePageAction(backgroundImageFile: value));
               },
