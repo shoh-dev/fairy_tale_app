@@ -1,8 +1,9 @@
 import 'package:fairy_tale_builder_platform/pages/talepage/components/appbar.dart';
-import 'package:fairy_tale_builder_platform/pages/talepage/components/tabs/editor.dart';
+import 'package:fairy_tale_builder_platform/pages/talepage/components/tabs/pages.dart';
 import 'package:fairy_tale_builder_platform/pages/talepage/components/tabs/interactions.dart';
 import 'package:fairy_tale_builder_platform/pages/talepage/components/tabs/preview.dart';
-import 'package:fairy_tale_builder_platform/pages/talepage/components/tabs/settings.dart';
+import 'package:fairy_tale_builder_platform/pages/talepage/components/tabs/tale.dart';
+import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myspace_data/myspace_data.dart';
@@ -35,7 +36,7 @@ class _TalepageState extends State<Talepage>
 
   @override
   void initState() {
-    controller = TabController(length: 4, vsync: this);
+    controller = TabController(length: 3, vsync: this);
     super.initState();
   }
 
@@ -55,27 +56,32 @@ class _TalepageState extends State<Talepage>
   Widget builder(BuildContext context, Dispatcher<AppState> dispatch) {
     return Scaffold(
       appBar: TalepageAppBar(controller: controller),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 8),
-          Expanded(
-            child: TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: controller,
-              children: const [
-                //editor
-                TalepageEditor(),
-                //interactions
-                TalepageInteractions(),
-                //preview
-                TalepagePreview(),
-                //settings
-                TalepageSettings(),
-              ],
-            ),
+      body: Center(
+        child: SizedBox(
+          width: Sizes.kMaxWidth,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 8),
+              Expanded(
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: controller,
+                  children: const [
+                    //Tale
+                    TalepageTale(),
+
+                    //pages
+                    TalepagePages(),
+
+                    //interactions
+                    TalepageInteractions(),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

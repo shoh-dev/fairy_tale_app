@@ -1,5 +1,4 @@
 import 'package:fairy_tale_builder_platform/components/backbutton.dart';
-import 'package:fairy_tale_builder_platform/pages/talepage/components/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
@@ -52,7 +51,7 @@ class TalepageAppBar extends StatelessWidget
           ),
         ),
         alignment: Alignment.bottomCenter,
-        child: TalepageTabBar(controller: controller),
+        child: _TabBar(controller: controller),
       ),
     );
   }
@@ -62,4 +61,70 @@ class TalepageAppBar extends StatelessWidget
 
   @override
   Tale selector(AppState state) => selectedTale(state);
+}
+
+class _TabBar extends StatelessWidget {
+  const _TabBar({
+    required this.controller,
+  });
+
+  final TabController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, child) {
+        return TabBar(
+          controller: controller,
+          dividerHeight: 0,
+          tabAlignment: TabAlignment.center,
+          indicatorSize: TabBarIndicatorSize.tab,
+          unselectedLabelColor: Colors.grey,
+          unselectedLabelStyle: context.textTheme.labelSmall,
+          labelStyle: context.textTheme.labelSmall,
+          splashBorderRadius: BorderRadius.circular(16),
+          indicatorColor: Colors.transparent,
+          tabs: [
+            tab(
+              'Tale',
+              Icons.smart_toy_rounded,
+              controller.index == 0,
+            ),
+            tab(
+              'Pages',
+              Icons.pages_rounded,
+              controller.index == 1,
+            ),
+            tab(
+              'Interactions',
+              Icons.play_arrow_rounded,
+              controller.index == 2,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Tab tab(String text, IconData icon, bool isSelected) {
+    return Tab(
+      child: AnimatedContainer(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        duration: const Duration(milliseconds: 100),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.grey.shade800 : null,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon),
+            const SizedBox(width: 8),
+            Text(text),
+          ],
+        ),
+      ),
+    );
+  }
 }

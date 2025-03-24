@@ -22,8 +22,7 @@ class _HoverWidgetState extends State<HoverWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final radius = (context.theme.cardTheme.shape! as RoundedRectangleBorder)
-        .borderRadius as BorderRadius;
+    final radius = context.borderRadius;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 100),
       decoration: BoxDecoration(

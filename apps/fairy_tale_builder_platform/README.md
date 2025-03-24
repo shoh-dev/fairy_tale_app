@@ -25,7 +25,7 @@ Tools • Dart 3.6.0 • DevTools 2.40.2
     * Top Bar [Row]
         - Back button
         - Tabs (Tale, Pages, Interactions)
-            * Tale [Column]
+            * Tale [Row/Column]
                 - Title selector dropdown
                 - Description selector dropdown
                 - Orientation selector
