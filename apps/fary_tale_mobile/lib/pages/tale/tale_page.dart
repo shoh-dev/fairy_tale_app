@@ -6,7 +6,7 @@ import 'package:fairy_tale_mobile/components/safearea.dart';
 import 'package:fairy_tale_mobile/pages/tale/components/left_buttons.dart';
 import 'package:fairy_tale_mobile/pages/tale/components/right_buttons.dart';
 import 'package:fairy_tale_mobile/pages/tale/components/text.dart';
-import 'package:fairy_tale_mobile/pages/tale_list/components/state_result_wrapper.dart';
+import '../../../../fairy_tale_builder_platform/lib/components/state_result_wrapper.dart';
 import 'package:fairy_tale_mobile/pages/tale_list/selected_tale/components/selected_tale_interaction_object.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';

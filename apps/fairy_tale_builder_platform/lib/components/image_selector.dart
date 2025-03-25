@@ -14,6 +14,7 @@ class ImageSelectorComponent extends StatelessWidget {
     this.onImageSelected,
     this.onImageRemoved,
     this.recommendedSize,
+    this.size,
   });
 
   final String imagePath;
@@ -21,12 +22,14 @@ class ImageSelectorComponent extends StatelessWidget {
   final VoidCallback? onImageRemoved;
   final String title;
   final Size? recommendedSize;
+  final Size? size;
 
   @override
   Widget build(BuildContext context) {
     final radius = context.borderRadius;
 
-    final recommendedSize = this.recommendedSize ?? const Size(200, 200);
+    final size = this.size ?? const Size(200, 200);
+    final recommendedSize = this.recommendedSize ?? size;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,12 +66,11 @@ class ImageSelectorComponent extends StatelessWidget {
                         borderRadius: radius,
                         child: Image.network(
                           '$imagePath?${DateTime.now().millisecondsSinceEpoch}',
-                          width: recommendedSize.width,
-                          height: recommendedSize.height,
-                          fit: BoxFit.fill,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Placeholder();
-                          },
+                          width: size.width,
+                          height: size.height,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Placeholder(),
                         ),
                       ),
                     ButtonComponent.outlined(

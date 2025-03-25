@@ -1,8 +1,8 @@
 import 'package:fairy_tale_builder_platform/pages/talepage/components/appbar.dart';
-import 'package:fairy_tale_builder_platform/pages/talepage/components/tabs/pages.dart';
-import 'package:fairy_tale_builder_platform/pages/talepage/components/tabs/interactions.dart';
-import 'package:fairy_tale_builder_platform/pages/talepage/components/tabs/preview.dart';
-import 'package:fairy_tale_builder_platform/pages/talepage/components/tabs/tale.dart';
+import 'package:fairy_tale_builder_platform/pages/talepage/tabs/pages.dart';
+import 'package:fairy_tale_builder_platform/pages/talepage/tabs/interactions.dart';
+import 'package:fairy_tale_builder_platform/pages/talepage/tabs/preview.dart';
+import 'package:fairy_tale_builder_platform/pages/talepage/tabs/tale.dart';
 import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -79,6 +79,7 @@ class _TalepageState extends State<Talepage>
                   ],
                 ),
               ),
+              const SizedBox(height: 8),
             ],
           ),
         ),

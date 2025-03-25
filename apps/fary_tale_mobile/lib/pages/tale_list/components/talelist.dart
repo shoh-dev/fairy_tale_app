@@ -1,4 +1,4 @@
-import 'package:fairy_tale_mobile/pages/tale_list/components/state_result_wrapper.dart';
+import '../../../../../fairy_tale_builder_platform/lib/components/state_result_wrapper.dart';
 import 'package:fairy_tale_mobile/pages/tale_list/components/tale.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';

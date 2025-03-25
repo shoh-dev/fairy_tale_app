@@ -52,19 +52,10 @@ class TalepageTale extends StatelessWidget
       );
 }
 
-class _Form extends StatefulWidget {
+class _Form extends StatelessWidget with DispatchConnectorMixin {
   const _Form(this.tale);
 
   final Tale tale;
-
-  @override
-  State<_Form> createState() => __FormState();
-}
-
-class __FormState extends State<_Form> with DispatchConnectorMixinState {
-  Tale get tale => widget.tale;
-
-  final formKey = GlobalKey<FormState>();
 
   @override
   Widget builder(BuildContext context, Dispatcher<AppState> dispatch) {
@@ -113,14 +104,14 @@ Widget _space([double height = 24]) {
   return SizedBox(height: height);
 }
 
-class _Metadata extends StatelessWidget {
+class _Metadata extends StatelessWidget with DispatchConnectorMixin {
   const _Metadata({
     required this.tale,
   });
   final Tale tale;
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(BuildContext context, Dispatcher<AppState> dispatch) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -129,9 +120,9 @@ class _Metadata extends StatelessWidget {
         ImageSelectorComponent(
           title: 'Cover Image',
           imagePath: tale.metadata.coverImageUrl,
-          recommendedSize: const Size(260, 320),
+          size: const Size(260, 320),
           onImageSelected: (value) {
-            // dispatch(UpdateTaleAction(coverImageFile: value));
+            dispatch(UpdateTaleAction(coverImageFile: value));
           },
         ),
         _space(16),
@@ -140,10 +131,10 @@ class _Metadata extends StatelessWidget {
           audioPlayer: tale.audioPlayerService,
           audioPath: tale.metadata.backgroundAudioUrl,
           onAudioRemoved: () {
-            // dispatch(UpdateTaleAction(backgroundAudioUrl: ''));
+            dispatch(UpdateTaleAction(backgroundAudioUrl: ''));
           },
           onAudioSelected: (value) {
-            // dispatch(UpdateTaleAction(backgroundAudioFile: value));
+            dispatch(UpdateTaleAction(backgroundAudioFile: value));
           },
         ),
       ],
