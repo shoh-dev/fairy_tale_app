@@ -1,6 +1,7 @@
 import 'package:fairy_tale_builder_platform/components/audio_selector.dart';
 import 'package:fairy_tale_builder_platform/components/image_selector.dart';
 import 'package:fairy_tale_builder_platform/components/translation_selector.dart';
+import 'package:fairy_tale_builder_platform/utils/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_data/myspace_data.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
@@ -17,7 +18,7 @@ class TalepageInteractionForm extends StatelessWidget
     TaleInteraction? model,
   ) {
     return Container(
-      width: 380,
+      width: Sizes.kMaxWidth * .2,
       height: double.infinity,
       decoration: BoxDecoration(
         color: Colors.grey.shade900,

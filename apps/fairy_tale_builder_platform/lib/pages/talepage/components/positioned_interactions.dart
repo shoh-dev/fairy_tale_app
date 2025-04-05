@@ -29,8 +29,7 @@ class _TalepagePositionedInteractionsState
 
     final device = Sizes.device;
 
-    return Container(
-      width: 800,
+    return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: DeviceFrame(
         orientation:

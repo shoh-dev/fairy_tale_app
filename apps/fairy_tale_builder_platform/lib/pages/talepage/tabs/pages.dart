@@ -26,7 +26,10 @@ class TalepagePages extends StatelessWidget with StateResultConnectorMixin {
         mainAxisAlignment: MainAxisAlignment.center,
         spacing: 32,
         children: [
-          _PageList(),
+          SizedBox(
+            width: Sizes.kMaxWidth * .25,
+            child: _PageList(),
+          ),
           SizedBox(
             width: Sizes.kMaxWidth * .4,
             child: _FormWrapper(),
@@ -57,11 +60,10 @@ class _PageList extends StatelessWidget
     final pages = List.of(model)
       ..sort((a, b) => a.pageNumber > b.pageNumber ? 1 : 0);
     return Container(
-      width: Sizes.kMaxWidth * .25,
       height: double.infinity,
       decoration: BoxDecoration(
         borderRadius: context.borderRadius,
-        border: Border.all(color: Colors.grey.shade800),
+        border: Border.all(color: Colors.grey),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -76,7 +78,7 @@ class _PageList extends StatelessWidget
                 ),
                 const Spacer(),
                 ButtonComponent.text(
-                  text: 'Add Page',
+                  text: 'Add',
                   icon: Icons.add_rounded,
                   onPressed: () {
                     dispatch(AddPageAction());
