@@ -1,0 +1,112 @@
+import 'package:flutter/material.dart';
+import 'package:myspace_core/myspace_core.dart';
+import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:tale_builder_flutter/features/tale/view/components/orientation_selector.dart';
+import 'package:tale_builder_flutter/features/tale/view/components/page_number_selector.dart';
+import 'package:tale_builder_flutter/features/tale/view/components/translation_selector.dart';
+import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
+
+class RightBar extends StatefulWidget {
+  const RightBar({super.key, required this.vm});
+
+  final TaleViewModel vm;
+
+  @override
+  State<RightBar> createState() => _RightBarState();
+}
+
+class _RightBarState extends State<RightBar> {
+  TaleViewModel get vm => widget.vm;
+
+  @override
+  Widget build(BuildContext context) {
+    return CommandWrapper(
+      command: vm.fetchTaleCommand,
+      okBuilder: (BuildContext context, Widget? child) => child!,
+      child: SizedBox(
+        height: context.height,
+        child: VmProvider(
+          vm: vm,
+          builder: (context, child) {
+            final tale = vm.tale;
+            final loc = vm.localization;
+            final page = vm.selectedPage;
+            return LayoutComponent.column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RepaintBoundary(
+                  child: LayoutComponent.row(
+                    spacing: 4,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.settings_outlined, size: 18),
+                      TextComponent.any(
+                        'Properties',
+                        style: context.textTheme.titleMedium,
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider(),
+                LayoutComponent.column(
+                  spacing: 16,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    //Tale Fields
+                    TranslationSelector(
+                      label: "Title",
+                      translations: loc.defaultTranslations,
+                      value: tale.title,
+                      onSelected: vm.onChangeTaleTitle,
+                    ),
+                    TranslationSelector(
+                      label: "Description",
+                      translations: loc.defaultTranslations,
+                      value: tale.description,
+                      onSelected: vm.onChangeTaleDescription,
+                    ),
+                    OrientationSelector(
+                      value: tale.orientation,
+                      onSelected: vm.onChangeTaleOrientation,
+                    ),
+                  ],
+                ),
+                if (page != null) ...[
+                  const SizedBox(height: 32),
+                  RepaintBoundary(
+                    child: LayoutComponent.row(
+                      spacing: 4,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.book_outlined, size: 18),
+                        TextComponent.any(
+                          "Page",
+                          style: context.textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(),
+                  LayoutComponent.column(
+                    spacing: 16,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      //Page Fields
+                      PageNumberSelector(
+                        totalPages: vm.pages.length,
+                        value: page.pageNumber,
+                        onSelected: vm.onChangePageNumber,
+                      ),
+                    ],
+                  ),
+                ],
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}

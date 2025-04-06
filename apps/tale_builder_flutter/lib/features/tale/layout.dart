@@ -15,7 +15,7 @@ class TaleLayout extends LayoutStatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black12),
           borderRadius: context.borderRadius,
-          color: context.surface,
+          color: context.colorScheme.surfaceContainer,
           boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8)],
         ),
         child: shell,

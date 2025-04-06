@@ -36,4 +36,6 @@ abstract class TaleModel with _$TaleModel {
     backgroundAudioUrl: '',
     isNew: true,
   );
+
+  bool get isPortrait => orientation == 'portrait';
 }

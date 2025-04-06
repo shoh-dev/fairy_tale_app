@@ -24,9 +24,18 @@ class TaleViewModel extends Vm {
   }) : _taleRepository = taleRepository,
        _localizationRepository = localizationRepository,
        _pagesRepository = pagesRepository {
-    tale = TaleModel.newTale(
-      id ?? UuidV4().generate(),
-    ).copyWith(isNew: id == null || id == 'null');
+    // bool isValidUuidV4(String input) {
+    //   final regex = RegExp(
+    //     r'^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
+    //     caseSensitive: false,
+    //   );
+    //   return regex.hasMatch(input);
+    // }
+
+    tale = TaleModel.newTale(id ?? UuidV4().generate()).copyWith(
+      isNew: id == null || id == 'null' || id == 'new',
+      // || !isValidUuidV4(id),
+    );
     localization = TaleLocalizationModel.empty(tale.id);
 
     fetchTaleCommand = CommandParam(_fetchTale)..execute(tale);
@@ -44,7 +53,7 @@ class TaleViewModel extends Vm {
     final result = await _taleRepository.getTale(tale.id);
     switch (result) {
       case ResultOk<TaleModel>():
-        tale = result.value;
+        this.tale = result.value;
         log.info("Fetched tale");
         notifyListeners();
         return Result.ok(null);
@@ -123,6 +132,11 @@ class TaleViewModel extends Vm {
 
   void onSelectPage(TalePageModel page) {
     selectedPageId = page.id;
+    notifyListeners();
+  }
+
+  void onDeselectPage() {
+    selectedPageId = '';
     notifyListeners();
   }
 
