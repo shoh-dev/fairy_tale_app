@@ -8,6 +8,7 @@ import 'package:tale_builder_flutter/features/tale/layout.dart';
 import 'package:tale_builder_flutter/features/tale/repository/localization_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/pages_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/tale_repository.dart';
+import 'package:tale_builder_flutter/features/tale/repository/texts_repository.dart';
 import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
 import 'package:tale_builder_flutter/store/app_store.dart';
@@ -42,6 +43,12 @@ void main() async {
       Provider<TalePagesRepository>(
         create:
             (context) => TalePagesRepository(
+              context.readDependency<SupabaseRepository>().client,
+            ),
+      ),
+      Provider<TalePageTextsRepository>(
+        create:
+            (context) => TalePageTextsRepository(
               context.readDependency<SupabaseRepository>().client,
             ),
       ),
@@ -85,6 +92,8 @@ UIRoot _root(AppStore store) => UIRoot(
                           context.readDependency<TaleLocalizationRepository>(),
                       pagesRepository:
                           context.readDependency<TalePagesRepository>(),
+                      textsRepository:
+                          context.readDependency<TalePageTextsRepository>(),
                     ),
                 builder:
                     (context, state, vm) => TaleView(vm: vm as TaleViewModel),

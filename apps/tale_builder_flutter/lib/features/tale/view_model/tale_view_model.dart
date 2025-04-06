@@ -1,46 +1,44 @@
 import 'dart:collection';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/services.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 import 'package:tale_builder_flutter/features/tale/model/localization.dart';
 import 'package:tale_builder_flutter/features/tale/model/page.dart';
 import 'package:tale_builder_flutter/features/tale/model/tale.dart';
+import 'package:tale_builder_flutter/features/tale/model/text.dart';
 import 'package:tale_builder_flutter/features/tale/repository/localization_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/pages_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/tale_repository.dart';
+import 'package:tale_builder_flutter/features/tale/repository/texts_repository.dart';
 import 'package:uuid/v4.dart';
 
 class TaleViewModel extends Vm {
   final TaleRepository _taleRepository;
   final TaleLocalizationRepository _localizationRepository;
   final TalePagesRepository _pagesRepository;
+  final TalePageTextsRepository _textsRepository;
 
   TaleViewModel({
     required TaleRepository taleRepository,
     required TaleLocalizationRepository localizationRepository,
     required TalePagesRepository pagesRepository,
+    required TalePageTextsRepository textsRepository,
     String? id,
   }) : _taleRepository = taleRepository,
        _localizationRepository = localizationRepository,
-       _pagesRepository = pagesRepository {
-    // bool isValidUuidV4(String input) {
-    //   final regex = RegExp(
-    //     r'^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
-    //     caseSensitive: false,
-    //   );
-    //   return regex.hasMatch(input);
-    // }
-
-    tale = TaleModel.newTale(id ?? UuidV4().generate()).copyWith(
-      isNew: id == null || id == 'null' || id == 'new',
-      // || !isValidUuidV4(id),
-    );
+       _pagesRepository = pagesRepository,
+       _textsRepository = textsRepository {
+    tale = TaleModel.newTale(
+      id ?? UuidV4().generate(),
+    ).copyWith(isNew: id == null || id == 'null' || id == 'new');
     localization = TaleLocalizationModel.empty(tale.id);
 
     fetchTaleCommand = CommandParam(_fetchTale)..execute(tale);
     fetchLocalizationCommand = CommandParam(_fetchLocalization)..execute(tale);
     fetchPagesCommand = CommandParam(_fetchPages)..execute(tale);
+    fetchTextsCommand = CommandParam(_fetchTexts)..execute(tale);
   }
 
   //Tale
@@ -131,13 +129,19 @@ class TaleViewModel extends Vm {
   }
 
   void onSelectPage(TalePageModel page) {
-    selectedPageId = page.id;
-    notifyListeners();
+    if (page.id != selectedPageId) {
+      selectedPageId = page.id;
+      selectedTextId = '';
+      notifyListeners();
+    }
   }
 
   void onDeselectPage() {
-    selectedPageId = '';
-    notifyListeners();
+    if (selectedPageId.isNotEmpty) {
+      selectedPageId = '';
+      selectedTextId = '';
+      notifyListeners();
+    }
   }
 
   void onAddPage() {
@@ -188,6 +192,57 @@ class TaleViewModel extends Vm {
     _pages[index] = newPage.copyWith(pageNumber: pageNumber);
     notifyListeners();
   }
-
   //Pages
+
+  //Texts
+  late final CommandParam<void, TaleModel> fetchTextsCommand;
+  final List<TalePageTextModel> _texts = List.empty(growable: true);
+  UnmodifiableListView<TalePageTextModel> get texts =>
+      UnmodifiableListView(_texts);
+  String selectedTextId = '';
+  TalePageTextModel? get selectedText =>
+      texts.firstWhereOrNull((element) => element.id == selectedTextId);
+
+  void onSelectText(TalePageTextModel text) {
+    if (text.id != selectedTextId) {
+      selectedTextId = text.id;
+      notifyListeners();
+    }
+  }
+
+  void onDeselectText() {
+    if (selectedTextId.isNotEmpty) {
+      selectedTextId = '';
+      notifyListeners();
+    }
+  }
+
+  Future<Result<void>> _fetchTexts(TaleModel tale) async {
+    if (tale.isNew) return Result.ok(null);
+
+    final result = await _textsRepository.getTexts(tale.id);
+    switch (result) {
+      case ResultOk<List<TalePageTextModel>>():
+        _texts.clear();
+        _texts.addAll(result.value);
+        log.info("Fetched texts");
+        notifyListeners();
+        return Result.ok(null);
+      case ResultError<List<TalePageTextModel>>():
+        log.warning('Fetch texts error: ${result.e}');
+        notifyListeners();
+        return Result.error(result.e);
+    }
+  }
+
+  void onChangeTextPosition(Offset offset) {
+    final index = _texts.indexWhere((element) => element.id == selectedTextId);
+    if (index == -1) return;
+    final newText = _texts[index];
+    _texts[index] = newText.copyWith(dx: offset.dx, dy: offset.dy);
+    notifyListeners();
+    print(_texts);
+  }
+
+  //Texts
 }

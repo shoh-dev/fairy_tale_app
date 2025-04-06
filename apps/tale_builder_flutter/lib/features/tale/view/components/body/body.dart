@@ -22,18 +22,16 @@ class _BodyState extends State<Body> {
     return VmProvider(
       vm: vm,
       builder: (context, _) {
-        final tale = vm.tale;
         final page = vm.selectedPage;
-        final deviceSize = Sizes.deviceSize(tale.isPortrait);
         return GestureDetector(
-          onTap: vm.onDeselectPage,
+          // onTap: vm.onDeselectPage,
           child: Container(
             height: context.height,
             color: context.colorScheme.surface,
             alignment: Alignment.center,
             child:
                 page != null
-                    ? PageViewer(deviceSize: deviceSize)
+                    ? PageViewer(vm: vm)
                     : TextComponent.any(
                       "Page is not selected!",
                       style: context.textTheme.headlineSmall,
