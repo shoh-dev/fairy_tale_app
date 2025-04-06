@@ -5,6 +5,8 @@ import 'package:tale_builder_flutter/features/splash/layout.dart';
 import 'package:tale_builder_flutter/features/splash/view/splash_view.dart';
 import 'package:tale_builder_flutter/features/splash/view_model/splash_view_model.dart';
 import 'package:tale_builder_flutter/features/tale/layout.dart';
+import 'package:tale_builder_flutter/features/tale/repository/localization_repository.dart';
+import 'package:tale_builder_flutter/features/tale/repository/pages_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/tale_repository.dart';
 import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
@@ -22,12 +24,24 @@ void main() async {
   final config = CoreAppConfig(
     root: _root,
     appStore: appStore,
-    theme: UITheme(theme: (context) => AppTheme(borderRadius: 6)),
+    theme: UITheme(theme: (context) => AppTheme(borderRadius: 16)),
     dependencies: [
       Provider<SupabaseRepository>.value(value: supabaseRepository),
       Provider<TaleRepository>(
         create:
             (context) => TaleRepository(
+              context.readDependency<SupabaseRepository>().client,
+            ),
+      ),
+      Provider<TaleLocalizationRepository>(
+        create:
+            (context) => TaleLocalizationRepository(
+              context.readDependency<SupabaseRepository>().client,
+            ),
+      ),
+      Provider<TalePagesRepository>(
+        create:
+            (context) => TalePagesRepository(
               context.readDependency<SupabaseRepository>().client,
             ),
       ),
@@ -38,7 +52,6 @@ void main() async {
 }
 
 UIRoot _root(AppStore store) => UIRoot(
-  initialLocation: "/tale/11111111-1111-1111-1111-111111111111",
   layouts: [
     UILayout(
       layoutBuilder: (context, state, shell) => SplashLayout(shell: shell),
@@ -66,8 +79,12 @@ UIRoot _root(AppStore store) => UIRoot(
                 path: ":id",
                 vm:
                     (context, state) => TaleViewModel(
-                      context.readDependency<TaleRepository>(),
                       id: state.pathParameters['id']!,
+                      taleRepository: context.readDependency<TaleRepository>(),
+                      localizationRepository:
+                          context.readDependency<TaleLocalizationRepository>(),
+                      pagesRepository:
+                          context.readDependency<TalePagesRepository>(),
                     ),
                 builder:
                     (context, state, vm) => TaleView(vm: vm as TaleViewModel),

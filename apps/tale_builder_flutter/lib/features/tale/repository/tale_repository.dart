@@ -15,7 +15,7 @@ class TaleRepository extends Dependency {
         await Future.delayed(Duration(seconds: 1));
       }
       final response =
-          await _client.from("/tales").select().eq("id", id).single();
+          await _client.from("tales").select().eq("id", id).single();
       return Result.ok(TaleModel.fromJson(response));
     } catch (e) {
       return Result.error(e);

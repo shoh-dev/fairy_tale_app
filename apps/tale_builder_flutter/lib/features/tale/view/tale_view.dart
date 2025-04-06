@@ -12,10 +12,19 @@ class TaleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return TaleEditor(vm: vm);
     return CommandWrapper(
       command: vm.fetchTaleCommand,
       okBuilder: (context, child) => child!,
-      child: TaleEditor(vm: vm),
+      child: CommandWrapper(
+        command: vm.fetchLocalizationCommand,
+        okBuilder: (context, child) => child!,
+        child: CommandWrapper(
+          command: vm.fetchPagesCommand,
+          okBuilder: (context, child) => child!,
+          child: TaleEditor(vm: vm),
+        ),
+      ),
     );
   }
 }

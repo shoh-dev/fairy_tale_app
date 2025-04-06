@@ -4,6 +4,8 @@ part 'tale.freezed.dart';
 
 @freezed
 abstract class TaleModel with _$TaleModel {
+  const TaleModel._();
+
   const factory TaleModel({
     required String id,
     required String title,
@@ -11,6 +13,7 @@ abstract class TaleModel with _$TaleModel {
     required String orientation,
     required String coverImageUrl,
     required String backgroundAudioUrl,
+    @Default(false) bool isNew,
   }) = _TaleModel;
 
   factory TaleModel.fromJson(Map<String, dynamic> json) {
@@ -23,4 +26,14 @@ abstract class TaleModel with _$TaleModel {
       coverImageUrl: '', //todo:
     );
   }
+
+  factory TaleModel.newTale(String id) => TaleModel(
+    id: id,
+    title: '',
+    description: '',
+    orientation: 'landscape',
+    coverImageUrl: '',
+    backgroundAudioUrl: '',
+    isNew: true,
+  );
 }
