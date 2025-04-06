@@ -13,11 +13,16 @@ dependencies:
   cupertino_icons: ^1.0.8
 
   # Shared
+  myspace_design_system:
+    path: /Users/shoh/Documents/github/personal/myspace/packages/myspace_design_system
   myspace_ui:
     path: /Users/shoh/Documents/github/personal/myspace/packages/myspace_ui
   myspace_core:
     path: /Users/shoh/Documents/github/personal/myspace/packages/myspace_core
+    
   freezed_annotation: ^3.0.0
+  supabase: ^2.6.3
+  supabase_flutter: ^2.8.4
 
 dev_dependencies:
   flutter_test:
