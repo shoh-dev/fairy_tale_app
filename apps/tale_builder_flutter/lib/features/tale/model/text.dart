@@ -23,10 +23,10 @@ abstract class TalePageTextModel with _$TalePageTextModel {
       id: json['id'],
       pageId: json['tale_page_id'],
       text: json['text'],
-      dx: metadata['pos']!['x']!.toDouble(),
-      dy: metadata['pos']!['y']!.toDouble(),
-      width: metadata['size']!['w']!.toDouble(),
-      height: metadata['size']!['h']!.toDouble(),
+      dx: metadata['pos']!['x']!.ceil().toDouble(),
+      dy: metadata['pos']!['y']!.ceil().toDouble(),
+      width: metadata['size']!['w']!.ceil().toDouble(),
+      height: metadata['size']!['h']!.ceil().toDouble(),
     );
   }
 

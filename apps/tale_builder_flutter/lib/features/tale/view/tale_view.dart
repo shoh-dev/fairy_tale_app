@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/body/body.dart';
-import 'package:tale_builder_flutter/features/tale/view/components/left.dart';
-import 'package:tale_builder_flutter/features/tale/view/components/right.dart';
+import 'package:tale_builder_flutter/features/tale/view/components/left_bar.dart';
+import 'package:tale_builder_flutter/features/tale/view/components/right_bar.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
 
 abstract class Sizes {

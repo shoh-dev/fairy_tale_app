@@ -22,14 +22,6 @@ class _PageViewerState extends State<PageViewer> {
   String hoveredTextId = '';
 
   @override
-  void didUpdateWidget(covariant PageViewer oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget != widget) {
-      print('New widget');
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     return CommandWrapper(
       command: vm.fetchTextsCommand,
@@ -63,7 +55,9 @@ class _PageViewerState extends State<PageViewer> {
                           deviceSize: deviceSize,
                           onSelect: vm.onSelectText,
                           selectedText: selectedText,
-                          onChangePosition: vm.onChangeTextPosition,
+                          onChangePosition:
+                              (value) =>
+                                  vm.onChangeTextPosition(value.dx, value.dy),
                         ),
                     ],
                   ),
@@ -103,11 +97,23 @@ class __TextState extends State<_Text> {
   Offset offset = Offset.zero;
   Size size = Size.zero;
 
-  @override
-  void initState() {
+  void initialize() {
     offset = Offset(text.dx, text.dy);
     size = Size(text.width, text.height);
+  }
+
+  @override
+  void initState() {
+    initialize();
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant _Text oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget != widget) {
+      initialize();
+    }
   }
 
   @override

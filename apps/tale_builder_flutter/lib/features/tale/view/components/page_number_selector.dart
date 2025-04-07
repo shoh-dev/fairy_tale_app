@@ -25,7 +25,7 @@ class PageNumberSelector extends StatelessWidget {
             value == null
                 ? null
                 : DropdownItem(value: value!, label: value!.toString()),
-        onChanged: (value, controller) {
+        onChanged: (value) {
           if (value == null || value.value == this.value) {
             return;
           }

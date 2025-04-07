@@ -4,6 +4,7 @@ import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/orientation_selector.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/page_number_selector.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/translation_selector.dart';
+import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
 
 class RightBar extends StatefulWidget {
@@ -31,6 +32,8 @@ class _RightBarState extends State<RightBar> {
             final tale = vm.tale;
             final loc = vm.localization;
             final page = vm.selectedPage;
+            final text = vm.selectedText;
+            final deviceSize = Sizes.deviceSize(tale.isPortrait);
             return LayoutComponent.column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -98,6 +101,73 @@ class _RightBarState extends State<RightBar> {
                         totalPages: vm.pages.length,
                         value: page.pageNumber,
                         onSelected: vm.onChangePageNumber,
+                      ),
+                    ],
+                  ),
+                ],
+                if (text != null) ...[
+                  const SizedBox(height: 32),
+                  RepaintBoundary(
+                    child: LayoutComponent.row(
+                      spacing: 4,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.book_outlined, size: 18),
+                        TextComponent.any(
+                          "Text",
+                          style: context.textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(),
+                  LayoutComponent.column(
+                    spacing: 16,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      //Text Fields
+                      TranslationSelector(
+                        label: "Text",
+                        translations: loc.defaultTranslations,
+                        value: text.text,
+                        onSelected: vm.onChangeTextText,
+                      ),
+                      SliderComponent(
+                        label: "Width",
+                        min: 1,
+                        max: deviceSize.width - text.dx,
+                        initialValue: text.width,
+                        onChanged: (value) {
+                          vm.onChangeTextSize(value, null);
+                        },
+                      ),
+                      SliderComponent(
+                        label: "Height",
+                        min: 1,
+                        max: deviceSize.height - text.dy,
+                        initialValue: text.height,
+                        onChanged: (value) {
+                          vm.onChangeTextSize(null, value);
+                        },
+                      ),
+                      SliderComponent(
+                        label: "X Postion",
+                        min: 0,
+                        max: deviceSize.width - text.width,
+                        initialValue: text.dx,
+                        onChanged: (value) {
+                          vm.onChangeTextPosition(value, null);
+                        },
+                      ),
+                      SliderComponent(
+                        label: "Y Position",
+                        min: 0,
+                        max: deviceSize.height - text.height,
+                        initialValue: text.dy,
+                        onChanged: (value) {
+                          vm.onChangeTextPosition(null, value);
+                        },
                       ),
                     ],
                   ),

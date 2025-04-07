@@ -235,13 +235,47 @@ class TaleViewModel extends Vm {
     }
   }
 
-  void onChangeTextPosition(Offset offset) {
+  void _updateText(TalePageTextModel text) {
     final index = _texts.indexWhere((element) => element.id == selectedTextId);
     if (index == -1) return;
-    final newText = _texts[index];
-    _texts[index] = newText.copyWith(dx: offset.dx, dy: offset.dy);
+    _texts[index] = text;
+  }
+
+  // void onChangeTextPosition(Offset offset) {
+  //   if (selectedText == null) return;
+  //   _updateText(selectedText!.copyWith(dx: offset.dx, dy: offset.dy));
+  //   notifyListeners();
+  // }
+
+  void onChangeTextText(String text) {
+    if (selectedText == null) return;
+    _updateText(selectedText!.copyWith(text: text));
     notifyListeners();
-    print(_texts);
+  }
+
+  void onChangeTextSize([double? width, double? height]) {
+    if (selectedText == null) return;
+    if (width == null && height == null) return;
+    _updateText(
+      selectedText!.copyWith(
+        width: width?.ceil().toDouble() ?? selectedText!.width,
+        height: height?.ceil().toDouble() ?? selectedText!.height,
+      ),
+    );
+    notifyListeners();
+  }
+
+  void onChangeTextPosition([double? dx, double? dy]) {
+    if (selectedText == null) return;
+    if (dx == null && dy == null) return;
+
+    _updateText(
+      selectedText!.copyWith(
+        dx: dx?.ceil().toDouble() ?? selectedText!.dx,
+        dy: dy?.ceil().toDouble() ?? selectedText!.dy,
+      ),
+    );
+    notifyListeners();
   }
 
   //Texts

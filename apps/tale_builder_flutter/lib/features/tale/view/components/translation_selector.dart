@@ -24,7 +24,7 @@ class TranslationSelector extends StatelessWidget {
         menuWidth: 320,
         initialValue:
             value == null ? null : DropdownItem(value: value!, label: value!),
-        onChanged: (value, controller) {
+        onChanged: (value) {
           // if (value?.value == 'add') {
           //   Navigator.of(context).push(
           //     MaterialPageRoute<void>(
