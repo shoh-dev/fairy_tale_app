@@ -178,7 +178,7 @@ class __TextState extends State<_Text> {
                                 : context.colorScheme.onSurface),
                   ),
                 ),
-                child: TextComponent.any(text.text),
+                child: TextComponent.any(text.text, style: text.style),
               );
             },
           ),

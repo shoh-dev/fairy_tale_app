@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'text.freezed.dart';
@@ -15,18 +16,36 @@ abstract class TalePageTextModel with _$TalePageTextModel {
     required double dx,
     required double dy,
     @Default(false) bool isNew,
+    TextStyle? style,
   }) = _TalePageTextModel;
 
   factory TalePageTextModel.fromJson(Map<String, dynamic> json) {
-    final metadata = (json['metadata'] as Map);
+    final metadata = json['metadata'] as Map;
+    final size = (metadata['size'] as Map).cast<String, num>();
+    final pos = (metadata['pos'] as Map).cast<String, num>();
+    final style = ((metadata['style'] ?? {}) as Map);
     return TalePageTextModel(
       id: json['id'],
       pageId: json['tale_page_id'],
       text: json['text'],
-      dx: metadata['pos']!['x']!.ceil().toDouble(),
-      dy: metadata['pos']!['y']!.ceil().toDouble(),
-      width: metadata['size']!['w']!.ceil().toDouble(),
-      height: metadata['size']!['h']!.ceil().toDouble(),
+      dx: pos['x']!.ceil().toDouble(),
+      dy: pos['y']!.ceil().toDouble(),
+      width: size['w']!.ceil().toDouble(),
+      height: size['h']!.ceil().toDouble(),
+      style:
+          style.isNotEmpty
+              ? TextStyle(
+                fontSize: style['font_size']?.toDouble(),
+                color:
+                    style['color'] != null
+                        ? Color(
+                          int.parse(
+                            "0xFF${style['color'].toString().substring(1)}",
+                          ),
+                        )
+                        : null,
+              )
+              : null,
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_ui/myspace_ui.dart';
@@ -275,6 +276,15 @@ class TaleViewModel extends Vm {
         dy: dy?.ceil().toDouble() ?? selectedText!.dy,
       ),
     );
+    notifyListeners();
+  }
+
+  void onChangeTextFontSize(double size) {
+    if (selectedText == null) return;
+    TextStyle style = selectedText?.style ?? TextStyle();
+    style = style.copyWith(fontSize: size);
+
+    _updateText(selectedText!.copyWith(style: style));
     notifyListeners();
   }
 

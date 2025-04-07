@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TalePageTextModel {
 
- String get id; String get text; String get pageId; double get width; double get height; double get dx; double get dy; bool get isNew;
+ String get id; String get text; String get pageId; double get width; double get height; double get dx; double get dy; bool get isNew; TextStyle? get style;
 /// Create a copy of TalePageTextModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $TalePageTextModelCopyWith<TalePageTextModel> get copyWith => _$TalePageTextMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TalePageTextModel&&(identical(other.id, id) || other.id == id)&&(identical(other.text, text) || other.text == text)&&(identical(other.pageId, pageId) || other.pageId == pageId)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.dx, dx) || other.dx == dx)&&(identical(other.dy, dy) || other.dy == dy)&&(identical(other.isNew, isNew) || other.isNew == isNew));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TalePageTextModel&&(identical(other.id, id) || other.id == id)&&(identical(other.text, text) || other.text == text)&&(identical(other.pageId, pageId) || other.pageId == pageId)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.dx, dx) || other.dx == dx)&&(identical(other.dy, dy) || other.dy == dy)&&(identical(other.isNew, isNew) || other.isNew == isNew)&&(identical(other.style, style) || other.style == style));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,text,pageId,width,height,dx,dy,isNew);
+int get hashCode => Object.hash(runtimeType,id,text,pageId,width,height,dx,dy,isNew,style);
 
 @override
 String toString() {
-  return 'TalePageTextModel(id: $id, text: $text, pageId: $pageId, width: $width, height: $height, dx: $dx, dy: $dy, isNew: $isNew)';
+  return 'TalePageTextModel(id: $id, text: $text, pageId: $pageId, width: $width, height: $height, dx: $dx, dy: $dy, isNew: $isNew, style: $style)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $TalePageTextModelCopyWith<$Res>  {
   factory $TalePageTextModelCopyWith(TalePageTextModel value, $Res Function(TalePageTextModel) _then) = _$TalePageTextModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String text, String pageId, double width, double height, double dx, double dy, bool isNew
+ String id, String text, String pageId, double width, double height, double dx, double dy, bool isNew, TextStyle? style
 });
 
 
@@ -63,7 +63,7 @@ class _$TalePageTextModelCopyWithImpl<$Res>
 
 /// Create a copy of TalePageTextModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? text = null,Object? pageId = null,Object? width = null,Object? height = null,Object? dx = null,Object? dy = null,Object? isNew = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? text = null,Object? pageId = null,Object? width = null,Object? height = null,Object? dx = null,Object? dy = null,Object? isNew = null,Object? style = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
@@ -73,7 +73,8 @@ as double,height: null == height ? _self.height : height // ignore: cast_nullabl
 as double,dx: null == dx ? _self.dx : dx // ignore: cast_nullable_to_non_nullable
 as double,dy: null == dy ? _self.dy : dy // ignore: cast_nullable_to_non_nullable
 as double,isNew: null == isNew ? _self.isNew : isNew // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,style: freezed == style ? _self.style : style // ignore: cast_nullable_to_non_nullable
+as TextStyle?,
   ));
 }
 
@@ -84,7 +85,7 @@ as bool,
 
 
 class _TalePageTextModel extends TalePageTextModel {
-  const _TalePageTextModel({required this.id, required this.text, required this.pageId, required this.width, required this.height, required this.dx, required this.dy, this.isNew = false}): super._();
+  const _TalePageTextModel({required this.id, required this.text, required this.pageId, required this.width, required this.height, required this.dx, required this.dy, this.isNew = false, this.style}): super._();
   
 
 @override final  String id;
@@ -95,6 +96,7 @@ class _TalePageTextModel extends TalePageTextModel {
 @override final  double dx;
 @override final  double dy;
 @override@JsonKey() final  bool isNew;
+@override final  TextStyle? style;
 
 /// Create a copy of TalePageTextModel
 /// with the given fields replaced by the non-null parameter values.
@@ -106,16 +108,16 @@ _$TalePageTextModelCopyWith<_TalePageTextModel> get copyWith => __$TalePageTextM
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TalePageTextModel&&(identical(other.id, id) || other.id == id)&&(identical(other.text, text) || other.text == text)&&(identical(other.pageId, pageId) || other.pageId == pageId)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.dx, dx) || other.dx == dx)&&(identical(other.dy, dy) || other.dy == dy)&&(identical(other.isNew, isNew) || other.isNew == isNew));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TalePageTextModel&&(identical(other.id, id) || other.id == id)&&(identical(other.text, text) || other.text == text)&&(identical(other.pageId, pageId) || other.pageId == pageId)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.dx, dx) || other.dx == dx)&&(identical(other.dy, dy) || other.dy == dy)&&(identical(other.isNew, isNew) || other.isNew == isNew)&&(identical(other.style, style) || other.style == style));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,text,pageId,width,height,dx,dy,isNew);
+int get hashCode => Object.hash(runtimeType,id,text,pageId,width,height,dx,dy,isNew,style);
 
 @override
 String toString() {
-  return 'TalePageTextModel(id: $id, text: $text, pageId: $pageId, width: $width, height: $height, dx: $dx, dy: $dy, isNew: $isNew)';
+  return 'TalePageTextModel(id: $id, text: $text, pageId: $pageId, width: $width, height: $height, dx: $dx, dy: $dy, isNew: $isNew, style: $style)';
 }
 
 
@@ -126,7 +128,7 @@ abstract mixin class _$TalePageTextModelCopyWith<$Res> implements $TalePageTextM
   factory _$TalePageTextModelCopyWith(_TalePageTextModel value, $Res Function(_TalePageTextModel) _then) = __$TalePageTextModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String text, String pageId, double width, double height, double dx, double dy, bool isNew
+ String id, String text, String pageId, double width, double height, double dx, double dy, bool isNew, TextStyle? style
 });
 
 
@@ -143,7 +145,7 @@ class __$TalePageTextModelCopyWithImpl<$Res>
 
 /// Create a copy of TalePageTextModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? text = null,Object? pageId = null,Object? width = null,Object? height = null,Object? dx = null,Object? dy = null,Object? isNew = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? text = null,Object? pageId = null,Object? width = null,Object? height = null,Object? dx = null,Object? dy = null,Object? isNew = null,Object? style = freezed,}) {
   return _then(_TalePageTextModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
@@ -153,7 +155,8 @@ as double,height: null == height ? _self.height : height // ignore: cast_nullabl
 as double,dx: null == dx ? _self.dx : dx // ignore: cast_nullable_to_non_nullable
 as double,dy: null == dy ? _self.dy : dy // ignore: cast_nullable_to_non_nullable
 as double,isNew: null == isNew ? _self.isNew : isNew // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,style: freezed == style ? _self.style : style // ignore: cast_nullable_to_non_nullable
+as TextStyle?,
   ));
 }
 

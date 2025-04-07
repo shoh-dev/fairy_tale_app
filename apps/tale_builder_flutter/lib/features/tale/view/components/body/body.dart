@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/body/page_viewer.dart';
-import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
 
 class Body extends StatefulWidget {
