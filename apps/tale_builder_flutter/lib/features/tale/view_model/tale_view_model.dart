@@ -1,8 +1,5 @@
-import 'dart:collection';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 import 'package:tale_builder_flutter/features/tale/model/localization.dart';
@@ -242,12 +239,6 @@ class TaleViewModel extends Vm {
     _texts[index] = text;
   }
 
-  // void onChangeTextPosition(Offset offset) {
-  //   if (selectedText == null) return;
-  //   _updateText(selectedText!.copyWith(dx: offset.dx, dy: offset.dy));
-  //   notifyListeners();
-  // }
-
   void onChangeTextText(String text) {
     if (selectedText == null) return;
     _updateText(selectedText!.copyWith(text: text));
@@ -282,7 +273,7 @@ class TaleViewModel extends Vm {
   void onChangeTextFontSize(double size) {
     if (selectedText == null) return;
     TextStyle style = selectedText?.style ?? TextStyle();
-    style = style.copyWith(fontSize: size);
+    style = style.copyWith(fontSize: size.ceil().toDouble());
 
     _updateText(selectedText!.copyWith(style: style));
     notifyListeners();
@@ -290,3 +281,47 @@ class TaleViewModel extends Vm {
 
   //Texts
 }
+
+// class _TaleState {
+//   final TaleModel tale;
+
+//   _TaleState({required this.tale});
+
+//   _TaleState _copy(TaleModel tale) {
+//     return _TaleState(tale: tale);
+//   }
+
+//   _TaleState onChangeTaleTitle(String title) {
+//     return _copy(tale.copyWith(title: title));
+//   }
+
+//   _TaleState onChangeTaleDescription(String description) {
+//     return _copy(tale.copyWith(description: description));
+//   }
+
+//   _TaleState onChangeTaleOrientation(String orientation) {
+//     return _copy(tale.copyWith(orientation: orientation));
+//   }
+// }
+
+// class _PageState {
+//   final List<TalePageModel> _pages;
+//   final String _selectedPageId ;
+
+//   _PageState({
+//        required List<TalePageModel> _pages,
+//    required String _selectedPageId ,
+//   }) : _pages =;
+
+//   _PageState onChangeTaleTitle(String title) {
+//     return _copy(tale.copyWith(title: title));
+//   }
+
+//   _PageState onChangeTaleDescription(String description) {
+//     return _copy(tale.copyWith(description: description));
+//   }
+
+//   _PageState onChangeTaleOrientation(String orientation) {
+//     return _copy(tale.copyWith(orientation: orientation));
+//   }
+// }

@@ -52,6 +52,7 @@ class _RightBarState extends State<RightBar> {
                 ),
                 const SizedBox(height: 16),
                 ExpansionTile(
+                  initiallyExpanded: true,
                   childrenPadding: EdgeInsets.all(8),
                   title: RepaintBoundary(
                     child: LayoutComponent.row(
@@ -186,16 +187,26 @@ class _RightBarState extends State<RightBar> {
                         },
                       ),
 
-                      SliderComponent(
+                      TextFieldComponent(
                         label: "Font Size",
-                        min: 12,
-                        max: 40,
-                        initialValue: text.style?.fontSize,
+                        initialValue: text.style?.fontSize.toString(),
                         onChanged: (value) {
-                          if (value == null) return;
-                          vm.onChangeTextFontSize(value);
+                          final parsed = double.tryParse(value);
+                          if (parsed == null) return;
+                          vm.onChangeTextFontSize(parsed);
                         },
                       ),
+
+                      // SliderComponent(
+                      //   label: "Font Size",
+                      //   min: 12,
+                      //   max: 40,
+                      //   initialValue: text.style?.fontSize,
+                      //   onChanged: (value) {
+                      //     if (value == null) return;
+                      //     vm.onChangeTextFontSize(value);
+                      //   },
+                      // ),
                     ],
                   ),
                 ],
