@@ -23,41 +23,55 @@ class _RightBarState extends State<RightBar> {
     final text = vm.selectedText;
     final page = vm.selectedPage;
 
-    return CommandWrapper(
-      command: vm.fetchTaleCommand,
-      okBuilder: (BuildContext context, Widget? child) => child!,
-      child: SizedBox(
-        height: context.height,
-        child: ListView(
-          children: [
-            RepaintBoundary(
-              child: LayoutComponent.row(
-                spacing: 4,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Icons.settings_outlined, size: 18),
-                  TextComponent.any(
-                    'Properties',
-                    style: context.textTheme.titleMedium,
+    return SizedBox(
+      height: context.height,
+      child: LayoutComponent.column(
+        children: [
+          Expanded(
+            child: ListView(
+              children: [
+                RepaintBoundary(
+                  child: LayoutComponent.row(
+                    spacing: 4,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.settings_outlined, size: 18),
+                      TextComponent.any(
+                        'Properties',
+                        style: context.textTheme.titleMedium,
+                      ),
+                    ],
                   ),
+                ),
+                const Divider(),
+                RightBarTaleForm(vm: vm),
+
+                // const Divider(),
+                if (page != null) ...[
+                  const SizedBox(height: 16),
+                  RightBarPageForm(vm: vm, page: page),
                 ],
+                if (text != null) ...[
+                  const SizedBox(height: 16),
+                  RightBarTextForm(vm: vm, text: text),
+                ],
+              ],
+            ),
+          ),
+          if (vm.selectedPageId.isNotEmpty) ...[
+            const Divider(),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: ButtonComponent.outlined(
+                text: "Add Text",
+                icon: Icons.add_outlined,
+                onPressed: vm.onAddText,
               ),
             ),
-            const SizedBox(height: 16),
-            RightBarTaleForm(vm: vm),
-
-            // const Divider(),
-            if (page != null) ...[
-              const SizedBox(height: 16),
-              RightBarPageForm(vm: vm, page: page),
-            ],
-            if (text != null) ...[
-              const SizedBox(height: 16),
-              RightBarTextForm(vm: vm, text: text),
-            ],
           ],
-        ),
+        ],
       ),
     );
   }

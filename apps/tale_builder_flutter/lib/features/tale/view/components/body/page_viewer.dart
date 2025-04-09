@@ -31,37 +31,31 @@ class _PageViewerState extends State<PageViewer> {
     final texts = UnmodifiableListView(
       vm.texts.where((element) => element.pageId == selectedPage?.id),
     );
-    return CommandWrapper(
-      command: vm.fetchTextsCommand,
-      okBuilder:
-          (context, child) => SizedBox(
-            width: deviceSize.width,
-            height: deviceSize.height,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border.all(color: context.colorScheme.onSurface),
-                color: context.colorScheme.surfaceContainer,
+    return SizedBox(
+      width: deviceSize.width,
+      height: deviceSize.height,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(color: context.colorScheme.onSurface),
+          color: context.colorScheme.surfaceContainer,
+        ),
+        child: Stack(
+          children: [
+            Positioned.fill(child: GestureDetector(onTap: vm.onDeselectText)),
+            for (final text in texts)
+              _Text(
+                text: text,
+                localization: vm.localization,
+                deviceSize: deviceSize,
+                onSelect: vm.onSelectText,
+                selectedText: selectedText,
+                onDeleteText: vm.onDeleteText,
+                onChangePosition:
+                    (value) => vm.onChangeTextPosition(value.dx, value.dy),
               ),
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: GestureDetector(onTap: vm.onDeselectText),
-                  ),
-                  for (final text in texts)
-                    _Text(
-                      text: text,
-                      localization: vm.localization,
-                      deviceSize: deviceSize,
-                      onSelect: vm.onSelectText,
-                      selectedText: selectedText,
-                      onChangePosition:
-                          (value) =>
-                              vm.onChangeTextPosition(value.dx, value.dy),
-                    ),
-                ],
-              ),
-            ),
-          ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -74,12 +68,14 @@ class _Text extends StatefulWidget {
     required this.onChangePosition,
     required this.deviceSize,
     required this.localization,
+    required this.onDeleteText,
   });
 
   final TalePageTextModel text;
   final TalePageTextModel? selectedText;
   final ValueChanged<TalePageTextModel> onSelect;
   final ValueChanged<Offset> onChangePosition;
+  final ValueChanged<String> onDeleteText;
   final Size deviceSize;
   final TaleLocalizationModel localization;
 
@@ -124,11 +120,30 @@ class __TextState extends State<_Text> {
       left: offset.dx,
       top: offset.dy,
       child: GestureDetector(
+        onSecondaryTapDown: (TapDownDetails details) {
+          final position = context.getTapPosition(details);
+          showMenu(
+            position: position,
+            context: context,
+            items: [
+              PopupMenuItem(
+                child: ListTile(
+                  title: Text("Delete"),
+                  leading: Icon(Icons.delete),
+                ),
+                onTap: () {
+                  widget.onDeleteText(text.id);
+                },
+              ),
+            ],
+          );
+        },
         onTap: () {
           widget.onSelect(text);
         },
         onPanUpdate: (details) {
-          if (selectedText != null) {
+          if (selectedText == null) return;
+          if (selectedText!.id == text.id) {
             final oldPos = offset;
             offset += details.delta;
             if (offset.dx < 0) {
@@ -181,7 +196,9 @@ class __TextState extends State<_Text> {
                 child: Builder(
                   builder: (context) {
                     final translatedText =
-                        localization.defaultTranslations[text.text];
+                        text.text.isEmpty
+                            ? ""
+                            : localization.defaultTranslations[text.text];
                     return TextComponent.any(
                       translatedText ?? "NOT_FOUND",
                       style: text.style,

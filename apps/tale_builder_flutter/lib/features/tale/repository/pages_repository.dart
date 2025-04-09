@@ -11,9 +11,6 @@ class TalePagesRepository extends Dependency {
 
   Future<Result<List<TalePageModel>>> getPages(String taleId) async {
     try {
-      if (kDebugMode) {
-        await Future.delayed(Duration(seconds: 1));
-      }
       final response = await _client
           .from("pages")
           .select()

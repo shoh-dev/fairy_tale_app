@@ -16,7 +16,7 @@ abstract class TalePageTextModel with _$TalePageTextModel {
     required double dx,
     required double dy,
     @Default(false) bool isNew,
-    TextStyle? style,
+    @Default(TalePageTextModel.defaultTextStyle) TextStyle style,
   }) = _TalePageTextModel;
 
   factory TalePageTextModel.fromJson(Map<String, dynamic> json) {
@@ -24,6 +24,10 @@ abstract class TalePageTextModel with _$TalePageTextModel {
     final size = (metadata['size'] as Map).cast<String, num>();
     final pos = (metadata['pos'] as Map).cast<String, num>();
     final style = ((metadata['style'] ?? {}) as Map);
+    final fontSize = style['font_size']?.toDouble();
+    final fontColorCode = int.tryParse(
+      "0xFF${style['color'].toString().substring(1)}",
+    );
     return TalePageTextModel(
       id: json['id'],
       pageId: json['tale_page_id'],
@@ -35,19 +39,17 @@ abstract class TalePageTextModel with _$TalePageTextModel {
       style:
           style.isNotEmpty
               ? TextStyle(
-                fontSize: style['font_size']?.toDouble(),
-                color:
-                    style['color'] != null
-                        ? Color(
-                          int.parse(
-                            "0xFF${style['color'].toString().substring(1)}",
-                          ),
-                        )
-                        : null,
+                fontSize: fontSize,
+                color: fontColorCode != null ? Color(fontColorCode) : null,
               )
-              : null,
+              : defaultTextStyle,
     );
   }
+
+  static const TextStyle defaultTextStyle = TextStyle(
+    fontSize: 18,
+    color: Color(0xFFFFFFFF),
+  );
 
   factory TalePageTextModel.newText(String id, String pageId) =>
       TalePageTextModel(
@@ -57,7 +59,7 @@ abstract class TalePageTextModel with _$TalePageTextModel {
         dy: 0,
         width: 100,
         height: 40,
-        text: 'text_key',
+        text: '',
         isNew: true,
       );
 }

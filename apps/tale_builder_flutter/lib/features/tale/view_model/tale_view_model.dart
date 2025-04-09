@@ -33,29 +33,15 @@ import 'package:uuid/v4.dart';
 
 class TaleViewModel extends Vm {
   final TaleRepository _taleRepository;
-  final TaleLocalizationRepository _localizationRepository;
-  final TalePagesRepository _pagesRepository;
-  final TalePageTextsRepository _textsRepository;
 
-  TaleViewModel({
-    required TaleRepository taleRepository,
-    required TaleLocalizationRepository localizationRepository,
-    required TalePagesRepository pagesRepository,
-    required TalePageTextsRepository textsRepository,
-    String? id,
-  }) : _taleRepository = taleRepository,
-       _localizationRepository = localizationRepository,
-       _pagesRepository = pagesRepository,
-       _textsRepository = textsRepository {
+  TaleViewModel({required TaleRepository taleRepository, String? id})
+    : _taleRepository = taleRepository {
     tale = TaleModel.newTale(
       id ?? UuidV4().generate(),
     ).copyWith(isNew: id == null || id == 'null' || id == 'new');
     localization = TaleLocalizationModel.empty(tale.id);
 
     fetchTaleCommand = CommandParam(_fetchTale)..execute(tale);
-    fetchLocalizationCommand = CommandParam(_fetchLocalization)..execute(tale);
-    fetchPagesCommand = CommandParam(_fetchPages)..execute(tale);
-    fetchTextsCommand = CommandParam(_fetchTexts)..execute(tale);
   }
 
   //Tale
@@ -64,15 +50,22 @@ class TaleViewModel extends Vm {
 
   Future<Result<void>> _fetchTale(TaleModel tale) async {
     if (tale.isNew) return Result.ok(null);
-
-    final result = await _taleRepository.getTale(tale.id);
+    final result = await _taleRepository.getTaleFull(tale.id);
     switch (result) {
-      case ResultOk<TaleModel>():
-        this.tale = result.value;
+      case ResultOk<FullTaleResponse>():
+        final value = result.value;
+        this.tale = value.tale;
+        localization = value.localization;
+        _pages
+          ..clear()
+          ..addAll(value.pages);
+        _texts
+          ..clear()
+          ..addAll(value.texts);
         log.info("Fetched tale");
         notifyListeners();
         return Result.ok(null);
-      case ResultError<TaleModel>():
+      case ResultError<FullTaleResponse>():
         log.warning('Fetch tale error: ${result.e}');
         notifyListeners();
         return Result.error(result.e);
@@ -97,25 +90,7 @@ class TaleViewModel extends Vm {
   //Tale
 
   //Translations
-  late final CommandParam<void, TaleModel> fetchLocalizationCommand;
   late TaleLocalizationModel localization;
-
-  Future<Result<void>> _fetchLocalization(TaleModel tale) async {
-    if (tale.isNew) return Result.ok(null);
-
-    final result = await _localizationRepository.getLocalization(tale.id);
-    switch (result) {
-      case ResultOk<TaleLocalizationModel>():
-        localization = result.value;
-        log.info("Fetched localization");
-        notifyListeners();
-        return Result.ok(null);
-      case ResultError<TaleLocalizationModel>():
-        log.warning('Fetch localization error: ${result.e}');
-        notifyListeners();
-        return Result.error(result.e);
-    }
-  }
 
   void onChangeLocalizationDefaultLocale(String locale) {
     localization = localization.copyWith(defaultLocale: locale);
@@ -124,7 +99,6 @@ class TaleViewModel extends Vm {
   //Translations
 
   //Pages
-  late final CommandParam<void, TaleModel> fetchPagesCommand;
   final List<TalePageModel> _pages = List.empty(growable: true);
   UnmodifiableListView<TalePageModel> get pages => UnmodifiableListView(
     _pages..sort((a, b) => a.pageNumber > b.pageNumber ? 1 : 0),
@@ -132,24 +106,6 @@ class TaleViewModel extends Vm {
   String selectedPageId = '';
   TalePageModel? get selectedPage =>
       pages.firstWhereOrNull((element) => element.id == selectedPageId);
-
-  Future<Result<void>> _fetchPages(TaleModel tale) async {
-    if (tale.isNew) return Result.ok(null);
-
-    final result = await _pagesRepository.getPages(tale.id);
-    switch (result) {
-      case ResultOk<List<TalePageModel>>():
-        _pages.clear();
-        _pages.addAll(result.value);
-        log.info("Fetched pages");
-        notifyListeners();
-        return Result.ok(null);
-      case ResultError<List<TalePageModel>>():
-        log.warning('Fetch pages error: ${result.e}');
-        notifyListeners();
-        return Result.error(result.e);
-    }
-  }
 
   void onSelectPage(TalePageModel page) {
     if (page.id != selectedPageId) {
@@ -168,14 +124,14 @@ class TaleViewModel extends Vm {
   }
 
   void onAddPage() {
-    _pages.add(
-      TalePageModel.newPage(
-        id: UuidV4().generate(),
-        taleId: tale.id,
-        text: "Page ${pages.length + 1}",
-        pageNumber: pages.length + 1,
-      ),
+    final newPage = TalePageModel.newPage(
+      id: UuidV4().generate(),
+      taleId: tale.id,
+      text: "Page ${pages.length + 1}",
+      pageNumber: pages.length + 1,
     );
+    _pages.add(newPage);
+    selectedPageId = newPage.id;
     notifyListeners();
   }
 
@@ -184,6 +140,7 @@ class TaleViewModel extends Vm {
     if (page != null) {
       if (page.isNew) {
         _pages.removeWhere((element) => element.id == id);
+        selectedPageId = '';
         notifyListeners();
       } else {
         PromptDialog.show(
@@ -195,6 +152,7 @@ class TaleViewModel extends Vm {
           },
           onRightClick: (close) {
             //todo: delete from server
+            selectedPageId = '';
             close();
           },
         );
@@ -218,7 +176,6 @@ class TaleViewModel extends Vm {
   //Pages
 
   //Texts
-  late final CommandParam<void, TaleModel> fetchTextsCommand;
   final List<TalePageTextModel> _texts = List.empty(growable: true);
   UnmodifiableListView<TalePageTextModel> get texts =>
       UnmodifiableListView(_texts);
@@ -240,24 +197,6 @@ class TaleViewModel extends Vm {
     }
   }
 
-  Future<Result<void>> _fetchTexts(TaleModel tale) async {
-    if (tale.isNew) return Result.ok(null);
-
-    final result = await _textsRepository.getTexts(tale.id);
-    switch (result) {
-      case ResultOk<List<TalePageTextModel>>():
-        _texts.clear();
-        _texts.addAll(result.value);
-        log.info("Fetched texts");
-        notifyListeners();
-        return Result.ok(null);
-      case ResultError<List<TalePageTextModel>>():
-        log.warning('Fetch texts error: ${result.e}');
-        notifyListeners();
-        return Result.error(result.e);
-    }
-  }
-
   void _updateText(TalePageTextModel text) {
     final index = _texts.indexWhere((element) => element.id == selectedTextId);
     if (index == -1) return;
@@ -265,13 +204,13 @@ class TaleViewModel extends Vm {
   }
 
   void onChangeTextText(String text) {
-    if (selectedText == null) return;
+    if (selectedTextId.isEmpty) return;
     _updateText(selectedText!.copyWith(text: text));
     notifyListeners();
   }
 
   void onChangeTextSize([double? width, double? height]) {
-    if (selectedText == null) return;
+    if (selectedTextId.isEmpty) return;
     if (width == null && height == null) return;
     _updateText(
       selectedText!.copyWith(
@@ -283,7 +222,7 @@ class TaleViewModel extends Vm {
   }
 
   void onChangeTextPosition([double? dx, double? dy]) {
-    if (selectedText == null) return;
+    if (selectedTextId.isEmpty) return;
     if (dx == null && dy == null) return;
 
     _updateText(
@@ -296,12 +235,43 @@ class TaleViewModel extends Vm {
   }
 
   void onChangeTextFontSize(double size) {
-    if (selectedText == null) return;
+    if (selectedTextId.isEmpty) return;
     TextStyle style = selectedText?.style ?? TextStyle();
     style = style.copyWith(fontSize: size.ceil().toDouble());
 
     _updateText(selectedText!.copyWith(style: style));
     notifyListeners();
+  }
+
+  void onAddText() {
+    if (selectedPageId.isEmpty) return;
+    _texts.add(TalePageTextModel.newText(UuidV4().generate(), selectedPageId));
+    notifyListeners();
+  }
+
+  void onDeleteText(String id) {
+    final text = _texts.firstWhereOrNull((p) => p.id == id);
+    if (text != null) {
+      if (text.isNew) {
+        _texts.removeWhere((element) => element.id == id);
+        selectedTextId = '';
+        notifyListeners();
+      } else {
+        PromptDialog.show(
+          "This action cannot be undone!",
+          title: "Delete text?",
+          isDestructive: true,
+          onLeftClick: (close) {
+            close();
+          },
+          onRightClick: (close) {
+            //todo: delete from server
+            selectedTextId = '';
+            close();
+          },
+        );
+      }
+    }
   }
 
   //Texts

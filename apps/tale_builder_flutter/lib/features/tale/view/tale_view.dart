@@ -22,27 +22,31 @@ class TaleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return VmProvider(
-      vm: vm,
-      builder: (context, child) {
-        return LayoutComponent.row(
-          spacing: 16,
-          children: [
-            //Left Sidebar: shows list of pages and add page at the bottom
-            Expanded(flex: 1, child: LeftBar(vm: vm)),
+    return CommandWrapper(
+      command: vm.fetchTaleCommand,
+      okBuilder: (context, child) => child!,
+      child: VmProvider(
+        vm: vm,
+        builder: (context, child) {
+          return LayoutComponent.row(
+            // spacing: 16,
+            children: [
+              //Left Sidebar: shows list of pages and add page at the bottom
+              Expanded(flex: 1, child: LeftBar(vm: vm)),
 
-            const VerticalDivider(),
+              const VerticalDivider(),
 
-            //Body: shows selected page info, where user can align text or objects
-            Expanded(flex: 3, child: Body(vm: vm)),
+              //Body: shows selected page info, where user can align text or objects
+              Expanded(flex: 3, child: Body(vm: vm)),
 
-            const VerticalDivider(),
+              const VerticalDivider(),
 
-            //Right Sidebar: if page is selected, shows page form, else shows tale form
-            Expanded(flex: 1, child: RightBar(vm: vm)),
-          ],
-        );
-      },
+              //Right Sidebar: if page is selected, shows page form, else shows tale form
+              Expanded(flex: 1, child: RightBar(vm: vm)),
+            ],
+          );
+        },
+      ),
     );
   }
 }

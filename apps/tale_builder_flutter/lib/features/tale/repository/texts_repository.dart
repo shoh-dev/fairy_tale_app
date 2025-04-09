@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -11,9 +10,6 @@ class TalePageTextsRepository extends Dependency {
 
   Future<Result<List<TalePageTextModel>>> getTexts(String taleId) async {
     try {
-      if (kDebugMode) {
-        await Future.delayed(Duration(seconds: 1));
-      }
       final response = await _client
           .from("texts")
           .select()

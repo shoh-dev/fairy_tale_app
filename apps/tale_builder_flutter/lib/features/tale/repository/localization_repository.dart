@@ -11,9 +11,6 @@ class TaleLocalizationRepository extends Dependency {
 
   Future<Result<TaleLocalizationModel>> getLocalization(String taleId) async {
     try {
-      if (kDebugMode) {
-        await Future.delayed(Duration(seconds: 1));
-      }
       final response =
           await _client
               .from("localizations")

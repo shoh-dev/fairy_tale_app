@@ -92,12 +92,6 @@ UIRoot _root(AppStore store) => UIRoot(
                     (context, state) => TaleViewModel(
                       id: state.pathParameters['id']!,
                       taleRepository: context.readDependency<TaleRepository>(),
-                      localizationRepository:
-                          context.readDependency<TaleLocalizationRepository>(),
-                      pagesRepository:
-                          context.readDependency<TalePagesRepository>(),
-                      textsRepository:
-                          context.readDependency<TalePageTextsRepository>(),
                     ),
                 builder:
                     (context, state, vm) => TaleView(vm: vm as TaleViewModel),
