@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

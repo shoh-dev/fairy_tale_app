@@ -47,34 +47,25 @@ class RightBarPageForm extends StatelessWidget {
 
         if (page.hasImage) ...[
           //Replace
-          SizedBox(
-            width: double.infinity,
-            child: ButtonComponent.outlined(
-              text: "Replace background image",
-              icon: Icons.upload_rounded,
-              onPressed: vm.onChangePageBackgroundImage,
-            ),
-          ),
+          ButtonComponent.outlined(
+            text: "Replace background image",
+            icon: Icons.upload_rounded,
+            onPressed: vm.onChangePageBackgroundImage,
+          ).expanded(),
           const SizedBox(height: 8),
-          SizedBox(
-            width: double.infinity,
-            child: ButtonComponent.destructive(
-              text: "Remove background image",
-              icon: Icons.delete_outline,
-              onPressed: vm.onDeletePageBackgroundImage,
-            ),
-          ),
+          ButtonComponent.destructive(
+            text: "Remove background image",
+            icon: Icons.delete_outline,
+            onPressed: vm.onDeletePageBackgroundImage,
+          ).expanded(),
           //Delete
         ] else
           //Add
-          SizedBox(
-            width: double.infinity,
-            child: ButtonComponent.outlined(
-              text: "Add background image",
-              icon: Icons.image_outlined,
-              onPressed: vm.onChangePageBackgroundImage,
-            ),
-          ),
+          ButtonComponent.outlined(
+            text: "Add background image",
+            icon: Icons.image_outlined,
+            onPressed: vm.onChangePageBackgroundImage,
+          ).expanded(),
       ],
     );
   }

@@ -8,7 +8,6 @@ class TaleLayout extends LayoutStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: Text("Tale Editor")),
       body: Container(
         margin: EdgeInsets.all(16),
         padding: EdgeInsets.all(16),

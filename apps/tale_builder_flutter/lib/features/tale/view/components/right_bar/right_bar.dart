@@ -61,14 +61,11 @@ class _RightBarState extends State<RightBar> {
           ),
           if (vm.selectedPageId.isNotEmpty) ...[
             const Divider(),
-            SizedBox(
-              width: double.infinity,
-              child: ButtonComponent.outlined(
-                text: "Add Text",
-                icon: Icons.add_outlined,
-                onPressed: vm.onAddText,
-              ),
-            ),
+            ButtonComponent.outlined(
+              text: "Add Text",
+              icon: Icons.add_outlined,
+              onPressed: vm.onAddText,
+            ).expanded(),
           ],
         ],
       ),

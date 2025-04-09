@@ -11,7 +11,9 @@ import 'package:tale_builder_flutter/features/tale/repository/pages_repository.d
 import 'package:tale_builder_flutter/features/tale/repository/tale_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/texts_repository.dart';
 import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
+import 'package:tale_builder_flutter/features/tale/view/translations_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
+import 'package:tale_builder_flutter/features/tale/view_model/translations_view_model.dart';
 import 'package:tale_builder_flutter/repository/file_picker_repository.dart';
 import 'package:tale_builder_flutter/store/app_store.dart';
 import 'package:tale_builder_flutter/supabase/supabase_repository.dart';
@@ -88,7 +90,18 @@ UIRoot _root(AppStore store) => UIRoot(
         [
           UIPage(
             path: "/tale",
-            redirect: (context, state) => '/tale/${state.pathParameters['id']}',
+            redirect: (context, state) {
+              final id = state.pathParameters['id'];
+              if (id == null) {
+                return TaleView.route(id);
+              }
+
+              if (state.fullPath.toString().endsWith("/translations")) {
+                return TranslationsView.route(id);
+              }
+
+              return TaleView.route(id);
+            },
             pages: [
               UIPage(
                 path: ":id",
@@ -101,7 +114,19 @@ UIRoot _root(AppStore store) => UIRoot(
                     ),
                 builder:
                     (context, state, vm) => TaleView(vm: vm as TaleViewModel),
-                pages: [],
+                pages: [
+                  UIPage(
+                    path: "/translations",
+                    vm:
+                        (context, state) => TranslationsViewModel(
+                          id: state.pathParameters['id']!,
+                          localizationRepository: context.readDependency(),
+                        ),
+                    builder:
+                        (context, state, vm) =>
+                            TranslationsView(vm: vm as TranslationsViewModel),
+                  ),
+                ],
               ),
             ],
           ),

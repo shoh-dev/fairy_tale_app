@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:myspace_ui/myspace_ui.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/body/page_viewer.dart';
+import 'package:tale_builder_flutter/features/tale/view/translations_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
 
 class Body extends StatelessWidget {
@@ -23,10 +25,10 @@ class Body extends StatelessWidget {
           leading: Icon(Icons.book_outlined),
         ),
         actions: [
+          const SizedBox(width: 16),
           ButtonComponent.outlined(
             text: "Preview",
             icon: Icons.remove_red_eye_rounded,
-            onPressed: () {},
           ), //todo: implement preview
           const SizedBox(width: 16),
 
