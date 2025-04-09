@@ -14,9 +14,9 @@ class Body extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: context.colorScheme.surfaceContainer,
-        shape: Border(
-          bottom: BorderSide(color: context.colorScheme.outlineVariant),
-        ),
+        // shape: Border(
+        // bottom: BorderSide(color: context.colorScheme.outlineVariant),
+        // ),
         titleSpacing: 0,
         title: ListTile(
           title: Text('Story Canvas'),
@@ -33,7 +33,7 @@ class Body extends StatelessWidget {
           ButtonComponent.primary(
             text: "Save",
             icon: Icons.save,
-            onPressed: () {},
+            onPressed: vm.onSave,
           ), //todo: implement save
           const SizedBox(width: 8),
         ],

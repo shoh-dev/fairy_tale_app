@@ -30,6 +30,15 @@ class RightBarTextForm extends StatelessWidget {
         ),
       ),
       children: [
+        SizedBox(
+          width: double.infinity,
+          child: ButtonComponent.destructive(
+            text: "Delete Text",
+            icon: Icons.delete_outlined,
+            onPressed: () => vm.onDeleteText(vm.selectedTextId),
+          ),
+        ),
+        const SizedBox(height: 16),
         //Text Fields
         TranslationSelector(
           label: "Text",

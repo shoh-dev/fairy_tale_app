@@ -35,6 +35,13 @@ abstract class TaleLocalizationModel with _$TaleLocalizationModel {
     return model;
   }
 
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    json['translations'] = translations;
+    json['default_locale'] = defaultLocale;
+    return json;
+  }
+
   factory TaleLocalizationModel.empty(String taleId) {
     const locale = 'en';
     return TaleLocalizationModel(

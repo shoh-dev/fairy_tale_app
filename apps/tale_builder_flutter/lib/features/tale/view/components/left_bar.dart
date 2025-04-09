@@ -77,7 +77,6 @@ class LeftBar extends StatelessWidget {
           //add page button
           SizedBox(
             width: double.infinity,
-            height: 48,
             child: ButtonComponent.outlined(
               text: 'Add Page',
               icon: Icons.add_outlined,

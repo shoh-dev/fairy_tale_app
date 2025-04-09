@@ -56,20 +56,45 @@ class TaleViewModel extends Vm {
   late final CommandParam<void, TaleModel> fetchTaleCommand;
   late TaleModel tale;
 
+  Future<void> onSave() async {
+    final result = await _taleRepository.upsertFullTale(
+      tale: tale,
+      localization: localization,
+      pages: _pages,
+      texts: _texts,
+    );
+    switch (result) {
+      case ResultOk<FullTaleResponse>():
+        _reset(result.value);
+        SuccessDialog.show("Saved successfully!");
+        notifyListeners();
+        break;
+      case ResultError<FullTaleResponse>():
+        ErrorDialog.show(result.toString());
+        break;
+    }
+  }
+
+  void _reset(FullTaleResponse newData) {
+    // selectedPageId = '';
+    // selectedTextId = '';
+    tale = newData.tale;
+    localization = newData.localization;
+    _pages
+      ..clear()
+      ..addAll(newData.pages);
+    _texts
+      ..clear()
+      ..addAll(newData.texts);
+  }
+
   Future<Result<void>> _fetchTale(TaleModel tale) async {
     if (tale.isNew) return Result.ok(null);
     final result = await _taleRepository.getTaleFull(tale.id);
     switch (result) {
       case ResultOk<FullTaleResponse>():
         final value = result.value;
-        this.tale = value.tale;
-        localization = value.localization;
-        _pages
-          ..clear()
-          ..addAll(value.pages);
-        _texts
-          ..clear()
-          ..addAll(value.texts);
+        _reset(value);
         log.info("Fetched tale");
         notifyListeners();
         return Result.ok(null);
@@ -169,25 +194,21 @@ class TaleViewModel extends Vm {
   void onDeletePage(String id) {
     final page = pages.firstWhereOrNull((p) => p.id == id);
     if (page != null) {
-      if (page.isNew) {
-        _pages.removeWhere((element) => element.id == id);
-        selectedPageId = '';
-        notifyListeners();
-      } else {
-        PromptDialog.show(
-          "This action cannot be undone!",
-          title: "Delete page?",
-          isDestructive: true,
-          onLeftClick: (close) {
-            close();
-          },
-          onRightClick: (close) {
-            //todo: delete from server
-            selectedPageId = '';
-            close();
-          },
-        );
-      }
+      PromptDialog.show(
+        "This action cannot be undone!",
+        title: "Delete page?",
+        isDestructive: true,
+        onLeftClick: (close) {
+          close();
+        },
+        onRightClick: (close) {
+          //todo: delete from server
+          _pages.removeWhere((element) => element.id == id);
+          selectedPageId = '';
+          notifyListeners();
+          close();
+        },
+      );
     }
   }
 
@@ -353,25 +374,21 @@ class TaleViewModel extends Vm {
   void onDeleteText(String id) {
     final text = _texts.firstWhereOrNull((p) => p.id == id);
     if (text != null) {
-      if (text.isNew) {
-        _texts.removeWhere((element) => element.id == id);
-        selectedTextId = '';
-        notifyListeners();
-      } else {
-        PromptDialog.show(
-          "This action cannot be undone!",
-          title: "Delete text?",
-          isDestructive: true,
-          onLeftClick: (close) {
-            close();
-          },
-          onRightClick: (close) {
-            //todo: delete from server
-            selectedTextId = '';
-            close();
-          },
-        );
-      }
+      PromptDialog.show(
+        "This action cannot be undone!",
+        title: "Delete text?",
+        isDestructive: true,
+        onLeftClick: (close) {
+          close();
+        },
+        onRightClick: (close) {
+          //todo: delete from server
+          _texts.removeWhere((element) => element.id == id);
+          selectedTextId = '';
+          notifyListeners();
+          close();
+        },
+      );
     }
   }
 

@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:myspace_ui/myspace_ui.dart';
 import 'package:tale_builder_flutter/features/tale/model/localization.dart';
 import 'package:tale_builder_flutter/features/tale/model/text.dart';
 import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
@@ -42,15 +43,19 @@ class _PageViewerState extends State<PageViewer> {
           children: [
             if (selectedPage.hasImage)
               Positioned.fill(
-                child: Opacity(
-                  opacity: .5,
-                  child: RepaintBoundary(
-                    child: Image.network(
-                      selectedPage.backgroundImageUrl,
-                      fit: BoxFit.fill,
-                      errorBuilder:
-                          (context, error, stackTrace) => const SizedBox(),
-                    ),
+                child: RepaintBoundary(
+                  child: Image.network(
+                    selectedPage.backgroundImageUrl,
+                    fit: BoxFit.fill,
+                    // cacheWidth: deviceSize.width.toInt(),
+                    // cacheHeight: deviceSize.height.toInt(),
+                    loadingBuilder:
+                        (context, child, loadingProgress) =>
+                            loadingProgress != null
+                                ? const LoadingDialog()
+                                : child,
+                    errorBuilder:
+                        (context, error, stackTrace) => const SizedBox(),
                   ),
                 ),
               ),
@@ -214,7 +219,15 @@ class __TextState extends State<_Text> {
                             : localization.defaultTranslations[text.text];
                     return TextComponent.any(
                       translatedText ?? "NOT_FOUND",
-                      style: text.style,
+                      style: text.style.copyWith(
+                        shadows: [
+                          Shadow(
+                            color: Colors.black54,
+                            blurRadius: 8,
+                            offset: Offset(1, 1),
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),

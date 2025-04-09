@@ -46,6 +46,23 @@ abstract class TalePageTextModel with _$TalePageTextModel {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    json['id'] = id;
+    json['tale_page_id'] = pageId;
+    json['text'] = text;
+    json['metadata'] = {
+      "pos": {"x": dx, "y": dy},
+      "size": {"w": width, "h": height},
+      "style": {
+        "font_size": style.fontSize ?? 18,
+        //todo: handle color
+        // "color": "#FF0000"
+      },
+    };
+    return json;
+  }
+
   static const TextStyle defaultTextStyle = TextStyle(
     fontSize: 18,
     color: Color(0xFFFFFFFF),

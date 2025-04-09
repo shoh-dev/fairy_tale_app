@@ -63,7 +63,6 @@ class _RightBarState extends State<RightBar> {
             const Divider(),
             SizedBox(
               width: double.infinity,
-              height: 48,
               child: ButtonComponent.outlined(
                 text: "Add Text",
                 icon: Icons.add_outlined,

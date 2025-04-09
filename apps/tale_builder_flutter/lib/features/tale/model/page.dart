@@ -42,6 +42,15 @@ abstract class TalePageModel with _$TalePageModel {
     return model;
   }
 
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    json['id'] = id;
+    json['text'] = text;
+    json['page_number'] = pageNumber;
+    json['metadata'] = {"background_image_url": backgroundImageUrl};
+    return json;
+  }
+
   //todo: when toJson
   //remove q query from backgroundImageUrl
 

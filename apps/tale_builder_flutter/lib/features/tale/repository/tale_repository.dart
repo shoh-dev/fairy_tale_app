@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:myspace_core/myspace_core.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -26,23 +28,67 @@ class TaleRepository extends Dependency {
       final response =
           await _client
               .from("tales")
-              .select("*, localization:localizations(*), pages(*), texts(*)")
+              .select("*, localization:localizations(*), pages(*, texts(*))")
               .eq("id", id)
               .single();
-      await Future.delayed(Duration(seconds: 1));
+      // await Future.delayed(Duration(seconds: 1));
       final tale = TaleModel.fromJson(response);
       final localization = TaleLocalizationModel.fromJson(
         response['localization'],
       );
+      final texts = <TalePageTextModel>[];
       final pages =
-          (response['pages'] as List)
+          (response['pages'] as List).map((page) {
+            texts.addAll(
+              (page['texts'] as List).map(
+                (text) => TalePageTextModel.fromJson(text),
+              ),
+            );
+            return TalePageModel.fromJson(page);
+          }).toList();
+      return Result.ok(FullTaleResponse(tale, localization, pages, texts));
+    } catch (e) {
+      return Result.error(e);
+    }
+  }
+
+  Future<Result<FullTaleResponse>> upsertFullTale({
+    required TaleModel tale,
+    required TaleLocalizationModel localization,
+    required List<TalePageModel> pages,
+    required List<TalePageTextModel> texts,
+  }) async {
+    try {
+      final response = await _client.rpc<Map>(
+        'upsert_full_tale',
+        params: {
+          'tale_data': tale.toJson(),
+          'pages_data': pages.map((e) => e.toJson()).toList(),
+          'localization_data': localization.toJson(),
+          'texts_data': texts.map((e) => e.toJson()).toList(),
+        },
+      );
+      log('Saved');
+      final updatedTale = TaleModel.fromJson(response['tale_data']!);
+      final updatedLocalization = TaleLocalizationModel.fromJson(
+        response['localization_data']!,
+      );
+      final updatedPages =
+          (response['pages_data'] as List)
               .map((e) => TalePageModel.fromJson(e))
               .toList();
-      final texts =
-          (response['texts'] as List)
+      final updatedTexts =
+          (response['texts_data'] as List)
               .map((e) => TalePageTextModel.fromJson(e))
               .toList();
-      return Result.ok(FullTaleResponse(tale, localization, pages, texts));
+      return Result.ok(
+        FullTaleResponse(
+          updatedTale,
+          updatedLocalization,
+          updatedPages,
+          updatedTexts,
+        ),
+      );
     } catch (e) {
       return Result.error(e);
     }

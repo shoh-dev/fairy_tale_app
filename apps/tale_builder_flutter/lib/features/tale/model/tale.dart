@@ -27,6 +27,19 @@ abstract class TaleModel with _$TaleModel {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    json['id'] = id;
+    json['title'] = title;
+    json['description'] = description;
+    json['orientation'] = orientation;
+    json['metadata'] = {
+      "cover_image_url": coverImageUrl,
+      "background_audio_url": backgroundAudioUrl,
+    };
+    return json;
+  }
+
   factory TaleModel.newTale(String id) => TaleModel(
     id: id,
     title: '',

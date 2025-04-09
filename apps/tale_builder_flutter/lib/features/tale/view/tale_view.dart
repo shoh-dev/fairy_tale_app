@@ -38,12 +38,12 @@ class TaleView extends StatelessWidget {
               //Left Sidebar: shows list of pages and add page at the bottom
               Expanded(flex: 1, child: LeftBar(vm: vm)),
 
-              const VerticalDivider(),
+              const VerticalDivider(color: Colors.transparent),
 
               //Body: shows selected page info, where user can align text or objects
               Expanded(flex: 3, child: Body(vm: vm)),
 
-              const VerticalDivider(),
+              const VerticalDivider(color: Colors.transparent),
 
               //Right Sidebar: if page is selected, shows page form, else shows tale form
               Expanded(flex: 1, child: RightBar(vm: vm)),

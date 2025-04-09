@@ -27,19 +27,28 @@ class RightBarPageForm extends StatelessWidget {
       ),
       expandedCrossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // SizedBox(
+        //   width: double.infinity,
+        //   child: ButtonComponent.destructive(
+        //     text: "Delete page",
+        //     icon: Icons.delete_outline,
+        //     onPressed: () => vm.onDeletePage(page.id),
+        //   ),
+        // ),
+        // const SizedBox(height: 16),
+
         //Page Fields
         PageNumberSelector(
           totalPages: vm.pages.length,
           value: page.pageNumber,
           onSelected: vm.onChangePageNumber,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 16),
 
         if (page.hasImage) ...[
           //Replace
           SizedBox(
             width: double.infinity,
-            height: 42,
             child: ButtonComponent.outlined(
               text: "Replace background image",
               icon: Icons.upload_rounded,
@@ -49,7 +58,6 @@ class RightBarPageForm extends StatelessWidget {
           const SizedBox(height: 8),
           SizedBox(
             width: double.infinity,
-            height: 42,
             child: ButtonComponent.destructive(
               text: "Remove background image",
               icon: Icons.delete_outline,
@@ -61,7 +69,6 @@ class RightBarPageForm extends StatelessWidget {
           //Add
           SizedBox(
             width: double.infinity,
-            height: 42,
             child: ButtonComponent.outlined(
               text: "Add background image",
               icon: Icons.image_outlined,
