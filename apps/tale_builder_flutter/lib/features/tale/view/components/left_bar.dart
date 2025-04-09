@@ -48,8 +48,9 @@ class LeftBar extends StatelessWidget {
                             borderRadius: context.borderRadius,
                           ),
                           selected: selectedPage?.id == page.id,
-                          selectedTileColor: context.colorScheme.primary,
-                          selectedColor: context.colorScheme.onPrimary,
+                          selectedTileColor:
+                              context.colorScheme.primaryContainer,
+                          selectedColor: context.colorScheme.onPrimaryContainer,
                           title: Text("Page ${page.pageNumber}"),
                           subtitle: Text(
                             page.id,

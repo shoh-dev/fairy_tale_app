@@ -40,19 +40,21 @@ class _PageViewerState extends State<PageViewer> {
         ),
         child: Stack(
           children: [
-            Positioned.fill(child: GestureDetector(onTap: vm.onDeselectText)),
             if (selectedPage.hasImage)
               Positioned.fill(
                 child: Opacity(
-                  opacity: .3,
+                  opacity: .5,
                   child: RepaintBoundary(
                     child: Image.network(
                       selectedPage.backgroundImageUrl,
                       fit: BoxFit.fill,
+                      errorBuilder:
+                          (context, error, stackTrace) => const SizedBox(),
                     ),
                   ),
                 ),
               ),
+            Positioned.fill(child: GestureDetector(onTap: vm.onDeselectText)),
             for (final text in texts)
               _Text(
                 text: text,

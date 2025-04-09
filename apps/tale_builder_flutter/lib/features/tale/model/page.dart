@@ -59,4 +59,17 @@ abstract class TalePageModel with _$TalePageModel {
   ).copyWith(text: text, pageNumber: pageNumber, isNew: true);
 
   bool get hasImage => backgroundImageUrl.isNotEmpty;
+
+  String get backgroundImageBucketPath {
+    if (hasImage) {
+      //http://127.0.0.1:54321/storage/v1/object/public/default/page/background/0aa79713-c11b-4d1c-ac44-4c42218cde91.png
+      //todo: if debug mode
+      final split = backgroundImageUrl.replaceAll(
+        "http://127.0.0.1:54321/storage/v1/object/public/default/",
+        "",
+      );
+      return split;
+    }
+    return '';
+  }
 }

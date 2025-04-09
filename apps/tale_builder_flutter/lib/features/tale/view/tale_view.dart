@@ -8,8 +8,12 @@ import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.da
 
 abstract class Sizes {
   static Size deviceSize(bool isPortrait) {
-    if (isPortrait) return Size(380, 720);
-    return Size(720, 380);
+    //SE 375 x 667
+    //XR 414 x 896
+    //X, 11Pro 375 x 812
+    //iPad Mini (6th gen) 744 x 1133
+    if (isPortrait) return Size(375, 812);
+    return Size(812, 375);
   }
 }
 

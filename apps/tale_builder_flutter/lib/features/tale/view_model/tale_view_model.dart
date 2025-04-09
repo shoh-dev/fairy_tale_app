@@ -256,11 +256,21 @@ class TaleViewModel extends Vm {
       onLeftClick: (close) {
         close();
       },
-      onRightClick: (close) {
-        //todo: delete image from server
-        _updatePage(selectedPage!.copyWith(backgroundImageUrl: ""));
+      onRightClick: (close) async {
+        final result = await _pageRepository.deleteBackgroundImage(
+          selectedPage!.backgroundImageBucketPath,
+        );
+        switch (result) {
+          case ResultOk<void>():
+            //todo: save page
+            _updatePage(selectedPage!.copyWith(backgroundImageUrl: ""));
+            notifyListeners();
+            break;
+          case ResultError<void>():
+            ErrorDialog.show(result.toString());
+            break;
+        }
         close();
-        notifyListeners();
       },
     );
   }

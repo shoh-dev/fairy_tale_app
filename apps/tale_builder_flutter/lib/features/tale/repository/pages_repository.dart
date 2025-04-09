@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tale_builder_flutter/features/tale/model/page.dart';
 
 class TalePagesRepository extends Dependency {
   final SupabaseClient _client;
@@ -42,4 +45,24 @@ class TalePagesRepository extends Dependency {
       return Result.error(e);
     }
   }
+
+  Future<Result<void>> deleteBackgroundImage(String path) async {
+    try {
+      await _client.storage.from('default').remove([path]);
+      return Result.ok(null);
+    } catch (e) {
+      return Result.error(e);
+    }
+  }
+
+  // Future<Result<void>> updatePage(TalePageModel page) async {
+  //   try {
+  //     log(path);
+  //     final res = await _client.storage.from('default').remove([path]);
+  //     log(res.toString());
+  //     return Result.ok(null);
+  //   } catch (e) {
+  //     return Result.error(e);
+  //   }
+  // }
 }
