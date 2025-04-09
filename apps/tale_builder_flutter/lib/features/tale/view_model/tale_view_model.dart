@@ -93,6 +93,7 @@ class TaleViewModel extends Vm {
     tale = tale.copyWith(orientation: orientation);
     notifyListeners();
   }
+
   //Tale
 
   //Translations
@@ -114,6 +115,11 @@ class TaleViewModel extends Vm {
         notifyListeners();
         return Result.error(result.e);
     }
+  }
+
+  void onChangeLocalizationDefaultLocale(String locale) {
+    localization = localization.copyWith(defaultLocale: locale);
+    notifyListeners();
   }
   //Translations
 

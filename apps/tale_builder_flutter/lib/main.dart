@@ -18,7 +18,7 @@ import 'package:tale_builder_flutter/supabase/supabase_repository.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  debugRepaintRainbowEnabled = true;
+  debugRepaintRainbowEnabled = false;
 
   final supabaseRepository = await SupabaseRepository.initialize(
     "http://127.0.0.1:54321", //todo:

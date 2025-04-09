@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'localization.freezed.dart';
@@ -41,6 +43,8 @@ abstract class TaleLocalizationModel with _$TaleLocalizationModel {
       translations: {locale: {}},
     );
   }
+
+  List<String> get availableLocales => UnmodifiableListView(translations.keys);
 
   Map<String, String> get defaultTranslations =>
       translations[defaultLocale] ?? {};

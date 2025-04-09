@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:tale_builder_flutter/features/tale/model/localization.dart';
 import 'package:tale_builder_flutter/features/tale/model/text.dart';
 import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
@@ -49,6 +50,7 @@ class _PageViewerState extends State<PageViewer> {
                   for (final text in texts)
                     _Text(
                       text: text,
+                      localization: vm.localization,
                       deviceSize: deviceSize,
                       onSelect: vm.onSelectText,
                       selectedText: selectedText,
@@ -71,6 +73,7 @@ class _Text extends StatefulWidget {
     required this.onSelect,
     required this.onChangePosition,
     required this.deviceSize,
+    required this.localization,
   });
 
   final TalePageTextModel text;
@@ -78,6 +81,7 @@ class _Text extends StatefulWidget {
   final ValueChanged<TalePageTextModel> onSelect;
   final ValueChanged<Offset> onChangePosition;
   final Size deviceSize;
+  final TaleLocalizationModel localization;
 
   @override
   State<_Text> createState() => __TextState();
@@ -86,6 +90,7 @@ class _Text extends StatefulWidget {
 class __TextState extends State<_Text> {
   TalePageTextModel get text => widget.text;
   TalePageTextModel? get selectedText => widget.selectedText;
+  TaleLocalizationModel get localization => widget.localization;
   Size get deviceSize => widget.deviceSize;
 
   String hoveredTextId = '';
@@ -173,7 +178,16 @@ class __TextState extends State<_Text> {
                                 : context.colorScheme.onSurface),
                   ),
                 ),
-                child: TextComponent.any(text.text, style: text.style),
+                child: Builder(
+                  builder: (context) {
+                    final translatedText =
+                        localization.defaultTranslations[text.text];
+                    return TextComponent.any(
+                      translatedText ?? "NOT_FOUND",
+                      style: text.style,
+                    );
+                  },
+                ),
               );
             },
           ),
