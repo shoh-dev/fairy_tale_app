@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/body/body.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/left_bar.dart';
@@ -21,22 +22,27 @@ class TaleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutComponent.row(
-      spacing: 16,
-      children: [
-        //Left Sidebar: shows list of pages and add page at the bottom
-        Expanded(flex: 1, child: LeftBar(vm: vm)),
+    return VmProvider(
+      vm: vm,
+      builder: (context, child) {
+        return LayoutComponent.row(
+          spacing: 16,
+          children: [
+            //Left Sidebar: shows list of pages and add page at the bottom
+            Expanded(flex: 1, child: LeftBar(vm: vm)),
 
-        const VerticalDivider(),
+            const VerticalDivider(),
 
-        //Body: shows selected page info, where user can align text or objects
-        Expanded(flex: 3, child: Body(vm: vm)),
+            //Body: shows selected page info, where user can align text or objects
+            Expanded(flex: 3, child: Body(vm: vm)),
 
-        const VerticalDivider(),
+            const VerticalDivider(),
 
-        //Right Sidebar: if page is selected, shows page form, else shows tale form
-        Expanded(flex: 1, child: RightBar(vm: vm)),
-      ],
+            //Right Sidebar: if page is selected, shows page form, else shows tale form
+            Expanded(flex: 1, child: RightBar(vm: vm)),
+          ],
+        );
+      },
     );
   }
 }

@@ -23,47 +23,42 @@ class _PageViewerState extends State<PageViewer> {
 
   @override
   Widget build(BuildContext context) {
+    final tale = vm.tale;
+    final deviceSize = Sizes.deviceSize(tale.isPortrait);
+    final selectedText = vm.selectedText;
+    final selectedPage = vm.selectedPage;
+    final texts = UnmodifiableListView(
+      vm.texts.where((element) => element.pageId == selectedPage?.id),
+    );
     return CommandWrapper(
       command: vm.fetchTextsCommand,
       okBuilder:
-          (context, child) => VmProvider(
-            vm: vm,
-            builder: (context, _) {
-              final tale = vm.tale;
-              final deviceSize = Sizes.deviceSize(tale.isPortrait);
-              final selectedText = vm.selectedText;
-              final selectedPage = vm.selectedPage;
-              final texts = UnmodifiableListView(
-                vm.texts.where((element) => element.pageId == selectedPage?.id),
-              );
-              return SizedBox(
-                width: deviceSize.width,
-                height: deviceSize.height,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: context.colorScheme.onSurface),
-                    color: context.colorScheme.surfaceContainer,
+          (context, child) => SizedBox(
+            width: deviceSize.width,
+            height: deviceSize.height,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border.all(color: context.colorScheme.onSurface),
+                color: context.colorScheme.surfaceContainer,
+              ),
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: GestureDetector(onTap: vm.onDeselectText),
                   ),
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: GestureDetector(onTap: vm.onDeselectText),
-                      ),
-                      for (final text in texts)
-                        _Text(
-                          text: text,
-                          deviceSize: deviceSize,
-                          onSelect: vm.onSelectText,
-                          selectedText: selectedText,
-                          onChangePosition:
-                              (value) =>
-                                  vm.onChangeTextPosition(value.dx, value.dy),
-                        ),
-                    ],
-                  ),
-                ),
-              );
-            },
+                  for (final text in texts)
+                    _Text(
+                      text: text,
+                      deviceSize: deviceSize,
+                      onSelect: vm.onSelectText,
+                      selectedText: selectedText,
+                      onChangePosition:
+                          (value) =>
+                              vm.onChangeTextPosition(value.dx, value.dy),
+                    ),
+                ],
+              ),
+            ),
           ),
     );
   }

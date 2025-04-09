@@ -12,6 +12,25 @@ import 'package:tale_builder_flutter/features/tale/repository/tale_repository.da
 import 'package:tale_builder_flutter/features/tale/repository/texts_repository.dart';
 import 'package:uuid/v4.dart';
 
+// FlutterTts flutterTts = FlutterTts();
+//   // flutterTts.getLanguages.then(print);
+//   flutterTts.getVoices.then(
+//     (value) => print(
+//       (value as List).where((element) => element['locale'] == 'ru-RU'),
+//     ),
+//   );
+//   // return;
+
+//   flutterTts.setSpeechRate(.5).then((_) {
+//     flutterTts.setVoice({"name": "Karen", "locale": "en-AU"}).then((value) {
+//       // flutterTts.setVoice({"name": "Milena", "locale": "ru-RU"}).then((value) {
+//       // flutterTts.speak("Меня зовут Фарах").then(print);
+//       flutterTts.speak('context textTheme titleMedium').then(print);
+//     });
+//   });
+
+//   return;
+
 class TaleViewModel extends Vm {
   final TaleRepository _taleRepository;
   final TaleLocalizationRepository _localizationRepository;
