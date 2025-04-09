@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:tale_builder_flutter/features/tale/model/localization.dart';
 import 'package:tale_builder_flutter/features/tale/model/text.dart';
@@ -27,9 +26,9 @@ class _PageViewerState extends State<PageViewer> {
     final tale = vm.tale;
     final deviceSize = Sizes.deviceSize(tale.isPortrait);
     final selectedText = vm.selectedText;
-    final selectedPage = vm.selectedPage;
+    final selectedPage = vm.selectedPage!;
     final texts = UnmodifiableListView(
-      vm.texts.where((element) => element.pageId == selectedPage?.id),
+      vm.texts.where((element) => element.pageId == selectedPage.id),
     );
     return SizedBox(
       width: deviceSize.width,
@@ -42,6 +41,18 @@ class _PageViewerState extends State<PageViewer> {
         child: Stack(
           children: [
             Positioned.fill(child: GestureDetector(onTap: vm.onDeselectText)),
+            if (selectedPage.hasImage)
+              Positioned.fill(
+                child: Opacity(
+                  opacity: .3,
+                  child: RepaintBoundary(
+                    child: Image.network(
+                      selectedPage.backgroundImageUrl,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              ),
             for (final text in texts)
               _Text(
                 text: text,

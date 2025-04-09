@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_ui/myspace_ui.dart';
@@ -6,10 +7,9 @@ import 'package:tale_builder_flutter/features/tale/model/localization.dart';
 import 'package:tale_builder_flutter/features/tale/model/page.dart';
 import 'package:tale_builder_flutter/features/tale/model/tale.dart';
 import 'package:tale_builder_flutter/features/tale/model/text.dart';
-import 'package:tale_builder_flutter/features/tale/repository/localization_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/pages_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/tale_repository.dart';
-import 'package:tale_builder_flutter/features/tale/repository/texts_repository.dart';
+import 'package:tale_builder_flutter/repository/file_picker_repository.dart';
 import 'package:uuid/v4.dart';
 
 // FlutterTts flutterTts = FlutterTts();
@@ -33,9 +33,17 @@ import 'package:uuid/v4.dart';
 
 class TaleViewModel extends Vm {
   final TaleRepository _taleRepository;
+  final TalePagesRepository _pageRepository;
+  final FilePickerRepository _filePickerRepository;
 
-  TaleViewModel({required TaleRepository taleRepository, String? id})
-    : _taleRepository = taleRepository {
+  TaleViewModel({
+    required TaleRepository taleRepository,
+    required TalePagesRepository pageRepository,
+    required FilePickerRepository filePickerRepository,
+    String? id,
+  }) : _taleRepository = taleRepository,
+       _filePickerRepository = filePickerRepository,
+       _pageRepository = pageRepository {
     tale = TaleModel.newTale(
       id ?? UuidV4().generate(),
     ).copyWith(isNew: id == null || id == 'null' || id == 'new');
@@ -83,8 +91,31 @@ class TaleViewModel extends Vm {
   }
 
   void onChangeTaleOrientation(String orientation) {
-    tale = tale.copyWith(orientation: orientation);
-    notifyListeners();
+    if (orientation == tale.orientation) return;
+    if (_texts.isNotEmpty) {
+      //show prompt that all texts will be aligned on top left when changed and cannot be undone
+      PromptDialog.show(
+        "All texts will be aligned on top left when changed and cannot be undone!",
+        isDestructive: true,
+        onLeftClick: (close) {
+          close();
+        },
+        onRightClick: (close) {
+          final texts = UnmodifiableListView(_texts);
+          for (final text in texts) {
+            onSelectText(text, false);
+            onChangeTextPosition(0, 0, false);
+          }
+          onDeselectText(false);
+          tale = tale.copyWith(orientation: orientation);
+          close();
+          notifyListeners();
+        },
+      );
+    } else {
+      tale = tale.copyWith(orientation: orientation);
+      notifyListeners();
+    }
   }
 
   //Tale
@@ -160,6 +191,12 @@ class TaleViewModel extends Vm {
     }
   }
 
+  void _updatePage(TalePageModel page) {
+    final index = _pages.indexWhere((element) => element.id == selectedPageId);
+    if (index == -1) return;
+    _pages[index] = page;
+  }
+
   void onChangePageNumber(int pageNumber) {
     final index = _pages.indexWhere((element) => element.id == selectedPageId);
     if (index == -1) return;
@@ -173,6 +210,60 @@ class TaleViewModel extends Vm {
     _pages[index] = newPage.copyWith(pageNumber: pageNumber);
     notifyListeners();
   }
+
+  void onChangePageBackgroundImage() async {
+    if (selectedPage == null) return;
+    //select image
+    final result = await _filePickerRepository.pickImageFile();
+    switch (result) {
+      case ResultOk<PlatformFile?>():
+        if (result.value != null) {
+          //upload image
+          final uploadResult = await _pageRepository.uploadBackgroundImage(
+            pageId: selectedPageId,
+            file: result.value!,
+          );
+          switch (uploadResult) {
+            case ResultOk<String>():
+              //set page background image
+              _updatePage(
+                selectedPage!.copyWith(
+                  backgroundImageUrl:
+                      "${uploadResult.value}?q=${DateTime.now().millisecondsSinceEpoch}",
+                ),
+              );
+              notifyListeners();
+              log.info("Page background image is set $selectedPageId");
+              break;
+            case ResultError<String>():
+              ErrorDialog.show(uploadResult.toString());
+              break;
+          }
+        }
+        break;
+      case ResultError<PlatformFile?>():
+        ErrorDialog.show(result.toString());
+        break;
+    }
+  }
+
+  void onDeletePageBackgroundImage() {
+    if (selectedPage == null) return;
+    PromptDialog.show(
+      "This action cannot be undone!",
+      title: "Delete page background image?",
+      isDestructive: true,
+      onLeftClick: (close) {
+        close();
+      },
+      onRightClick: (close) {
+        //todo: delete image from server
+        _updatePage(selectedPage!.copyWith(backgroundImageUrl: ""));
+        close();
+        notifyListeners();
+      },
+    );
+  }
   //Pages
 
   //Texts
@@ -183,17 +274,17 @@ class TaleViewModel extends Vm {
   TalePageTextModel? get selectedText =>
       texts.firstWhereOrNull((element) => element.id == selectedTextId);
 
-  void onSelectText(TalePageTextModel text) {
+  void onSelectText(TalePageTextModel text, [bool notify = true]) {
     if (text.id != selectedTextId) {
       selectedTextId = text.id;
-      notifyListeners();
+      if (notify) notifyListeners();
     }
   }
 
-  void onDeselectText() {
+  void onDeselectText([bool notify = true]) {
     if (selectedTextId.isNotEmpty) {
       selectedTextId = '';
-      notifyListeners();
+      if (notify) notifyListeners();
     }
   }
 
@@ -221,7 +312,7 @@ class TaleViewModel extends Vm {
     notifyListeners();
   }
 
-  void onChangeTextPosition([double? dx, double? dy]) {
+  void onChangeTextPosition([double? dx, double? dy, bool notify = true]) {
     if (selectedTextId.isEmpty) return;
     if (dx == null && dy == null) return;
 
@@ -231,7 +322,7 @@ class TaleViewModel extends Vm {
         dy: dy?.ceil().toDouble() ?? selectedText!.dy,
       ),
     );
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   void onChangeTextFontSize(double size) {

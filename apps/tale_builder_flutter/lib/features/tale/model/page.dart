@@ -14,7 +14,8 @@ abstract class TalePageModel with _$TalePageModel {
     @Default(-1) int pageNumber,
     @Default('') String text,
     @Default(false) bool isNew,
-    // @Default(TalePageModelMetadata.empty) TalePageModelMetadata metadata,
+
+    @Default('') String backgroundImageUrl,
   }) = _TalePageModel;
 
   factory TalePageModel.fromJson(Map<String, dynamic> json) {
@@ -29,7 +30,9 @@ abstract class TalePageModel with _$TalePageModel {
       model = model.copyWith(text: json['text'] as String);
     }
     if (json['metadata'] != null) {
+      final image = json['metadata']['background_image_url'];
       model = model.copyWith(
+        backgroundImageUrl: image ?? "",
         // metadata: TalePageModelMetadata.fromJson(
         // json['metadata'] as Map<String, dynamic>,
         // ),
@@ -38,6 +41,9 @@ abstract class TalePageModel with _$TalePageModel {
 
     return model;
   }
+
+  //todo: when toJson
+  //remove q query from backgroundImageUrl
 
   factory TalePageModel.empty({required String id, required String taleId}) =>
       TalePageModel(id: id, taleId: taleId);
@@ -51,4 +57,6 @@ abstract class TalePageModel with _$TalePageModel {
     id: id,
     taleId: taleId,
   ).copyWith(text: text, pageNumber: pageNumber, isNew: true);
+
+  bool get hasImage => backgroundImageUrl.isNotEmpty;
 }

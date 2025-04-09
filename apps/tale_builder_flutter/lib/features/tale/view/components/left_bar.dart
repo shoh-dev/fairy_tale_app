@@ -51,6 +51,11 @@ class LeftBar extends StatelessWidget {
                           selectedTileColor: context.colorScheme.primary,
                           selectedColor: context.colorScheme.onPrimary,
                           title: Text("Page ${page.pageNumber}"),
+                          subtitle: Text(
+                            page.id,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           onTap: () {
                             vm.onSelectPage(page);
                           },

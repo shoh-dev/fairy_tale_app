@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$TalePageModel {
 
  String get id; String get taleId;///for now not using this property
- int get pageNumber; String get text; bool get isNew;
+ int get pageNumber; String get text; bool get isNew; String get backgroundImageUrl;
 /// Create a copy of TalePageModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,16 +27,16 @@ $TalePageModelCopyWith<TalePageModel> get copyWith => _$TalePageModelCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TalePageModel&&(identical(other.id, id) || other.id == id)&&(identical(other.taleId, taleId) || other.taleId == taleId)&&(identical(other.pageNumber, pageNumber) || other.pageNumber == pageNumber)&&(identical(other.text, text) || other.text == text)&&(identical(other.isNew, isNew) || other.isNew == isNew));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TalePageModel&&(identical(other.id, id) || other.id == id)&&(identical(other.taleId, taleId) || other.taleId == taleId)&&(identical(other.pageNumber, pageNumber) || other.pageNumber == pageNumber)&&(identical(other.text, text) || other.text == text)&&(identical(other.isNew, isNew) || other.isNew == isNew)&&(identical(other.backgroundImageUrl, backgroundImageUrl) || other.backgroundImageUrl == backgroundImageUrl));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,taleId,pageNumber,text,isNew);
+int get hashCode => Object.hash(runtimeType,id,taleId,pageNumber,text,isNew,backgroundImageUrl);
 
 @override
 String toString() {
-  return 'TalePageModel(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, isNew: $isNew)';
+  return 'TalePageModel(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, isNew: $isNew, backgroundImageUrl: $backgroundImageUrl)';
 }
 
 
@@ -47,7 +47,7 @@ abstract mixin class $TalePageModelCopyWith<$Res>  {
   factory $TalePageModelCopyWith(TalePageModel value, $Res Function(TalePageModel) _then) = _$TalePageModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String taleId, int pageNumber, String text, bool isNew
+ String id, String taleId, int pageNumber, String text, bool isNew, String backgroundImageUrl
 });
 
 
@@ -64,14 +64,15 @@ class _$TalePageModelCopyWithImpl<$Res>
 
 /// Create a copy of TalePageModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? taleId = null,Object? pageNumber = null,Object? text = null,Object? isNew = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? taleId = null,Object? pageNumber = null,Object? text = null,Object? isNew = null,Object? backgroundImageUrl = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,taleId: null == taleId ? _self.taleId : taleId // ignore: cast_nullable_to_non_nullable
 as String,pageNumber: null == pageNumber ? _self.pageNumber : pageNumber // ignore: cast_nullable_to_non_nullable
 as int,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,isNew: null == isNew ? _self.isNew : isNew // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,backgroundImageUrl: null == backgroundImageUrl ? _self.backgroundImageUrl : backgroundImageUrl // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -82,7 +83,7 @@ as bool,
 
 
 class _TalePageModel extends TalePageModel {
-  const _TalePageModel({required this.id, required this.taleId, this.pageNumber = -1, this.text = '', this.isNew = false}): super._();
+  const _TalePageModel({required this.id, required this.taleId, this.pageNumber = -1, this.text = '', this.isNew = false, this.backgroundImageUrl = ''}): super._();
   
 
 @override final  String id;
@@ -91,6 +92,7 @@ class _TalePageModel extends TalePageModel {
 @override@JsonKey() final  int pageNumber;
 @override@JsonKey() final  String text;
 @override@JsonKey() final  bool isNew;
+@override@JsonKey() final  String backgroundImageUrl;
 
 /// Create a copy of TalePageModel
 /// with the given fields replaced by the non-null parameter values.
@@ -102,16 +104,16 @@ _$TalePageModelCopyWith<_TalePageModel> get copyWith => __$TalePageModelCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TalePageModel&&(identical(other.id, id) || other.id == id)&&(identical(other.taleId, taleId) || other.taleId == taleId)&&(identical(other.pageNumber, pageNumber) || other.pageNumber == pageNumber)&&(identical(other.text, text) || other.text == text)&&(identical(other.isNew, isNew) || other.isNew == isNew));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TalePageModel&&(identical(other.id, id) || other.id == id)&&(identical(other.taleId, taleId) || other.taleId == taleId)&&(identical(other.pageNumber, pageNumber) || other.pageNumber == pageNumber)&&(identical(other.text, text) || other.text == text)&&(identical(other.isNew, isNew) || other.isNew == isNew)&&(identical(other.backgroundImageUrl, backgroundImageUrl) || other.backgroundImageUrl == backgroundImageUrl));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,taleId,pageNumber,text,isNew);
+int get hashCode => Object.hash(runtimeType,id,taleId,pageNumber,text,isNew,backgroundImageUrl);
 
 @override
 String toString() {
-  return 'TalePageModel(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, isNew: $isNew)';
+  return 'TalePageModel(id: $id, taleId: $taleId, pageNumber: $pageNumber, text: $text, isNew: $isNew, backgroundImageUrl: $backgroundImageUrl)';
 }
 
 
@@ -122,7 +124,7 @@ abstract mixin class _$TalePageModelCopyWith<$Res> implements $TalePageModelCopy
   factory _$TalePageModelCopyWith(_TalePageModel value, $Res Function(_TalePageModel) _then) = __$TalePageModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String taleId, int pageNumber, String text, bool isNew
+ String id, String taleId, int pageNumber, String text, bool isNew, String backgroundImageUrl
 });
 
 
@@ -139,14 +141,15 @@ class __$TalePageModelCopyWithImpl<$Res>
 
 /// Create a copy of TalePageModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? taleId = null,Object? pageNumber = null,Object? text = null,Object? isNew = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? taleId = null,Object? pageNumber = null,Object? text = null,Object? isNew = null,Object? backgroundImageUrl = null,}) {
   return _then(_TalePageModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,taleId: null == taleId ? _self.taleId : taleId // ignore: cast_nullable_to_non_nullable
 as String,pageNumber: null == pageNumber ? _self.pageNumber : pageNumber // ignore: cast_nullable_to_non_nullable
 as int,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,isNew: null == isNew ? _self.isNew : isNew // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,backgroundImageUrl: null == backgroundImageUrl ? _self.backgroundImageUrl : backgroundImageUrl // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

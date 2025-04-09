@@ -56,6 +56,7 @@ class RightBarTaleForm extends StatelessWidget {
           value: loc.defaultLocale,
           onSelected: vm.onChangeLocalizationDefaultLocale,
         ),
+        const SizedBox(height: 16),
       ],
     );
   }

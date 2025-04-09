@@ -12,6 +12,7 @@ import 'package:tale_builder_flutter/features/tale/repository/tale_repository.da
 import 'package:tale_builder_flutter/features/tale/repository/texts_repository.dart';
 import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
+import 'package:tale_builder_flutter/repository/file_picker_repository.dart';
 import 'package:tale_builder_flutter/store/app_store.dart';
 import 'package:tale_builder_flutter/supabase/supabase_repository.dart';
 
@@ -56,6 +57,9 @@ void main() async {
               context.readDependency<SupabaseRepository>().client,
             ),
       ),
+      Provider<FilePickerRepository>(
+        create: (context) => FilePickerRepository(),
+      ),
     ],
   );
 
@@ -91,7 +95,9 @@ UIRoot _root(AppStore store) => UIRoot(
                 vm:
                     (context, state) => TaleViewModel(
                       id: state.pathParameters['id']!,
-                      taleRepository: context.readDependency<TaleRepository>(),
+                      taleRepository: context.readDependency(),
+                      filePickerRepository: context.readDependency(),
+                      pageRepository: context.readDependency(),
                     ),
                 builder:
                     (context, state, vm) => TaleView(vm: vm as TaleViewModel),

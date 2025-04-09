@@ -25,6 +25,7 @@ class RightBarPageForm extends StatelessWidget {
           ],
         ),
       ),
+      expandedCrossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //Page Fields
         PageNumberSelector(
@@ -32,6 +33,41 @@ class RightBarPageForm extends StatelessWidget {
           value: page.pageNumber,
           onSelected: vm.onChangePageNumber,
         ),
+        const SizedBox(height: 8),
+
+        if (page.hasImage) ...[
+          //Replace
+          SizedBox(
+            width: double.infinity,
+            height: 42,
+            child: ButtonComponent.outlined(
+              text: "Replace background image",
+              icon: Icons.upload_rounded,
+              onPressed: vm.onChangePageBackgroundImage,
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            height: 42,
+            child: ButtonComponent.destructive(
+              text: "Remove background image",
+              icon: Icons.delete_outline,
+              onPressed: vm.onDeletePageBackgroundImage,
+            ),
+          ),
+          //Delete
+        ] else
+          //Add
+          SizedBox(
+            width: double.infinity,
+            height: 42,
+            child: ButtonComponent.outlined(
+              text: "Add background image",
+              icon: Icons.image_outlined,
+              onPressed: vm.onChangePageBackgroundImage,
+            ),
+          ),
       ],
     );
   }
