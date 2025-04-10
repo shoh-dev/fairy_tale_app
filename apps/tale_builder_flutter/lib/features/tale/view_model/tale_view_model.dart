@@ -152,6 +152,11 @@ class TaleViewModel extends Vm {
     localization = localization.copyWith(defaultLocale: locale);
     notifyListeners();
   }
+
+  void onUpdateLocalization(TaleLocalizationModel localization) {
+    this.localization = localization;
+    notifyListeners();
+  }
   //Translations
 
   //Pages

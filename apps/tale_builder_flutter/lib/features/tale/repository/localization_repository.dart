@@ -21,4 +21,20 @@ class TaleLocalizationRepository extends Dependency {
       return Result.error(e);
     }
   }
+
+  Future<Result<TaleLocalizationModel>> updateLocalizations(
+    TaleLocalizationModel localization,
+  ) async {
+    try {
+      final response =
+          await _client
+              .from("localizations")
+              .upsert(localization.toJson())
+              .select()
+              .single();
+      return Result.ok(TaleLocalizationModel.fromJson(response));
+    } catch (e) {
+      return Result.error(e);
+    }
+  }
 }

@@ -19,9 +19,9 @@ class _SplashViewState extends State<SplashView> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await Future.delayed(Duration(milliseconds: 250));
       if (mounted) {
-        // context.replace(TaleView.route("11111111-1111-1111-1111-111111111111"));
+        context.replace(TaleView.route("11111111-1111-1111-1111-111111111111"));
+        // context.replace(TaleView.route("6b2e7fdf-4d19-4223-b6d6-6b8187265f69"));
         // context.replace(TaleView.route("89bfffe1-045a-41a8-9867-844efbb58156"));
-        context.replace(TaleView.route("6b2e7fdf-4d19-4223-b6d6-6b8187265f69"));
       }
     });
   }

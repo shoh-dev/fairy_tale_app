@@ -37,6 +37,7 @@ abstract class TaleLocalizationModel with _$TaleLocalizationModel {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    json['tale_id'] = taleId;
     json['translations'] = translations;
     json['default_locale'] = defaultLocale;
     return json;

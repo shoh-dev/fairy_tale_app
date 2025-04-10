@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_ui/myspace_ui.dart';
+import 'package:tale_builder_flutter/features/tale/model/localization.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/default_locale_selector.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/orientation_selector.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/translation_selector.dart';
@@ -34,7 +35,13 @@ class RightBarTaleForm extends StatelessWidget {
         ButtonComponent.outlined(
           text: "Translations Editor",
           icon: Icons.text_fields_outlined,
-          onPressed: () => context.push(TranslationsView.route(vm.tale.id)),
+          onPressed: () {
+            context
+                .push<TaleLocalizationModel>(TranslationsView.route(vm.tale.id))
+                .then((value) {
+                  if (value != null) vm.onUpdateLocalization(value);
+                });
+          },
         ).expanded(),
         const SizedBox(height: 16),
         //Tale Fields
