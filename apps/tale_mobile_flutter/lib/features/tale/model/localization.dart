@@ -1,0 +1,59 @@
+import 'dart:collection';
+
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'localization.freezed.dart';
+
+@freezed
+abstract class TaleLocalizationModel with _$TaleLocalizationModel {
+  const TaleLocalizationModel._();
+
+  const factory TaleLocalizationModel({
+    required String taleId,
+    required Map<String, Map<String, String>> translations,
+    required String defaultLocale,
+  }) = _TaleLocalizationModel;
+
+  factory TaleLocalizationModel.fromJson(Map<String, dynamic> json) {
+    final taleId = json['tale_id'] as String;
+    var model = TaleLocalizationModel.empty(taleId);
+    if (json['translations'] != null) {
+      model = model.copyWith(
+        translations: (json['translations'] as Map<String, dynamic>).map(
+          (key, value) => MapEntry(
+            key,
+            (value as Map<String, dynamic>).map(
+              (key, value) => MapEntry(key, value.toString()),
+            ),
+          ),
+        ),
+      );
+    }
+    if (json['default_locale'] != null) {
+      model = model.copyWith(defaultLocale: json['default_locale'] as String);
+    }
+    return model;
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    json['tale_id'] = taleId;
+    json['translations'] = translations;
+    json['default_locale'] = defaultLocale;
+    return json;
+  }
+
+  factory TaleLocalizationModel.empty(String taleId) {
+    const locale = 'en';
+    return TaleLocalizationModel(
+      taleId: taleId,
+      defaultLocale: locale,
+      translations: {locale: {}},
+    );
+  }
+
+  List<String> get availableLocales => UnmodifiableListView(translations.keys);
+
+  Map<String, String> get defaultTranslations =>
+      translations[defaultLocale] ?? {};
+}
