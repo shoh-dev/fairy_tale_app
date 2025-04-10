@@ -81,19 +81,25 @@ class TranslationsViewModel extends Vm {
   }
 
   void onSelectLocale(String locale) {
-    PromptDialog.show(
-      "This action cannot be undon!",
-      title: 'Changing locale will remove any unsaved changes! ',
-      onLeftClick: (close) {
-        close();
-      },
-      onRightClick: (close) {
-        this.locale = locale;
-        _setJson();
-        notifyListeners();
-        close();
-      },
-    );
+    if (isChanged) {
+      PromptDialog.show(
+        "This action cannot be undon!",
+        title: 'Changing locale will remove any unsaved changes! ',
+        onLeftClick: (close) {
+          close();
+        },
+        onRightClick: (close) {
+          this.locale = locale;
+          _setJson();
+          notifyListeners();
+          close();
+        },
+      );
+    } else {
+      this.locale = locale;
+      _setJson();
+      notifyListeners();
+    }
   }
 
   void onAddNewTranslationEntry() {
