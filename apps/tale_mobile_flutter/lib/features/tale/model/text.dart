@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -25,7 +26,7 @@ abstract class TalePageTextModel with _$TalePageTextModel {
     final style = ((metadata['style'] ?? {}) as Map);
     final fontSize = style['font_size']?.toDouble();
     final fontColorCode = int.tryParse(
-      "0xFF${style['color'].toString().substring(1)}",
+      "0xFF${style['color']?.toString().substring(1)}",
     );
     return TalePageTextModel(
       id: json['id'],
@@ -38,8 +39,11 @@ abstract class TalePageTextModel with _$TalePageTextModel {
       style:
           style.isNotEmpty
               ? TextStyle(
-                fontSize: fontSize,
-                color: fontColorCode != null ? Color(fontColorCode) : null,
+                fontSize: fontSize ?? _defaultTextStyle.fontSize,
+                color:
+                    fontColorCode != null
+                        ? Color(fontColorCode)
+                        : _defaultTextStyle.color,
               )
               : _defaultTextStyle,
     );

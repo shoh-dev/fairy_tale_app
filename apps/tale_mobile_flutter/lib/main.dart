@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 import 'package:tale_mobile_flutter/features/tale/layout.dart';
-import 'package:tale_mobile_flutter/features/tale/repository/tale_repository.dart';
 import 'package:tale_mobile_flutter/features/tale/view/my_tales_view.dart';
+import 'package:tale_mobile_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_mobile_flutter/features/tale/view_model/my_tales_view_model.dart';
+import 'package:tale_mobile_flutter/features/tale/view_model/tale_view_model.dart';
+import 'package:tale_mobile_flutter/repository/tale_repository.dart';
 import 'package:tale_mobile_flutter/store/app_store.dart';
 import 'package:tale_mobile_flutter/supabase/supabase_repository.dart';
 
@@ -35,7 +36,7 @@ void main() async {
     appStore: appStore,
     theme: UITheme(
       theme: (context) => AppTheme(borderRadius: 16),
-      themeMode: (context) => ThemeMode.dark,
+      themeMode: (context) => ThemeMode.light,
     ),
     dependencies: [
       Provider<SupabaseRepository>.value(value: supabaseRepository),
@@ -65,6 +66,18 @@ UIRoot _root(AppStore store) => UIRoot(
                     MyTalesViewModel(taleRepository: context.readDependency()),
             builder:
                 (context, state, vm) => MyTalesView(vm: vm as MyTalesViewModel),
+            pages: [
+              UIPage(
+                path: ":id",
+                vm:
+                    (context, state) => TaleViewModel(
+                      state.pathParameters['id']!,
+                      taleRepository: context.readDependency(),
+                    ),
+                builder:
+                    (context, state, vm) => TaleView(vm: vm as TaleViewModel),
+              ),
+            ],
           ),
         ],
       ],

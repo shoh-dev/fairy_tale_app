@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:tale_mobile_flutter/features/tale/model/tale.dart';
-import 'package:tale_mobile_flutter/features/tale/repository/tale_repository.dart';
+import 'package:tale_mobile_flutter/repository/tale_repository.dart';
 
 class MyTalesViewModel extends Vm {
   final TaleRepository _taleRepository;
