@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:tale_mobile_flutter/features/tale/model/localization.dart';
+import 'package:tale_mobile_flutter/features/tale/model/page.dart';
 
 part 'tale.freezed.dart';
 
@@ -8,49 +10,56 @@ abstract class TaleModel with _$TaleModel {
 
   const factory TaleModel({
     required String id,
-    required String title,
-    required String description,
-    required String orientation,
-    required String coverImageUrl,
-    required String backgroundAudioUrl,
-    @Default(false) bool isNew,
+    @Default('') String title,
+    @Default('') String description,
+    @Default('landscape') String orientation,
+    @Default('') String coverImageUrl,
+    @Default('') String backgroundAudioUrl,
+    required TaleLocalizationModel localization,
+    @Default([]) List<TalePageModel> pages,
   }) = _TaleModel;
 
   factory TaleModel.fromJson(Map<String, dynamic> json) {
-    return TaleModel(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      orientation: json['orientation'],
-      backgroundAudioUrl: '', //todo:
-      coverImageUrl: json['metadata']?['cover_image_url'] ?? "", //todo:
+    final id = json['id'];
+
+    var model = TaleModel(
+      id: id,
+      localization: TaleLocalizationModel(taleId: id),
     );
-  }
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    json['id'] = id;
-    json['title'] = title;
-    json['description'] = description;
-    json['orientation'] = orientation;
-    json['metadata'] = {
-      "cover_image_url": coverImageUrl,
-      "background_audio_url": backgroundAudioUrl,
-    };
-    return json;
+    if (json['title'] != null) {
+      model = model.copyWith(title: json['title']);
+    }
+    if (json['description'] != null) {
+      model = model.copyWith(description: json['description']);
+    }
+    if (json['orientation'] != null) {
+      model = model.copyWith(orientation: json['orientation']);
+    }
+    if (json['metadata'] != null) {
+      final cover = json['metadata']?['cover_image_url'];
+      final audio = json['metadata']?['background_audio_url'];
+      model = model.copyWith(
+        coverImageUrl: cover ?? "",
+        backgroundAudioUrl: audio ?? "",
+      );
+    }
+    if (json['localization'] != null) {
+      model = model.copyWith(
+        localization: TaleLocalizationModel.fromJson(json['localization']),
+      );
+    }
+    if (json['pages'] != null) {
+      model = model.copyWith(
+        pages:
+            (json['pages'] as List)
+                .map((e) => TalePageModel.fromJson(e))
+                .toList(),
+      );
+    }
+    return model;
   }
-
-  factory TaleModel.newTale(String id) => TaleModel(
-    id: id,
-    title: '',
-    description: '',
-    orientation: 'landscape',
-    coverImageUrl: '',
-    backgroundAudioUrl: '',
-    isNew: true,
-  );
 
   bool get isPortrait => orientation == 'portrait';
-
   bool get hasCoverImage => coverImageUrl.isNotEmpty;
 }

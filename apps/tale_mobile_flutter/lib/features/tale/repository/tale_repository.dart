@@ -1,9 +1,6 @@
 import 'package:myspace_core/myspace_core.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:tale_mobile_flutter/features/tale/model/localization.dart';
-import 'package:tale_mobile_flutter/features/tale/model/page.dart';
 import 'package:tale_mobile_flutter/features/tale/model/tale.dart';
-import 'package:tale_mobile_flutter/features/tale/model/text.dart';
 
 class TaleRepository extends Dependency {
   final SupabaseClient _client;
@@ -21,7 +18,7 @@ class TaleRepository extends Dependency {
     }
   }
 
-  Future<Result<FullTaleResponse>> getTale(String id) async {
+  Future<Result<TaleModel>> getTale(String id) async {
     try {
       final response =
           await _client
@@ -31,31 +28,9 @@ class TaleRepository extends Dependency {
               .single();
       // await Future.delayed(Duration(seconds: 1));
       final tale = TaleModel.fromJson(response);
-      final localization = TaleLocalizationModel.fromJson(
-        response['localization'],
-      );
-      final texts = <TalePageTextModel>[];
-      final pages =
-          (response['pages'] as List).map((page) {
-            texts.addAll(
-              (page['texts'] as List).map(
-                (text) => TalePageTextModel.fromJson(text),
-              ),
-            );
-            return TalePageModel.fromJson(page);
-          }).toList();
-      return Result.ok(FullTaleResponse(tale, localization, pages, texts));
+      return Result.ok(tale);
     } catch (e) {
       return Result.error(e);
     }
   }
-}
-
-final class FullTaleResponse {
-  final TaleModel tale;
-  final TaleLocalizationModel localization;
-  final List<TalePageModel> pages;
-  final List<TalePageTextModel> texts;
-
-  const FullTaleResponse(this.tale, this.localization, this.pages, this.texts);
 }

@@ -53,10 +53,7 @@ class _Tale extends StatelessWidget {
                   height: height * .4,
                   decoration: BoxDecoration(
                     boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withAlpha(40),
-                        blurRadius: 16,
-                      ),
+                      BoxShadow(color: Colors.black26, blurRadius: 16),
                     ],
                   ),
                 ),
@@ -72,7 +69,7 @@ class _Tale extends StatelessWidget {
                     tale.title,
                     textAlign: TextAlign.center,
                     maxLines: 3,
-                    style: context.textTheme.titleLarge!.copyWith(
+                    style: context.textTheme.headlineSmall!.copyWith(
                       fontWeight: FontWeight.w800,
                       shadows: [
                         BoxShadow(color: Colors.black45, offset: Offset(1, 1)),

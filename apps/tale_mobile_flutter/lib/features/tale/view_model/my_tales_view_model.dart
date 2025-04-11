@@ -19,7 +19,7 @@ class MyTalesViewModel extends Vm {
   Future<Result<void>> _fetchMyTales() async {
     final result = await _taleRepository.getMyTales();
     switch (result) {
-      case ResultOk<List<TaleModel>>(:var value):
+      case ResultOk<List<TaleModel>>(:final value):
         _myTales
           ..clear()
           ..addAll(value);

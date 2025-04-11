@@ -79,18 +79,18 @@ as String,
 
 
 class _TaleLocalizationModel extends TaleLocalizationModel {
-  const _TaleLocalizationModel({required this.taleId, required final  Map<String, Map<String, String>> translations, required this.defaultLocale}): _translations = translations,super._();
+  const _TaleLocalizationModel({required this.taleId, final  Map<String, Map<String, String>> translations = const {}, this.defaultLocale = 'en'}): _translations = translations,super._();
   
 
 @override final  String taleId;
  final  Map<String, Map<String, String>> _translations;
-@override Map<String, Map<String, String>> get translations {
+@override@JsonKey() Map<String, Map<String, String>> get translations {
   if (_translations is EqualUnmodifiableMapView) return _translations;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableMapView(_translations);
 }
 
-@override final  String defaultLocale;
+@override@JsonKey() final  String defaultLocale;
 
 /// Create a copy of TaleLocalizationModel
 /// with the given fields replaced by the non-null parameter values.
