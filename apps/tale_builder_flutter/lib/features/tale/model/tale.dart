@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:tale_builder_flutter/features/tale/model/localization.dart';
 
 part 'tale.freezed.dart';
 
@@ -27,12 +28,13 @@ abstract class TaleModel with _$TaleModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson(TaleLocalizationModel localization) {
     final json = <String, dynamic>{};
     json['id'] = id;
     json['title'] = title;
     json['description'] = description;
     json['orientation'] = orientation;
+    json['default_locale_title'] = localization.defaultTranslations[title];
     json['metadata'] = {
       "cover_image_url": coverImageUrl,
       "background_audio_url": backgroundAudioUrl,

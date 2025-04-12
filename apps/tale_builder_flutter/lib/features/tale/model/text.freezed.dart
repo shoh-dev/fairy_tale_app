@@ -85,7 +85,7 @@ as TextStyle,
 
 
 class _TalePageTextModel extends TalePageTextModel {
-  const _TalePageTextModel({required this.id, required this.text, required this.pageId, required this.width, required this.height, required this.dx, required this.dy, this.isNew = false, this.style = TalePageTextModel.defaultTextStyle}): super._();
+  const _TalePageTextModel({required this.id, required this.text, required this.pageId, required this.width, required this.height, required this.dx, required this.dy, this.isNew = false, this.style = TalePageTextModel._defaultTextStyle}): super._();
   
 
 @override final  String id;

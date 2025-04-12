@@ -62,7 +62,7 @@ class TaleRepository extends Dependency {
       final response = await _client.rpc<Map>(
         'upsert_full_tale',
         params: {
-          'tale_data': tale.toJson(),
+          'tale_data': tale.toJson(localization),
           'pages_data': pages.map((e) => e.toJson()).toList(),
           'localization_data': localization.toJson(),
           'texts_data': texts.map((e) => e.toJson()).toList(),
@@ -74,13 +74,15 @@ class TaleRepository extends Dependency {
         response['localization_data']!,
       );
       final updatedPages =
-          (response['pages_data'] as List)
-              .map((e) => TalePageModel.fromJson(e))
-              .toList();
+          (response['pages_data'] as List?)
+              ?.map((e) => TalePageModel.fromJson(e))
+              .toList() ??
+          [];
       final updatedTexts =
-          (response['texts_data'] as List)
-              .map((e) => TalePageTextModel.fromJson(e))
-              .toList();
+          (response['texts_data'] as List?)
+              ?.map((e) => TalePageTextModel.fromJson(e))
+              .toList() ??
+          [];
       return Result.ok(
         FullTaleResponse(
           updatedTale,

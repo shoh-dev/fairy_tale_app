@@ -47,8 +47,8 @@ class _PageViewerState extends State<PageViewer> {
                   child: Image.network(
                     selectedPage.backgroundImageUrl,
                     fit: BoxFit.fill,
-                    // cacheWidth: deviceSize.width.toInt(),
-                    // cacheHeight: deviceSize.height.toInt(),
+                    cacheWidth: deviceSize.width.toInt(),
+                    cacheHeight: deviceSize.height.toInt(),
                     loadingBuilder:
                         (context, child, loadingProgress) =>
                             loadingProgress != null
@@ -63,6 +63,7 @@ class _PageViewerState extends State<PageViewer> {
             for (final text in texts)
               _Text(
                 text: text,
+                isPreviewMode: vm.isPreviewMode,
                 localization: vm.localization,
                 deviceSize: deviceSize,
                 onSelect: vm.onSelectText,
@@ -83,12 +84,13 @@ class _Text extends StatefulWidget {
     required this.text,
     this.selectedText,
     required this.onSelect,
+    required this.isPreviewMode,
     required this.onChangePosition,
     required this.deviceSize,
     required this.localization,
     required this.onDeleteText,
   });
-
+  final bool isPreviewMode;
   final TalePageTextModel text;
   final TalePageTextModel? selectedText;
   final ValueChanged<TalePageTextModel> onSelect;
@@ -106,6 +108,7 @@ class __TextState extends State<_Text> {
   TalePageTextModel? get selectedText => widget.selectedText;
   TaleLocalizationModel get localization => widget.localization;
   Size get deviceSize => widget.deviceSize;
+  bool get isPreviewMode => widget.isPreviewMode;
 
   String hoveredTextId = '';
   Offset offset = Offset.zero;
@@ -137,104 +140,107 @@ class __TextState extends State<_Text> {
       height: size.height,
       left: offset.dx,
       top: offset.dy,
-      child: GestureDetector(
-        onSecondaryTapDown: (TapDownDetails details) {
-          final position = context.getTapPosition(details);
-          showMenu(
-            position: position,
-            context: context,
-            items: [
-              PopupMenuItem(
-                child: ListTile(
-                  title: Text("Delete"),
-                  leading: Icon(Icons.delete),
-                ),
-                onTap: () {
-                  widget.onDeleteText(text.id);
-                },
-              ),
-            ],
-          );
-        },
-        onTap: () {
-          widget.onSelect(text);
-        },
-        onPanUpdate: (details) {
-          if (selectedText == null) return;
-          if (selectedText!.id == text.id) {
-            final oldPos = offset;
-            offset += details.delta;
-            if (offset.dx < 0) {
-              offset = Offset(0, offset.dy);
-            } else if (offset.dx > (deviceSize.width - text.width)) {
-              //-40 is the size of the object
-              offset = Offset(deviceSize.width - text.width, offset.dy);
-            }
-            if (offset.dy < 0) {
-              offset = Offset(offset.dx, 0);
-            } else if (offset.dy > (deviceSize.height - text.height)) {
-              //-40 is the size of the object
-              offset = Offset(offset.dx, deviceSize.height - text.height);
-            }
-            if (oldPos != offset) {
-              setState(() {});
-            }
+      child: Builder(
+        builder: (context) {
+          if (isPreviewMode) {
+            return _textWidget();
           }
+          return _tapWidget(_decoratedBox(_textWidget()));
         },
-        onPanEnd: (details) {
-          widget.onChangePosition(offset);
+      ),
+    );
+  }
+
+  Widget _tapWidget(Widget child) {
+    return GestureDetector(
+      onSecondaryTapDown: (TapDownDetails details) {
+        final position = context.getTapPosition(details);
+        showMenu(
+          position: position,
+          context: context,
+          items: [
+            PopupMenuItem(
+              child: ListTile(
+                title: Text("Delete"),
+                leading: Icon(Icons.delete),
+              ),
+              onTap: () {
+                widget.onDeleteText(text.id);
+              },
+            ),
+          ],
+        );
+      },
+      onTap: () {
+        widget.onSelect(text);
+      },
+      onPanUpdate: (details) {
+        if (selectedText == null) return;
+        if (selectedText!.id == text.id) {
+          final oldPos = offset;
+          offset += details.delta;
+          if (offset.dx < 0) {
+            offset = Offset(0, offset.dy);
+          } else if (offset.dx > (deviceSize.width - text.width)) {
+            //-40 is the size of the object
+            offset = Offset(deviceSize.width - text.width, offset.dy);
+          }
+          if (offset.dy < 0) {
+            offset = Offset(offset.dx, 0);
+          } else if (offset.dy > (deviceSize.height - text.height)) {
+            //-40 is the size of the object
+            offset = Offset(offset.dx, deviceSize.height - text.height);
+          }
+          if (oldPos != offset) {
+            setState(() {});
+          }
+        }
+      },
+      onPanEnd: (details) {
+        widget.onChangePosition(offset);
+      },
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) {
+          setState(() {
+            hoveredTextId = text.id;
+          });
         },
-        child: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          onEnter: (_) {
-            setState(() {
-              hoveredTextId = text.id;
-            });
-          },
-          onExit: (_) {
-            setState(() {
-              hoveredTextId = "";
-            });
-          },
-          child: Builder(
-            builder: (context) {
-              final isHovered = hoveredTextId == text.id;
-              final isSelected = selectedText?.id == text.id;
-              return DecoratedBox(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color:
-                        isSelected
-                            ? Colors.red
-                            : (isHovered
-                                ? Colors.blue
-                                : context.colorScheme.onSurface),
-                  ),
-                ),
-                child: Builder(
-                  builder: (context) {
-                    final translatedText =
-                        text.text.isEmpty
-                            ? ""
-                            : localization.defaultTranslations[text.text];
-                    return TextComponent.any(
-                      translatedText ?? "NOT_FOUND",
-                      style: text.style.copyWith(
-                        shadows: [
-                          Shadow(
-                            color: Colors.black54,
-                            blurRadius: 8,
-                            offset: Offset(1, 1),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          ),
+        onExit: (_) {
+          setState(() {
+            hoveredTextId = "";
+          });
+        },
+        child: child,
+      ),
+    );
+  }
+
+  Widget _decoratedBox(Widget child) {
+    final isHovered = hoveredTextId == text.id;
+    final isSelected = selectedText?.id == text.id;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color:
+              isSelected
+                  ? Colors.red
+                  : (isHovered ? Colors.blue : context.colorScheme.onSurface),
         ),
+      ),
+      child: child,
+    );
+  }
+
+  Widget _textWidget() {
+    final translatedText =
+        text.text.isEmpty ? "" : localization.defaultTranslations[text.text];
+    return TextComponent.any(
+      translatedText ?? "NOT_FOUND",
+      style: text.style.copyWith(
+        shadows: [
+          Shadow(color: Colors.black54, blurRadius: 8, offset: Offset(1, 1)),
+        ],
       ),
     );
   }

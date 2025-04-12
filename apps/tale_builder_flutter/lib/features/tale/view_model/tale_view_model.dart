@@ -52,6 +52,17 @@ class TaleViewModel extends Vm {
     fetchTaleCommand = CommandParam(_fetchTale)..execute(tale);
   }
 
+  // UI
+  bool _isPreviewMode = false;
+  bool get isPreviewMode => _isPreviewMode;
+
+  void togglePreviewMode() {
+    _isPreviewMode = !_isPreviewMode;
+    selectedTextId = '';
+    notifyListeners();
+  }
+  // UI
+
   //Tale
   late final CommandParam<void, TaleModel> fetchTaleCommand;
   late TaleModel tale;

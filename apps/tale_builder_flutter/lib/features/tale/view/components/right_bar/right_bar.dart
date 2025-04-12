@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:tale_builder_flutter/features/tale/view/components/preview_wrapper.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/right_bar/forms/page.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/right_bar/forms/tale.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/right_bar/forms/text.dart';
@@ -23,51 +24,54 @@ class _RightBarState extends State<RightBar> {
     final text = vm.selectedText;
     final page = vm.selectedPage;
 
-    return SizedBox(
-      height: context.height,
-      child: LayoutComponent.column(
-        children: [
-          Expanded(
-            child: ListView(
-              children: [
-                RepaintBoundary(
-                  child: LayoutComponent.row(
-                    spacing: 4,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(Icons.settings_outlined, size: 18),
-                      TextComponent.any(
-                        'Properties',
-                        style: context.textTheme.titleMedium,
-                      ),
-                    ],
+    return PreviewWrapper(
+      isPreviewMode: vm.isPreviewMode,
+      child: SizedBox(
+        height: context.height,
+        child: LayoutComponent.column(
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  RepaintBoundary(
+                    child: LayoutComponent.row(
+                      spacing: 4,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.settings_outlined, size: 18),
+                        TextComponent.any(
+                          'Properties',
+                          style: context.textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const Divider(),
-                RightBarTaleForm(vm: vm),
+                  const Divider(),
+                  RightBarTaleForm(vm: vm),
 
-                // const Divider(),
-                if (page != null) ...[
-                  const SizedBox(height: 16),
-                  RightBarPageForm(vm: vm, page: page),
+                  // const Divider(),
+                  if (page != null) ...[
+                    const SizedBox(height: 16),
+                    RightBarPageForm(vm: vm, page: page),
+                  ],
+                  if (text != null) ...[
+                    const SizedBox(height: 16),
+                    RightBarTextForm(vm: vm, text: text),
+                  ],
                 ],
-                if (text != null) ...[
-                  const SizedBox(height: 16),
-                  RightBarTextForm(vm: vm, text: text),
-                ],
-              ],
+              ),
             ),
-          ),
-          if (vm.selectedPageId.isNotEmpty) ...[
-            const Divider(),
-            ButtonComponent.outlined(
-              text: "Add Text",
-              icon: Icons.add_outlined,
-              onPressed: vm.onAddText,
-            ).expanded(),
+            if (vm.selectedPageId.isNotEmpty) ...[
+              const Divider(),
+              ButtonComponent.outlined(
+                text: "Add Text",
+                icon: Icons.add_outlined,
+                onPressed: vm.onAddText,
+              ).expanded(),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

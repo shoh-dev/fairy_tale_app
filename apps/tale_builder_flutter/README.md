@@ -15,28 +15,31 @@ declare
   page jsonb;
   text jsonb;
 begin
-  -- Upsert tale
-  insert into tales (
-    id,
-    title,
-    description,
-    orientation,
-    metadata,
-    created_at
-  )
-  values (
-    (tale_data->>'id')::uuid,
-    tale_data->>'title',
-    coalesce(tale_data->>'description', ''),
-    coalesce(tale_data->>'orientation', 'landscape'),
-    coalesce(tale_data->'metadata', '{"cover_image_url": "", "background_audio_url": ""}'::jsonb),
-    coalesce((tale_data->>'created_at')::timestamp, now())
-  )
-  on conflict (id) do update set
-    title = excluded.title,
-    description = excluded.description,
-    orientation = excluded.orientation,
-    metadata = excluded.metadata;
+  -- Upsert tale (UPDATED)
+insert into tales (
+  id,
+  title,
+  description,
+  orientation,
+  metadata,
+  default_locale_title,
+  created_at
+)
+values (
+  (tale_data->>'id')::uuid,
+  tale_data->>'title',
+  coalesce(tale_data->>'description', ''),
+  coalesce(tale_data->>'orientation', 'landscape'),
+  coalesce(tale_data->'metadata', '{"cover_image_url": "", "background_audio_url": ""}'::jsonb),
+  coalesce(tale_data->>'default_locale_title', ''),
+  coalesce((tale_data->>'created_at')::timestamp, now())
+)
+on conflict (id) do update set
+  title = excluded.title,
+  description = excluded.description,
+  orientation = excluded.orientation,
+  metadata = excluded.metadata,
+  default_locale_title = excluded.default_locale_title;
 
   -- Upsert pages (if any)
   if pages_data is not null then
