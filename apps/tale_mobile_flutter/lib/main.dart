@@ -31,6 +31,7 @@ void main() async {
   );
 
   final appStore = AppStore();
+
   final config = CoreAppConfig(
     root: _root,
     appStore: appStore,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 import 'package:tale_builder_flutter/features/tale/model/localization.dart';
+import 'package:tale_builder_flutter/features/tale/model/object.dart';
 import 'package:tale_builder_flutter/features/tale/model/text.dart';
 import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';

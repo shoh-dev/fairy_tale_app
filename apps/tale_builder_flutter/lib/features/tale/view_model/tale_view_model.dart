@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 import 'package:tale_builder_flutter/features/tale/model/localization.dart';
+import 'package:tale_builder_flutter/features/tale/model/object.dart';
 import 'package:tale_builder_flutter/features/tale/model/page.dart';
 import 'package:tale_builder_flutter/features/tale/model/tale.dart';
 import 'package:tale_builder_flutter/features/tale/model/text.dart';
@@ -62,6 +63,16 @@ class TaleViewModel extends Vm {
     notifyListeners();
   }
   // UI
+
+  // Objects
+  final UnmodifiableListView<TaleObjectModel> objects = UnmodifiableListView([
+    TaleObjectModel(
+      pageId: "d0df2229-ff83-470a-ba51-431830b117f4",
+      imageUrl:
+          'http://127.0.0.1:54321/storage/v1/object/public/default/object/ChatGPT%20Image%20Apr%2012,%202025,%2004_08_23%20PM.png',
+    ),
+  ]);
+  // Objects
 
   //Tale
   late final CommandParam<void, TaleModel> fetchTaleCommand;

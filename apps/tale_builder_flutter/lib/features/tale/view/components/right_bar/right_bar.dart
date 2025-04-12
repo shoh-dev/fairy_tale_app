@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/preview_wrapper.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/right_bar/forms/page.dart';
@@ -62,14 +61,14 @@ class _RightBarState extends State<RightBar> {
                 ],
               ),
             ),
-            if (vm.selectedPageId.isNotEmpty) ...[
-              const Divider(),
-              ButtonComponent.outlined(
-                text: "Add Text",
-                icon: Icons.add_outlined,
-                onPressed: vm.onAddText,
-              ).expanded(),
-            ],
+            // if (vm.selectedPageId.isNotEmpty) ...[
+            //   const Divider(),
+            //   ButtonComponent.outlined(
+            //     text: "Add Text",
+            //     icon: Icons.add_outlined,
+            //     onPressed: vm.onAddText,
+            //   ).expanded(),
+            // ],
           ],
         ),
       ),

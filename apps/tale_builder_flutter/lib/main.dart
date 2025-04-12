@@ -7,6 +7,7 @@ import 'package:tale_builder_flutter/features/splash/view/splash_view.dart';
 import 'package:tale_builder_flutter/features/splash/view_model/splash_view_model.dart';
 import 'package:tale_builder_flutter/features/tale/layout.dart';
 import 'package:tale_builder_flutter/features/tale/repository/localization_repository.dart';
+import 'package:tale_builder_flutter/features/tale/repository/objects_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/pages_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/tale_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/texts_repository.dart';
@@ -56,6 +57,12 @@ void main() async {
       Provider<TalePageTextsRepository>(
         create:
             (context) => TalePageTextsRepository(
+              context.readDependency<SupabaseRepository>().client,
+            ),
+      ),
+      Provider<TaleObjectsRepository>(
+        create:
+            (context) => TaleObjectsRepository(
               context.readDependency<SupabaseRepository>().client,
             ),
       ),
