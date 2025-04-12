@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 import 'package:tale_builder_flutter/features/tale/model/localization.dart';
-import 'package:tale_builder_flutter/features/tale/model/object.dart';
 import 'package:tale_builder_flutter/features/tale/model/text.dart';
 import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
@@ -221,6 +220,7 @@ class __TextState extends State<_Text> {
     final isHovered = hoveredTextId == text.id;
     final isSelected = selectedText?.id == text.id;
     return DecoratedBox(
+      position: DecorationPosition.foreground,
       decoration: BoxDecoration(
         border: Border.all(
           color:
@@ -236,12 +236,31 @@ class __TextState extends State<_Text> {
   Widget _textWidget() {
     final translatedText =
         text.text.isEmpty ? "" : localization.defaultTranslations[text.text];
-    return TextComponent.any(
-      translatedText ?? "NOT_FOUND",
-      style: text.style.copyWith(
-        shadows: [
-          Shadow(color: Colors.black54, blurRadius: 8, offset: Offset(1, 1)),
-        ],
+    final style = text.style;
+    final decoration = text.decoration;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: decoration.backgroundColor,
+        borderRadius: decoration.borderRadius,
+      ),
+      child: Padding(
+        padding: decoration.padding,
+        child: Text(
+          translatedText ?? "NOT_FOUND",
+          textAlign: decoration.textAlign,
+          style: style.copyWith(
+            shadows:
+                decoration.backgroundColor == null
+                    ? [
+                      Shadow(
+                        color: Colors.black54,
+                        blurRadius: 8,
+                        offset: Offset(1, 1),
+                      ),
+                    ]
+                    : null,
+          ),
+        ),
       ),
     );
   }

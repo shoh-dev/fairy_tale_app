@@ -91,8 +91,9 @@ class TaleRepository extends Dependency {
           updatedTexts,
         ),
       );
-    } catch (e) {
-      return Result.error(e);
+    } catch (e, st) {
+      print(st);
+      return Result.error(e, stackTrace: st);
     }
   }
 }

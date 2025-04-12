@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:tale_builder_flutter/features/tale/model/text.dart';
+import 'package:tale_builder_flutter/features/tale/view/components/text_align_selector.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/translation_selector.dart';
 import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
@@ -86,24 +87,67 @@ class RightBarTextForm extends StatelessWidget {
 
         TextFieldComponent(
           label: "Font Size",
-          initialValue: text.style?.fontSize.toString(),
+          initialValue: text.style.fontSize.toString(),
           onChanged: (value) {
             final parsed = double.tryParse(value);
             if (parsed == null) return;
             vm.onChangeTextFontSize(parsed);
           },
         ),
+        const SizedBox(height: 16),
 
-        // SliderComponent(
-        //   label: "Font Size",
-        //   min: 12,
-        //   max: 40,
-        //   initialValue: text.style?.fontSize,
-        //   onChanged: (value) {
-        //     if (value == null) return;
-        //     vm.onChangeTextFontSize(value);
-        //   },
-        // ),
+        TextFieldComponent(
+          label: "Font Color",
+          initialValue: text.colorToHex(),
+          onChanged: (value) {
+            final parsed = int.tryParse(
+              "0xFF${value.toLowerCase().substring(1)}",
+            );
+            if (parsed == null) return;
+            vm.onChangeTextFontColor(Color(parsed));
+          },
+        ),
+        const SizedBox(height: 8),
+        TextFieldComponent(
+          label: "Bacgkround Color",
+          initialValue: text.decoration.colorToHex(),
+          onChanged: (value) {
+            final parsed =
+                value.isEmpty
+                    ? null
+                    : int.tryParse("0xFF${value.toLowerCase().substring(1)}");
+            vm.onChangeTextBackgroundColor(
+              parsed == null ? null : Color(parsed),
+            );
+          },
+        ),
+        const SizedBox(height: 8),
+        TextFieldComponent(
+          label: "Border Radius",
+          initialValue: text.decoration.borderRadiusAll.toString(),
+          onChanged: (value) {
+            final parsed = double.tryParse(value);
+            if (parsed == null) return;
+            vm.onChangeTextBorderRadius(parsed);
+          },
+        ),
+        const SizedBox(height: 8),
+        const SizedBox(height: 8),
+        TextFieldComponent(
+          label: "Padding",
+          initialValue: text.decoration.paddingAll.toString(),
+          onChanged: (value) {
+            final parsed = double.tryParse(value);
+            if (parsed == null) return;
+            vm.onChangeTextPadding(parsed);
+          },
+        ),
+        const SizedBox(height: 8),
+        TextAlignSelector(
+          value: text.decoration.textAlign,
+          onSelected: vm.onChangeTextAlignment,
+        ),
+        const SizedBox(height: 8),
       ],
     );
   }

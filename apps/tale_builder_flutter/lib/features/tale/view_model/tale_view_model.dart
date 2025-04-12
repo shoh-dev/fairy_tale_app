@@ -415,10 +415,57 @@ class TaleViewModel extends Vm {
 
   void onChangeTextFontSize(double size) {
     if (selectedTextId.isEmpty) return;
-    TextStyle style = selectedText?.style ?? TextStyle();
+    TextStyle style = selectedText!.style;
     style = style.copyWith(fontSize: size.ceil().toDouble());
 
     _updateText(selectedText!.copyWith(style: style));
+    notifyListeners();
+  }
+
+  void onChangeTextFontColor(Color color) {
+    if (selectedTextId.isEmpty) return;
+    TextStyle style = selectedText!.style;
+    style = style.copyWith(color: color);
+
+    _updateText(selectedText!.copyWith(style: style));
+    notifyListeners();
+  }
+
+  void onChangeTextBackgroundColor(Color? color) {
+    if (selectedTextId.isEmpty) return;
+    var decoration = selectedText!.decoration;
+    decoration = decoration.copyWith(backgroundColor: color);
+
+    _updateText(selectedText!.copyWith(decoration: decoration));
+    notifyListeners();
+  }
+
+  void onChangeTextBorderRadius(double radius) {
+    if (selectedTextId.isEmpty) return;
+    var decoration = selectedText!.decoration;
+    decoration = decoration.copyWith(
+      borderRadius: BorderRadius.circular(radius),
+    );
+
+    _updateText(selectedText!.copyWith(decoration: decoration));
+    notifyListeners();
+  }
+
+  void onChangeTextPadding(double padding) {
+    if (selectedTextId.isEmpty) return;
+    var decoration = selectedText!.decoration;
+    decoration = decoration.copyWith(padding: EdgeInsets.all(padding));
+
+    _updateText(selectedText!.copyWith(decoration: decoration));
+    notifyListeners();
+  }
+
+  void onChangeTextAlignment(TextAlign alignment) {
+    if (selectedTextId.isEmpty) return;
+    var decoration = selectedText!.decoration;
+    decoration = decoration.copyWith(textAlign: alignment);
+
+    _updateText(selectedText!.copyWith(decoration: decoration));
     notifyListeners();
   }
 

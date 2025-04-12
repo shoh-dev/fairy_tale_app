@@ -66,6 +66,7 @@ class RightBarPageForm extends StatelessWidget {
             icon: Icons.image_outlined,
             onPressed: vm.onChangePageBackgroundImage,
           ).expanded(),
+        const SizedBox(height: 8),
       ],
     );
   }
