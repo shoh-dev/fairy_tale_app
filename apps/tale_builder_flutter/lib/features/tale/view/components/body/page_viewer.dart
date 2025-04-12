@@ -67,7 +67,7 @@ class _PageViewerState extends State<PageViewer> {
                 isPreviewMode: vm.isPreviewMode,
                 localization: vm.localization,
                 deviceSize: deviceSize,
-                onSelect: vm.onSelectText,
+                onSelect: (value) => vm.onSelectText(value.id),
                 selectedText: selectedText,
                 onDeleteText: vm.onDeleteText,
                 onChangePosition:

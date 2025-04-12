@@ -11,6 +11,7 @@ abstract class TaleModel with _$TaleModel {
   const factory TaleModel({
     required String id,
     @Default('') String title,
+    @Default('') String defaultLocaleTitle,
     @Default('') String description,
     @Default('landscape') String orientation,
     @Default('') String coverImageUrl,
@@ -29,6 +30,9 @@ abstract class TaleModel with _$TaleModel {
 
     if (json['title'] != null) {
       model = model.copyWith(title: json['title']);
+    }
+    if (json['default_locale_title'] != null) {
+      model = model.copyWith(defaultLocaleTitle: json['default_locale_title']);
     }
     if (json['description'] != null) {
       model = model.copyWith(description: json['description']);

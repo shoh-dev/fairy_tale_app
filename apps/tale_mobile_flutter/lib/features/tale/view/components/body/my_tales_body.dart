@@ -72,7 +72,7 @@ class _Tale extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
-                      tale.title,
+                      tale.defaultLocaleTitle,
                       textAlign: TextAlign.center,
                       maxLines: 3,
                       style: context.textTheme.headlineSmall!.copyWith(

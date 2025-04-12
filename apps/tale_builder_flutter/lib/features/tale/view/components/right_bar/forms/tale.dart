@@ -35,13 +35,7 @@ class RightBarTaleForm extends StatelessWidget {
         ButtonComponent.outlined(
           text: "Translations Editor",
           icon: Icons.text_fields_outlined,
-          onPressed: () {
-            context
-                .push<TaleLocalizationModel>(TranslationsView.route(vm.tale.id))
-                .then((value) {
-                  if (value != null) vm.onUpdateLocalization(value);
-                });
-          },
+          onPressed: () => vm.gotoTranslationsEditor(context),
         ).expanded(),
         const SizedBox(height: 16),
         //Tale Fields

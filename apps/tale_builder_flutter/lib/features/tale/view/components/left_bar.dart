@@ -61,7 +61,7 @@ class LeftBar extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                             onTap: () {
-                              vm.onSelectPage(page);
+                              vm.onSelectPage(page.id);
                             },
                             trailing: ButtonComponent.icon(
                               icon: Icons.delete_outlined,
@@ -114,7 +114,7 @@ class LeftBar extends StatelessWidget {
                                         ),
                                         subtitle: Text(text.text),
                                         onTap: () {
-                                          vm.onSelectText(text);
+                                          vm.onSelectText(text.id);
                                         },
                                         trailing: ButtonComponent.icon(
                                           icon: Icons.delete_outlined,
@@ -154,7 +154,7 @@ class LeftBar extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                             onTap: () {
-                              vm.onSelectPage(page);
+                              vm.onSelectPage(page.id);
                             },
                             trailing: ButtonComponent.icon(
                               icon: Icons.delete_outlined,

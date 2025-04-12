@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TaleModel {
 
- String get id; String get title; String get description; String get orientation; String get coverImageUrl; String get backgroundAudioUrl; TaleLocalizationModel get localization; List<TalePageModel> get pages;
+ String get id; String get title; String get defaultLocaleTitle; String get description; String get orientation; String get coverImageUrl; String get backgroundAudioUrl; TaleLocalizationModel get localization; List<TalePageModel> get pages;
 /// Create a copy of TaleModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $TaleModelCopyWith<TaleModel> get copyWith => _$TaleModelCopyWithImpl<TaleModel>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TaleModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.orientation, orientation) || other.orientation == orientation)&&(identical(other.coverImageUrl, coverImageUrl) || other.coverImageUrl == coverImageUrl)&&(identical(other.backgroundAudioUrl, backgroundAudioUrl) || other.backgroundAudioUrl == backgroundAudioUrl)&&(identical(other.localization, localization) || other.localization == localization)&&const DeepCollectionEquality().equals(other.pages, pages));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TaleModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.defaultLocaleTitle, defaultLocaleTitle) || other.defaultLocaleTitle == defaultLocaleTitle)&&(identical(other.description, description) || other.description == description)&&(identical(other.orientation, orientation) || other.orientation == orientation)&&(identical(other.coverImageUrl, coverImageUrl) || other.coverImageUrl == coverImageUrl)&&(identical(other.backgroundAudioUrl, backgroundAudioUrl) || other.backgroundAudioUrl == backgroundAudioUrl)&&(identical(other.localization, localization) || other.localization == localization)&&const DeepCollectionEquality().equals(other.pages, pages));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,title,description,orientation,coverImageUrl,backgroundAudioUrl,localization,const DeepCollectionEquality().hash(pages));
+int get hashCode => Object.hash(runtimeType,id,title,defaultLocaleTitle,description,orientation,coverImageUrl,backgroundAudioUrl,localization,const DeepCollectionEquality().hash(pages));
 
 @override
 String toString() {
-  return 'TaleModel(id: $id, title: $title, description: $description, orientation: $orientation, coverImageUrl: $coverImageUrl, backgroundAudioUrl: $backgroundAudioUrl, localization: $localization, pages: $pages)';
+  return 'TaleModel(id: $id, title: $title, defaultLocaleTitle: $defaultLocaleTitle, description: $description, orientation: $orientation, coverImageUrl: $coverImageUrl, backgroundAudioUrl: $backgroundAudioUrl, localization: $localization, pages: $pages)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $TaleModelCopyWith<$Res>  {
   factory $TaleModelCopyWith(TaleModel value, $Res Function(TaleModel) _then) = _$TaleModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String title, String description, String orientation, String coverImageUrl, String backgroundAudioUrl, TaleLocalizationModel localization, List<TalePageModel> pages
+ String id, String title, String defaultLocaleTitle, String description, String orientation, String coverImageUrl, String backgroundAudioUrl, TaleLocalizationModel localization, List<TalePageModel> pages
 });
 
 
@@ -63,10 +63,11 @@ class _$TaleModelCopyWithImpl<$Res>
 
 /// Create a copy of TaleModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? description = null,Object? orientation = null,Object? coverImageUrl = null,Object? backgroundAudioUrl = null,Object? localization = null,Object? pages = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? defaultLocaleTitle = null,Object? description = null,Object? orientation = null,Object? coverImageUrl = null,Object? backgroundAudioUrl = null,Object? localization = null,Object? pages = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,defaultLocaleTitle: null == defaultLocaleTitle ? _self.defaultLocaleTitle : defaultLocaleTitle // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,orientation: null == orientation ? _self.orientation : orientation // ignore: cast_nullable_to_non_nullable
 as String,coverImageUrl: null == coverImageUrl ? _self.coverImageUrl : coverImageUrl // ignore: cast_nullable_to_non_nullable
@@ -93,11 +94,12 @@ $TaleLocalizationModelCopyWith<$Res> get localization {
 
 
 class _TaleModel extends TaleModel {
-  const _TaleModel({required this.id, this.title = '', this.description = '', this.orientation = 'landscape', this.coverImageUrl = '', this.backgroundAudioUrl = '', required this.localization, final  List<TalePageModel> pages = const []}): _pages = pages,super._();
+  const _TaleModel({required this.id, this.title = '', this.defaultLocaleTitle = '', this.description = '', this.orientation = 'landscape', this.coverImageUrl = '', this.backgroundAudioUrl = '', required this.localization, final  List<TalePageModel> pages = const []}): _pages = pages,super._();
   
 
 @override final  String id;
 @override@JsonKey() final  String title;
+@override@JsonKey() final  String defaultLocaleTitle;
 @override@JsonKey() final  String description;
 @override@JsonKey() final  String orientation;
 @override@JsonKey() final  String coverImageUrl;
@@ -121,16 +123,16 @@ _$TaleModelCopyWith<_TaleModel> get copyWith => __$TaleModelCopyWithImpl<_TaleMo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TaleModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.orientation, orientation) || other.orientation == orientation)&&(identical(other.coverImageUrl, coverImageUrl) || other.coverImageUrl == coverImageUrl)&&(identical(other.backgroundAudioUrl, backgroundAudioUrl) || other.backgroundAudioUrl == backgroundAudioUrl)&&(identical(other.localization, localization) || other.localization == localization)&&const DeepCollectionEquality().equals(other._pages, _pages));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TaleModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.defaultLocaleTitle, defaultLocaleTitle) || other.defaultLocaleTitle == defaultLocaleTitle)&&(identical(other.description, description) || other.description == description)&&(identical(other.orientation, orientation) || other.orientation == orientation)&&(identical(other.coverImageUrl, coverImageUrl) || other.coverImageUrl == coverImageUrl)&&(identical(other.backgroundAudioUrl, backgroundAudioUrl) || other.backgroundAudioUrl == backgroundAudioUrl)&&(identical(other.localization, localization) || other.localization == localization)&&const DeepCollectionEquality().equals(other._pages, _pages));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,title,description,orientation,coverImageUrl,backgroundAudioUrl,localization,const DeepCollectionEquality().hash(_pages));
+int get hashCode => Object.hash(runtimeType,id,title,defaultLocaleTitle,description,orientation,coverImageUrl,backgroundAudioUrl,localization,const DeepCollectionEquality().hash(_pages));
 
 @override
 String toString() {
-  return 'TaleModel(id: $id, title: $title, description: $description, orientation: $orientation, coverImageUrl: $coverImageUrl, backgroundAudioUrl: $backgroundAudioUrl, localization: $localization, pages: $pages)';
+  return 'TaleModel(id: $id, title: $title, defaultLocaleTitle: $defaultLocaleTitle, description: $description, orientation: $orientation, coverImageUrl: $coverImageUrl, backgroundAudioUrl: $backgroundAudioUrl, localization: $localization, pages: $pages)';
 }
 
 
@@ -141,7 +143,7 @@ abstract mixin class _$TaleModelCopyWith<$Res> implements $TaleModelCopyWith<$Re
   factory _$TaleModelCopyWith(_TaleModel value, $Res Function(_TaleModel) _then) = __$TaleModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String title, String description, String orientation, String coverImageUrl, String backgroundAudioUrl, TaleLocalizationModel localization, List<TalePageModel> pages
+ String id, String title, String defaultLocaleTitle, String description, String orientation, String coverImageUrl, String backgroundAudioUrl, TaleLocalizationModel localization, List<TalePageModel> pages
 });
 
 
@@ -158,10 +160,11 @@ class __$TaleModelCopyWithImpl<$Res>
 
 /// Create a copy of TaleModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? description = null,Object? orientation = null,Object? coverImageUrl = null,Object? backgroundAudioUrl = null,Object? localization = null,Object? pages = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? defaultLocaleTitle = null,Object? description = null,Object? orientation = null,Object? coverImageUrl = null,Object? backgroundAudioUrl = null,Object? localization = null,Object? pages = null,}) {
   return _then(_TaleModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,defaultLocaleTitle: null == defaultLocaleTitle ? _self.defaultLocaleTitle : defaultLocaleTitle // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,orientation: null == orientation ? _self.orientation : orientation // ignore: cast_nullable_to_non_nullable
 as String,coverImageUrl: null == coverImageUrl ? _self.coverImageUrl : coverImageUrl // ignore: cast_nullable_to_non_nullable

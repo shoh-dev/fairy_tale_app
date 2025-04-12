@@ -10,6 +10,7 @@ import 'package:tale_builder_flutter/features/tale/model/tale.dart';
 import 'package:tale_builder_flutter/features/tale/model/text.dart';
 import 'package:tale_builder_flutter/features/tale/repository/pages_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/tale_repository.dart';
+import 'package:tale_builder_flutter/features/tale/view/translations_view.dart';
 import 'package:tale_builder_flutter/repository/file_picker_repository.dart';
 import 'package:uuid/v4.dart';
 
@@ -45,15 +46,17 @@ class TaleViewModel extends Vm {
   }) : _taleRepository = taleRepository,
        _filePickerRepository = filePickerRepository,
        _pageRepository = pageRepository {
+    isCreate = id == null || id == 'null' || id == 'new';
     tale = TaleModel.newTale(
-      id ?? UuidV4().generate(),
-    ).copyWith(isNew: id == null || id == 'null' || id == 'new');
+      isCreate ? UuidV4().generate() : id!,
+    ).copyWith(isNew: isCreate);
     localization = TaleLocalizationModel.empty(tale.id);
 
     fetchTaleCommand = CommandParam(_fetchTale)..execute(tale);
   }
 
   // UI
+  late bool isCreate;
   bool _isPreviewMode = false;
   bool get isPreviewMode => _isPreviewMode;
 
@@ -66,11 +69,6 @@ class TaleViewModel extends Vm {
 
   // Objects
   final UnmodifiableListView<TaleObjectModel> objects = UnmodifiableListView([
-    TaleObjectModel(
-      pageId: "d0df2229-ff83-470a-ba51-431830b117f4",
-      imageUrl:
-          'http://127.0.0.1:54321/storage/v1/object/public/default/object/ChatGPT%20Image%20Apr%2012,%202025,%2004_08_23%20PM.png',
-    ),
   ]);
   // Objects
 
@@ -78,7 +76,7 @@ class TaleViewModel extends Vm {
   late final CommandParam<void, TaleModel> fetchTaleCommand;
   late TaleModel tale;
 
-  Future<void> onSave() async {
+  Future<bool> onSave() async {
     final result = await _taleRepository.upsertFullTale(
       tale: tale,
       localization: localization,
@@ -90,11 +88,13 @@ class TaleViewModel extends Vm {
         _reset(result.value);
         SuccessDialog.show("Saved successfully!");
         notifyListeners();
+        isCreate = false;
         break;
       case ResultError<FullTaleResponse>():
         ErrorDialog.show(result.toString());
         break;
     }
+    return result.isOk;
   }
 
   void _reset(FullTaleResponse newData) {
@@ -150,7 +150,7 @@ class TaleViewModel extends Vm {
         onRightClick: (close) {
           final texts = UnmodifiableListView(_texts);
           for (final text in texts) {
-            onSelectText(text, false);
+            onSelectText(text.id, false);
             onChangeTextPosition(0, 0, false);
           }
           onDeselectText(false);
@@ -179,6 +179,32 @@ class TaleViewModel extends Vm {
     this.localization = localization;
     notifyListeners();
   }
+
+  void gotoTranslationsEditor(BuildContext context) {
+    void go() {
+      if (context.mounted) {
+        context
+            .push<TaleLocalizationModel>(TranslationsView.route(tale.id))
+            .then((value) {
+              if (value != null) onUpdateLocalization(value);
+            });
+      }
+    }
+
+    if (isCreate) {
+      PromptDialog.show(
+        'Do you want to continue?',
+        title: 'Tale will be created first!',
+        onRightClick: (close) {
+          onSave().then((value) {
+            if (value) go();
+          });
+        },
+      );
+    } else {
+      go();
+    }
+  }
   //Translations
 
   //Pages
@@ -190,11 +216,11 @@ class TaleViewModel extends Vm {
   TalePageModel? get selectedPage =>
       pages.firstWhereOrNull((element) => element.id == selectedPageId);
 
-  void onSelectPage(TalePageModel page) {
-    if (page.id != selectedPageId) {
-      selectedPageId = page.id;
+  void onSelectPage(String id, {bool notify = true}) {
+    if (id != selectedPageId) {
+      selectedPageId = id;
       selectedTextId = '';
-      notifyListeners();
+      if (notify) notifyListeners();
     }
   }
 
@@ -332,9 +358,13 @@ class TaleViewModel extends Vm {
   TalePageTextModel? get selectedText =>
       texts.firstWhereOrNull((element) => element.id == selectedTextId);
 
-  void onSelectText(TalePageTextModel text, [bool notify = true]) {
-    if (text.id != selectedTextId) {
-      selectedTextId = text.id;
+  void onSelectText(String id, [bool notify = true]) {
+    if (id != selectedTextId) {
+      selectedTextId = id;
+      if (selectedText?.pageId != selectedPageId) {
+        onSelectPage(selectedText!.pageId, notify: false);
+        selectedTextId = id;
+      }
       if (notify) notifyListeners();
     }
   }

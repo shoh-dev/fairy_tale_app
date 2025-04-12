@@ -91,8 +91,7 @@ class _ObjectSelector extends StatelessWidget {
               label: "Boy",
               child: Image.network(
                 object.imageUrl,
-                errorBuilder:
-                    (context, error, stackTrace) => const Icon(Icons.close),
+                errorBuilder: (context, error, stackTrace) => const SizedBox(),
               ),
             ),
         ],

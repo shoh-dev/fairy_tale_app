@@ -69,8 +69,7 @@ class TranslationSelector extends StatelessWidget {
                   for (final value in translations.entries)
                     DropdownItem(
                       value: value.key,
-                      // label: '[${value.key}] ${value.value}',
-                      label: value.value,
+                      label: '[${value.key}] ${value.value}',
                     ),
               ],
             ),
