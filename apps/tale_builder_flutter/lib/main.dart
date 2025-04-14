@@ -118,6 +118,7 @@ UIRoot _root(AppStore store) => UIRoot(
                       taleRepository: context.readDependency(),
                       filePickerRepository: context.readDependency(),
                       pageRepository: context.readDependency(),
+                      textsRepository: context.readDependency(),
                     ),
                 builder:
                     (context, state, vm) => TaleView(vm: vm as TaleViewModel),

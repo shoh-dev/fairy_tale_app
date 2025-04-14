@@ -76,7 +76,8 @@ class _ObjectSelector extends StatelessWidget {
       width: fabSize.width,
       height: fabSize.height,
       child: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
+        icon: Icons.add_outlined,
+        activeIcon: Icons.close_outlined,
         children: [
           SpeedDialChild(
             onTap: vm.onAddText,

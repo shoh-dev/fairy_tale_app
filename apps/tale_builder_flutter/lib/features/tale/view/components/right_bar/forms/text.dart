@@ -111,6 +111,7 @@ class RightBarTextForm extends StatelessWidget {
         TextFieldComponent(
           label: "Bacgkround Color",
           initialValue: text.decoration.colorToHex(),
+          canClear: true,
           onChanged: (value) {
             final parsed =
                 value.isEmpty
@@ -125,8 +126,9 @@ class RightBarTextForm extends StatelessWidget {
         TextFieldComponent(
           label: "Border Radius",
           initialValue: text.decoration.borderRadiusAll.toString(),
+          canClear: true,
           onChanged: (value) {
-            final parsed = double.tryParse(value);
+            final parsed = double.tryParse(value.isEmpty ? "0" : value);
             if (parsed == null) return;
             vm.onChangeTextBorderRadius(parsed);
           },
@@ -136,8 +138,9 @@ class RightBarTextForm extends StatelessWidget {
         TextFieldComponent(
           label: "Padding",
           initialValue: text.decoration.paddingAll.toString(),
+          canClear: true,
           onChanged: (value) {
-            final parsed = double.tryParse(value);
+            final parsed = double.tryParse(value.isEmpty ? "0" : value);
             if (parsed == null) return;
             vm.onChangeTextPadding(parsed);
           },

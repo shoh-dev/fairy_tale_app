@@ -21,4 +21,13 @@ class TalePageTextsRepository extends Dependency {
       return Result.error(e);
     }
   }
+
+  Future<Result<void>> deleteText(String id) async {
+    try {
+      await _client.from('texts').delete().eq('id', id);
+      return Result.ok(null);
+    } catch (e) {
+      return Result.error(e);
+    }
+  }
 }

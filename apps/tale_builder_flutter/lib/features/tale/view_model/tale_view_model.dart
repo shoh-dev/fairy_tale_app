@@ -10,6 +10,7 @@ import 'package:tale_builder_flutter/features/tale/model/tale.dart';
 import 'package:tale_builder_flutter/features/tale/model/text.dart';
 import 'package:tale_builder_flutter/features/tale/repository/pages_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/tale_repository.dart';
+import 'package:tale_builder_flutter/features/tale/repository/texts_repository.dart';
 import 'package:tale_builder_flutter/features/tale/view/translations_view.dart';
 import 'package:tale_builder_flutter/repository/file_picker_repository.dart';
 import 'package:uuid/v4.dart';
@@ -36,16 +37,19 @@ import 'package:uuid/v4.dart';
 class TaleViewModel extends Vm {
   final TaleRepository _taleRepository;
   final TalePagesRepository _pageRepository;
+  final TalePageTextsRepository _textsRepository;
   final FilePickerRepository _filePickerRepository;
 
   TaleViewModel({
     required TaleRepository taleRepository,
     required TalePagesRepository pageRepository,
+    required TalePageTextsRepository textsRepository,
     required FilePickerRepository filePickerRepository,
     String? id,
   }) : _taleRepository = taleRepository,
        _filePickerRepository = filePickerRepository,
-       _pageRepository = pageRepository {
+       _pageRepository = pageRepository,
+       _textsRepository = textsRepository {
     isCreate = id == null || id == 'null' || id == 'new';
     tale = TaleModel.newTale(
       isCreate ? UuidV4().generate() : id!,
@@ -254,11 +258,18 @@ class TaleViewModel extends Vm {
         onLeftClick: (close) {
           close();
         },
-        onRightClick: (close) {
-          //todo: delete from server
-          _pages.removeWhere((element) => element.id == id);
-          selectedPageId = '';
-          notifyListeners();
+        onRightClick: (close) async {
+          final result = await _pageRepository.deletePage(id);
+          switch (result) {
+            case ResultOk<void>():
+              _pages.removeWhere((element) => element.id == id);
+              selectedPageId = '';
+              notifyListeners();
+              break;
+            case ResultError<void>():
+              ErrorDialog.show(result.toString());
+              break;
+          }
           close();
         },
       );
@@ -336,7 +347,6 @@ class TaleViewModel extends Vm {
         );
         switch (result) {
           case ResultOk<void>():
-            //todo: save page
             _updatePage(selectedPage!.copyWith(backgroundImageUrl: ""));
             notifyListeners();
             break;
@@ -485,11 +495,18 @@ class TaleViewModel extends Vm {
         onLeftClick: (close) {
           close();
         },
-        onRightClick: (close) {
-          //todo: delete from server
-          _texts.removeWhere((element) => element.id == id);
-          selectedTextId = '';
-          notifyListeners();
+        onRightClick: (close) async {
+          final result = await _textsRepository.deleteText(id);
+          switch (result) {
+            case ResultOk<void>():
+              _texts.removeWhere((element) => element.id == id);
+              selectedTextId = '';
+              notifyListeners();
+              break;
+            case ResultError<void>():
+              ErrorDialog.show(result.toString());
+              break;
+          }
           close();
         },
       );

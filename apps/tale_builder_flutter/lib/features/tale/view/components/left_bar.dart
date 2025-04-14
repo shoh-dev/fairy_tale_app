@@ -12,76 +12,78 @@ class LeftBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final pages = vm.pages;
     final selectedPage = vm.selectedPage;
-    return PreviewWrapper(
-      isPreviewMode: vm.isPreviewMode,
-      child: SizedBox(
-        height: context.height,
-        child: LayoutComponent.column(
-          children: [
-            RepaintBoundary(
-              child: LayoutComponent.row(
-                spacing: 4,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Icons.book_outlined, size: 18),
-                  TextComponent.any(
-                    'Pages',
-                    style: context.textTheme.titleMedium,
-                  ),
-                ],
-              ),
+    return SizedBox(
+      height: context.height,
+      child: LayoutComponent.column(
+        children: [
+          RepaintBoundary(
+            child: LayoutComponent.row(
+              spacing: 4,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(Icons.book_outlined, size: 18),
+                TextComponent.any(
+                  'Pages',
+                  style: context.textTheme.titleMedium,
+                ),
+              ],
             ),
-            const Divider(),
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.only(right: 8),
-                children: [
-                  //pages list
-                  for (final page in pages) ...[
-                    Builder(
-                      builder: (context) {
-                        final texts = vm.texts.where(
-                          (element) => element.pageId == page.id,
-                        );
-                        return ExpansionTile(
-                          title: ListTile(
-                            dense: true,
-                            selected: selectedPage?.id == page.id,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: context.borderRadius,
-                            ),
-                            selectedTileColor:
-                                context.colorScheme.primaryContainer,
-                            selectedColor:
-                                context.colorScheme.onPrimaryContainer,
-                            title: Text("Page ${page.pageNumber}"),
-                            subtitle: Text(
-                              page.id,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            onTap: () {
-                              vm.onSelectPage(page.id);
-                            },
-                            trailing: ButtonComponent.icon(
-                              icon: Icons.delete_outlined,
-                              onPressed: () {
-                                vm.onDeletePage(page.id);
-                              },
-                            ),
+          ),
+          const Divider(),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.only(right: 8),
+              children: [
+                //pages list
+                for (final page in pages) ...[
+                  Builder(
+                    builder: (context) {
+                      final texts = vm.texts.where(
+                        (element) => element.pageId == page.id,
+                      );
+                      return ExpansionTile(
+                        title: ListTile(
+                          dense: true,
+                          selected: selectedPage?.id == page.id,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: context.borderRadius,
                           ),
-                          childrenPadding: EdgeInsets.all(8),
-                          children: [
-                            if (texts.isEmpty)
-                              Center(
-                                child: ButtonComponent.outlined(
-                                  text: "No text. Add one.",
-                                  icon: Icons.add,
-                                  onPressed: vm.onAddText,
-                                ),
+                          selectedTileColor:
+                              context.colorScheme.primaryContainer,
+                          selectedColor: context.colorScheme.onPrimaryContainer,
+                          title: Text("Page ${page.pageNumber}"),
+                          subtitle: Text(
+                            page.id,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          onTap: () {
+                            vm.onSelectPage(page.id);
+                          },
+                          trailing:
+                              vm.isPreviewMode
+                                  ? null
+                                  : ButtonComponent.icon(
+                                    icon: Icons.delete_outlined,
+                                    onPressed: () {
+                                      vm.onDeletePage(page.id);
+                                    },
+                                  ),
+                        ),
+                        childrenPadding: EdgeInsets.all(8),
+                        children: [
+                          if (texts.isEmpty)
+                            Center(
+                              child: ButtonComponent.outlined(
+                                text: "No text. Add one.",
+                                icon: Icons.add,
+                                onPressed: vm.onAddText,
                               ),
-                            for (int i = 0; i < texts.length; i++)
-                              Column(
+                            ),
+                          for (int i = 0; i < texts.length; i++)
+                            PreviewWrapper(
+                              isPreviewMode: vm.isPreviewMode,
+                              child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Builder(
@@ -116,12 +118,15 @@ class LeftBar extends StatelessWidget {
                                         onTap: () {
                                           vm.onSelectText(text.id);
                                         },
-                                        trailing: ButtonComponent.icon(
-                                          icon: Icons.delete_outlined,
-                                          onPressed: () {
-                                            vm.onDeleteText(text.id);
-                                          },
-                                        ),
+                                        trailing:
+                                            vm.isPreviewMode
+                                                ? null
+                                                : ButtonComponent.icon(
+                                                  icon: Icons.delete_outlined,
+                                                  onPressed: () {
+                                                    vm.onDeleteText(text.id);
+                                                  },
+                                                ),
                                       );
                                     },
                                   ),
@@ -129,57 +134,56 @@ class LeftBar extends StatelessWidget {
                                     const SizedBox(height: 8),
                                 ],
                               ),
-                          ],
-                        );
+                            ),
+                        ],
+                      );
 
-                        return Card(
-                          elevation: 0,
-                          color: context.colorScheme.surfaceContainerHighest,
+                      return Card(
+                        elevation: 0,
+                        color: context.colorScheme.surfaceContainerHighest,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: context.borderRadius,
+                        ),
+                        child: ListTile(
                           shape: RoundedRectangleBorder(
                             borderRadius: context.borderRadius,
                           ),
-                          child: ListTile(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: context.borderRadius,
-                            ),
-                            selected: selectedPage?.id == page.id,
-                            selectedTileColor:
-                                context.colorScheme.primaryContainer,
-                            selectedColor:
-                                context.colorScheme.onPrimaryContainer,
-                            title: Text("Page ${page.pageNumber}"),
-                            subtitle: Text(
-                              page.id,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            onTap: () {
-                              vm.onSelectPage(page.id);
-                            },
-                            trailing: ButtonComponent.icon(
-                              icon: Icons.delete_outlined,
-                              onPressed: () {
-                                vm.onDeletePage(page.id);
-                              },
-                            ),
+                          selected: selectedPage?.id == page.id,
+                          selectedTileColor:
+                              context.colorScheme.primaryContainer,
+                          selectedColor: context.colorScheme.onPrimaryContainer,
+                          title: Text("Page ${page.pageNumber}"),
+                          subtitle: Text(
+                            page.id,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                  ],
+                          onTap: () {
+                            vm.onSelectPage(page.id);
+                          },
+                          trailing: ButtonComponent.icon(
+                            icon: Icons.delete_outlined,
+                            onPressed: () {
+                              vm.onDeletePage(page.id);
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 8),
                 ],
-              ),
+              ],
             ),
-            const Divider(),
-            //add page button
-            ButtonComponent.outlined(
-              text: 'Add Page',
-              icon: Icons.add_outlined,
-              onPressed: vm.onAddPage,
-            ).expanded(),
-          ],
-        ),
+          ),
+          const Divider(),
+          //add page button
+          ButtonComponent.outlined(
+            text: 'Add Page',
+            icon: Icons.add_outlined,
+            onPressed: vm.isPreviewMode ? null : vm.onAddPage,
+          ).expanded(),
+        ],
       ),
     );
   }

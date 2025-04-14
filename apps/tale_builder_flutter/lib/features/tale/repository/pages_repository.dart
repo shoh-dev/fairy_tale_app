@@ -55,14 +55,12 @@ class TalePagesRepository extends Dependency {
     }
   }
 
-  // Future<Result<void>> updatePage(TalePageModel page) async {
-  //   try {
-  //     log(path);
-  //     final res = await _client.storage.from('default').remove([path]);
-  //     log(res.toString());
-  //     return Result.ok(null);
-  //   } catch (e) {
-  //     return Result.error(e);
-  //   }
-  // }
+  Future<Result<void>> deletePage(String id) async {
+    try {
+      await _client.from('pages').delete().eq('id', id);
+      return Result.ok(null);
+    } catch (e) {
+      return Result.error(e);
+    }
+  }
 }
