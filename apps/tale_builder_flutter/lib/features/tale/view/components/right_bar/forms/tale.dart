@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
-import 'package:myspace_ui/myspace_ui.dart';
-import 'package:tale_builder_flutter/features/tale/model/localization.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/default_locale_selector.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/orientation_selector.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/translation_selector.dart';
-import 'package:tale_builder_flutter/features/tale/view/translations_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
 
 class RightBarTaleForm extends StatelessWidget {
@@ -66,6 +63,36 @@ class RightBarTaleForm extends StatelessWidget {
           onSelected: vm.onChangeLocalizationDefaultLocale,
         ),
         const SizedBox(height: 16),
+        if (tale.hasCoverImage) ...[
+          Image.network(
+            tale.coverImageUrl,
+            width: 120,
+            height: 120,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => const SizedBox(),
+          ),
+          const SizedBox(height: 16),
+          //Replace
+          ButtonComponent.outlined(
+            text: "Replace cover image",
+            icon: Icons.upload_rounded,
+            onPressed: vm.onChangeTaleCoverImage,
+          ).expanded(),
+          const SizedBox(height: 8),
+          ButtonComponent.destructive(
+            text: "Remove cover image",
+            icon: Icons.delete_outline,
+            onPressed: vm.onDeleteTaleCoverImage,
+          ).expanded(),
+          //Delete
+        ] else
+          //Add
+          ButtonComponent.outlined(
+            text: "Add cover image",
+            icon: Icons.image_outlined,
+            onPressed: vm.onChangeTaleCoverImage,
+          ).expanded(),
+        const SizedBox(height: 8),
       ],
     );
   }

@@ -18,13 +18,14 @@ abstract class TaleModel with _$TaleModel {
   }) = _TaleModel;
 
   factory TaleModel.fromJson(Map<String, dynamic> json) {
+    final meta = json['metadata'];
     return TaleModel(
       id: json['id'],
       title: json['title'],
       description: json['description'],
       orientation: json['orientation'],
       backgroundAudioUrl: '', //todo:
-      coverImageUrl: '', //todo:
+      coverImageUrl: meta['cover_image_url'],
     );
   }
 
@@ -52,5 +53,20 @@ abstract class TaleModel with _$TaleModel {
     isNew: true,
   );
 
+  String get coverImageBucketPath {
+    if (hasCoverImage) {
+      //todo: if debug mode
+      final split = coverImageUrl.replaceAll(
+        "http://127.0.0.1:54321/storage/v1/object/public/default/",
+        "",
+      );
+      //todo: replace q=datetime if exists
+      return split;
+    }
+    return '';
+  }
+
   bool get isPortrait => orientation == 'portrait';
+
+  bool get hasCoverImage => coverImageUrl.isNotEmpty;
 }

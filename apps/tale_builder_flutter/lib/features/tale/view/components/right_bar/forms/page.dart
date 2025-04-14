@@ -27,16 +27,6 @@ class RightBarPageForm extends StatelessWidget {
       ),
       expandedCrossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // SizedBox(
-        //   width: double.infinity,
-        //   child: ButtonComponent.destructive(
-        //     text: "Delete page",
-        //     icon: Icons.delete_outline,
-        //     onPressed: () => vm.onDeletePage(page.id),
-        //   ),
-        // ),
-        // const SizedBox(height: 16),
-
         //Page Fields
         PageNumberSelector(
           totalPages: vm.pages.length,

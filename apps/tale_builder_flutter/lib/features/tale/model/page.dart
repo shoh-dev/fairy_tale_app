@@ -31,12 +31,7 @@ abstract class TalePageModel with _$TalePageModel {
     }
     if (json['metadata'] != null) {
       final image = json['metadata']['background_image_url'];
-      model = model.copyWith(
-        backgroundImageUrl: image ?? "",
-        // metadata: TalePageModelMetadata.fromJson(
-        // json['metadata'] as Map<String, dynamic>,
-        // ),
-      );
+      model = model.copyWith(backgroundImageUrl: image ?? "");
     }
 
     return model;
@@ -77,6 +72,7 @@ abstract class TalePageModel with _$TalePageModel {
         "http://127.0.0.1:54321/storage/v1/object/public/default/",
         "",
       );
+      //todo: replace q=datetime if exists
       return split;
     }
     return '';

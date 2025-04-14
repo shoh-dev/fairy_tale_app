@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -94,6 +95,38 @@ class TaleRepository extends Dependency {
     } catch (e, st) {
       print(st);
       return Result.error(e, stackTrace: st);
+    }
+  }
+
+  //Returns publish url path
+  Future<Result<String>> uploadCoverImage({
+    required String taleId,
+    required PlatformFile file,
+  }) async {
+    try {
+      final bytes = await file.xFile.readAsBytes();
+      final ext = file.extension!.toLowerCase();
+      final path = 'tale/covers/$taleId.$ext';
+      await _client.storage
+          .from('default')
+          .uploadBinary(
+            path,
+            bytes,
+            fileOptions: const FileOptions(upsert: true),
+          );
+      final publicUrl = _client.storage.from('default').getPublicUrl(path);
+      return Result.ok(publicUrl);
+    } catch (e) {
+      return Result.error(e);
+    }
+  }
+
+  Future<Result<void>> deleteCoverImage(String path) async {
+    try {
+      await _client.storage.from('default').remove([path]);
+      return Result.ok(null);
+    } catch (e) {
+      return Result.error(e);
     }
   }
 }

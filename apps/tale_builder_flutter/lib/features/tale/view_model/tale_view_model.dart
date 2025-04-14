@@ -169,6 +169,65 @@ class TaleViewModel extends Vm {
     }
   }
 
+  void onChangeTaleCoverImage() async {
+    final result = await _filePickerRepository.pickImageFile();
+    switch (result) {
+      case ResultOk<PlatformFile?>():
+        if (result.value != null) {
+          //upload image
+          final uploadResult = await _taleRepository.uploadCoverImage(
+            taleId: tale.id,
+            file: result.value!,
+          );
+          switch (uploadResult) {
+            case ResultOk<String>():
+              tale = tale.copyWith(
+                coverImageUrl:
+                    "${uploadResult.value}?q=${DateTime.now().millisecondsSinceEpoch}",
+              );
+              notifyListeners();
+              log.info("Tale cover image is set ${tale.id}");
+              break;
+            case ResultError<String>():
+              ErrorDialog.show(uploadResult.toString());
+              log.warning("Tale cover image error ${result.toString()}");
+              break;
+          }
+        }
+        break;
+      case ResultError<PlatformFile?>():
+        ErrorDialog.show(result.toString());
+        break;
+    }
+  }
+
+  void onDeleteTaleCoverImage() {
+    PromptDialog.show(
+      "This action cannot be undone!",
+      title: "Delete tale cover image?",
+      isDestructive: true,
+      onLeftClick: (close) {
+        close();
+      },
+      onRightClick: (close) async {
+        print(tale.coverImageBucketPath);
+        final result = await _taleRepository.deleteCoverImage(
+          tale.coverImageBucketPath,
+        );
+        switch (result) {
+          case ResultOk<void>():
+            tale = tale.copyWith(coverImageUrl: "");
+            notifyListeners();
+            break;
+          case ResultError<void>():
+            ErrorDialog.show(result.toString());
+            break;
+        }
+        close();
+      },
+    );
+  }
+
   //Tale
 
   //Translations
