@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/body/page_viewer.dart';
+import 'package:tale_builder_flutter/features/tale/view/components/preview_wrapper.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
 
 class Body extends StatelessWidget {
@@ -28,7 +29,8 @@ class Body extends StatelessWidget {
           ButtonComponent.outlined(
             text: vm.isPreviewMode ? "Edit" : "Preview",
             icon: vm.isPreviewMode ? Icons.edit : Icons.remove_red_eye_rounded,
-            onPressed: vm.togglePreviewMode,
+            onPressed:
+                vm.selectedPageId.isNotEmpty ? vm.togglePreviewMode : null,
           ), //todo: implement preview
           const SizedBox(width: 16),
 
@@ -40,6 +42,13 @@ class Body extends StatelessWidget {
           const SizedBox(width: 8),
         ],
       ),
+      floatingActionButton:
+          vm.selectedPageId.isEmpty
+              ? null
+              : PreviewWrapper(
+                isPreviewMode: vm.isPreviewMode,
+                child: _ObjectSelector(vm: vm),
+              ),
       body: Stack(
         children: [
           Container(
@@ -55,7 +64,7 @@ class Body extends StatelessWidget {
                     ),
           ),
 
-          if (vm.selectedPage != null) _ObjectSelector(vm: vm),
+          // if (vm.selectedPage != null) _ObjectSelector(vm: vm),
         ],
       ),
     );
@@ -69,34 +78,25 @@ class _ObjectSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fabSize = Size(60, 60);
-    return Positioned(
-      right: 10,
-      bottom: 10,
-      width: fabSize.width,
-      height: fabSize.height,
-      child: SpeedDial(
-        icon: Icons.add_outlined,
-        activeIcon: Icons.close_outlined,
-        children: [
+    return SpeedDial(
+      icon: Icons.add_outlined,
+      activeIcon: Icons.close_outlined,
+      children: [
+        SpeedDialChild(
+          onTap: vm.onAddText,
+          label: "Text",
+          child: Icon(Icons.text_fields),
+        ),
+        for (final object in vm.objects)
           SpeedDialChild(
-            onTap: vm.onAddText,
-            label: "Text",
-            child: Icon(Icons.text_fields),
-          ),
-          for (final object in vm.objects)
-            SpeedDialChild(
-              onTap: () {
-                print(object);
-              },
-              label: "Boy",
-              child: Image.network(
-                object.imageUrl,
-                errorBuilder: (context, error, stackTrace) => const SizedBox(),
-              ),
+            onTap: () {},
+            label: "Boy",
+            child: Image.network(
+              object.imageUrl,
+              errorBuilder: (context, error, stackTrace) => const SizedBox(),
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 }

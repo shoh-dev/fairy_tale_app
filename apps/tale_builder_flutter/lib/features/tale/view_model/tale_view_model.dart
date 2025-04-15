@@ -15,25 +15,6 @@ import 'package:tale_builder_flutter/features/tale/view/translations_view.dart';
 import 'package:tale_builder_flutter/repository/file_picker_repository.dart';
 import 'package:uuid/v4.dart';
 
-// FlutterTts flutterTts = FlutterTts();
-//   // flutterTts.getLanguages.then(print);
-//   flutterTts.getVoices.then(
-//     (value) => print(
-//       (value as List).where((element) => element['locale'] == 'ru-RU'),
-//     ),
-//   );
-//   // return;
-
-//   flutterTts.setSpeechRate(.5).then((_) {
-//     flutterTts.setVoice({"name": "Karen", "locale": "en-AU"}).then((value) {
-//       // flutterTts.setVoice({"name": "Milena", "locale": "ru-RU"}).then((value) {
-//       // flutterTts.speak("Меня зовут Фарах").then(print);
-//       flutterTts.speak('context textTheme titleMedium').then(print);
-//     });
-//   });
-
-//   return;
-
 class TaleViewModel extends Vm {
   final TaleRepository _taleRepository;
   final TalePagesRepository _pageRepository;
@@ -71,15 +52,6 @@ class TaleViewModel extends Vm {
   }
   // UI
 
-  // Objects
-  final UnmodifiableListView<TaleObjectModel> objects = UnmodifiableListView([
-  ]);
-  // Objects
-
-  //Tale
-  late final CommandParam<void, TaleModel> fetchTaleCommand;
-  late TaleModel tale;
-
   Future<bool> onSave() async {
     final result = await _taleRepository.upsertFullTale(
       tale: tale,
@@ -113,6 +85,15 @@ class TaleViewModel extends Vm {
       ..clear()
       ..addAll(newData.texts);
   }
+
+  // Objects
+  final UnmodifiableListView<TaleObjectModel> objects = UnmodifiableListView([
+  ]);
+  // Objects
+
+  //Tale
+  late final CommandParam<void, TaleModel> fetchTaleCommand;
+  late TaleModel tale;
 
   Future<Result<void>> _fetchTale(TaleModel tale) async {
     if (tale.isNew) return Result.ok(null);
