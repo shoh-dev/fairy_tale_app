@@ -24,7 +24,7 @@ abstract class TaleModel with _$TaleModel {
       title: json['title'],
       description: json['description'],
       orientation: json['orientation'],
-      backgroundAudioUrl: '', //todo:
+      backgroundAudioUrl: meta['background_audio_url'],
       coverImageUrl: meta['cover_image_url'],
     );
   }
@@ -66,7 +66,20 @@ abstract class TaleModel with _$TaleModel {
     return '';
   }
 
+  String get backgroundAudioBucketPath {
+    if (hasBackgroundAudio) {
+      //todo: if debug mode
+      final split = backgroundAudioUrl.replaceAll(
+        "http://127.0.0.1:54321/storage/v1/object/public/default/",
+        "",
+      );
+      return split;
+    }
+    return '';
+  }
+
   bool get isPortrait => orientation == 'portrait';
 
   bool get hasCoverImage => coverImageUrl.isNotEmpty;
+  bool get hasBackgroundAudio => backgroundAudioUrl.isNotEmpty;
 }

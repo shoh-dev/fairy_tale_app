@@ -182,6 +182,35 @@ class TaleViewModel extends Vm {
     }
   }
 
+  void onChangeTaleBackgroundAudio() async {
+    final result = await _filePickerRepository.pickAudioFile();
+    switch (result) {
+      case ResultOk<PlatformFile?>():
+        if (result.value != null) {
+          //upload audio
+          final uploadResult = await _taleRepository.uploadBackgroundAudio(
+            taleId: tale.id,
+            file: result.value!,
+          );
+          switch (uploadResult) {
+            case ResultOk<String>():
+              tale = tale.copyWith(backgroundAudioUrl: uploadResult.value);
+              notifyListeners();
+              log.info("Tale background audio is set ${tale.id}");
+              break;
+            case ResultError<String>():
+              ErrorDialog.show(uploadResult.toString());
+              log.warning("Tale background audio error ${result.toString()}");
+              break;
+          }
+        }
+        break;
+      case ResultError<PlatformFile?>():
+        ErrorDialog.show(result.toString());
+        break;
+    }
+  }
+
   void onDeleteTaleCoverImage() {
     PromptDialog.show(
       "This action cannot be undone!",
@@ -197,6 +226,32 @@ class TaleViewModel extends Vm {
         switch (result) {
           case ResultOk<void>():
             tale = tale.copyWith(coverImageUrl: "");
+            notifyListeners();
+            break;
+          case ResultError<void>():
+            ErrorDialog.show(result.toString());
+            break;
+        }
+        close();
+      },
+    );
+  }
+
+  void onDeleteTaleBackgroundAudio() {
+    PromptDialog.show(
+      "This action cannot be undone!",
+      title: "Delete tale background audio?",
+      isDestructive: true,
+      onLeftClick: (close) {
+        close();
+      },
+      onRightClick: (close) async {
+        final result = await _taleRepository.deleteBackgroundAudio(
+          tale.backgroundAudioBucketPath,
+        );
+        switch (result) {
+          case ResultOk<void>():
+            tale = tale.copyWith(backgroundAudioUrl: "");
             notifyListeners();
             break;
           case ResultError<void>():

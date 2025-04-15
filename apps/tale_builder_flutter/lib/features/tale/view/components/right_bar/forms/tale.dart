@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:tale_builder_flutter/features/tale/view/components/audio_player/audio_player.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/default_locale_selector.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/orientation_selector.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/translation_selector.dart';
@@ -75,7 +76,7 @@ class RightBarTaleForm extends StatelessWidget {
           //Replace
           ButtonComponent.outlined(
             text: "Replace cover image",
-            icon: Icons.upload_rounded,
+            icon: Icons.image,
             onPressed: vm.onChangeTaleCoverImage,
           ).expanded(),
           const SizedBox(height: 8),
@@ -92,6 +93,32 @@ class RightBarTaleForm extends StatelessWidget {
             icon: Icons.image_outlined,
             onPressed: vm.onChangeTaleCoverImage,
           ).expanded(),
+        const SizedBox(height: 16),
+
+        //audio selector
+        if (tale.hasBackgroundAudio) ...[
+          AudioPlayerWidget(audioUrl: tale.backgroundAudioUrl),
+          const SizedBox(height: 16),
+          //Replace
+          ButtonComponent.outlined(
+            text: "Replace background audio",
+            icon: Icons.audiotrack,
+            onPressed: vm.onChangeTaleBackgroundAudio,
+          ).expanded(),
+          const SizedBox(height: 8),
+          ButtonComponent.destructive(
+            text: "Remove background audio",
+            icon: Icons.delete_outline,
+            onPressed: vm.onDeleteTaleBackgroundAudio,
+          ).expanded(),
+          //Delete
+        ] else
+          ButtonComponent.outlined(
+            text: "Add background audio",
+            icon: Icons.audiotrack_rounded,
+            onPressed: vm.onChangeTaleBackgroundAudio,
+          ).expanded(),
+        //audio selector
         const SizedBox(height: 8),
       ],
     );

@@ -129,6 +129,37 @@ class TaleRepository extends Dependency {
       return Result.error(e);
     }
   }
+
+  Future<Result<String>> uploadBackgroundAudio({
+    required String taleId,
+    required PlatformFile file,
+  }) async {
+    try {
+      final bytes = await file.xFile.readAsBytes();
+      final ext = file.extension!.toLowerCase();
+      final path = 'tale/background_audios/$taleId.$ext';
+      await _client.storage
+          .from('default')
+          .uploadBinary(
+            path,
+            bytes,
+            fileOptions: const FileOptions(upsert: true),
+          );
+      final publicUrl = _client.storage.from('default').getPublicUrl(path);
+      return Result.ok(publicUrl);
+    } catch (e) {
+      return Result.error(e);
+    }
+  }
+
+  Future<Result<void>> deleteBackgroundAudio(String path) async {
+    try {
+      await _client.storage.from('default').remove([path]);
+      return Result.ok(null);
+    } catch (e) {
+      return Result.error(e);
+    }
+  }
 }
 
 final class FullTaleResponse {
