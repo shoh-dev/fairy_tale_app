@@ -47,6 +47,9 @@ class LeftBar extends StatelessWidget {
                           selected: selectedPage?.id == page.id,
                           shape: RoundedRectangleBorder(
                             borderRadius: context.borderRadius,
+                            side: BorderSide(
+                              color: context.colorScheme.outline.withAlpha(100),
+                            ),
                           ),
                           selectedTileColor:
                               context.colorScheme.primaryContainer,

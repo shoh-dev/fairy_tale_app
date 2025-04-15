@@ -210,7 +210,6 @@ class TaleViewModel extends Vm {
         close();
       },
       onRightClick: (close) async {
-        print(tale.coverImageBucketPath);
         final result = await _taleRepository.deleteCoverImage(
           tale.coverImageBucketPath,
         );
