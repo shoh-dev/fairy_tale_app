@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_core/myspace_core.dart';
+import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:tale_mobile_flutter/components/button.dart';
 import 'package:tale_mobile_flutter/features/tale/view/components/body/my_tales_body.dart';
+import 'package:tale_mobile_flutter/features/tale/view/components/search.dart';
 import 'package:tale_mobile_flutter/features/tale/view_model/my_tales_view_model.dart';
+import 'package:tale_mobile_flutter/services/theme_service.dart';
 
 class MyTalesView extends StatelessWidget {
   final MyTalesViewModel vm;
@@ -15,25 +19,59 @@ class MyTalesView extends StatelessWidget {
     return SafeArea(
       top: false,
       bottom: false,
-      child: Container(
-        margin: EdgeInsets.all(8),
-        padding: EdgeInsets.all(8),
-        child: CommandWrapper(
-          command: vm.fetchMyTalesCommand,
-          okBuilder: (context, child) => child!,
-          child: VmProvider(
-            vm: vm,
-            builder: (context, child) => child!,
-            child: Row(
-              children: [
-                //Left bar
+      child: CommandWrapper(
+        command: vm.fetchMyTalesCommand,
+        okBuilder: (context, child) => child!,
+        child: VmProvider(
+          vm: vm,
+          builder: (context, child) => child!,
+          child: Stack(
+            children: [
+              Positioned(
+                top: 16,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
 
-                //Body
-                Expanded(child: MyTalesBody(vm: vm)),
+                  children: [
+                    //Settings button
+                    AppIconButton(
+                      onPressed: () {
+                        final theme = context.readDependency<ThemeService>();
+                        theme.toggleThemeMode();
+                      },
+                      icon: Icons.settings_rounded,
+                      bgColor: Colors.green,
+                      fgColor: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 16,
+                right: 0,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
 
-                //Right bar
-              ],
-            ),
+                  children: [
+                    //Settings button
+                    AppIconButton(
+                      icon: Icons.music_note_rounded,
+                      bgColor: Colors.indigoAccent,
+                      fgColor: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+
+              Positioned.fill(left: 64, right: 64, child: MyTalesBody(vm: vm)),
+
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: const MyTalesSearch(),
+                ),
+              ),
+            ],
           ),
         ),
       ),

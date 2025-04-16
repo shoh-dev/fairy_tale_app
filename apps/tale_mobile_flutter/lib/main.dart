@@ -9,6 +9,7 @@ import 'package:tale_mobile_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_mobile_flutter/features/tale/view_model/my_tales_view_model.dart';
 import 'package:tale_mobile_flutter/features/tale/view_model/tale_view_model.dart';
 import 'package:tale_mobile_flutter/repository/tale_repository.dart';
+import 'package:tale_mobile_flutter/services/theme_service.dart';
 import 'package:tale_mobile_flutter/store/app_store.dart';
 import 'package:tale_mobile_flutter/supabase/supabase_repository.dart';
 
@@ -37,7 +38,7 @@ void main() async {
     appStore: appStore,
     theme: UITheme(
       theme: (context) => AppTheme(borderRadius: 16),
-      themeMode: (context) => ThemeMode.light,
+      themeMode: (context) => context.watchDependency<ThemeService>().mode,
     ),
     dependencies: [
       Provider<SupabaseRepository>.value(value: supabaseRepository),
@@ -47,6 +48,7 @@ void main() async {
               context.readDependency<SupabaseRepository>().client,
             ),
       ),
+      ChangeNotifierProvider<ThemeService>(create: (context) => ThemeService()),
     ],
   );
 

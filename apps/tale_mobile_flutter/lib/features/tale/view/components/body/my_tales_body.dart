@@ -13,6 +13,7 @@ class MyTalesBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      padding: EdgeInsets.only(top: 70, bottom: 12),
       child: Wrap(
         runSpacing: 16,
         alignment: WrapAlignment.spaceBetween,
@@ -28,7 +29,7 @@ class _Tale extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = context.width * .25;
+    final width = context.width * .22;
     final height = context.height * .5;
     return SizedBox(
       width: width,
@@ -48,6 +49,8 @@ class _Tale extends StatelessWidget {
                           fit: BoxFit.fill,
                           width: width,
                           height: height,
+                          errorBuilder:
+                              (context, error, stackTrace) => const SizedBox(),
                         )
                         : const Placeholder(),
               ),
@@ -78,6 +81,7 @@ class _Tale extends StatelessWidget {
                       style: context.textTheme.headlineSmall!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w900,
+                        fontSize: 21,
                         shadows: [
                           BoxShadow(
                             color: Colors.black45,
