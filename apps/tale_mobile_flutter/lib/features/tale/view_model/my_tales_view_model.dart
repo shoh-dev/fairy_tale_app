@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/widgets.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:tale_mobile_flutter/features/tale/model/tale.dart';
 import 'package:tale_mobile_flutter/repository/tale_repository.dart';
@@ -8,16 +9,16 @@ class MyTalesViewModel extends Vm {
 
   MyTalesViewModel({required TaleRepository taleRepository})
     : _taleRepository = taleRepository {
-    fetchMyTalesCommand = CommandNoParam(_fetchMyTales)..execute();
+    fetchMyTalesCommand = CommandParam(_fetchMyTales)..execute('');
   }
 
   //Tale
-  late final CommandNoParam<void> fetchMyTalesCommand;
+  late final CommandParam<void, String> fetchMyTalesCommand;
   final List<TaleModel> _myTales = List.empty(growable: true);
   UnmodifiableListView<TaleModel> get tales => UnmodifiableListView(_myTales);
 
-  Future<Result<void>> _fetchMyTales() async {
-    final result = await _taleRepository.getMyTales();
+  Future<Result<void>> _fetchMyTales(String titleSearchQuery) async {
+    final result = await _taleRepository.getMyTales(query: titleSearchQuery);
     switch (result) {
       case ResultOk<List<TaleModel>>(:final value):
         _myTales
@@ -31,5 +32,9 @@ class MyTalesViewModel extends Vm {
         notifyListeners();
         return Result.error(result.e);
     }
+  }
+
+  void onSearch(String query) {
+    fetchMyTalesCommand.execute(query);
   }
 }

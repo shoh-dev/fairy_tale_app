@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myspace_core/myspace_core.dart';
-import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:tale_mobile_flutter/components/button.dart';
 import 'package:tale_mobile_flutter/features/tale/view/components/body/my_tales_body.dart';
 import 'package:tale_mobile_flutter/features/tale/view/components/search.dart';
@@ -19,61 +19,64 @@ class MyTalesView extends StatelessWidget {
     return SafeArea(
       top: false,
       bottom: false,
-      child: CommandWrapper(
-        command: vm.fetchMyTalesCommand,
-        okBuilder: (context, child) => child!,
-        child: VmProvider(
-          vm: vm,
-          builder: (context, child) => child!,
-          child: Stack(
-            children: [
-              Positioned(
-                top: 16,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 12.h,
+            left: 12.w,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
 
-                  children: [
-                    //Settings button
-                    AppIconButton(
-                      onPressed: () {
-                        final theme = context.readDependency<ThemeService>();
-                        theme.toggleThemeMode();
-                      },
-                      icon: Icons.settings_rounded,
-                      bgColor: Colors.green,
-                      fgColor: Colors.white,
-                    ),
-                  ],
+              children: [
+                //Settings button
+                AppIconButton(
+                  onPressed: () {
+                    final theme = context.readDependency<ThemeService>();
+                    theme.toggleThemeMode();
+                  },
+                  icon: Icons.settings_rounded,
+                  bgColor: Colors.green,
+                  fgColor: Colors.white,
                 ),
-              ),
-              Positioned(
-                top: 16,
-                right: 0,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-
-                  children: [
-                    //Settings button
-                    AppIconButton(
-                      icon: Icons.music_note_rounded,
-                      bgColor: Colors.indigoAccent,
-                      fgColor: Colors.white,
-                    ),
-                  ],
-                ),
-              ),
-
-              Positioned.fill(left: 64, right: 64, child: MyTalesBody(vm: vm)),
-
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: const MyTalesSearch(),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+          Positioned.fill(
+            top: 12.h,
+            right: 12.w,
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+
+                children: [
+                  //Settings button
+                  AppIconButton(
+                    icon: Icons.music_note_rounded,
+                    bgColor: Colors.orange,
+                    fgColor: Colors.white,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned.fill(
+            left: 64.w,
+            right: 64.w,
+            child: CommandWrapper(
+              command: vm.fetchMyTalesCommand,
+              okBuilder: (context, _) => MyTalesBody(vm: vm),
+            ),
+          ),
+          Positioned.fill(
+            child: RepaintBoundary(
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: MyTalesSearch(onSearch: vm.onSearch),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

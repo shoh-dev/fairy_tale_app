@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_ui/myspace_ui.dart';
+import 'package:tale_mobile_flutter/components/button.dart';
 import 'package:tale_mobile_flutter/features/tale/model/page.dart';
 import 'package:tale_mobile_flutter/features/tale/view_model/tale_view_model.dart';
 
@@ -39,11 +40,9 @@ class _TaleBodyState extends State<TaleBody> {
           ),
         ),
         Positioned(
+          top: 16,
           child: SafeArea(
-            child: ButtonComponent.icon(
-              icon: Icons.home,
-              onPressed: context.pop,
-            ),
+            child: AppIconButton(icon: Icons.home, onPressed: context.pop),
           ),
         ),
       ],

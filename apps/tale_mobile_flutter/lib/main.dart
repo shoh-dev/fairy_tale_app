@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myspace_core/myspace_core.dart';
+import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 import 'package:tale_mobile_flutter/features/tale/layout.dart';
 import 'package:tale_mobile_flutter/features/tale/view/my_tales_view.dart';
@@ -18,6 +22,8 @@ void main() async {
 
   debugRepaintRainbowEnabled = false;
 
+  await ScreenUtil.ensureScreenSize();
+
   await Future.wait([
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
@@ -33,9 +39,24 @@ void main() async {
 
   final appStore = AppStore();
 
+  //SE 375 x 667
+  //XR 414 x 896
+  //X, 11Pro 375 x 812
+  //iPad Mini (6th gen) 744 x 1133
+  //iPad mini a17 2266 x 1488
+  // final size = const Size(744, 1133);
+  final size = const Size(1133, 744);
+
   final config = CoreAppConfig(
     root: _root,
     appStore: appStore,
+    builder: (context, child) {
+      log('Running builder');
+
+      // ScreenUtil.init(context, designSize: const Size(812, 375));
+      ScreenUtil.init(context, designSize: size);
+      return child!;
+    },
     theme: UITheme(
       theme: (context) => AppTheme(borderRadius: 16),
       themeMode: (context) => context.watchDependency<ThemeService>().mode,

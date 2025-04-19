@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
 class AppIconButton extends StatelessWidget {
@@ -8,7 +9,7 @@ class AppIconButton extends StatelessWidget {
     this.bgColor,
     this.fgColor,
     this.onPressed,
-    this.size = 40,
+    this.size = 32,
   });
 
   final VoidCallback? onPressed;
@@ -22,8 +23,8 @@ class AppIconButton extends StatelessWidget {
     return ButtonComponent.icon(
       icon: icon,
       onPressed: onPressed,
-      iconSize: size,
-      padding: const EdgeInsets.all(8),
+      iconSize: size.w,
+      padding: const EdgeInsets.all(8).w,
       elevation: 16,
       shadowColor: Colors.black,
       backgroundColor: bgColor,

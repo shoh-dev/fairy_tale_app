@@ -7,12 +7,17 @@ class TaleRepository extends Dependency {
 
   const TaleRepository(SupabaseClient client) : _client = client;
 
-  Future<Result<List<TaleModel>>> getMyTales() async {
+  Future<Result<List<TaleModel>>> getMyTales({String query = ''}) async {
     try {
-      final response =
-          await _client.from("tales").select(); //todo: fetch only my tales
-      await Future.delayed(Duration(seconds: 1));
-      return Result.ok(response.map((e) => TaleModel.fromJson(e)).toList());
+      var response = _client.from("tales").select(); //todo: fetch only my tales
+      if (query.isNotEmpty) {
+        response = response.ilike('default_locale_title', '%$query%');
+      }
+      return Result.ok(
+        (await response.order(
+          'created_at',
+        )).map((e) => TaleModel.fromJson(e)).toList(),
+      );
     } catch (e) {
       return Result.error(e);
     }
@@ -26,7 +31,6 @@ class TaleRepository extends Dependency {
               .select("*, localization:localizations(*), pages(*, texts(*))")
               .eq("id", id)
               .single();
-      await Future.delayed(Duration(seconds: 1));
       final tale = TaleModel.fromJson(response);
       return Result.ok(tale);
     } catch (e) {

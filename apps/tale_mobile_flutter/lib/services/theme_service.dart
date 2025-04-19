@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myspace_core/myspace_core.dart';
 
 class ThemeService extends DependencyChangeNotifier {
-  ThemeMode _mode = ThemeMode.dark;
+  ThemeMode _mode = ThemeMode.light;
   ThemeMode get mode => _mode;
 
   void toggleThemeMode() {
