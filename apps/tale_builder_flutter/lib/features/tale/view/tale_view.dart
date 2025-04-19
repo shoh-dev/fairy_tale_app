@@ -12,6 +12,7 @@ abstract class Sizes {
     //XR 414 x 896
     //X, 11Pro 375 x 812
     //iPad Mini (6th gen) 744 x 1133
+    //iPad mini a17 2266 x 1488
     if (isPortrait) return Size(375, 812);
     return Size(812, 375);
   }

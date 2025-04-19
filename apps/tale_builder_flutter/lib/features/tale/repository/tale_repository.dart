@@ -32,7 +32,6 @@ class TaleRepository extends Dependency {
               .select("*, localization:localizations(*), pages(*, texts(*))")
               .eq("id", id)
               .single();
-      // await Future.delayed(Duration(seconds: 1));
       final tale = TaleModel.fromJson(response);
       final localization = TaleLocalizationModel.fromJson(
         response['localization'],

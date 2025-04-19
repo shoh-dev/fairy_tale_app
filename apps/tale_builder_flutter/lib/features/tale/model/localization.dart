@@ -44,13 +44,13 @@ abstract class TaleLocalizationModel with _$TaleLocalizationModel {
   }
 
   factory TaleLocalizationModel.empty(String taleId) {
-    const locale = 'en';
     return TaleLocalizationModel(
       taleId: taleId,
-      defaultLocale: locale,
-      translations: {locale: {}},
+      defaultLocale: baseLocale,
+      translations: {baseLocale: {}},
     );
   }
+  static const baseLocale = 'en';
 
   List<String> get availableLocales => UnmodifiableListView(translations.keys);
 
