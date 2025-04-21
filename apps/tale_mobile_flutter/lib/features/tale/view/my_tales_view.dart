@@ -31,8 +31,10 @@ class MyTalesView extends StatelessWidget {
                 //Settings button
                 AppIconButton(
                   onPressed: () {
-                    final theme = context.readDependency<ThemeService>();
-                    theme.toggleThemeMode();
+                    final toggle = context.select<ThemeService, VoidCallback>(
+                      (value) => value.toggleThemeMode,
+                    );
+                    toggle();
                   },
                   icon: Icons.settings_rounded,
                   bgColor: Colors.green,

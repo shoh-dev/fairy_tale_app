@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 
-class TaleLayout extends LayoutStatelessWidget {
-  const TaleLayout({super.key, required super.shell});
+class TaleLayout extends StatelessWidget {
+  const TaleLayout({super.key, required this.shell});
+
+  final StatefulNavigationShell shell;
 
   @override
   Widget build(BuildContext context) {

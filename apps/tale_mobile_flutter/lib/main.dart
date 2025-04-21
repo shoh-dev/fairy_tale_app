@@ -5,7 +5,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myspace_core/myspace_core.dart';
-import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 import 'package:tale_mobile_flutter/features/tale/layout.dart';
 import 'package:tale_mobile_flutter/features/tale/view/my_tales_view.dart';
@@ -59,15 +58,16 @@ void main() async {
     },
     theme: UITheme(
       theme: (context) => AppTheme(borderRadius: 16),
-      themeMode: (context) => context.watchDependency<ThemeService>().mode,
+      themeMode:
+          (context) =>
+              context.select<ThemeService, ThemeMode>((value) => value.mode),
     ),
     dependencies: [
       Provider<SupabaseRepository>.value(value: supabaseRepository),
       Provider<TaleRepository>(
         create:
-            (context) => TaleRepository(
-              context.readDependency<SupabaseRepository>().client,
-            ),
+            (context) =>
+                TaleRepository(context.read<SupabaseRepository>().client),
       ),
       ChangeNotifierProvider<ThemeService>(create: (context) => ThemeService()),
     ],
@@ -81,29 +81,40 @@ UIRoot _root(AppStore store) => UIRoot(
   layouts: [
     UILayout(
       layoutBuilder: (context, state, shell) => MyTalesLayout(shell: shell),
-      pages: [
-        [
-          UIPage(
-            path: MyTalesView.route(),
-            vm:
-                (context, state) =>
-                    MyTalesViewModel(taleRepository: context.readDependency()),
-            builder:
-                (context, state, vm) => MyTalesView(vm: vm as MyTalesViewModel),
-            pages: [
-              UIPage(
-                path: ":id",
-                vm:
-                    (context, state) => TaleViewModel(
-                      state.pathParameters['id']!,
-                      taleRepository: context.readDependency(),
-                    ),
-                builder:
-                    (context, state, vm) => TaleView(vm: vm as TaleViewModel),
-              ),
-            ],
-          ),
-        ],
+      branches: [
+        UIBranch(
+          pages: [
+            UIPage(
+              path: MyTalesView.route(),
+              builder:
+                  (context, state) => ChangeNotifierProvider(
+                    create:
+                        (context) =>
+                            MyTalesViewModel(taleRepository: context.read()),
+                    builder: (context, child) {
+                      return MyTalesView(vm: context.read());
+                    },
+                  ),
+              pages: [
+                UIPage(
+                  path: ":id",
+                  builder:
+                      (context, state) => ChangeNotifierProvider(
+                        create:
+                            (context) => TaleViewModel(
+                              state.pathParameters['id']!,
+                              taleRepository: context.read(),
+                            ),
+
+                        builder: (context, _) {
+                          return TaleView(vm: context.read());
+                        },
+                      ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ],
     ),
   ],

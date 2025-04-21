@@ -38,32 +38,30 @@ void main() async {
       Provider<SupabaseRepository>.value(value: supabaseRepository),
       Provider<TaleRepository>(
         create:
-            (context) => TaleRepository(
-              context.readDependency<SupabaseRepository>().client,
-            ),
+            (context) =>
+                TaleRepository(context.read<SupabaseRepository>().client),
       ),
       Provider<TaleLocalizationRepository>(
         create:
             (context) => TaleLocalizationRepository(
-              context.readDependency<SupabaseRepository>().client,
+              context.read<SupabaseRepository>().client,
             ),
       ),
       Provider<TalePagesRepository>(
         create:
-            (context) => TalePagesRepository(
-              context.readDependency<SupabaseRepository>().client,
-            ),
+            (context) =>
+                TalePagesRepository(context.read<SupabaseRepository>().client),
       ),
       Provider<TalePageTextsRepository>(
         create:
             (context) => TalePageTextsRepository(
-              context.readDependency<SupabaseRepository>().client,
+              context.read<SupabaseRepository>().client,
             ),
       ),
       Provider<TaleObjectsRepository>(
         create:
             (context) => TaleObjectsRepository(
-              context.readDependency<SupabaseRepository>().client,
+              context.read<SupabaseRepository>().client,
             ),
       ),
       Provider<FilePickerRepository>(
@@ -79,66 +77,78 @@ UIRoot _root(AppStore store) => UIRoot(
   layouts: [
     UILayout(
       layoutBuilder: (context, state, shell) => SplashLayout(shell: shell),
-      pages: [
-        [
-          UIPage(
-            name: 'splash',
-            path: "/",
-            vm: (context, state) => SplashViewModel(),
-            builder:
-                (context, state, vm) => SplashView(vm: vm as SplashViewModel),
-          ),
-        ],
+      branches: [
+        UIBranch(
+          pages: [
+            UIPage(
+              name: 'splash',
+              path: "/",
+              builder:
+                  (context, state) => ChangeNotifierProvider(
+                    create: (context) => SplashViewModel(),
+                    builder: (context, _) => SplashView(vm: context.read()),
+                  ),
+            ),
+          ],
+        ),
       ],
     ),
     UILayout(
       layoutBuilder: (context, state, shell) => TaleLayout(shell: shell),
-      pages: [
-        [
-          UIPage(
-            path: "/tale",
-            redirect: (context, state) {
-              final id = state.pathParameters['id'];
-              if (id == null) {
+      branches: [
+        UIBranch(
+          pages: [
+            UIPage(
+              path: "/tale",
+              redirect: (context, state) {
+                final id = state.pathParameters['id'];
+                if (id == null) {
+                  return TaleView.route(id);
+                }
+
+                if (state.fullPath.toString().endsWith("/translations")) {
+                  return TranslationsView.route(id);
+                }
+
                 return TaleView.route(id);
-              }
+              },
+              pages: [
+                UIPage(
+                  path: ":id",
+                  builder:
+                      (context, state) => ChangeNotifierProvider(
+                        create:
+                            (context) => TaleViewModel(
+                              id: state.pathParameters['id']!,
+                              taleRepository: context.read(),
+                              filePickerRepository: context.read(),
+                              pageRepository: context.read(),
+                              textsRepository: context.read(),
+                            ),
+                        builder: (context, _) => TaleView(vm: context.read()),
+                      ),
+                  pages: [
+                    UIPage(
+                      path: "/translations",
 
-              if (state.fullPath.toString().endsWith("/translations")) {
-                return TranslationsView.route(id);
-              }
-
-              return TaleView.route(id);
-            },
-            pages: [
-              UIPage(
-                path: ":id",
-                vm:
-                    (context, state) => TaleViewModel(
-                      id: state.pathParameters['id']!,
-                      taleRepository: context.readDependency(),
-                      filePickerRepository: context.readDependency(),
-                      pageRepository: context.readDependency(),
-                      textsRepository: context.readDependency(),
+                      builder:
+                          (context, state) => ChangeNotifierProvider(
+                            create:
+                                (context) => TranslationsViewModel(
+                                  id: state.pathParameters['id']!,
+                                  localizationRepository: context.read(),
+                                ),
+                            builder: (context, _) {
+                              return TranslationsView(vm: context.read());
+                            },
+                          ),
                     ),
-                builder:
-                    (context, state, vm) => TaleView(vm: vm as TaleViewModel),
-                pages: [
-                  UIPage(
-                    path: "/translations",
-                    vm:
-                        (context, state) => TranslationsViewModel(
-                          id: state.pathParameters['id']!,
-                          localizationRepository: context.readDependency(),
-                        ),
-                    builder:
-                        (context, state, vm) =>
-                            TranslationsView(vm: vm as TranslationsViewModel),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ],
     ),
   ],
