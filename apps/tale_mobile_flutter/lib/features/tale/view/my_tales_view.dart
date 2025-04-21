@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:tale_mobile_flutter/components/button.dart';
 import 'package:tale_mobile_flutter/features/tale/view/components/body/my_tales_body.dart';
@@ -22,8 +21,8 @@ class MyTalesView extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            top: 12.h,
-            left: 12.w,
+            top: 12,
+            left: 12,
             child: Column(
               mainAxisSize: MainAxisSize.min,
 
@@ -44,8 +43,8 @@ class MyTalesView extends StatelessWidget {
             ),
           ),
           Positioned.fill(
-            top: 12.h,
-            right: 12.w,
+            top: 12,
+            right: 12,
             child: Align(
               alignment: Alignment.topRight,
               child: Column(
@@ -63,8 +62,8 @@ class MyTalesView extends StatelessWidget {
             ),
           ),
           Positioned.fill(
-            left: 64.w,
-            right: 64.w,
+            left: 64,
+            right: 64,
             child: CommandWrapper(
               command: vm.fetchMyTalesCommand,
               okBuilder: (context, _) => MyTalesBody(vm: vm),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 import 'package:tale_mobile_flutter/features/tale/layout.dart';
@@ -21,7 +22,7 @@ void main() async {
 
   debugRepaintRainbowEnabled = false;
 
-  await ScreenUtil.ensureScreenSize();
+  // await ScreenUtil.ensureScreenSize();
 
   await Future.wait([
     SystemChrome.setPreferredOrientations([
@@ -44,7 +45,11 @@ void main() async {
   //iPad Mini (6th gen) 744 x 1133
   //iPad mini a17 2266 x 1488
   // final size = const Size(744, 1133);
-  final size = const Size(1133, 744);
+  // final size = const Size(736, 414);
+  // final size = const Size(812, 375);
+  //Size(390.0, 844.0)
+  // final size = const Size(667.0, 375.0);
+  final size = const Size(844, 390);
 
   final config = CoreAppConfig(
     root: _root,
@@ -57,7 +62,10 @@ void main() async {
       return child!;
     },
     theme: UITheme(
-      theme: (context) => AppTheme(borderRadius: 16),
+      theme: (context) {
+        // ScreenUtil.init(context, designSize: size);
+        return AppTheme(borderRadius: 12);
+      },
       themeMode:
           (context) =>
               context.select<ThemeService, ThemeMode>((value) => value.mode),

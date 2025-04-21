@@ -8,6 +8,8 @@ import 'package:tale_builder_flutter/features/tale/model/text.dart';
 import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
 
+import 'package:device_frame/device_frame.dart';
+
 class PageViewer extends StatefulWidget {
   const PageViewer({super.key, required this.vm});
 
@@ -31,48 +33,53 @@ class _PageViewerState extends State<PageViewer> {
     final texts = UnmodifiableListView(
       vm.texts.where((element) => element.pageId == selectedPage.id),
     );
-    return SizedBox(
-      width: deviceSize.width,
-      height: deviceSize.height,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.all(color: context.colorScheme.onSurface),
-          color: context.colorScheme.surfaceContainer,
-        ),
-        child: Stack(
-          children: [
-            if (selectedPage.hasImage)
-              Positioned.fill(
-                child: RepaintBoundary(
-                  child: Image.network(
-                    selectedPage.backgroundImageUrl,
-                    fit: BoxFit.fill,
-                    cacheWidth: deviceSize.width.toInt(),
-                    cacheHeight: deviceSize.height.toInt(),
-                    loadingBuilder:
-                        (context, child, loadingProgress) =>
-                            loadingProgress != null
-                                ? const LoadingDialog()
-                                : child,
-                    errorBuilder:
-                        (context, error, stackTrace) => const SizedBox(),
+    return GridPaper(
+      divisions: 1,
+      interval: 200,
+      child: SizedBox(
+        width: deviceSize.width,
+        height: deviceSize.height,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border.all(color: context.colorScheme.onSurface),
+            color: context.colorScheme.surfaceContainer,
+          ),
+          child: Stack(
+            children: [
+              if (selectedPage.hasImage)
+                Positioned.fill(
+                  child: RepaintBoundary(
+                    child: Image.network(
+                      selectedPage.backgroundImageUrl,
+                      fit: BoxFit.fill,
+                      cacheWidth: deviceSize.width.toInt(),
+                      cacheHeight: deviceSize.height.toInt(),
+                      loadingBuilder:
+                          (context, child, loadingProgress) =>
+                              loadingProgress != null
+                                  ? const LoadingDialog()
+                                  : child,
+                      errorBuilder:
+                          (context, error, stackTrace) => const SizedBox(),
+                    ),
                   ),
                 ),
-              ),
-            Positioned.fill(child: GestureDetector(onTap: vm.onDeselectText)),
-            for (final text in texts)
-              _Text(
-                text: text,
-                isPreviewMode: vm.isPreviewMode,
-                localization: vm.localization,
-                deviceSize: deviceSize,
-                onSelect: (value) => vm.onSelectText(value.id),
-                selectedText: selectedText,
-                onDeleteText: vm.onDeleteText,
-                onChangePosition:
-                    (value) => vm.onChangeTextPosition(value.dx, value.dy),
-              ),
-          ],
+              Positioned.fill(child: GestureDetector(onTap: vm.onDeselectText)),
+              for (final text in texts)
+                _Text(
+                  text: text,
+                  isPreviewMode: vm.isPreviewMode,
+                  localization: vm.localization,
+                  deviceSize: deviceSize,
+                  onSelect: (value) => vm.onSelectText(value.id),
+                  selectedText: selectedText,
+                  onDeleteText: vm.onDeleteText,
+                  onChangePosition:
+                      (value) => vm.onChangeTextPosition(value.dx, value.dy),
+                ),
+              //Draw a line in center horizontal and vertialc
+            ],
+          ),
         ),
       ),
     );
@@ -249,6 +256,7 @@ class __TextState extends State<_Text> {
           translatedText ?? "NOT_FOUND",
           textAlign: decoration.textAlign,
           style: style.copyWith(
+            fontSize: style.fontSize,
             shadows:
                 decoration.backgroundColor == null
                     ? [

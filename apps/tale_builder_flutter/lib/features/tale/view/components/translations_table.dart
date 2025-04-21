@@ -6,16 +6,13 @@ import 'package:tale_builder_flutter/features/tale/view/components/default_local
 import 'package:tale_builder_flutter/features/tale/view_model/translations_view_model.dart';
 
 class TranslationsTable extends StatelessWidget {
-  const TranslationsTable({super.key, required this.vm});
-
-  final TranslationsViewModel vm;
+  const TranslationsTable({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return VmProvider(
-      vm: vm,
+    return VmWatcher<TranslationsViewModel>(
       builder:
-          (context, child) => Scaffold(
+          (context, vm, _) => Scaffold(
             appBar: AppBar(
               title: Text("Translations Editor"),
               centerTitle: true,

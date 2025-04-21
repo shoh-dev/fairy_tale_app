@@ -14,7 +14,7 @@ class MyTalesLayout extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: Assets.static.bg11.provider(),
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
         child: shell,

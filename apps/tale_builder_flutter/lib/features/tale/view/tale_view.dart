@@ -1,3 +1,4 @@
+import 'package:device_frame/device_frame.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
@@ -13,44 +14,42 @@ abstract class Sizes {
     //X, 11Pro 375 x 812
     //iPad Mini (6th gen) 744 x 1133
     //iPad mini a17 2266 x 1488
-    if (isPortrait) return Size(375, 812);
-    return Size(812, 375);
+    final device = Devices.ios.iPhone13;
+    // if (isPortrait) return const Size(375, 812);
+    // return const Size(812, 375);
+    print(device.screenSize);
+    if (isPortrait) return device.screenSize;
+    return Size(device.screenSize.height, device.screenSize.width);
   }
 }
 
 class TaleView extends StatelessWidget {
-  final TaleViewModel vm;
-
   static String route([String? id]) => "/tale/${id ?? "new"}";
 
-  const TaleView({super.key, required this.vm});
+  const TaleView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final command = context.read<TaleViewModel>().fetchTaleCommand;
     return CommandWrapper(
-      command: vm.fetchTaleCommand,
+      command: command,
       okBuilder: (context, child) => child!,
-      child: VmProvider(
-        vm: vm,
-        builder: (context, child) {
-          return LayoutComponent.row(
-            // spacing: 16,
-            children: [
-              //Left Sidebar: shows list of pages and add page at the bottom
-              Expanded(flex: 1, child: LeftBar(vm: vm)),
+      child: LayoutComponent.row(
+        // spacing: 16,
+        children: [
+          //Left Sidebar: shows list of pages and add page at the bottom
+          const Expanded(flex: 1, child: LeftBar()),
 
-              const VerticalDivider(color: Colors.transparent),
+          const VerticalDivider(color: Colors.transparent),
 
-              //Body: shows selected page info, where user can align text or objects
-              Expanded(flex: 3, child: Body(vm: vm)),
+          //Body: shows selected page info, where user can align text or objects
+          const Expanded(flex: 3, child: Body()),
 
-              const VerticalDivider(color: Colors.transparent),
+          const VerticalDivider(color: Colors.transparent),
 
-              //Right Sidebar: if page is selected, shows page form, else shows tale form
-              Expanded(flex: 1, child: RightBar(vm: vm)),
-            ],
-          );
-        },
+          //Right Sidebar: if page is selected, shows page form, else shows tale form
+          const Expanded(flex: 1, child: RightBar()),
+        ],
       ),
     );
   }

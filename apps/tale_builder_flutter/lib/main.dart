@@ -125,7 +125,7 @@ UIRoot _root(AppStore store) => UIRoot(
                               pageRepository: context.read(),
                               textsRepository: context.read(),
                             ),
-                        builder: (context, _) => TaleView(vm: context.read()),
+                        builder: (context, _) => TaleView(),
                       ),
                   pages: [
                     UIPage(

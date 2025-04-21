@@ -19,6 +19,8 @@ dependencies:
     path: /Users/shoh/Documents/github/personal/myspace/packages/myspace_ui
   myspace_core:
     path: /Users/shoh/Documents/github/personal/myspace/packages/myspace_core
+
+  device_frame: ^1.2.0
     
   supabase: ^2.6.3
   freezed_annotation: ^3.0.0

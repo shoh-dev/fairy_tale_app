@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
 class AppIconButton extends StatelessWidget {
@@ -23,8 +22,8 @@ class AppIconButton extends StatelessWidget {
     return ButtonComponent.icon(
       icon: icon,
       onPressed: onPressed,
-      iconSize: size.w,
-      padding: const EdgeInsets.all(8).w,
+      iconSize: size,
+      padding: const EdgeInsets.all(8),
       elevation: 16,
       shadowColor: Colors.black,
       backgroundColor: bgColor,

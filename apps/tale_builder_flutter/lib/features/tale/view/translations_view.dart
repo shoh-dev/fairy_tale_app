@@ -15,7 +15,7 @@ class TranslationsView extends StatelessWidget {
     return CommandWrapper(
       command: vm.fetchLocalizationCommand,
       okBuilder: (context, child) => child!,
-      child: TranslationsTable(vm: vm),
+      child: TranslationsTable(),
     );
   }
 }

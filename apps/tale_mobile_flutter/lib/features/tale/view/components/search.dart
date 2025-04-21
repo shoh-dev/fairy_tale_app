@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 
 class MyTalesSearch extends StatelessWidget {
@@ -10,16 +9,8 @@ class MyTalesSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-      // decoration: BoxDecoration(
-      //   color: Colors.indigo.withAlpha(200),
-      //   borderRadius: BorderRadius.only(
-      //     bottomLeft: Radius.circular(20),
-      //     bottomRight: Radius.circular(20),
-      //   ),
-      // ),
       child: Padding(
-        padding: const EdgeInsets.only(top: 12).h,
+        padding: const EdgeInsets.only(top: 12),
         child: TextFieldComponent(
           hintText: "Search",
           onChanged: (value) {
@@ -38,7 +29,7 @@ class MyTalesSearch extends StatelessWidget {
             ];
           },
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
-        ).sized(width: 300.w),
+        ).sized(width: 300),
       ),
     );
   }
