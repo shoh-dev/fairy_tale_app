@@ -64,7 +64,7 @@ void main() async {
     theme: UITheme(
       theme: (context) {
         // ScreenUtil.init(context, designSize: size);
-        return AppTheme(borderRadius: 12);
+        return AppTheme(borderRadius: 12, seedDark: Colors.lightBlue);
       },
       themeMode:
           (context) =>

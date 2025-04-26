@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:tale_builder_flutter/features/tale/model/text.dart';
@@ -30,6 +32,7 @@ class RightBarTextForm extends StatelessWidget {
           ],
         ),
       ),
+      expandedCrossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // ButtonComponent.destructive(
         //   text: "Delete Text",
@@ -84,7 +87,100 @@ class RightBarTextForm extends StatelessWidget {
             vm.onChangeTextPosition(null, value);
           },
         ),
+        const SizedBox(height: 8),
 
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 8,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FormFieldLabel("Alignment"),
+            Row(
+              spacing: 8,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ButtonComponent.icon(
+                  icon: Icons.west,
+                  tooltip: "Left Center",
+                  onPressed:
+                      () => vm.onChangeTextPositionByAlignment(
+                        Alignment.centerLeft,
+                      ),
+                ),
+                ButtonComponent.icon(
+                  icon: Icons.east,
+                  tooltip: "Right Center",
+                  onPressed:
+                      () => vm.onChangeTextPositionByAlignment(
+                        Alignment.centerRight,
+                      ),
+                ),
+                ButtonComponent.icon(
+                  icon: Icons.north,
+                  tooltip: "Top Center",
+                  onPressed:
+                      () => vm.onChangeTextPositionByAlignment(
+                        Alignment.topCenter,
+                      ),
+                ),
+                ButtonComponent.icon(
+                  icon: Icons.south,
+                  tooltip: "Bottom Center",
+                  onPressed:
+                      () => vm.onChangeTextPositionByAlignment(
+                        Alignment.bottomCenter,
+                      ),
+                ),
+                ButtonComponent.icon(
+                  icon: Icons.center_focus_strong,
+                  tooltip: "Center",
+                  onPressed:
+                      () =>
+                          vm.onChangeTextPositionByAlignment(Alignment.center),
+                ),
+              ],
+            ),
+            Row(
+              spacing: 8,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ButtonComponent.icon(
+                  icon: Icons.north_west,
+                  tooltip: "Top Left",
+                  onPressed:
+                      () =>
+                          vm.onChangeTextPositionByAlignment(Alignment.topLeft),
+                ),
+                ButtonComponent.icon(
+                  icon: Icons.north_east,
+                  tooltip: "Top Right",
+                  onPressed:
+                      () => vm.onChangeTextPositionByAlignment(
+                        Alignment.topRight,
+                      ),
+                ),
+                ButtonComponent.icon(
+                  icon: Icons.south_west,
+                  tooltip: "Bottom Left",
+                  onPressed:
+                      () => vm.onChangeTextPositionByAlignment(
+                        Alignment.bottomLeft,
+                      ),
+                ),
+                ButtonComponent.icon(
+                  icon: Icons.south_east,
+                  tooltip: "Bottom Right",
+                  onPressed:
+                      () => vm.onChangeTextPositionByAlignment(
+                        Alignment.bottomRight,
+                      ),
+                ),
+              ],
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 16),
         TextFieldComponent(
           label: "Font Size",
           initialValue: text.style.fontSize.toString(),

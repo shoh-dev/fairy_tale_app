@@ -70,7 +70,7 @@ abstract class TalePageTextModel with _$TalePageTextModel {
   }
 
   static const TextStyle _defaultTextStyle = TextStyle(
-    fontSize: 18,
+    fontSize: 24,
     color: Color(0xFFFFFFFF),
   );
 
@@ -90,7 +90,7 @@ abstract class TalePageTextModel with _$TalePageTextModel {
         dx: 0,
         dy: 0,
         width: 100,
-        height: 40,
+        height: 80,
         text: '',
         isNew: true,
       );

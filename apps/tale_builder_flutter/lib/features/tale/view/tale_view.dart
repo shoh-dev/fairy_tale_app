@@ -15,11 +15,9 @@ abstract class Sizes {
     //iPad Mini (6th gen) 744 x 1133
     //iPad mini a17 2266 x 1488
     final device = Devices.ios.iPhone13;
-    // if (isPortrait) return const Size(375, 812);
-    // return const Size(812, 375);
-    print(device.screenSize);
-    if (isPortrait) return device.screenSize;
-    return Size(device.screenSize.height, device.screenSize.width);
+    final screenSize = device.screenSize;
+    if (isPortrait) return screenSize;
+    return Size(screenSize.height, screenSize.width);
   }
 }
 

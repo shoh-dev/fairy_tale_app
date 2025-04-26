@@ -43,12 +43,59 @@ class _TaleBodyState extends State<TaleBody> {
           ),
         ),
         Positioned(
-          top: 16,
-          left: 16,
+          top: 16.h,
+          left: 16.w,
           child: SafeArea(
             child: AppIconButton(icon: Icons.home, onPressed: context.pop),
           ),
         ),
+        Positioned(
+          top: 68.h,
+          left: 16.w,
+          child: SafeArea(
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListenableBuilder(
+                  listenable: controller,
+                  builder: (context, _) {
+                    if (controller.hasClients) {
+                      final currentPage = (controller.page?.round() ?? 0) + 1;
+                      return Text(
+                        "$currentPage/${vm.pages.length}",
+                        style: context.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w900,
+                          color: context.primary,
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+        if (vm.hasBackgroundAudio)
+          Positioned(
+            top: 16.h,
+            right: 16.w,
+            child: SafeArea(
+              child: StreamBuilder<bool>(
+                stream: vm.isAudioPlayingStream(),
+                builder: (context, snapshot) {
+                  if (snapshot.data == null) return const SizedBox();
+
+                  return AppIconButton(
+                    icon: snapshot.data! ? Icons.music_note : Icons.music_off,
+                    bgColor: Colors.white,
+                    fgColor: context.primary,
+                    onPressed: vm.toggleAudio,
+                  );
+                },
+              ),
+            ),
+          ),
       ],
     );
   }
@@ -63,6 +110,7 @@ class _Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
+      key: ValueKey(page.id),
       decoration: BoxDecoration(
         image:
             page.hasBackgroundImage

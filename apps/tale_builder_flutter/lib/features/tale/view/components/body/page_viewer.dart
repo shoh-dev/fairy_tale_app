@@ -8,8 +8,6 @@ import 'package:tale_builder_flutter/features/tale/model/text.dart';
 import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
 
-import 'package:device_frame/device_frame.dart';
-
 class PageViewer extends StatefulWidget {
   const PageViewer({super.key, required this.vm});
 
@@ -33,10 +31,8 @@ class _PageViewerState extends State<PageViewer> {
     final texts = UnmodifiableListView(
       vm.texts.where((element) => element.pageId == selectedPage.id),
     );
-    return GridPaper(
-      divisions: 1,
-      interval: 200,
-      child: SizedBox(
+    return grid(
+      SizedBox(
         width: deviceSize.width,
         height: deviceSize.height,
         child: DecoratedBox(
@@ -82,6 +78,16 @@ class _PageViewerState extends State<PageViewer> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget grid(Widget child) {
+    if (vm.isPreviewMode) return child;
+    return GridPaper(
+      divisions: 1,
+      interval: 200,
+      color: Colors.grey.shade800,
+      child: child,
     );
   }
 }
@@ -252,21 +258,24 @@ class __TextState extends State<_Text> {
       ),
       child: Padding(
         padding: decoration.padding,
-        child: Text(
-          translatedText ?? "NOT_FOUND",
-          textAlign: decoration.textAlign,
-          style: style.copyWith(
-            fontSize: style.fontSize,
-            shadows:
-                decoration.backgroundColor == null
-                    ? [
-                      Shadow(
-                        color: Colors.black54,
-                        blurRadius: 8,
-                        offset: Offset(1, 1),
-                      ),
-                    ]
-                    : null,
+        child: Center(
+          //todo: remove center
+          child: Text(
+            translatedText ?? "NOT_FOUND",
+            textAlign: decoration.textAlign,
+            style: style.copyWith(
+              fontSize: style.fontSize,
+              shadows:
+                  decoration.backgroundColor == null
+                      ? [
+                        Shadow(
+                          color: Colors.black54,
+                          blurRadius: 8,
+                          offset: Offset(1, 1),
+                        ),
+                      ]
+                      : null,
+            ),
           ),
         ),
       ),

@@ -11,6 +11,7 @@ import 'package:tale_builder_flutter/features/tale/model/text.dart';
 import 'package:tale_builder_flutter/features/tale/repository/pages_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/tale_repository.dart';
 import 'package:tale_builder_flutter/features/tale/repository/texts_repository.dart';
+import 'package:tale_builder_flutter/features/tale/view/tale_view.dart';
 import 'package:tale_builder_flutter/features/tale/view/translations_view.dart';
 import 'package:tale_builder_flutter/repository/file_picker_repository.dart';
 import 'package:uuid/v4.dart';
@@ -137,6 +138,7 @@ class TaleViewModel extends Vm {
           for (final text in texts) {
             onSelectText(text.id, false);
             onChangeTextPosition(0, 0, false);
+            onChangeTextSize(100, 80);
           }
           onDeselectText(false);
           tale = tale.copyWith(orientation: orientation);
@@ -517,6 +519,55 @@ class TaleViewModel extends Vm {
     if (notify) notifyListeners();
   }
 
+  void onChangeTextPositionByAlignment(
+    Alignment alignment, {
+    bool notify = true,
+  }) {
+    if (selectedText == null) return;
+    //Size(390, 844)
+    //Size(844, 390)
+    final pageSize = Sizes.deviceSize(tale.isPortrait);
+
+    double dx = 0;
+    double dy = 0;
+    switch (alignment) {
+      case Alignment.center:
+        dx = (pageSize.width / 2) - (selectedText!.width / 2);
+        dy = (pageSize.height / 2) - (selectedText!.height / 2);
+        break;
+      case Alignment.centerLeft:
+        dx = 0;
+        dy = (pageSize.height / 2) - (selectedText!.height / 2);
+        break;
+      case Alignment.centerRight:
+        dx = pageSize.width - selectedText!.width;
+        dy = (pageSize.height / 2) - (selectedText!.height / 2);
+        break;
+      case Alignment.topCenter:
+        dx = (pageSize.width / 2) - (selectedText!.width / 2);
+        dy = 0;
+        break;
+      case Alignment.bottomCenter:
+        dx = (pageSize.width / 2) - (selectedText!.width / 2);
+        dy = pageSize.height - selectedText!.height;
+        break;
+      case Alignment.topLeft:
+        break;
+      case Alignment.topRight:
+        dx = pageSize.width - selectedText!.width;
+        dy = 0;
+        break;
+      case Alignment.bottomRight:
+        dx = pageSize.width - selectedText!.width;
+        dy = pageSize.height - selectedText!.height;
+        break;
+    }
+
+    _updateText(selectedText!.copyWith(dx: dx, dy: dy));
+
+    if (notify) notifyListeners();
+  }
+
   void onChangeTextFontSize(double size) {
     if (selectedTextId.isEmpty) return;
     TextStyle style = selectedText!.style;
@@ -575,7 +626,15 @@ class TaleViewModel extends Vm {
 
   void onAddText() {
     if (selectedPageId.isEmpty) return;
-    _texts.add(TalePageTextModel.newText(UuidV4().generate(), selectedPageId));
+    final newText = TalePageTextModel.newText(
+      UuidV4().generate(),
+      selectedPageId,
+    ).copyWith(width: Sizes.deviceSize(tale.isPortrait).width);
+    _texts.add(
+      newText.copyWith(width: Sizes.deviceSize(tale.isPortrait).width),
+    );
+    onSelectText(newText.id, false);
+    onChangeTextPositionByAlignment(Alignment.bottomCenter, notify: false);
     notifyListeners();
   }
 
