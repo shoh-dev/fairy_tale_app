@@ -7,6 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_ui/myspace_ui.dart';
+import 'package:tale_mobile_flutter/features/settings/layout.dart';
+import 'package:tale_mobile_flutter/features/settings/view/settings_view.dart';
+import 'package:tale_mobile_flutter/features/settings/vm/settings_view_model.dart';
 import 'package:tale_mobile_flutter/features/tale/layout.dart';
 import 'package:tale_mobile_flutter/features/tale/view/my_tales_view.dart';
 import 'package:tale_mobile_flutter/features/tale/view/tale_view.dart';
@@ -56,15 +59,19 @@ void main() async {
     appStore: appStore,
     builder: (context, child) {
       log('Running builder');
-
-      // ScreenUtil.init(context, designSize: const Size(812, 375));
       ScreenUtil.init(context, designSize: size);
       return child!;
     },
     theme: UITheme(
       theme: (context) {
-        // ScreenUtil.init(context, designSize: size);
-        return AppTheme(borderRadius: 12, seedDark: Colors.lightBlue);
+        return AppTheme(
+          borderRadius: 64,
+          colorSchemeLight: ColorScheme.fromSeed(
+            seedColor: Colors.lightBlue,
+            dynamicSchemeVariant: DynamicSchemeVariant.rainbow,
+            brightness: Brightness.light,
+          ),
+        );
       },
       themeMode:
           (context) =>
@@ -106,6 +113,19 @@ UIRoot _root(AppStore store) => UIRoot(
               pages: [
                 UIPage(
                   path: ":id",
+                  transitionsBuilder: (
+                    context,
+                    animation,
+                    secondaryAnimation,
+                    child,
+                  ) {
+                    return FadeTransition(
+                      opacity: CurveTween(
+                        curve: Curves.easeInOutCirc,
+                      ).animate(animation),
+                      child: child,
+                    );
+                  },
                   builder:
                       (context, state) => ChangeNotifierProvider(
                         create:
@@ -120,6 +140,58 @@ UIRoot _root(AppStore store) => UIRoot(
                       ),
                 ),
               ],
+            ),
+            UIPage(
+              transitionsBuilder: (
+                context,
+                animation,
+                secondaryAnimation,
+                child,
+              ) {
+                return FadeTransition(
+                  opacity: CurveTween(
+                    curve: Curves.easeInOutCirc,
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+              path: SettingsView.path,
+              builder:
+                  (context, state) => ChangeNotifierProvider(
+                    create: (context) => SettingsViewModel(),
+                    builder: (context, _) => SettingsView(),
+                  ),
+            ),
+          ],
+        ),
+      ],
+    ),
+
+    UILayout(
+      layoutBuilder: (context, state, shell) => MyTalesLayout(shell: shell),
+      branches: [
+        UIBranch(
+          pages: [
+            UIPage(
+              transitionsBuilder: (
+                context,
+                animation,
+                secondaryAnimation,
+                child,
+              ) {
+                return FadeTransition(
+                  opacity: CurveTween(
+                    curve: Curves.easeInOutCirc,
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+              path: SettingsView.path,
+              builder:
+                  (context, state) => ChangeNotifierProvider(
+                    create: (context) => SettingsViewModel(),
+                    builder: (context, _) => SettingsView(),
+                  ),
             ),
           ],
         ),

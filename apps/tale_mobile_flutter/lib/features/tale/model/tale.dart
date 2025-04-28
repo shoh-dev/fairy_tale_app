@@ -58,7 +58,8 @@ abstract class TaleModel with _$TaleModel {
         pages:
             (json['pages'] as List)
                 .map((e) => TalePageModel.fromJson(e))
-                .toList(),
+                .toList()
+              ..sort((a, b) => a.pageNumber > b.pageNumber ? 1 : 0),
       );
     }
     return model;

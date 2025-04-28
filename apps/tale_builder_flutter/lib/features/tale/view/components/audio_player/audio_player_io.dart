@@ -11,6 +11,6 @@ class AudioPlayerWidget extends StatelessWidget {
     return ButtonComponent.outlined(
       icon: Icons.play_arrow,
       text: "Only available to use on browser!",
-    );
+    ).expanded();
   }
 }

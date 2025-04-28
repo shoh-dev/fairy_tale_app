@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_core/myspace_core.dart';
+import 'package:myspace_ui/myspace_ui.dart';
 import 'package:tale_mobile_flutter/components/button.dart';
+import 'package:tale_mobile_flutter/features/settings/view/settings_view.dart';
 import 'package:tale_mobile_flutter/features/tale/view/components/body/my_tales_body.dart';
 import 'package:tale_mobile_flutter/features/tale/view/components/search.dart';
 import 'package:tale_mobile_flutter/features/tale/view_model/my_tales_view_model.dart';
-import 'package:tale_mobile_flutter/services/theme_service.dart';
 
 class MyTalesView extends StatelessWidget {
   final MyTalesViewModel vm;
@@ -29,12 +30,7 @@ class MyTalesView extends StatelessWidget {
               children: [
                 //Settings button
                 AppIconButton(
-                  onPressed: () {
-                    final toggle = context.select<ThemeService, VoidCallback>(
-                      (value) => value.toggleThemeMode,
-                    );
-                    toggle();
-                  },
+                  onPressed: () => context.push(SettingsView.path),
                   icon: Icons.settings_rounded,
                   bgColor: Colors.green,
                   fgColor: Colors.white,
@@ -54,8 +50,9 @@ class MyTalesView extends StatelessWidget {
                   //Settings button
                   AppIconButton(
                     icon: Icons.music_note_rounded,
-                    bgColor: Colors.orange,
-                    fgColor: Colors.white,
+                    // bgColor: Colors.orange,
+                    // fgColor: Colors.white,
+                    onPressed: () {},
                   ),
                 ],
               ),

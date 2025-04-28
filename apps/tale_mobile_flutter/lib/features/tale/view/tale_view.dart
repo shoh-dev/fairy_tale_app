@@ -13,10 +13,13 @@ class TaleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommandWrapper(
-      command: vm.fetchTaleCommand,
-      okBuilder: (context, child) => child!,
-      child: TaleBody(vm: vm),
+    return PopScope(
+      canPop: false,
+      child: CommandWrapper(
+        command: vm.fetchTaleCommand,
+        okBuilder: (context, child) => child!,
+        child: TaleBody(vm: vm),
+      ),
     );
   }
 }

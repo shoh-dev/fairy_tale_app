@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myspace_core/myspace_core.dart';
 import 'package:myspace_design_system/myspace_design_system.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/body/body.dart';
+import 'package:tale_builder_flutter/features/tale/view/components/create_tale_form.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/left_bar.dart';
 import 'package:tale_builder_flutter/features/tale/view/components/right_bar/right_bar.dart';
 import 'package:tale_builder_flutter/features/tale/view_model/tale_view_model.dart';
@@ -28,6 +29,13 @@ class TaleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isCreate = context.select<TaleViewModel, bool>(
+      (value) => value.isCreate,
+    );
+    if (isCreate) {
+      return CreateTaleForm();
+    }
+
     final command = context.read<TaleViewModel>().fetchTaleCommand;
     return CommandWrapper(
       command: command,

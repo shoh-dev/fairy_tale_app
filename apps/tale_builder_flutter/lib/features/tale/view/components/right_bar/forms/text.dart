@@ -20,6 +20,7 @@ class RightBarTextForm extends StatelessWidget {
     final loc = vm.localization;
     final deviceSize = Sizes.deviceSize(tale.isPortrait);
     return ExpansionTile(
+      initiallyExpanded: true,
       childrenPadding: EdgeInsets.all(8),
       title: RepaintBoundary(
         child: LayoutComponent.row(
@@ -34,12 +35,6 @@ class RightBarTextForm extends StatelessWidget {
       ),
       expandedCrossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ButtonComponent.destructive(
-        //   text: "Delete Text",
-        //   icon: Icons.delete_outlined,
-        //   onPressed: () => vm.onDeleteText(vm.selectedTextId),
-        // ).expanded(),
-        // const SizedBox(height: 16),
         //Text Fields
         TranslationSelector(
           label: "Text",

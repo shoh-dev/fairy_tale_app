@@ -23,7 +23,7 @@ class TranslationsViewModel extends Vm {
   String locale = 'en';
   late TaleLocalizationModel localization;
   UnmodifiableMapView<String, String> get translations =>
-      UnmodifiableMapView(localization.translations[locale]!);
+      UnmodifiableMapView(localization.translations[locale] ?? {});
   UnmodifiableListView<MapEntry<String, String>> get translationEntries =>
       UnmodifiableListView(translations.entries);
 
@@ -82,11 +82,8 @@ class TranslationsViewModel extends Vm {
   void onSelectLocale(String locale) {
     if (isChanged) {
       PromptDialog.show(
-        "This action cannot be undon!",
+        "This action cannot be undone!",
         title: 'Changing locale will remove any unsaved changes! ',
-        onLeftClick: (close) {
-          close();
-        },
         onRightClick: (close) {
           this.locale = locale;
           _setJson();
@@ -121,5 +118,20 @@ class TranslationsViewModel extends Vm {
         ErrorDialog.show(result.toString());
         return false;
     }
+  }
+
+  void onAddLocale(String newLocale) {
+    if (localization.availableLocales.contains(newLocale)) return;
+    localization = localization.copyWith(
+      translations: {
+        ...localization.translations,
+        newLocale: {
+          ...json.map(
+            (k, v) => MapEntry(k.text, "${newLocale.toUpperCase()}_${v.text}"),
+          ),
+        },
+      },
+    );
+    onSelectLocale(newLocale);
   }
 }

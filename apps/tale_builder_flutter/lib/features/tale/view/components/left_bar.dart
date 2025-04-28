@@ -70,6 +70,7 @@ class LeftBar extends StatelessWidget {
                                       ? null
                                       : ButtonComponent.icon(
                                         icon: Icons.delete_outlined,
+                                        foregroundColor: context.error,
                                         onPressed: () {
                                           vm.onDeletePage(page.id);
                                         },
@@ -132,6 +133,8 @@ class LeftBar extends StatelessWidget {
                                                     : ButtonComponent.icon(
                                                       icon:
                                                           Icons.delete_outlined,
+                                                      foregroundColor:
+                                                          context.error,
                                                       onPressed: () {
                                                         vm.onDeleteText(
                                                           text.id,

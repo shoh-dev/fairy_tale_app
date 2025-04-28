@@ -54,6 +54,14 @@ class TaleViewModel extends Vm {
   // UI
 
   Future<bool> onSave() async {
+    if (isCreate) {
+      localization = localization.copyWith(
+        translations: {
+          TaleLocalizationModel.baseLocale: {tale.title: tale.title},
+        },
+      );
+    }
+
     final result = await _taleRepository.upsertFullTale(
       tale: tale,
       localization: localization,
@@ -64,8 +72,8 @@ class TaleViewModel extends Vm {
       case ResultOk<FullTaleResponse>():
         _reset(result.value);
         SuccessDialog.show("Saved successfully!");
-        notifyListeners();
         isCreate = false;
+        notifyListeners();
         break;
       case ResultError<FullTaleResponse>():
         ErrorDialog.show(result.toString());
@@ -128,11 +136,8 @@ class TaleViewModel extends Vm {
     if (_texts.isNotEmpty) {
       //show prompt that all texts will be aligned on top left when changed and cannot be undone
       PromptDialog.show(
-        "All texts will be aligned on top left when changed and cannot be undone!",
+        "All texts will be aligned on top left and resized when changed and cannot be undone!",
         isDestructive: true,
-        onLeftClick: (close) {
-          close();
-        },
         onRightClick: (close) {
           final texts = UnmodifiableListView(_texts);
           for (final text in texts) {
@@ -218,9 +223,6 @@ class TaleViewModel extends Vm {
       "This action cannot be undone!",
       title: "Delete tale cover image?",
       isDestructive: true,
-      onLeftClick: (close) {
-        close();
-      },
       onRightClick: (close) async {
         final result = await _taleRepository.deleteCoverImage(
           tale.coverImageBucketPath,
@@ -244,9 +246,6 @@ class TaleViewModel extends Vm {
       "This action cannot be undone!",
       title: "Delete tale background audio?",
       isDestructive: true,
-      onLeftClick: (close) {
-        close();
-      },
       onRightClick: (close) async {
         final result = await _taleRepository.deleteBackgroundAudio(
           tale.backgroundAudioBucketPath,
@@ -351,9 +350,6 @@ class TaleViewModel extends Vm {
         "This action cannot be undone!",
         title: "Delete page?",
         isDestructive: true,
-        onLeftClick: (close) {
-          close();
-        },
         onRightClick: (close) async {
           final result = await _pageRepository.deletePage(id);
           switch (result) {
@@ -434,9 +430,6 @@ class TaleViewModel extends Vm {
       "This action cannot be undone!",
       title: "Delete page background image?",
       isDestructive: true,
-      onLeftClick: (close) {
-        close();
-      },
       onRightClick: (close) async {
         final result = await _pageRepository.deleteBackgroundImage(
           selectedPage!.backgroundImageBucketPath,
@@ -645,9 +638,6 @@ class TaleViewModel extends Vm {
         "This action cannot be undone!",
         title: "Delete text?",
         isDestructive: true,
-        onLeftClick: (close) {
-          close();
-        },
         onRightClick: (close) async {
           final result = await _textsRepository.deleteText(id);
           switch (result) {

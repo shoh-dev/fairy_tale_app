@@ -13,6 +13,7 @@ class RightBarPageForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
+      initiallyExpanded: true,
       childrenPadding: EdgeInsets.all(8),
       title: RepaintBoundary(
         child: LayoutComponent.row(

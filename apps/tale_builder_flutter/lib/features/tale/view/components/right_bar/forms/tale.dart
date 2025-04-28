@@ -98,7 +98,7 @@ class RightBarTaleForm extends StatelessWidget {
         //audio selector
         if (tale.hasBackgroundAudio) ...[
           AudioPlayerWidget(audioUrl: tale.backgroundAudioUrl),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           //Replace
           ButtonComponent.outlined(
             text: "Replace background audio",

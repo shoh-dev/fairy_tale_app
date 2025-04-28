@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:myspace_core/myspace_core.dart';
@@ -33,7 +34,20 @@ void main() async {
   final config = CoreAppConfig(
     root: _root,
     appStore: appStore,
-    theme: UITheme(theme: (context) => AppTheme(borderRadius: 16)),
+    theme: UITheme(
+      theme:
+          (context) => AppTheme(
+            borderRadius: 16,
+            colorSchemeDark: ColorScheme.fromSeed(
+              seedColor: Colors.lightGreen,
+              brightness: Brightness.dark,
+            ),
+            colorSchemeLight: ColorScheme.fromSeed(
+              seedColor: Colors.lightGreen,
+              brightness: Brightness.light,
+            ),
+          ),
+    ),
     dependencies: [
       Provider<SupabaseRepository>.value(value: supabaseRepository),
       Provider<TaleRepository>(

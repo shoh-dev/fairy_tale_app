@@ -19,7 +19,15 @@ class TaleViewModel extends Vm {
 
   TaleViewModel(String id, {required TaleRepository taleRepository})
     : _taleRepository = taleRepository {
-    fetchTaleCommand = CommandParam(_fetchMyTales)..execute(id);
+    fetchTaleCommand = CommandParam(_fetchTale)..execute(id);
+  }
+
+  bool _isPreviewMode = false;
+  bool get isPreviewMode => _isPreviewMode;
+
+  void togglePreviewMode() {
+    _isPreviewMode = !_isPreviewMode;
+    notifyListeners();
   }
 
   //Tale
@@ -27,7 +35,7 @@ class TaleViewModel extends Vm {
   late final TaleModel _tale;
   String get taleId => _tale.id;
 
-  Future<Result<void>> _fetchMyTales(String id) async {
+  Future<Result<void>> _fetchTale(String id) async {
     final result = await _taleRepository.getTale(id);
     switch (result) {
       case ResultOk<TaleModel>(:final value):

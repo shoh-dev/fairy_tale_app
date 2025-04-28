@@ -56,6 +56,7 @@ class TranslationsTable extends StatelessWidget {
                     locales: vm.localization.availableLocales,
                     value: vm.locale,
                     onSelected: vm.onSelectLocale,
+                    onAddLocale: vm.onAddLocale,
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -69,6 +70,7 @@ class TranslationsTable extends StatelessWidget {
               ],
             ),
             body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 8),
                 Row(
@@ -102,9 +104,22 @@ class TranslationsTable extends StatelessWidget {
                         dense: true,
                         title: Row(
                           spacing: 16,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(child: TextField(controller: entry.key)),
-                            Expanded(child: TextField(controller: entry.value)),
+                            Expanded(
+                              child: TextField(
+                                controller: entry.key,
+                                keyboardType: TextInputType.multiline,
+                                maxLines: 4,
+                              ),
+                            ),
+                            Expanded(
+                              child: TextField(
+                                controller: entry.value,
+                                keyboardType: TextInputType.multiline,
+                                maxLines: 4,
+                              ),
+                            ),
                             ButtonComponent.iconDesctructive(
                               icon: Icons.delete,
                               onPressed: () {
